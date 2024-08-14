@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LogiGO Inicio</title>
+    <link rel="stylesheet" href="/estilos.css">
+    <script src="/LogiGO.js"></script>
+</head>
+<body>
+    <h1 class="titulo_LogiGO">LogiGO</h1>
+        <div class="contenedor_barra_nav_general">
+            <div class="barra_busqueda">
+                <form action="/buscar" method="get">
+                    <input type="text" name="q" placeholder="Buscar..." class="input_busqueda">
+                    <button type="submit" class="btn_buscar">Buscar</button>
+                </form>
+            </div>
+            <button type="button" onclick="go_to_inicio()">Inicio</button>
+            <button type="button" onclick="go_to_pagina_contactanos()">Contactanos</button>
+            <button type="button" onclick="go_to_pagina_ayuda()">Ayuda</button>
+            <button type="button" onclick="go_to_pagina_acerca_de()">Acerca de....</button>
+        </div>     
+    <!-- Contenedor principal para caja_login y texto -->
+    <div class="contenedor_principal">
+        <div class="caja_login">
+            <div class="contenido_caja_login">
+                <form>
+                    <label for="nombre_usuario">Ingrese su usuario/email</label><br><br>
+                    <input type="text" id="nombre_usuario" placeholder="Ingrese su usuario"><br><br>
+                    <label for="contraseña_usuario">Ingrese la contraseña</label><br><br>
+                    <input type="text" id="contraseña_usuario" placeholder="Ingrese la contraseña"><br><br>
+                    <a href="">¿Olvidaste tu Contraseña?</a><br><br>
+                    <button type="button" onclick="validar_usuario()">Iniciar sesión</button><br><br>
+                </form>
+            </div>
+        </div>
+        <!-- Texto adicional al lado derecho de la caja de login -->
+        <div class="informacion_general">
+            <dl><h3>Proyecto LogiGO</h3></dl>
+            <dt>Desarrollar una aplicación para empresas de logística, que optimizará la cadena de suministro, <br>
+                reportes e inventarios para garantizar la entrega y recogida eficiente, oportuna y segura de envíos a clientes finales, maximizando la rentabilidad, la administración eficiente de datos y la satisfacción del cliente.</dt>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,150 @@
+/* Estilo general del body */
+body {
+    background-color: #210246f6;
+    color: black;
+    display: flex;
+    flex-direction: column; /* Coloca los elementos en columna */
+    align-items: center; /* Centra horizontalmente el contenido */
+    justify-content: center; /* Centra verticalmente el contenido */
+    min-height: 100vh; /* Asegura que el contenido se centre verticalmente */
+    margin: 0; /* Elimina el margen predeterminado */
+    padding: 0; /* Elimina el padding predeterminado */
+}
+
+.titulo_LogiGO {
+    width: 1140px;
+    background-color: #573186d7;
+    color: white;
+    margin-top: 20px; /* Ajusta el margen superior según necesites */
+    padding: 2%;
+    text-shadow: black 4px 5px 5px;
+    font-size: 30px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+/* Barra de navegación general UI para empleados */
+.contenedor_barra_nav_general {
+    width: 1148px;
+    background-color: #573186d7;
+    position: relative;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between; /* Espacio entre los elementos dentro del contenedor */
+    align-items: center;
+    margin: 3% 0% 5% 0%;
+    border-radius: 10px;
+}
+
+/* Estilo para el formulario de búsqueda */
+.barra_busqueda {
+    display: flex;
+    align-items: center; /* Alinea verticalmente los elementos dentro del contenedor */
+}
+
+.input_busqueda {
+    padding: 10px;
+    border-radius: 10px 0 0 10px; /* Redondea las esquinas del lado izquierdo */
+    border: 1px solid #ccc;
+    box-shadow: rgba(0, 0, 0, 0.253) 3px 3px;
+    font-size: 16px;
+}
+
+.btn_buscar {
+    padding: 10px 20px;
+    border-radius: 0 10px 10px 0; /* Redondea las esquinas del lado derecho */
+    border: none;
+    background-color: #210246f6;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.253) 3px 3px;
+}
+
+.btn_buscar:hover {
+    background-color: #382d7a; /* Color del botón al pasar el ratón */
+}
+
+/* Estilo para los botones en la barra de navegación */
+.contenedor_barra_nav_general button {
+    padding: 12px 39px;
+    background-color: #210246f6;
+    color: white;
+    box-shadow: rgba(0, 0, 0, 0.300) 10px 10px;
+    border-radius: 10px;
+    font-size: 18px; /* Tamaño de la letra de los botones */
+}
+
+.contenedor_barra_nav_general button:hover {
+    background-color: #382d7a; /* Color al pasar el ratón por encima */
+}
+
+/* Contenedor principal para caja_login y texto adicional */
+.contenedor_principal {
+    margin: 2% 5% 5% 5%;
+    display: flex; /* Coloca los elementos en fila (caja de login y texto) */
+    justify-content: center; /* Centra el contenido horizontalmente */
+    align-items: flex-start; /* Alinea el contenido al inicio verticalmente */
+    gap: 100px; /* Espacio entre la caja de login y el texto */
+}
+
+/* Estilo para la caja de login */
+.caja_login {
+    width: 300px;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #573186d7;
+    box-shadow: 20px 14px rgba(0, 0, 0, 0.2);
+    color: white;
+    text-align: center; /* Centra el texto dentro de la caja de login */
+}
+
+.contenido_caja_login {
+    display: flex;
+    flex-direction: column; /* Coloca los elementos del formulario en columna */
+    align-items: center; /* Centra los elementos horizontalmente */
+}
+
+.contenido_caja_login label,
+.contenido_caja_login input,
+.contenido_caja_login a,
+.contenido_caja_login button {
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.contenido_caja_login input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.contenido_caja_login a {
+    color: white;
+    text-decoration: none;
+}
+
+.contenido_caja_login button {
+    padding: 10px;
+    background-color: #210246f6;
+    color: white;
+    border-radius: 5px;
+    box-shadow: 10px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+/* Estilo para el texto adicional */
+.informacion_general {
+    width: 500px; /* Ancho del texto adicional */
+    height: 256px;
+    background-color: #573186d7;
+    box-shadow: 25px 14px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    color: white; /* Color del texto */
+    text-align: left; /* Alineación del texto a la izquierda */
+    padding: 5%;
+}
+
+
+/*_______________________________________*/
+/* EMPLEADOS sesion */
