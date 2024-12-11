@@ -1,0 +1,57 @@
+/* Estilo para la tabla de envíos */
+.table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .table th, .table td {
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+  }
+  
+  .table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    border-bottom: 2px solid #007bff;
+  }
+  
+  .table td {
+    background-color: #ffffff;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .table td:hover {
+    cursor: pointer;
+    background-color: #f1f1f1;
+  }
+  
+  /* Estilo para el modal */
+  .modal-header {
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+  }
+  
+  .modal-body {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  
+  .modal-footer {
+    text-align: center;
+  }
+  
+  .modal-footer .btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+  }
+  
+  /* Cambios al hacer hover sobre las filas */
+  .table td:hover {
+    background-color: #e9ecef;
+    cursor: pointer;
+  }
+  

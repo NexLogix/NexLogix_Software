@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Administrativo - Logística</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="./UI_Admin_estilos.css">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./IU_Admin.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-lg">
+        <a class="navbar-brand" href="#">ADMINISTRADOR</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto"> <!-- Alinea los elementos a la derecha -->
+    
+                <!-- Menú desplegable de configuraciones -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-cogs"></i> Configuraciones
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#">Configuración de cuenta</a></li>
+                        <li><a class="dropdown-item" href="#">Configuración de sistema</a></li>
+                        <li><a class="dropdown-item" href="#">Configuración de notificaciones</a></li>
+                        <li><a class="dropdown-item" href="#">Preferencias de idioma</a></li>
+                        <li><a class="dropdown-item" href="#">Manual de Uso</a></li>
+                        <li><a class="dropdown-item" href="#">SALIR</a></li>
+                    </ul>
+                </li>
+    
+            </ul>
+        </div>
+    </nav>
+    
+    
+
+    <div class="container-fluid">
+        <div class="row">
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar shadow-lg">
+                <div class="position-sticky">
+                    <ul class="nav flex-column">
+
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" onclick="loadPage('../sub_paginas_Admin/Inicio/inicio_admin.html')"><i class="fas fa-book"></i>  Inicio</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="collapse" href="#enviosSubmenu" 
+                            role="button" aria-expanded="false" aria-controls="enviosSubmenu">
+                                <i class="fas fa-box"></i>  Envíos
+                            </a>
+                            <div class="collapse" id="enviosSubmenu">
+                                <ul class="nav flex-column ms-3">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#" onclick="loadPage('../sub_paginas_Admin/Envios/ver_envios.html')">Ver Envíos</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#" onclick="loadPage('../sub_paginas_Admin/Envios/crear_envios.html')">Crear Envío</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#" onclick="loadPage('../sub_paginas_Admin/Envios/editar_envios.html')">Editar Envío</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Eliminar Envío</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        
+
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="collapse" href="#RutasSubmenu" 
+                            role="button" aria-expanded="false" aria-controls="RutasSubmenu">
+                                <i class="fas fa-road"></i>  Rutas
+                            </a>
+                            <div class="collapse" id="RutasSubmenu">
+                                <ul class="nav flex-column ms-3">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Ver lista de rutas</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Editar ruta</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Eliminar ruta</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="collapse" href="#VehiculosSubmenu" 
+                            role="button" aria-expanded="false" aria-controls="VehiculosSubmenu">
+                                <i class="fas fa-shipping-fast"></i>  Vehículos
+                            </a>
+                            <div class="collapse" id="VehiculosSubmenu">
+                                <ul class="nav flex-column ms-3">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Ver lista de vehiculos</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Ver conductores</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="collapse" href="#EmpleadosSubmenu" 
+                            role="button" aria-expanded="false" aria-controls="EmpleadosSubmenu">
+                                <i class="fas fa-user"></i> Empleados
+                            </a>
+                            <div class="collapse" id="EmpleadosSubmenu">
+                                <ul class="nav flex-column ms-3">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#" href="#" onclick="loadPage('./sub_paginas_Admin/Empleados/01_Gestionar_Usuarios.html')">Crear usuarios</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Ver empleados activos</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Lista general (Buscar por ID)</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Editar usuario</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Desactivar usuario</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="collapse" href="#STSubmenu" 
+                            role="button" aria-expanded="false" aria-controls="STSubmenu">
+                                <i class="fas fa-wrench"></i> Soporte Tecnico
+                            </a>
+                            <div class="collapse" id="STSubmenu">
+                                <ul class="nav flex-column ms-3">
+                                     <li class="nav-item">
+                                        <a class="nav-link" href="#">Chatbot soporte</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Abrir chat con Ingeniero</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Reportar anomalias</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" role="button">
+                                <i class="fas fa-chart-line"></i> Reportes
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+                <div class="user-profile-card" id="contentArea">
+                    <div class="user-profile-image"></div>
+                    <h1 class="user-profile-title">Perfil de Usuario</h1>
+                    <div class="user-profile-info">
+                        <p><span class="user-profile-label">Nombre:</span> Juan Pérez</p>
+                        <p><span class="user-profile-label">Cargo:</span> Supervisor de Logística</p>
+                        <p><span class="user-profile-label">Fecha de Ingreso:</span> 15 de marzo de 2020</p>
+                        <p><span class="user-profile-label">Departamento:</span> Distribución</p>
+                        <p><span class="user-profile-label">Email:</span> juan.perez@logistica.com</p>
+                    </div>
+                    <div class="user-profile-footer">
+                        © 2024 Logística Global S.A.
+                    </div>
+                </div>
+            </main>
+                
+                
+    </div>
+
+    <footer class="footer text-white text-center py-3 mt-auto">
+        <p>© 2024 LogiGO. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+        feather.replace();
+    </script>
+    <script>
+        function loadPage(page) {
+            const contentArea = document.getElementById('contentArea');
+            fetch(page)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    contentArea.innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+        }
+    </script>
+</body>
+</html>

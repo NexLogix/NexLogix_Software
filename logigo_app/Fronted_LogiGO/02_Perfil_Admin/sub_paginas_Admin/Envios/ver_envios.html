@@ -1,0 +1,83 @@
+<link rel="stylesheet" href="./estilo_envios.css">
+<link rel="stylesheet" href="./estilo_ver_envios.css">
+<!-- Asegúrate de tener Bootstrap cargado -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="container-fluid mt-4">
+  <div class="row">
+    <div class="col-12">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h3 class="mb-0">Ver Envíos</h3>
+        </div>
+        <div class="card-body">
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>ID Cliente</th>
+                <th>Nombre</th>
+                <th>Tamaño</th>
+                <th>Peso</th>
+                <th>Fecha de Ingreso</th>
+                <th>Fecha de Entrega</th>
+                <th>Empleado</th>
+              </tr>
+            </thead>
+            <tbody id="tablaEnvios">
+              <!-- Los envíos están creados manualmente aquí -->
+              <tr data-envio='{"idCliente":"100234567", "nombre":"Carlos Fernández", "tamaño":"30x20x15 cm", "peso":"5 kg", "fechaIngreso":"2024-11-01", "fechaEntrega":"2024-11-05", "empleado":"Pedro González", "entregado":true, "detallesEntrega":"Juan Pérez, vehículo ABC123, 2024-11-05, 14:30"}'>
+                <td>100234567</td>
+                <td>Carlos Fernández</td>
+                <td>30x20x15 cm</td>
+                <td>5 kg</td>
+                <td>2024-11-01</td>
+                <td>2024-11-05</td>
+                <td>Pedro González</td>
+              </tr>
+              <tr data-envio='{"idCliente":"200345678", "nombre":"Ana Torres", "tamaño":"25x15x10 cm", "peso":"3 kg", "fechaIngreso":"2024-11-03", "fechaEntrega":"2024-11-08", "empleado":"Luis Méndez", "entregado":false}'>
+                <td>200345678</td>
+                <td>Ana Torres</td>
+                <td>25x15x10 cm</td>
+                <td>3 kg</td>
+                <td>2024-11-03</td>
+                <td>En proceso</td>
+                <td>Luis Méndez</td>
+              </tr>
+              <tr data-envio='{"idCliente":"300456789", "nombre":"Luis García", "tamaño":"40x30x25 cm", "peso":"8 kg", "fechaIngreso":"2024-11-05", "fechaEntrega":"2024-11-09", "empleado":"María López", "entregado":true, "detallesEntrega":"Carlos Martínez, vehículo XYZ789, 2024-11-09, 10:00"}'>
+                <td>300456789</td>
+                <td>Luis García</td>
+                <td>40x30x25 cm</td>
+                <td>8 kg</td>
+                <td>2024-11-05</td>
+                <td>2024-11-09</td>
+                <td>María López</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para mostrar la información detallada -->
+<div class="modal" id="envioModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Detalles del Envío</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <p id="detalleEnvio"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Incluir los scripts de Bootstrap y tu archivo JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="./envios.js"></script>

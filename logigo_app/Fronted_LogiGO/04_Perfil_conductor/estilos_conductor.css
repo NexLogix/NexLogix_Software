@@ -1,0 +1,184 @@
+html {
+    transform: scale(1);
+    transform-origin: top left;
+    width: 100%;
+  }
+  
+  
+  body {
+    font-size: 1rem; /* 16px por defecto */
+  
+    transform: scale(1);
+    transform-origin: top left;
+    width: 100%;
+    margin: 0; /* Elimina márgenes */
+    padding: 0; /* Elimina padding */
+    overflow-x: hidden; /* Oculta el desplazamiento horizontal */
+    
+    background-color: #f4f4f9; /* Fondo uniforme */
+  }
+  
+  
+  .navbar {
+    background-color: #010211;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease-in-out;
+  }
+  .navbar-brand {
+    margin-left: 25px;
+  }
+  
+  .nav-link {
+    color: white !important;
+    transition: color 0.3s ease-in-out;
+  }
+  
+  .navbar .navbar-nav .nav-link:hover {
+    background-color: rgba(0, 105, 217, 0.2);
+    color: #fff !important;
+  }
+  
+  .dropdown-menu-end{ /*Color del desplegable de configuracion*/
+    background-color: #010211;
+  }
+  .sidebar {
+    background-color: #010211; 
+    height: 100vh;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .nav-item a {
+    color: white;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .nav-item a:hover {
+    background-color: #0056b3; 
+    color: white !important;
+    transform: scale(1.05);
+  }
+  
+  .nav-item a.active {
+    background-color: #004085;
+  }
+  
+  main {
+    flex: 1;
+    padding-top: 20px;
+  }
+  
+  .card {
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .table-responsive {
+    margin-bottom: 30px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .table-hover tbody tr:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .table-bordered th, .table-bordered td {
+    border: 1px solid #dee2e6;
+  }
+  
+  .footer {
+    background-color: #010211;
+    color: white;
+    padding: 15px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .container-fluid {
+    flex: 1;
+  }
+  
+  #contenedor {
+    width: 100vw; /* Ocupa todo el ancho del viewport */
+    height: 100vh; /* Ocupa todo el alto del viewport */
+    margin: 0; /* Elimina márgenes externos */
+    padding: 0; /* Elimina padding externos */
+    display: flex; /* Usar flexbox para alineación */
+    flex-direction: column; /* Mantén el contenido en columna */
+    background-color: #f4f4f9; /* Fondo uniforme */
+  }
+  
+  content {
+    width: 100vw; /* Ocupa todo el ancho del viewport */
+    height: 100vh; /* Ocupa todo el alto del viewport */
+    margin: 0; /* Elimina márgenes externos */
+    padding: 0; /* Elimina padding externos */
+    display: flex; /* Usar flexbox para alineación */
+    flex-direction: column; /* Mantén el contenido en columna */
+    background-color: #f4f4f9; /* Fondo uniforme */
+  }
+  
+  
+  /*  */
+  /* DATOS DEL USUARIO EN EL INICIO */
+  /*  */
+  
+  /* Contenedor principal del perfil del usuario */
+  .user-profile-card {
+    max-width: 900px; /* Limita el ancho máximo del contenedor */
+    margin: auto; /* Centra horizontalmente y añade espacio arriba y abajo */
+    background: #ffffff; /* Fondo blanco */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidad */
+    padding: 20px; /* Espaciado interno */
+  }
+  
+  /* Imagen de perfil del usuario */
+  .user-profile-image {
+    display: block; /* Permite centrar el bloque */
+    margin: 0 auto; /* Centra horizontalmente */
+    border-radius: 50%; /* Hace la imagen circular */
+    width: 120px; /* Ancho de la imagen */
+    height: 120px; /* Alto de la imagen */
+    background: #ddd; /* Fondo gris claro por defecto */
+    background-image: url('https://cdn-icons-png.freepik.com/512/6858/6858441.png'); /* Imagen genérica */
+    background-size: cover; /* Asegura que la imagen cubra el área */
+    background-position: center; /* Centra la imagen */
+  }
+  
+  /* Título principal del perfil */
+  .user-profile-title {
+    text-align: center; /* Centra el texto */
+    color: #333; /* Color gris oscuro */
+    margin-top: 10px; /* Espaciado superior */
+  }
+  
+  /* Contenedor de la información del usuario */
+  .user-profile-info {
+    margin-top: 20px; /* Espaciado superior */
+  }
+  
+  /* Párrafos que contienen la información */
+  .user-profile-info p {
+    font-size: 16px; /* Tamaño de fuente legible */
+    color: #555; /* Color gris medio */
+    line-height: 1.6; /* Altura de línea */
+    margin: 5px 0; /* Espaciado entre párrafos */
+  }
+  
+  /* Etiquetas (como "Nombre", "Cargo") */
+  .user-profile-label {
+    font-weight: bold; /* Resalta el texto */
+    color: #333; /* Color gris oscuro */
+  }
+  
+  /* Pie de página con información adicional */
+  .user-profile-footer {
+    text-align: center; /* Centra el texto */
+    margin-top: 20px; /* Espaciado superior */
+    font-size: 14px; /* Tamaño de fuente más pequeño */
+    color: #aaa; /* Color gris claro */
+  }
