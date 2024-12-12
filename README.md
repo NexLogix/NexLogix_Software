@@ -1,4 +1,4 @@
 # LogiGO Software
-Proyecto formado por 3 Devs.
+Project made up of 3 Devs whit ❤
 
 > Last release 'Avalon' 11/12/2024
