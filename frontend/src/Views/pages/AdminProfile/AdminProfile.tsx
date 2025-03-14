@@ -1,5 +1,8 @@
 import FooterGeneral from "../../shared/FooterGeneral";
 import "./generalStyle.css";
+import { Link } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+
 
 // Componente AdminProfile: muestra la interfaz de perfil del administrador
 const AdminProfile = () => {
@@ -64,8 +67,9 @@ const AdminProfile = () => {
                     <i className="fas fa-book"></i> Inicio
                   </a>
                 </li>
+
                 {/* Opción Envíos con submenú */}
-                <li className="nav-item">
+                <li className="nav-item  ">
                   <a 
                     className="nav-link" 
                     data-bs-toggle="collapse" 
@@ -79,20 +83,21 @@ const AdminProfile = () => {
                   <div className="collapse" id="enviosSubmenu">
                     <ul className="nav flex-column ms-3">
                       <li className="nav-item">
-                        <a className="nav-link" href="#">Ver Envíos</a>
+                        <Link className="nav-link" to="/admin/verEnvios">Ver Envíos</Link>
                       </li>
                       <li className="nav-item">
-                        <a className="nav-link" href="#">Crear Envío</a>
+                        <Link className="nav-link" to="/admin/crearEnvio">Crear Envío</Link>
                       </li>
                       <li className="nav-item">
-                        <a className="nav-link" href="#">Editar Envío</a>
+                        <Link className="nav-link" to="/admin/editarEnvio">Editar Envío</Link>
                       </li>
                       <li className="nav-item">
-                        <a className="nav-link" href="#">Eliminar Envío</a>
+                        <Link className="nav-link" to="/admin/eliminarEnvio">Eliminar Envío</Link>
                       </li>
                     </ul>
                   </div>
                 </li>
+
                 {/* Opción Rutas con submenú */}
                 <li className="nav-item">
                   <a 
@@ -210,20 +215,9 @@ const AdminProfile = () => {
             </div>
           </nav>
 
-          {/* Contenido principal: perfil de usuario */}
-          <main className="col-md-9 ml-sm-auto col-lg-10 px-md-4 p-5">
-            <div className="user-profile-card">
-              <div className="user-profile-image"></div>
-              <h1 className="user-profile-title">Perfil de Usuario</h1>
-              <div className="user-profile-info">
-                <p><span className="user-profile-label">Nombre:</span> Juan Pérez</p>
-                <p><span className="user-profile-label">Cargo:</span> Supervisor de Logística</p>
-                <p><span className="user-profile-label">Fecha de Ingreso:</span> 15 de marzo de 2020</p>
-                <p><span className="user-profile-label">Departamento:</span> Distribución</p>
-                <p><span className="user-profile-label">Email:</span> juan.perez@logistica.com</p>
-              </div>
-              <div className="user-profile-footer">© 2024 Logística Global S.A.</div>
-            </div>
+           {/* Área principal (Main) */}
+          <main className="p-4">
+            <Outlet />  {/* Aquí se renderiza el contenido según la ruta */}
           </main>
         </div>
       </div>

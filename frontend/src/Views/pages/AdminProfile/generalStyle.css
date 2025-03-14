@@ -65,15 +65,22 @@ body {
  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
 }
 
-#sidebar {
- overflow-y: auto;
- padding-top: 20px;
+.sidebar {
+  
+  position: sticky;
+  top: 0;
+ 
 }
+
 
 main {
+ margin-left: 80px; /* Ajusta según el ancho del sidebar */
+ margin-right: 70px; /* Ajusta según el ancho del sidebar */
+ width: calc(100% - 250px);
+ overflow-x: hidden; /* Evita que se salga del viewport */
  
- overflow-y: auto;
- 
-
 }
+
+
+
 
