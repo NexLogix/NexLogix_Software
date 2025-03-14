@@ -1,0 +1,9 @@
+#contenedor {
+ display: flex;
+ flex-direction: column;
+ min-height: 100vh; /* Ocupa toda la pantalla */
+}
+
+main {
+ flex: 1; /* Empuja el footer hacia abajo */
+}

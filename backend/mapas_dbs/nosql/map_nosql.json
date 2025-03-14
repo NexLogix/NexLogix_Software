@@ -1,0 +1,101 @@
+{
+    "collection_envios": [
+      {
+        "_id": "E123",
+        "fechaEnvio": "2024-03-13",
+        "remitente": {
+          "nombre": "Juan Pérez",
+          "cedula": "12345678",
+          "email": "juan.perez@email.com",
+          "telefono": "123456789",
+          "direccionRecogida": {
+            "calle": "Av. Principal 123",
+            "ciudad": "Bogotá",
+            "codigoPostal": "110011"
+          }
+        },
+        "destinatario": {
+          "nombre": "María López",
+          "cedula": "87654321",
+          "email": "maria.lopez@email.com",
+          "telefono": "987654321",
+          "direccionEntrega": {
+            "calle": "Calle Secundaria 456",
+            "ciudad": "Medellín",
+            "codigoPostal": "050022"
+          }
+        },
+        "productos": [
+          {
+            "idProducto": "P001",
+            "nombre": "Laptop",
+            "cantidad": 1,
+            "precio_unitario": 1200
+          },
+          {
+            "idProducto": "P002",
+            "nombre": "Mouse inalámbrico",
+            "cantidad": 2,
+            "precio_unitario": 30
+          }
+        ],
+        "ruta": {
+          "idRuta": "R01",
+          "nombreRuta": "Bogotá - Medellín",
+          "vehiculo": {
+            "idVehiculo": "V001",
+            "marca": "Toyota",
+            "modelo": "Hiace",
+            "tipo": "Camión"
+          },
+          "conductor": {
+            "idConductor": "C001",
+            "nombre": "Carlos Gómez",
+            "telefono": "3112223333"
+          }
+        },
+        "estado": "en tránsito"
+      }
+    ],
+    "productos": [
+      {
+        "_id": "P001",
+        "nombre": "Laptop",
+        "descripcion": "Laptop Dell XPS 15",
+        "peso": "2kg",
+        "precio": 1200
+      },
+      {
+        "_id": "P002",
+        "nombre": "Mouse inalámbrico",
+        "descripcion": "Mouse Logitech MX Master 3",
+        "peso": "200g",
+        "precio": 30
+      }
+    ],
+    "vehiculos": [
+      {
+        "_id": "V001",
+        "marca": "Toyota",
+        "modelo": "Hiace",
+        "tipo": "Camión",
+        "capacidadCarga": "3 toneladas"
+      }
+    ],
+    "conductores": [
+      {
+        "_id": "C001",
+        "nombre": "Carlos Gómez",
+        "telefono": "3112223333",
+        "licencia": "B2"
+      }
+    ],
+    "rutas": [
+      {
+        "_id": "R01",
+        "nombreRuta": "Bogotá - Medellín",
+        "puntosIntermedios": ["Ibagué", "Manizales"],
+        "distanciaKm": 400
+      }
+    ]
+  }

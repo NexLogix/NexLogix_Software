@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + React + TS</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
+<!-- 
+/src  
+│── /models        → Definen estructuras de datos (interfaces, clases, reglas de negocio)  
+│── /views         → Componentes de UI (páginas y elementos visuales)  
+│   ├── /pages     → Páginas de la aplicación (Login, Dashboard, Perfil, etc.)  
+│   ├── /shared    → Componentes reutilizables (Navbars, Footers, Modales, Botones, etc.)  
+│── /controllers   → Lógica de negocio y comunicación con el backend  
+│   ├── /api       → Clases para conectar con la base de datos (Axios, Fetch)  
+│   ├── /auth      → Controladores de autenticación  
+│   ├── /crud      → Métodos específicos para CRUDs  
+│── /routers       → Configuración de rutas globales con React Router  
+│── App.tsx        → Componente raíz con el layout principal  
+│── index.tsx      → Renderizado principal  
+-->
