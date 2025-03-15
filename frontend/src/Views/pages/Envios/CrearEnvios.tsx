@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const VerEnvios = () => {
+const CrearEnvios = () => {
   const [formData, setFormData] = useState({
     fechaEnvio: "",
     costoEnvio: "",
@@ -83,4 +83,4 @@ const VerEnvios = () => {
   );
 };
 
-export default VerEnvios;
+export default CrearEnvios;

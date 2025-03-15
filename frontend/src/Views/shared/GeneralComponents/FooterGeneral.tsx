@@ -1,4 +1,4 @@
-import "./footerGeneral.css"
+import "../GeneralStyle/footerGeneral.css"
 const FooterGeneral = () => {
   return (
      <>
@@ -6,13 +6,13 @@ const FooterGeneral = () => {
           <div className="container">
             <div className="row justify-content-center">
               <div className="col-md-4">
-                <a href="#">Estamos ubicados en</a>
+                <a href="#">Estamos ubicados en:</a>
               </div>
               <div className="col-md-4">
-                <a href="#">Acerca de</a>
+                <a href="#">Acerca de:</a>
               </div>
               <div className="col-md-4">
-                <a href="#">Contactanos</a>
+                <a href="#">Contactanos:</a>
               </div>
             </div>
             <div className="row">
@@ -21,10 +21,8 @@ const FooterGeneral = () => {
               </div>
             </div>
           </div>
-</footer>
-
+        </footer>
     </>
-
   );
 };
 

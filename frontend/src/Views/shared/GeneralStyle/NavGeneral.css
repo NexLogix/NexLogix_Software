@@ -1,0 +1,42 @@
+/* Navbar */
+.navbar {
+ background-color: #010211 !important;
+ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-brand, .nav-link {
+ color: white !important;
+}
+
+/* Cambio de color al pasar el cursor sobre los enlaces */
+.navbar .navbar-nav .nav-link:hover {
+ background-color: #0056b3;
+ color: #fff !important;
+}
+
+/* Aplicar color al dropdown */
+.dropdown-menu {
+ background-color: #010211 !important;
+ border: none;
+}
+
+/* Estilos para los ítems dentro del menú desplegable */
+.dropdown-item {
+ color: white !important;
+}
+
+/* Cambiar color de fondo y texto cuando pasas el cursor sobre un ítem */
+.dropdown-item:hover, .dropdown-item:focus {
+ background-color: #337dcc;
+ color: white !important;
+}
+
+/* Estilo especial para el botón de SALIR */
+.dropdown-item.text-danger {
+ color: #dc3545 !important;
+}
+
+.dropdown-item.text-danger:hover {
+ background-color: rgb(83, 16, 23) !important;
+ color: white !important;
+}

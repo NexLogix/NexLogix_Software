@@ -1,56 +1,15 @@
-import FooterGeneral from "../../shared/FooterGeneral";
+import FooterGeneral from "../../../shared/GeneralComponents/FooterGeneral";
 import "./generalStyle.css";
 import { Link } from "react-router-dom";
 import { Outlet } from "react-router-dom";
+import NavbarGeneral from "../../../shared/GeneralComponents/NavbarGeneral";
 
 
 // Componente AdminProfile: muestra la interfaz de perfil del administrador
 const AdminProfile = () => {
   return (
     <>
-      {/* Barra de navegación principal */}
-      <nav className="navbar navbar-expand-lg navbar-dark shadow-lg">
-        <a className="navbar-brand p-3" href="#" >ADMIN</a>
-        <button 
-          className="navbar-toggler" 
-          type="button" 
-          data-bs-toggle="collapse" 
-          data-bs-target="#navbarNav" 
-          aria-controls="navbarNav" 
-          aria-expanded="false" 
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-
-        {/* Contenedor colapsable del navbar */}
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav ms-auto">
-            {/* Menú desplegable de configuraciones */}
-            <li className="nav-item dropdown">
-              <a 
-                className="nav-link dropdown-toggle" 
-                href="#" 
-                id="navbarDropdown" 
-                role="button" 
-                data-bs-toggle="dropdown" 
-                aria-expanded="false"
-              >
-                <i className="fas fa-cogs"></i> Configuraciones
-              </a>
-              <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                <li><a className="dropdown-item" href="#">Configuración de cuenta</a></li>
-                <li><a className="dropdown-item" href="#">Configuración de sistema</a></li>
-                <li><a className="dropdown-item" href="#">Configuración de notificaciones</a></li>
-                <li><a className="dropdown-item" href="#">Preferencias de idioma</a></li>
-                <li><a className="dropdown-item" href="#">Manual de Uso</a></li>
-                <li><a className="dropdown-item" href="#">SALIR</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </nav>
-
+      <NavbarGeneral/>
       {/* Contenedor principal */}
       <div className="container-fluid">
         <div className="row">
@@ -69,7 +28,7 @@ const AdminProfile = () => {
                 </li>
 
                 {/* Opción Envíos con submenú */}
-                <li className="nav-item  ">
+                <li className="nav-item position-relative ">
                   <a 
                     className="nav-link" 
                     data-bs-toggle="collapse" 
@@ -86,10 +45,10 @@ const AdminProfile = () => {
                         <Link className="nav-link" to="/admin/verEnvios">Ver Envíos</Link>
                       </li>
                       <li className="nav-item">
-                        <Link className="nav-link" to="/admin/crearEnvio">Crear Envío</Link>
+                        <Link className="nav-link" to="/admin/crearEnvios">Crear Envío</Link>
                       </li>
                       <li className="nav-item">
-                        <Link className="nav-link" to="/admin/editarEnvio">Editar Envío</Link>
+                        <Link className="nav-link" to="/admin/editarEnvios">Editar Envío</Link>
                       </li>
                       <li className="nav-item">
                         <Link className="nav-link" to="/admin/eliminarEnvio">Eliminar Envío</Link>
@@ -184,14 +143,14 @@ const AdminProfile = () => {
                   <a 
                     className="nav-link" 
                     data-bs-toggle="collapse" 
-                    href="#STSubmenu" 
+                    href="#SoporteTecnicoSubMenu" 
                     role="button" 
                     aria-expanded="false" 
-                    aria-controls="STSubmenu"
+                    aria-controls="SoporteTecnicoSubMenu"
                   >
                     <i className="fas fa-wrench"></i> Soporte Técnico
                   </a>
-                  <div className="collapse" id="STSubmenu">
+                  <div className="collapse" id="SoporteTecnicoSubMenu">
                     <ul className="nav flex-column ms-3">
                       <li className="nav-item">
                         <a className="nav-link" href="#">Chatbot soporte</a>

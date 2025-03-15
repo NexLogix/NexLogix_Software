@@ -1,0 +1,73 @@
+/* Colores generales */
+body {
+    
+    color: #333; /* Texto principal */
+}
+
+/* Navbar */
+.navbar {
+      background-color: #010211;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-brand, .nav-link {
+      color: white !important;
+}
+
+.navbar .navbar-nav .nav-link:hover {
+      background-color: rgba(0, 105, 217, 0.2);
+      color: #fff !important;
+}
+
+/* Habilitar desplazamiento en la barra desplegable */
+.dropdown-menu {
+  background-color: #010211 !important;
+  border: none;
+  max-height: 250px; /* Ajusta la altura máxima antes del scroll */
+  
+}
+
+/* Estilos para los ítems del dropdown */
+.dropdown-item {
+      color: white !important;
+      white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+      background-color: rgba(0, 105, 217, 0.3) !important;
+      color: white !important;
+}
+
+/* Sidebar */
+.sidebar {
+      background-color: #010211;
+      height: 100vh; /*Tamano vertical del nav o columna derecha*/
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      width: 300px; /* Aumenta el ancho, ajusta según necesites */
+      min-width: 260px; /* Establece un mínimo */
+}
+.nav-item a {
+    color: white !important;
+}
+.nav-item a:hover {
+      background-color: #0056b3;
+}
+
+/*Ajustes de la columna o nav de menus desplegables!*/
+.sidebar {
+      position: sticky;
+      top: 0;
+      overflow-y: auto;
+}
+
+/*Ajustes del espacio de paginas anidadas o enrutadas*/
+main {
+      margin-left: 80px; /* Ajusta según el ancho del sidebar */
+      margin-right: 70px; /* Ajusta según el ancho del sidebar */
+      width: calc(100% - 250px);
+      overflow-x: hidden; /* Evita que se salga del viewport */  
+}
+
+
+
+
