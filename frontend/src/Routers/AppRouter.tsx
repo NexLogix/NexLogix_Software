@@ -1,31 +1,55 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "../Views/pages/Login/Login";
+import Home from "../Views/pages/home";
+
+//  AQUI SE IMPORTA EL PERFIL MANAGER Y LAS RUTAS DE MANAGER
 import Manager from "../Views/pages/profiles/ManagerProfile/ManagerProfile";
+
+//  AQUI SE IMPORTA EL PERFIL ADMIN Y LAS RUTAS DE ADMIN
 import AdminProfile from "../Views/pages/profiles/AdminProfile/AdminProfile";
 import VerEnvios from "../Views/pages/Envios/VerEnvios";
 import CrearEnvios from "../Views/pages/Envios/CrearEnvios";
 import EditarEnvios from "../Views/pages/Envios/EditarEnvios";
+import EliminarEnvios from "../Views/pages/Envios/EliminarEnvios";
+
+//  AQUI SE IMPORTA EL PERFIL EMPLEADO Y LAS RUTAS DE EMPLEADO
 import Employee from "../Views/pages/profiles/EmpleadoProfile/EmpleadoProfile";
+
+//  AQUI SE IMPORTA EL PERFIL CONDUCTOR Y LAS RUTAS DE CONDUCTOR
 import Driver from "../Views/pages/profiles/ConductorProfile/CondutorProfile";
 
-
 const AppRouter = () => {
-   return (
+    return (
         <BrowserRouter>
             <Routes>
+                {/*LOGIN*/}
+                <Route path="/" element={<Login />} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/manager" element={<Manager />} />
-                <Route path="/admin" element={<AdminProfile />}>
-                    <Route path="verEnvios" element={<VerEnvios/>} />
+                
+                {/*PROFILE MANAGER*/}
+                <Route path="/manager" element={<Manager />}>
+                    <Route index element={<Home />} />
+                    {/*ROUTERS GESTIONS ENVIOS*/}
+                    <Route path="verEnvios" element={<VerEnvios />} />
                     <Route path="crearEnvios" element={<CrearEnvios />} />
                     <Route path="editarEnvios" element={<EditarEnvios />} />
+                    <Route path="eliminarEnvio" element={<EliminarEnvios />} />
+                </Route>
 
+                {/*PROFILE ADMIN*/}
+                <Route path="/admin" element={<AdminProfile />}>
+                    <Route index element={<Home />} />
+                    {/*ROUTERS GESTIONS ENVIOS*/}
+                    <Route path="verEnvios" element={<VerEnvios />} />
+                    <Route path="crearEnvios" element={<CrearEnvios />} />
+                    <Route path="editarEnvios" element={<EditarEnvios />} />
+                    <Route path="eliminarEnvio" element={<EliminarEnvios />} />
                 </Route>
                 <Route path="/employee" element={<Employee />} />
                 <Route path="/driver" element={<Driver />} />
             </Routes>
         </BrowserRouter>
-   );
+    );
 };
 
 export default AppRouter;

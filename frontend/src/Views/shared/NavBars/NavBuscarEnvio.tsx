@@ -19,7 +19,7 @@ const NavBuscarEnvio = () => {
       </div>
     </div>
   </nav>
-   )
+  )
 }
 
-export default (NavBuscarEnvio);
+export default NavBuscarEnvio;
