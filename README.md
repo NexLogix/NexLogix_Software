@@ -1,6 +1,4 @@
 # NexLogix Software
-Project made up of 3 Devs whit ❤ and 🍞.
+Project made up of 3 Devs.
 
 > Last release 'Beta' 18/03/2025
-
-Yes.
