@@ -1,5 +1,5 @@
 import FooterGeneral from "../../../shared/Footers/FooterGeneral";
-import "./generalStyle.css";
+import "../generalStyle.css"
 import { Link } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import NavbarGeneral from "../../../shared/NavBars/NavbarGeneral";
@@ -83,19 +83,19 @@ const AdminProfile = () => {
                             <div className="collapse" id="EmpleadosSubmenu">
                                   <ul className="nav flex-column ms-3">
                                         <li className="nav-item">
-                                          <Link className="nav-link" to="#">Crear usuarios</Link>
+                                          <Link className="nav-link" to="CreateUser">Crear usuarios</Link>
                                         </li>
                                         <li className="nav-item">
                                           <Link className="nav-link" to="/">Ver empleados activos</Link>
                                         </li>
                                         <li className="nav-item">
-                                          <Link className="nav-link" to="#">Lista general (Buscar por ID)</Link>
+                                          <Link className="nav-link" to="/">Lista general (Buscar por ID)</Link>
                                         </li>
                                         <li className="nav-item">
-                                          <Link className="nav-link" to="#">Editar usuario</Link>
+                                          <Link className="nav-link" to="/">Editar usuario</Link>
                                         </li>
                                         <li className="nav-item">
-                                          <Link className="nav-link" to="#">Desactivar usuario</Link>
+                                          <Link className="nav-link" to="/">Desactivar usuario</Link>
                                         </li>
                                   </ul>
                             </div>

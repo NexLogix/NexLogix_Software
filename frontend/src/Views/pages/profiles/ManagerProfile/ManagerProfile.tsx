@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import FooterGeneral from "../../../shared/Footers/FooterGeneral";
 import NavbarGeneral from "../../../shared/NavBars/NavbarGeneral";
+
 
 const ManagerProfile = () => {
  return (
@@ -17,29 +18,32 @@ const ManagerProfile = () => {
                 <ul className="nav flex-column">
 
                         {/* Opción Inicio */}
-                        <li className="nav-item">
-                            <Link className="nav-link active" to="/manager">Inicio MANAGER</Link>
-                        </li>
-
+                        <Link className="nav-link active" to="/manager">Inicio MANAGER</Link>
+                       
                         {/* Opción Envíos con submenú */}
                         <li className="nav-item position-relative ">
                             <Link className="nav-link" data-bs-toggle="collapse" to="#enviosSubmenu" role="button" aria-expanded="false" aria-controls="enviosSubmenu">Envíos</Link>
                             <div className="collapse" id="enviosSubmenu">
                                   <ul className="nav flex-column ms-3">
-                                    <li className="nav-item">
                                       <Link className="nav-link" to="/manager/verEnvios">Ver Envíos</Link>
-                                    </li>
-                                    <li className="nav-item">
                                       <Link className="nav-link" to="/manager/crearEnvios">Crear Envío</Link>
-                                    </li>
-                                    <li className="nav-item">
                                       <Link className="nav-link" to="/manager/editarEnvios">Editar Envío</Link>
-                                    </li>
-                                    <li className="nav-item">
                                       <Link className="nav-link" to="/manager/eliminarEnvio">Eliminar Envío</Link>
-                                    </li>
                                   </ul>
                             </div>
+                        </li>
+
+                        {/* Opción Empleados con submenú */}
+                        <li className="nav-item">
+                          <Link className="nav-link" data-bs-toggle="collapse" to="#EmpleadosSubmenu" role="button" aria-expanded="false" aria-controls="EmpleadosSubmenu">Empleados</Link>
+                              <div className="collapse" id="EmpleadosSubmenu">
+                                    <ul className="nav flex-column ms-3">
+                                      <Link className="nav-link" to="crearUsuarios">Crear usuarios</Link>
+                                      <Link className="nav-link" to="/manager/verUsuarios">Lista general</Link>
+                                      <Link className="nav-link" to="/manager/editarUsuarios">Editar usuario</Link>
+                                      <Link className="nav-link" to="/manager/eliminarUsuarios">Desactivar usuario</Link>
+                                    </ul>
+                              </div>
                         </li>
 
                         {/* Opción Rutas con submenú */}
@@ -47,15 +51,9 @@ const ManagerProfile = () => {
                               <Link className="nav-link" data-bs-toggle="collapse" to="#RutasSubmenu"  role="button" aria-expanded="false"  aria-controls="RutasSubmenu" >Rutas</Link>
                               <div className="collapse" id="RutasSubmenu">
                                     <ul className="nav flex-column ms-3">
-                                          <li className="nav-item">
-                                            <Link className="nav-link" to="#">Ver lista de rutas</Link>
-                                          </li>
-                                          <li className="nav-item">
-                                            <Link className="nav-link" to="#">Editar ruta</Link>
-                                          </li>
-                                          <li className="nav-item">
-                                            <Link className="nav-link" to="#">Eliminar ruta</Link>
-                                          </li>
+                                      <Link className="nav-link" to="#">Ver lista de rutas</Link>
+                                      <Link className="nav-link" to="#">Editar ruta</Link>
+                                      <Link className="nav-link" to="#">Eliminar ruta</Link>
                                     </ul>
                               </div>
                         </li>
@@ -65,68 +63,35 @@ const ManagerProfile = () => {
                             <Link className="nav-link" data-bs-toggle="collapse" to="#VehiculosSubmenu" role="button" aria-expanded="false" aria-controls="VehiculosSubmenu">Vehículos</Link>
                             <div className="collapse" id="VehiculosSubmenu">
                                 <ul className="nav flex-column ms-3">
-                                    <li className="nav-item">
-                                      <Link className="nav-link" to="#">Ver lista de vehículos</Link>
-                                    </li>
-                                    <li className="nav-item">
-                                      <Link className="nav-link" to="#">Ver conductores</Link>
-                                    </li>
+                                  <Link className="nav-link" to="#">Ver lista de vehículos</Link>
+                                  <Link className="nav-link" to="#">Ver conductores</Link>
                                 </ul>
                             </div>
                         </li>
 
-                        {/* Opción Empleados con submenú */}
-                        <li className="nav-item">
-                          <Link className="nav-link" data-bs-toggle="collapse" to="#EmpleadosSubmenu" role="button" aria-expanded="false" aria-controls="EmpleadosSubmenu">Empleados</Link>
-                              <div className="collapse" id="EmpleadosSubmenu">
-                                    <ul className="nav flex-column ms-3">
-                                          <li className="nav-item">
-                                            <Link className="nav-link" to="/manager/createUser">Crear usuarios</Link>
-                                          </li>
-                                          <li className="nav-item">
-                                            <Link className="nav-link" to="/manager/viewAllUsers">Ver empleados activos</Link>
-                                          </li>
-                                          <li className="nav-item">
-                                            <Link className="nav-link" to="/manager/viewAllUsers">Lista general (Buscar por ID)</Link>
-                                          </li>
-                                          <li className="nav-item">
-                                            <Link className="nav-link" to="/manager/editUsers">Editar usuario</Link>
-                                          </li>
-                                          <li className="nav-item">
-                                            <Link className="nav-link" to="/manager/deleteUsers">Desactivar usuario</Link>
-                                          </li>
-                                    </ul>
-                              </div>
-                        </li>
+                        
                         {/* Opción Soporte Técnico con submenú */}
                         <li className="nav-item">
                           <Link className="nav-link" data-bs-toggle="collapse" to="#SoporteTecnicoSubMenu" role="button" aria-expanded="false" aria-controls="SoporteTecnicoSubMenu">Soporte Técnico</Link>
                               <div className="collapse" id="SoporteTecnicoSubMenu">
                                     <ul className="nav flex-column ms-3">
-                                          <li className="nav-item">
-                                            <Link className="nav-link" to="#">Chatbot soporte</Link>
-                                          </li>
-                                          <li className="nav-item">
-                                            <Link className="nav-link" to="#">Abrir chat con Ingeniero</Link>
-                                          </li>
-                                          <li className="nav-item">
-                                            <Link className="nav-link" to="#">Reportar anomalías</Link>
-                                          </li>
+                                      <Link className="nav-link" to="#">Chatbot soporte</Link>
+                                      <Link className="nav-link" to="#">Abrir chat con Ingeniero</Link>
+                                      <Link className="nav-link" to="#">Reportar anomalías</Link>
                                     </ul>
                               </div>
-                        </li>
+                        </li> 
 
                         {/* Opción Reportes */}
                         <li className="nav-item">
                             <Link className="nav-link" data-bs-toggle="collapse" to="#ReportesSubMenu" role="button" aria-expanded="false" aria-controls="ReportesSubMenu">Reportes</Link>
                                 <div className="collapse" id="ReportesSubMenu"> 
                                       <ul className="nav flex-column ms-3">
-                                          <li className="nav-item">
-                                            <Link className="nav-link" to="#">Ver reportes</Link>
-                                          </li>
+                                        <Link className="nav-link" to="#">Ver reportes</Link>
                                       </ul>
                                 </div>
                         </li>
+
                 </ul>
               </div>
             </nav>

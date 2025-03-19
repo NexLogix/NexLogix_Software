@@ -62,8 +62,8 @@ body {
 
 /*Ajustes del espacio de paginas anidadas o enrutadas*/
 main {
-      margin-left: 80px; /* Ajusta según el ancho del sidebar */
-      margin-right: 70px; /* Ajusta según el ancho del sidebar */
+      margin-left: 18px; /* Ajusta según el ancho del sidebar */
+      margin-right: 18px; /* Ajusta según el ancho del sidebar */
       width: calc(100% - 250px);
       overflow-x: hidden; /* Evita que se salga del viewport */  
 }

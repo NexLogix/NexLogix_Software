@@ -1,8 +1,8 @@
 const Home  = () => {
    return (
       <div className="p-5">
-         <h1>Bienvenido a Logigo</h1>
-         <p>Encuentra tu mejor viaje en LogiGO</p>
+         <h1>Bienvenido a LexLogix</h1>
+         <p>GESTION GENERAL DE <strong>LexLogix</strong></p>
       </div>
    )
 }
