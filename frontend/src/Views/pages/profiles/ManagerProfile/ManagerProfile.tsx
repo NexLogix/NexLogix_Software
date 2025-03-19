@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import FooterGeneral from "../../../shared/Footers/FooterGeneral";
 import NavbarGeneral from "../../../shared/NavBars/NavbarGeneral";
 
-const ConductorProfile = () => {
+const ManagerProfile = () => {
  return (
         <>
         <NavbarGeneral/>
@@ -18,7 +18,7 @@ const ConductorProfile = () => {
 
                         {/* Opción Inicio */}
                         <li className="nav-item">
-                            <Link className="nav-link active" to="/admin">Inicio MANAGER</Link>
+                            <Link className="nav-link active" to="/manager">Inicio MANAGER</Link>
                         </li>
 
                         {/* Opción Envíos con submenú */}
@@ -27,16 +27,16 @@ const ConductorProfile = () => {
                             <div className="collapse" id="enviosSubmenu">
                                   <ul className="nav flex-column ms-3">
                                     <li className="nav-item">
-                                      <Link className="nav-link" to="/admin/verEnvios">Ver Envíos</Link>
+                                      <Link className="nav-link" to="/manager/verEnvios">Ver Envíos</Link>
                                     </li>
                                     <li className="nav-item">
-                                      <Link className="nav-link" to="/admin/crearEnvios">Crear Envío</Link>
+                                      <Link className="nav-link" to="/manager/crearEnvios">Crear Envío</Link>
                                     </li>
                                     <li className="nav-item">
-                                      <Link className="nav-link" to="/admin/editarEnvios">Editar Envío</Link>
+                                      <Link className="nav-link" to="/manager/editarEnvios">Editar Envío</Link>
                                     </li>
                                     <li className="nav-item">
-                                      <Link className="nav-link" to="/admin/eliminarEnvio">Eliminar Envío</Link>
+                                      <Link className="nav-link" to="/manager/eliminarEnvio">Eliminar Envío</Link>
                                     </li>
                                   </ul>
                             </div>
@@ -81,19 +81,19 @@ const ConductorProfile = () => {
                               <div className="collapse" id="EmpleadosSubmenu">
                                     <ul className="nav flex-column ms-3">
                                           <li className="nav-item">
-                                            <Link className="nav-link" to="#">Crear usuarios</Link>
+                                            <Link className="nav-link" to="/manager/createUser">Crear usuarios</Link>
                                           </li>
                                           <li className="nav-item">
-                                            <Link className="nav-link" to="#">Ver empleados activos</Link>
+                                            <Link className="nav-link" to="/manager/viewAllUsers">Ver empleados activos</Link>
                                           </li>
                                           <li className="nav-item">
-                                            <Link className="nav-link" to="#">Lista general (Buscar por ID)</Link>
+                                            <Link className="nav-link" to="/manager/viewAllUsers">Lista general (Buscar por ID)</Link>
                                           </li>
                                           <li className="nav-item">
-                                            <Link className="nav-link" to="#">Editar usuario</Link>
+                                            <Link className="nav-link" to="/manager/editUsers">Editar usuario</Link>
                                           </li>
                                           <li className="nav-item">
-                                            <Link className="nav-link" to="#">Desactivar usuario</Link>
+                                            <Link className="nav-link" to="/manager/deleteUsers">Desactivar usuario</Link>
                                           </li>
                                     </ul>
                               </div>
@@ -144,4 +144,4 @@ const ConductorProfile = () => {
   );
 };
 
-export default ConductorProfile;
+export default ManagerProfile;

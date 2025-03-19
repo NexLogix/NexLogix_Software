@@ -86,7 +86,7 @@ const AdminProfile = () => {
                                           <Link className="nav-link" to="#">Crear usuarios</Link>
                                         </li>
                                         <li className="nav-item">
-                                          <Link className="nav-link" to="#">Ver empleados activos</Link>
+                                          <Link className="nav-link" to="/">Ver empleados activos</Link>
                                         </li>
                                         <li className="nav-item">
                                           <Link className="nav-link" to="#">Lista general (Buscar por ID)</Link>

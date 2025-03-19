@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "../Views/pages/Login/Login";
-import Home from "../Views/pages/home";
+import Home from "../Views/pages/Home";
 
 //  AQUI SE IMPORTA EL PERFIL MANAGER Y LAS RUTAS DE MANAGER
-import Manager from "../Views/pages/profiles/ManagerProfile/ManagerProfile";
+import ManagerProfile from "../Views/pages/profiles/ManagerProfile/ManagerProfile";
 
 //  AQUI SE IMPORTA EL PERFIL ADMIN Y LAS RUTAS DE ADMIN
 import AdminProfile from "../Views/pages/profiles/AdminProfile/AdminProfile";
@@ -15,8 +15,16 @@ import EliminarEnvios from "../Views/pages/Envios/EliminarEnvios";
 //  AQUI SE IMPORTA EL PERFIL EMPLEADO Y LAS RUTAS DE EMPLEADO
 import Employee from "../Views/pages/profiles/EmpleadoProfile/EmpleadoProfile";
 
+
 //  AQUI SE IMPORTA EL PERFIL CONDUCTOR Y LAS RUTAS DE CONDUCTOR
 import Driver from "../Views/pages/profiles/ConductorProfile/CondutorProfile";
+
+
+import CreateUser from "../Views/pages/Users/CrearUser";
+import ViewAllUsers from "../Views/pages/Users/ViewAllUsers";
+import EditUsers from "../Views/pages/Users/EditUser";
+import DeleteUsers from "../Views/pages/Users/DeleteUser";
+
 
 const AppRouter = () => {
     return (
@@ -27,13 +35,19 @@ const AppRouter = () => {
                 <Route path="/login" element={<Login />} />
                 
                 {/*PROFILE MANAGER*/}
-                <Route path="/manager" element={<Manager />}>
+                <Route path="/manager" element={<ManagerProfile />}>
                     <Route index element={<Home />} />
                     {/*ROUTERS GESTIONS ENVIOS*/}
                     <Route path="verEnvios" element={<VerEnvios />} />
                     <Route path="crearEnvios" element={<CrearEnvios />} />
                     <Route path="editarEnvios" element={<EditarEnvios />} />
                     <Route path="eliminarEnvio" element={<EliminarEnvios />} />
+
+                    {/*ROUTERS GESTION EMPLEADOS/USUARIOS */}
+                    <Route path="createUser" element={<CreateUser/>} />
+                    <Route path="viewAllUsers" element={<ViewAllUsers/>} />
+                    <Route path="editUsers" element={<EditUsers/>} />
+                    <Route path="deleteUsers" element={<DeleteUsers/>} />
                 </Route>
 
                 {/*PROFILE ADMIN*/}
@@ -44,6 +58,14 @@ const AppRouter = () => {
                     <Route path="crearEnvios" element={<CrearEnvios />} />
                     <Route path="editarEnvios" element={<EditarEnvios />} />
                     <Route path="eliminarEnvio" element={<EliminarEnvios />} />
+
+                    {/*ROUTERS GESTION EMPLEADOS/USUARIOS */}
+                    <Route path="CreateUser" element={<CreateUser/>} />
+                    <Route path="ViewAllUsers" element={<ViewAllUsers/>} />
+                    <Route path="EditUsers" element={<EditUsers/>} />
+                    <Route path="DeleteUsers" element={<DeleteUsers/>} />
+
+                    
                 </Route>
                 <Route path="/employee" element={<Employee />} />
                 <Route path="/driver" element={<Driver />} />
