@@ -6,11 +6,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Usuarios extends Model
+class User extends Model
 {
     use HasFactory;
 
-    protected $table = 'usuarios';
+    protected $table = 'usuarios'; // Indicar que la tabla en MySQL se llama "usuarios"
     protected $fillable = [
         'documentoIdentidad',
         'nombreCompleto',

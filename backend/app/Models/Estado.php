@@ -16,6 +16,6 @@ class Estado extends Model
     ];
 
     public function users() {
-        return $this->hasMany( Usuarios::class, 'estado_id', 'id');
+        return $this->hasMany( User::class, 'estado_id', 'id');
     }
 }
