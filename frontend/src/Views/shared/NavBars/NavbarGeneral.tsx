@@ -7,7 +7,7 @@ const NavbarGeneral = () => {
     return (
       <nav className="navbar navbar-expand-lg navbar-dark shadow-lg">
           {/* Marca de la barra de navegación */}
-          <a className="navbar-brand p-3 mr-7" href="#">LexLogix</a>
+          <a className="navbar-brand p-3 mr-7" href="#">NexLogix</a>
 
               {/* Botón para colapsar el navbar en dispositivos móviles */}
               <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

@@ -31,7 +31,22 @@ import VerUsuarios from "../Views/pages/Users/VerUsuarios";
 import EditarUsuarios from "../Views/pages/Users/EditarUsuarios";
 import EliminarUsuarios from "../Views/pages/Users/EliminarUsuarios";
 
-// 
+// AQUI SE IMPORTA RUTAS
+import VerListaRutas from "../Views/pages/Rutas/VerListaRutas";
+import EditarRutas from "../Views/pages/Rutas/EditarRutas";
+import EliminarRutas from "../Views/pages/Rutas/EliminarRutas";
+
+// AQUI SE IMPORTA VEHICULOS
+import VerListaVehiculos from "../Views/pages/Vehiculos/VerListaVehiculos";
+import VerConductores from "../Views/pages/Vehiculos/VerConductores";
+
+// AQUI SE IMPORTA EL CHATBOT
+import ChatBot from "../Views/pages/Soporte/ChatBot";
+import ChatIngeniero from "../Views/pages/Soporte/ChatIngeniero";
+import ReporteAnomalias from "../Views/pages/Soporte/ReporteAnomalias";  // error wtf?
+
+// AQUI SE IMPORTA REPORTES
+import VerReportes from "../Views/pages/Reportes/VerReportes";
 
 const AppRouter = () => {
     return (
@@ -55,6 +70,23 @@ const AppRouter = () => {
                     <Route path="verUsuarios" element={<VerUsuarios />} />
                     <Route path="editarUsuarios" element={<EditarUsuarios />} />
                     <Route path="eliminarUsuarios" element={<EliminarUsuarios />} />
+
+                    {/*ROUTERS RUTAS*/}
+                    <Route path="verListaRutas" element={<VerListaRutas />} />
+                    <Route path="editarRutas" element={<EditarRutas />} />
+                    <Route path="EliminarRutas" element={<EliminarRutas />} />
+
+                    {/* ROUTERS VEHICULOS */}
+                    <Route path="verListaVehiculos" element={<VerListaVehiculos />} />
+                    <Route path="verConductores" element={<VerConductores />} />
+
+                    {/* ROUTERS CHATBOT */}
+                    <Route path="chatBot" element={<ChatBot />} />
+                    <Route path="chatIngeniero" element={<ChatIngeniero />} />
+                    <Route path="reporteAnomalias" element={<ReporteAnomalias />} />
+
+                    {/* ROUTERS REPORTES */}
+                    <Route path="verReportes" element={<VerReportes />} />
                 </Route>
 
                 {/*PROFILE ADMIN*/}

@@ -51,9 +51,9 @@ const ManagerProfile = () => {
                               <Link className="nav-link" data-bs-toggle="collapse" to="#RutasSubmenu"  role="button" aria-expanded="false"  aria-controls="RutasSubmenu" >Rutas</Link>
                               <div className="collapse" id="RutasSubmenu">
                                     <ul className="nav flex-column ms-3">
-                                      <Link className="nav-link" to="#">Ver lista de rutas</Link>
-                                      <Link className="nav-link" to="#">Editar ruta</Link>
-                                      <Link className="nav-link" to="#">Eliminar ruta</Link>
+                                      <Link className="nav-link" to="/manager/verListaRutas">Ver lista de rutas</Link>
+                                      <Link className="nav-link" to="/manager/editarRutas">Editar rutas</Link>
+                                      <Link className="nav-link" to="/manager/eliminarRutas">Eliminar rutas</Link>
                                     </ul>
                               </div>
                         </li>
@@ -63,8 +63,8 @@ const ManagerProfile = () => {
                             <Link className="nav-link" data-bs-toggle="collapse" to="#VehiculosSubmenu" role="button" aria-expanded="false" aria-controls="VehiculosSubmenu">Vehículos</Link>
                             <div className="collapse" id="VehiculosSubmenu">
                                 <ul className="nav flex-column ms-3">
-                                  <Link className="nav-link" to="#">Ver lista de vehículos</Link>
-                                  <Link className="nav-link" to="#">Ver conductores</Link>
+                                  <Link className="nav-link" to="/manager/verListaVehiculos">Ver lista de vehículos</Link>
+                                  <Link className="nav-link" to="/manager/verConductores">Ver conductores</Link>
                                 </ul>
                             </div>
                         </li>
@@ -75,9 +75,9 @@ const ManagerProfile = () => {
                           <Link className="nav-link" data-bs-toggle="collapse" to="#SoporteTecnicoSubMenu" role="button" aria-expanded="false" aria-controls="SoporteTecnicoSubMenu">Soporte Técnico</Link>
                               <div className="collapse" id="SoporteTecnicoSubMenu">
                                     <ul className="nav flex-column ms-3">
-                                      <Link className="nav-link" to="#">Chatbot soporte</Link>
-                                      <Link className="nav-link" to="#">Abrir chat con Ingeniero</Link>
-                                      <Link className="nav-link" to="#">Reportar anomalías</Link>
+                                      <Link className="nav-link" to="/manager/chatBot">Chatbot soporte</Link>
+                                      <Link className="nav-link" to="/manager/chatIngeniero">Abrir chat con Ingeniero</Link>
+                                      <Link className="nav-link" to="/manager/reporteAnomalias">Reportar anomalías</Link>
                                     </ul>
                               </div>
                         </li> 
@@ -87,7 +87,7 @@ const ManagerProfile = () => {
                             <Link className="nav-link" data-bs-toggle="collapse" to="#ReportesSubMenu" role="button" aria-expanded="false" aria-controls="ReportesSubMenu">Reportes</Link>
                                 <div className="collapse" id="ReportesSubMenu"> 
                                       <ul className="nav flex-column ms-3">
-                                        <Link className="nav-link" to="#">Ver reportes</Link>
+                                        <Link className="nav-link" to="/manager/verReportes">Ver reportes</Link>
                                       </ul>
                                 </div>
                         </li>
