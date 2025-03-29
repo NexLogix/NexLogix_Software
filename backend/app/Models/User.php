@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,7 +9,10 @@ class User extends Model
 {
     use HasFactory;
 
-    protected $table = 'usuarios'; // Indicar que la tabla en MySQL se llama "usuarios"
+    protected $table = 'usuarios'; // Nombre correcto de la tabla
+    protected $primaryKey = 'idusuarios'; // Nombre correcto de la clave primaria
+    public $timestamps = false; // No tiene `updated_at` ni `created_at`
+
     protected $fillable = [
         'documentoIdentidad',
         'nombreCompleto',
@@ -19,16 +21,21 @@ class User extends Model
         'direccionResidencia',
         'fechaCreacion',
         'contrasena',
-        'estado_id',
-        'role_id',
+        'idestado',  // FK de estado
+        'idRole', // FK de roles
     ];
 
-    public function state() {
-        return $this->belongsTo(Estado::class, 'estadoId');
+    public function estado() {
+        return $this->belongsTo(Estado::class, 'idestado');
     }
 
-    public function Role() {
-        return $this->belongsTo( Roles::class, 'roleId');
+    public function role() {
+        return $this->belongsTo(Roles::class, 'idRole');
     }
 
+     // Relación con UsuariosPorPuesto (Uno a Muchos)
+     public function usuariosPorPuesto()
+     {
+        return $this->hasMany(UsuariosPorPuesto::class, 'idusuarios');
+     }
 }

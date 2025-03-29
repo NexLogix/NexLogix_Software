@@ -9,7 +9,7 @@ class PermisosGenerales extends Model
 {
     use HasFactory;
 
-    protected $table = 'permisos_generales'; // Asegúrate que coincida con tu base de datos
+    protected $table = 'permisosgenerales'; // tabla PermisosGenerales en MySQL
 
     protected $fillable = [
         'nombrePermisoGeneral',
@@ -17,12 +17,13 @@ class PermisosGenerales extends Model
         'descripcionPermisoGeneral',
     ];
 
-    public function Roles()  {
+    // Relación muchos a muchos con Roles
+    public function roles() {
         return $this->belongsToMany(
-            Roles::class,
-            'permisos_generales_roles',
-            'permisosGenerales_id',
-            'roles_id'
+            Roles::class, // Modelo relacionado
+            'permisosgeneralespor_role', // Tabla intermedia
+            'idPermisosGenerales', // Clave en la tabla intermedia que referencia a esta tabla
+            'idRole' // Clave en la tabla intermedia que referencia a la tabla roles
         );
     }
 }

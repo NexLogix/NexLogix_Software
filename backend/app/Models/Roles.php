@@ -10,6 +10,7 @@ class Roles extends Model
     use HasFactory;
 
     protected $table = 'roles';
+    protected $primaryKey = 'idRole';
 
     protected $fillable = [
         'nombreRole',
@@ -17,10 +18,16 @@ class Roles extends Model
         'fechaAsignacionRole',
     ];
 
-    public function generalPermissions() {
-        return $this->hasMany(PermisosGenerales::class, 'role_id', 'id');
+    public function users()
+    {
+        return $this->hasMany(
+            User::class,
+            'idRole',
+            'id',
+        );
     }
 
+    // Relación muchos a muchos con la tabla intermedia permisosgeneralespor_role
     public function permisosGenerales() {
         return $this->belongsToMany(
             PermisosGenerales::class,
@@ -29,5 +36,4 @@ class Roles extends Model
             'idPermisosGenerales'
         );
     }
-
 }
