@@ -17,7 +17,7 @@ class UsuariosPorPuesto extends Model
         'fechaAsignacion',
         'fechaFin',
         'idusuarios',
-        'idArea'
+        'idPuestos'
     ];
 
 

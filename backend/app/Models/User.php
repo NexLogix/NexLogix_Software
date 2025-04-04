@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Model
+class User extends Authenticatable implements JWTSubject
 {
     use HasFactory;
 
@@ -25,17 +26,56 @@ class User extends Model
         'idRole', // FK de roles
     ];
 
-    public function estado() {
+    protected $hidden = [
+        'contrasena', 'remember_token',
+    ];
+
+    public function cats(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+        ];
+    }
+
+    // SE OBTIENE EL TOKEN
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    //
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
+
+// FUNCIONES Y RELACIONES DE LA BASE DE DATOS
+
+    // Un usuario pertenece a un estado (1:N)
+    public function estado()
+    {
         return $this->belongsTo(Estado::class, 'idestado');
     }
 
-    public function role() {
+    // Un usuario pertenece a un rol (1:N)
+    public function roles()
+    {
         return $this->belongsTo(Roles::class, 'idRole');
     }
 
-     // Relación con UsuariosPorPuesto (Uno a Muchos)
-     public function usuariosPorPuesto()
-     {
+    // Un usuario puede tener y pertenecer a múltiples puestos (1:N)
+    public function usuariosPorPuesto()
+    {
         return $this->hasMany(UsuariosPorPuesto::class, 'idusuarios');
-     }
+    }
+
+    public function reportes(){
+        return $this->hasMany(Reportes::class,'idReporte');
+    }
+
+    // Un usuario puede tener y hacer muchos envíos (1:N)
+    public function envios()
+    {
+        return $this->hasMany(Envios::class, 'idusuarios');
+    }
 }

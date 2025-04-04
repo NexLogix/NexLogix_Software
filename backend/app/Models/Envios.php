@@ -14,7 +14,17 @@ class Envios extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'nombreDestinatario'
+        'nombreDestinatario',
+        'num_ContactoRemitente',
+        'nombreDestinatario ',
+        'num_ContactoDestinatario ',
+        'metodoPago',
+        'costosTotal_Envio',
+        'costosTotal_Envio ',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'idusuarios');
+    }
 }
-,

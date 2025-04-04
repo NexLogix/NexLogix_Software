@@ -24,13 +24,25 @@ class Puestos extends Model
         return $this->hasMany(UsuariosPorPuesto::class, 'idPuestos');
     }
 
+// RELACIONES DE MUCHOS A MUCHOS PERO AQUI MISMO SE HACEN LAS TABLAS INTERMEDIAS
+
+    // Tabla intermedia areasporpuesto entre AREAS y PUESTOS
     public function areas()
     {
         return $this->belongsToMany(
-         Areas::class,
-         'areasporpuesto',
+         Areas::class,'areasporpuesto',
          'idPuestos',
          'idArea'
+        );
+    }
+
+    // Tabla intermedia
+    public function puestos()
+    {
+        return $this->belongsToMany(PermisosEspeciales::class,
+        'PermisosEspeciales_Por_Puesto',
+        'idPuestos',
+        'idPermisosEspeciales',
         );
     }
 }

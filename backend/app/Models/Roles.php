@@ -21,9 +21,7 @@ class Roles extends Model
     public function users()
     {
         return $this->hasMany(
-            User::class,
-            'idRole',
-            'id',
+            User::class, 'idRole','idRoles',
         );
     }
 
