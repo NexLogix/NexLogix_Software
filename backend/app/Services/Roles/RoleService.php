@@ -4,6 +4,7 @@ namespace App\Services\Roles;
 use App\Models\Roles;
 use Exception;
 use Illuminate\Database\QueryException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class RoleService
 {
@@ -24,16 +25,30 @@ class RoleService
     //GET BY ID
     public function getRoleById($id)
     {
-        $role = Roles::findOrFail($id);
-        if (!$role){
-            throw new Exception("No se encontro el role",404);
-        }
+        try {
+            $role = Roles::findOrFail($id);
+            return response()->json([
+                "message: "=> "Role encontrado!",
+                "Role: "=> $role,
+                "Status" => 200
+            ]);
+        } catch (ModelNotFoundException $e){
+            return response()->json([
+                "message"=> "Role con ID $id no encontrado!",
+                "status"=> 400
+            ]);
+        } catch (QueryException $e) {
+            return response()->json([
+                "message" => "Error de base de datos: " . $e->getMessage(),
+                "status" => 500
+            ], 500);
 
-        return response()->json([
-            "message: "=> "Role encontrado!",
-            "Role: "=> $role,
-            "Status" => 200
-        ]);
+        } catch (Exception $e) {
+            return response()->json([
+                "message" => "Ocurrió un error inesperado: " . $e->getMessage(),
+                "status" => 500
+            ], 500);
+        }
     }
 
     // POST
@@ -55,9 +70,11 @@ class RoleService
 
 
     // PUT
-    public function EditAll()
+    public function EditAll($id, array $data)
     {
-        
+       // try {
+
+       // }
     }
 
     // PATCH
