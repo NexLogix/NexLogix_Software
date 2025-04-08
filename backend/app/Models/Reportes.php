@@ -16,8 +16,9 @@ class Reportes extends Model
 
     public $fillable = [
         'tipoReporte',
-        'descripción',
+        'descripcion',
         'fechaCreacion',
+        'idusuarios',
     ];
 
     public function users()
