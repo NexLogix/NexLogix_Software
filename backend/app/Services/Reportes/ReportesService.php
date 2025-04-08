@@ -1,7 +1,6 @@
 <?php
 namespace App\Services\Reportes;
 
-use App\Exceptions\ExceptionServerError;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use App\Models\Reportes;
@@ -179,7 +178,7 @@ class ReportesService
     }
 
     // DELTE
-        public function deleteReporte($id): array
+    public function deleteReporte($id): array
     {
         try {
             // Buscamos el reporte; si no existe, se lanzará ModelNotFoundException

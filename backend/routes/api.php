@@ -44,3 +44,16 @@ Route::group([
 });
 
 
+// PERMISOS GENERALES
+use App\Http\Controllers\Permisos\PermisosGenerales\GetPermisoGeneralController;
+use App\Http\Controllers\Permisos\PermisosGenerales\GetByIDPermisoGeneralController;
+
+
+Route::group([
+    'middleware' => 'api',
+    'prefix'=> 'gestion_permisos_generales'
+], function() {
+    Route::get('/', [GetPermisoGeneralController::class, 'showPermisosGenerales']);
+    Route::get('{id}', [GetByIDPermisoGeneralController::class, 'show_PG_ByID']);
+});
+
