@@ -5,6 +5,7 @@ use App\Models\PermisosGenerales;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 use Exception;
 
 class PermisosGeneralesService
@@ -93,47 +94,32 @@ class PermisosGeneralesService
         }
     }
 
-    // PUT
     public function updatePG($id, array $data)
     {
         try {
-            $permisos_generales = PermisosGenerales::findOrFail($id);
+            $permiso = PermisosGenerales::findOrFail($id);
+            $permiso->update($data);
 
-            $permisos_generales->update([
-                "nombrePermisoGeneral" => $data["nombrePermisoGeneral"],
-                "fechaAsignacionPermisoGeneral" => $data["fechaAsignacionPermisoGeneral"] ?? now(),
-                "descripcionPermisoGeneral" => $data["descripcionPermisoGeneral"] ?? null,
-            ]);
+            return [
+                'success' => true,
+                'data' => $permiso,
+                'message' => 'Permiso actualizado',
+                'code' => 200
+            ];
+        } catch (\Exception $e) {
+            Log::error('Error al actualizar permiso general: ' . $e->getMessage());
 
-            return response()->json([
-                'message' => 'Permiso General actualizado correctamente!',
-                'data'    => $permisos_generales,
-                'status'  => 200
-            ], 200);
-
-        } catch (ModelNotFoundException $e) {
-            return response()->json([
-                "message" => "Permiso General con el ID $id no ha sido encontrado",
-                "status"  => 404
-            ], 404);
-
-        } catch (QueryException $e) {
-            return response()->json([
-                "message" => "Error en la base de datos: " . $e->getMessage(),
-                "status"  => 500
-            ], 500);
-
-        } catch (\Throwable $e) {
-            return response()->json([
-                "message" => "Error inesperado: " . $e->getMessage(),
-                "status"  => 500
-            ], 500);
+            return [
+                'success' => false,
+                'message' => 'Error interno al actualizar el permiso',
+                'details' => $e->getMessage(),
+                'code' => 500
+            ];
         }
     }
 
     // PATCH
-
-    public function udpateSpecificPlace($request, $id): array
+    /*public function udpateSpecificPlace($request, $id): array
     {
         $validator = Validator::make($request->all(), [
             'nombrePermisoGeneral'   => 'sometimes|required|string|max:150',
@@ -175,10 +161,11 @@ class PermisosGeneralesService
             ];
         }
     }
+*/
+
 
 
     // DELETE
-
     public function deletePG($id): array
     {
         try {

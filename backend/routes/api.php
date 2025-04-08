@@ -47,6 +47,9 @@ Route::group([
 // PERMISOS GENERALES
 use App\Http\Controllers\Permisos\PermisosGenerales\GetPermisoGeneralController;
 use App\Http\Controllers\Permisos\PermisosGenerales\GetByIDPermisoGeneralController;
+use App\Http\Controllers\Permisos\PermisosGenerales\PostPGController;
+use App\Http\Controllers\Permisos\PermisosGenerales\PutPGController;
+use App\Http\Controllers\Permisos\PermisosGenerales\DeletePGController;
 
 
 Route::group([
@@ -55,5 +58,9 @@ Route::group([
 ], function() {
     Route::get('/', [GetPermisoGeneralController::class, 'showPermisosGenerales']);
     Route::get('{id}', [GetByIDPermisoGeneralController::class, 'show_PG_ByID']);
+    Route::post('crear_pg', [PostPGController::class,'createPG']);
+    Route::put('/editar_pg/{id}', [PutPGController::class, 'updatePG']);
+    Route::delete('/delete_pg/{id}', [DeletePGController::class,'deletePG']);
+
 });
 
