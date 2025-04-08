@@ -21,7 +21,7 @@ class UpdateReporteController extends Controller
         $validated = $request->validate([
             'tipoReporte'   => 'required|string',
             'descripcion'   => 'required|string',
-            'fechaCreacion' => 'nullable|date',
+            'fechaCreacion' => 'nullable|date_format:Y-m-d H:i:s',
             'idusuarios'    => 'required|integer|exists:usuarios,idusuarios'
         ]);
 

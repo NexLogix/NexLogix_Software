@@ -21,7 +21,7 @@ class PostReportesController extends Controller
         $validator = Validator::make($request->all(), [
             'tipoReporte'   => 'required|string|max:150',
             'descripcion'   => 'required|string|max:1000',
-            'fechaCreacion' => 'nullable|date',
+            'fechaCreacion' => 'nullable|date_format:Y-m-d H:i:s',
             'idusuarios'    => 'required|numeric'
         ]);
 

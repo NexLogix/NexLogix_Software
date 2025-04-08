@@ -39,7 +39,7 @@ Route::group([
     Route::get('{id}', [GetByIDReportesController::class, 'showReporte']);
     Route::post('/crear_reporte', [PostReportesController::class, 'handle']);
     Route::put('/editar_reporte/{id}', [UpdateReporteController::class, 'updateReporte']);
-    Route::patch('/actualizar_reporte/{id}', [PatchReportesController::class, 'updateReporte']);
+    Route::patch('/actualizar_campos_especificos_reportes/{id}', [PatchReportesController::class, 'updateReporte']);
     Route::delete('/eliminar_reporte/{id}', action: [DeleteReporteController::class,'deleteReporte']);
 });
 
