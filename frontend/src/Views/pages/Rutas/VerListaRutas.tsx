@@ -1,5 +1,4 @@
-import NavBuscarEnvio from "../../shared/NavBars/NavBuscarEnvio";
-
+import NavBuscarEnvio from "../../componets/NavBars/NavBuscarEnvio";
 const VerListaRutas = () => {
   return (
     <div className="container-fluid mt-4">

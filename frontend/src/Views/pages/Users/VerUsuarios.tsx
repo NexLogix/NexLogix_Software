@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import NavBuscarUsuario from "../../shared/NavBars/NavBuscarUsuario";
+import NavBuscarUsuario from "../../componets/NavBars/NavBuscarUsuario";
 
 interface Usuario {
   id: number;

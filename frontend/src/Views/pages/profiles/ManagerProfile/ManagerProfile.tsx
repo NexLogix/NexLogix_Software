@@ -1,7 +1,7 @@
 import { Link} from "react-router-dom";
 import { Outlet } from "react-router-dom";
-import FooterGeneral from "../../../shared/Footers/FooterGeneral";
-import NavbarGeneral from "../../../shared/NavBars/NavbarGeneral";
+import FooterGeneral from "../../../componets/Footers/FooterGeneral";
+import NavbarGeneral from "../../../componets/NavBars/NavbarGeneral";
 
 
 const ManagerProfile = () => {

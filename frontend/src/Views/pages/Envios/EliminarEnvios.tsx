@@ -1,4 +1,4 @@
-import NavBuscarEnvio from '../../shared/NavBars/NavBuscarEnvio';
+import NavBuscarEnvio from "../../componets/NavBars/NavBuscarEnvio";
 const EliminarEnvios = ()  => {
  return (
      <div className="container-fluid mt-4">

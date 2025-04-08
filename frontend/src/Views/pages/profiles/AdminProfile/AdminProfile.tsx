@@ -1,8 +1,8 @@
-import FooterGeneral from "../../../shared/Footers/FooterGeneral";
+import FooterGeneral from "../../../componets/Footers/FooterGeneral";
 import "../generalStyle.css"
 import { Link } from "react-router-dom";
 import { Outlet } from "react-router-dom";
-import NavbarGeneral from "../../../shared/NavBars/NavbarGeneral";
+import NavbarGeneral from "../../../componets/NavBars/NavbarGeneral";
 
 // Componente AdminProfile: muestra la interfaz de perfil del administrador
 const AdminProfile = () => {

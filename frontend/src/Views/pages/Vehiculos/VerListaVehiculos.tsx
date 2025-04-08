@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import NavBuscarUsuario from "../../shared/NavBars/NavBuscarUsuario";
+import NavBuscarUsuario from "../../componets/NavBars/NavBuscarUsuario";
 
 interface Vehiculo {
   id: number;

@@ -21,7 +21,9 @@ class Roles extends Model
     public function users()
     {
         return $this->hasMany(
-            User::class, 'idRole','idRoles',
+            User::class,
+            'idRole', // FK de la tabla Users
+            'idRoles', // PK de la tabla Roles, cuando dice localKey es a la PK de la tabla Roles
         );
     }
 

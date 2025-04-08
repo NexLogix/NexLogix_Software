@@ -1,4 +1,4 @@
-import NavBuscarEnvio from "../../shared/NavBars/NavBuscarEnvio";
+import NavBuscarEnvio from "../../componets/NavBars/NavBuscarEnvio";
 const EditarEnvios = () => {
   return (
     
