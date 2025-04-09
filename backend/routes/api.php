@@ -1,6 +1,5 @@
 <?php
 // MAIN MENU // GESION LOGIN
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
@@ -21,7 +20,6 @@ Route::group([
             // ->middleware('auth:student');
     });
 });
-
 
 // REPORTES
 use App\Http\Controllers\Reportes\GetReportesController;
@@ -64,3 +62,38 @@ Route::group([
 
 });
 
+
+// ROLES
+use App\Http\Controllers\Roles\RoleControllers;
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'gestion_roles'
+], function () {
+    Route::get('/', [RoleControllers::class, 'showAll']); // Listar roles
+    Route::get('/{id}', [RoleControllers::class, 'showByID']); // Este sí existe
+    Route::post('/', [RoleControllers::class, 'createRole']); // Crear un nuevo rol
+    Route::put('/{id}', [RoleControllers::class, 'updateRole']); // Actualizar completamente un rol
+    Route::patch('/{id}', [RoleControllers::class, 'updatePartialRole']); // Actualizar parcialmente
+    Route::delete('/{id}', [RoleControllers::class, 'deleteRole']); // Eliminar un rol
+});
+
+// AREAS
+
+use App\Http\Controllers\Areas\AreasController;
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'gestion_areas'
+], function () {
+    Route::get('/', [AreasController::class, 'showAll']);
+    Route::get('/{id}', [AreasController::class, 'showByID']);
+    Route::post('/crear_area', [AreasController::class, 'createArea']);
+    Route::put('/editar_area/{id}', [AreasController::class, 'updateArea']);
+    Route::patch('/actualizar_campos_especificos_area/{id}', [AreasController::class, 'updatePartialArea']);
+    Route::delete('/eliminar_area/{id}', [AreasController::class, 'deleteArea']);
+});
+
+// PUESTOS
+
+// ESTADO

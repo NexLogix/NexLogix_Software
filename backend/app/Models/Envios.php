@@ -23,8 +23,17 @@ class Envios extends Model
         'costosTotal_Envio ',
     ];
 
+    // muchos envios solo puede pertenecer a un USER
     public function user()
     {
         return $this->belongsTo(User::class, 'idusuarios');
+    }
+
+    // un envio puede tener muchos PRODUCTOS
+    public function productos()
+    {
+        return $this->hasMany(Productos::class,
+        'idProducto',
+        'idProducto');
     }
 }

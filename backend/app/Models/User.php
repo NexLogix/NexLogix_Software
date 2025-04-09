@@ -51,29 +51,30 @@ class User extends Authenticatable implements JWTSubject
 
 // FUNCIONES Y RELACIONES DE LA BASE DE DATOS
 
-    // Un usuario pertenece a un estado (1:N)
+    // muchos usuarios solo pueden tener a un ESTADO
     public function estado()
     {
         return $this->belongsTo(Estado::class, 'idestado');
     }
 
-    // Un usuario pertenece a un rol (1:N)
+      // muchos usuarios solo pueden pertenecer a un ROLE
     public function roles()
     {
         return $this->belongsTo(Roles::class, 'idRole');
     }
 
-    // Un usuario puede tener y pertenecer a múltiples puestos (1:N)
-    public function usuariosPorPuesto()
+    // muchos usuarios solo pueden tener un PUESTO
+    public function puestos()
     {
-        return $this->hasMany(UsuariosPorPuesto::class, 'idusuarios');
+        return $this->belongsTo(Puestos::class, 'idPuestos');
     }
 
+    // un usuario puede hacer muchos reportes
     public function reportes(){
         return $this->hasMany(Reportes::class,'idReporte');
     }
 
-    // Un usuario puede tener y hacer muchos envíos (1:N)
+    // un usuario puede hacer muchos envios
     public function envios()
     {
         return $this->hasMany(Envios::class, 'idusuarios');

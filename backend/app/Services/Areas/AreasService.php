@@ -1,25 +1,27 @@
 <?php
 
-namespace App\Services\Roles;
+namespace App\Services\Areas;
 
-use App\Models\Roles;
+use App\Models\Areas;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class RoleService
+class AreasService
 {
     // GET ALL
     public function getAll(): array
     {
         try {
-            $roles = Roles::all();
-            if ($roles->isEmpty()) {
-                throw new ModelNotFoundException("No hay roles creados!");
+            $areas = Areas::all();
+
+            if ($areas->isEmpty()) {
+                throw new ModelNotFoundException("No hay áreas registradas!");
             }
+
             return [
-                "message" => "Roles obtenidos exitosamente",
-                "data"    => $roles,
+                "message" => "Áreas obtenidas exitosamente",
+                "data"    => $areas,
                 "status"  => 200
             ];
         } catch (ModelNotFoundException $e) {
@@ -41,18 +43,18 @@ class RoleService
     }
 
     // GET BY ID
-    public function getRoleById($id): array
+    public function getAreaById($id): array
     {
         try {
-            $role = Roles::findOrFail($id);
+            $area = Areas::findOrFail($id);
             return [
-                "message" => "Role encontrado!",
-                "data"    => $role,
+                "message" => "Área encontrada!",
+                "data"    => $area,
                 "status"  => 200
             ];
         } catch (ModelNotFoundException $e) {
             return [
-                "message" => "Role con ID $id no encontrado!",
+                "message" => "Área con ID $id no encontrada!",
                 "status"  => 404
             ];
         } catch (QueryException $e) {
@@ -69,33 +71,28 @@ class RoleService
     }
 
     // POST
-    public function createRole(array $data): array
+    public function createArea(array $data): array
     {
         try {
-            if (!isset($data['nombreRole']) || empty($data['nombreRole'])) {
-                throw new Exception("El campo nombreRole es obligatorio", 400);
+            if (!isset($data['nombreArea']) || empty($data['nombreArea'])) {
+                throw new Exception("El campo nombreArea es obligatorio", 400);
             }
-            $role = Roles::create([
-                'nombreRole'          => $data['nombreRole'],
-                'descripcionRole'     => $data['descripcionRole'] ?? null,
-                'fechaAsignacionRole' => $data['fechaAsignacionRole'] ?? now()
-            ]);
 
-            // Si se envía un array de permisos generales, se sincroniza la relación
-            if (isset($data['permisosGenerales'])) {
-                $role->permisosGenerales()->sync($data['permisosGenerales']);
-            }
+            $area = Areas::create([
+                'nombreArea'      => $data['nombreArea'],
+                'descripcionArea' => $data['descripcionArea'] ?? null,
+            ]);
 
             return [
                 "success" => true,
-                "data"    => $role->load('permisosGenerales'),
-                "message" => "Rol creado exitosamente",
+                "data"    => $area,
+                "message" => "Área creada exitosamente",
                 "status"  => 201
             ];
         } catch (QueryException $e) {
             return [
                 "success" => false,
-                "message" => "Error al crear el rol: " . $e->getMessage(),
+                "message" => "Error al crear el área: " . $e->getMessage(),
                 "error_code" => $e->getCode(),
                 "status"  => 500
             ];
@@ -109,29 +106,28 @@ class RoleService
     }
 
     // PUT
-    public function updateRole($id, array $data): array
+    public function updateArea($id, array $data): array
     {
         try {
-            $role = Roles::findOrFail($id);
+            $area = Areas::findOrFail($id);
 
-            if (!isset($data['nombreRole']) || !isset($data['descripcionRole']) || !isset($data['fechaAsignacionRole'])) {
+            if (!isset($data['nombreArea']) || !isset($data['descripcionArea'])) {
                 throw new Exception("Faltan campos obligatorios para la actualización completa.", 400);
             }
 
-            $role->update([
-                'nombreRole'          => $data['nombreRole'],
-                'descripcionRole'     => $data['descripcionRole'],
-                'fechaAsignacionRole' => $data['fechaAsignacionRole'],
+            $area->update([
+                'nombreArea'      => $data['nombreArea'],
+                'descripcionArea' => $data['descripcionArea'],
             ]);
 
             return [
-                "message" => "Role actualizado exitosamente.",
-                "data"    => $role,
+                "message" => "Área actualizada exitosamente.",
+                "data"    => $area,
                 "status"  => 200
             ];
         } catch (ModelNotFoundException $e) {
             return [
-                "message" => "Role con ID $id no encontrado!",
+                "message" => "Área con ID $id no encontrada!",
                 "status"  => 404
             ];
         } catch (QueryException $e) {
@@ -151,33 +147,30 @@ class RoleService
     public function updateSpecificSection($id, array $data): array
     {
         try {
-            $role = Roles::findOrFail($id);
+            $area = Areas::findOrFail($id);
 
             $fields = [];
-            if (isset($data['nombreRole'])) {
-                $fields['nombreRole'] = $data['nombreRole'];
+            if (isset($data['nombreArea'])) {
+                $fields['nombreArea'] = $data['nombreArea'];
             }
-            if (isset($data['descripcionRole'])) {
-                $fields['descripcionRole'] = $data['descripcionRole'];
-            }
-            if (isset($data['fechaAsignacionRole'])) {
-                $fields['fechaAsignacionRole'] = $data['fechaAsignacionRole'];
+            if (isset($data['descripcionArea'])) {
+                $fields['descripcionArea'] = $data['descripcionArea'];
             }
 
             if (empty($fields)) {
                 throw new Exception("No se han enviado campos para actualizar.", 400);
             }
 
-            $role->update($fields);
+            $area->update($fields);
 
             return [
-                "message" => "Role actualizado exitosamente.",
-                "data"    => $role,
+                "message" => "Área actualizada exitosamente.",
+                "data"    => $area,
                 "status"  => 200
             ];
         } catch (ModelNotFoundException $e) {
             return [
-                "message" => "Role con ID $id no encontrado!",
+                "message" => "Área con ID $id no encontrada!",
                 "status"  => 404
             ];
         } catch (QueryException $e) {
@@ -194,19 +187,19 @@ class RoleService
     }
 
     // DELETE
-    public function deleteRole($id): array
+    public function deleteArea($id): array
     {
         try {
-            $role = Roles::findOrFail($id);
-            $role->delete();
+            $area = Areas::findOrFail($id);
+            $area->delete();
 
             return [
-                "message" => "Role eliminado exitosamente",
+                "message" => "Área eliminada exitosamente",
                 "status"  => 200
             ];
         } catch (ModelNotFoundException $e) {
             return [
-                "message" => "Role con ID $id no encontrado!",
+                "message" => "Área con ID $id no encontrada!",
                 "status"  => 404
             ];
         } catch (QueryException $e) {
