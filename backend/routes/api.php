@@ -97,3 +97,14 @@ Route::group([
 // PUESTOS
 
 // ESTADO
+use App\Http\Controllers\Estado\EstadoControllers;
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'gestion_estados'
+], function() {
+    Route::get('/', [EstadoControllers::class, 'showAll']);
+    Route::get('/{id}', [EstadoControllers::class, 'showOne']);
+    Route::post('/crear_estado', [EstadoControllers::class, 'createEstado']);
+    Route::delete('/eliminar_estado/{id}', [EstadoControllers::class, 'deleteEstado']);
+});

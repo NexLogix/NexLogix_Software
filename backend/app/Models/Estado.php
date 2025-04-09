@@ -9,8 +9,9 @@ class Estado extends Model
 {
     use HasFactory;
 
-    protected $table = 'estados'; // Corregido: $table en singular
-
+    protected $table = 'estado'; // Corregido: $table en singular
+    protected $primaryKey = 'idestado';
+    public $timestamps = false;
     protected $fillable = [
         'estado',
     ];
