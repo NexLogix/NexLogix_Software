@@ -123,3 +123,6 @@ Route::group([
     Route::post('/crear_estado', [EstadoControllers::class, 'createEstado']);
     Route::delete('/eliminar_estado/{id}', [EstadoControllers::class, 'deleteEstado']);
 });
+
+
+// mande mal el comit xd
