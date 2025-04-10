@@ -27,6 +27,10 @@ Route::group([
     Route::post('/login', [AuthAccountController::class, 'login']);
     Route::post('/logout', [AuthAccountController::class, 'logout'])
         ->middleware('auth:api');
+    Route::get('/mostrar_perfil_auth', [AuthAccountController::class, 'getProfile'])
+        ->middleware('auth:api');
+    Route::post('/refresh_token', [AuthAccountController::class,'refreshToken'])
+        ->middleware('auth:api');
 });
 
 // REPORTES

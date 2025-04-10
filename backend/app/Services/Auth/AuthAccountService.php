@@ -1,5 +1,6 @@
 <?php
 namespace App\Services\Auth;
+use Exception;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +24,6 @@ class AuthAccountService
             return [
                 'success' => true,
                 'message' => 'Inicio de sesión exitoso, ¡bienvenido!',
-                'data' => $user,
                 'token' => $token,
                 'status' => 200
             ];
@@ -53,5 +53,27 @@ class AuthAccountService
                 'status' => 500
             ];
         }
+    }
+
+    // GET PRIFLE VERIFIED
+    public function showProfileAuthorized()
+    {
+        $user = Auth::user();
+        if (!$user){
+            throw new Exception('Peticion no autorizada!', 401);
+        }
+
+        return [
+            'success'=> true,
+            'message'=> 'Bienvenido !',
+            'Data' => $user
+        ];
+    }
+
+    // REFRESH TOKEN of the authorized user
+
+    public function refreshToken()
+    {
+        return [ 'token' => Auth::refresh() ];
     }
 }
