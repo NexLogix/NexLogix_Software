@@ -96,6 +96,21 @@ Route::group([
 
 // PUESTOS
 
+use App\Http\Controllers\Puestos\PuestosController;
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'gestion_puestos'
+], function () {
+    Route::get('/', [PuestosController::class, 'showAll']);
+    Route::get('/{id}', [PuestosController::class, 'showByID']);
+    Route::post('/crear_puesto', [PuestosController::class, 'createPuesto']);
+    Route::put('/editar_puesto/{id}', [PuestosController::class, 'updatePuesto']);
+    Route::patch('/actualizar_campos_especificos_puesto/{id}', [PuestosController::class, 'updatePartialPuesto']);
+    Route::delete('/eliminar_puesto/{id}', [PuestosController::class, 'deletePuesto']);
+});
+
+
 // ESTADO
 use App\Http\Controllers\Estado\EstadoControllers;
 

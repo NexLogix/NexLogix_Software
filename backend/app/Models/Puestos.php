@@ -12,17 +12,17 @@ class Puestos extends Model
     protected $table = 'puestos';
     protected $primaryKey = 'idPuestos';
     public $timestamps = false;
+
     protected $fillable = [
         'nombrePuesto',
         'fechaAsignacionPuesto',
         'descripcionPuesto',
+        'idArea',
     ];
 
-    // Relación con UsuariosPorPuesto (Uno a Muchos)
-    public function areas()
+    // Relación: Un Puesto pertenece a una sola Área
+    public function area()
     {
-        return $this->hasMany(Areas::class,
-        'idPuestos',
-        'idPuestos');
+        return $this->belongsTo(Areas::class, 'idArea', 'idArea');
     }
 }
