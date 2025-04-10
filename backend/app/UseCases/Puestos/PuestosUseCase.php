@@ -3,6 +3,7 @@ namespace App\UseCases\Puestos;
 
 use Illuminate\Support\Facades\Validator;
 use App\Services\Puestos\PuestosService;
+
 class PuestosUseCase
 {
     protected PuestosService $serviceP;

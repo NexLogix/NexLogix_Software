@@ -24,17 +24,21 @@ class User extends Authenticatable implements JWTSubject
         'contrasena',
         'idestado',  // FK de estado
         'idRole', // FK de roles
+        'idPuestos', // FK de puestos
     ];
 
     protected $hidden = [
         'contrasena', 'remember_token',
     ];
 
-    public function cats(): array
+    protected $cats =
+    [
+        'email_verified_at' => 'datetime',
+    ];
+
+    public function getAuthPassword()
     {
-        return [
-            'email_verified_at' => 'datetime',
-        ];
+        return $this->contrasena;
     }
 
     // SE OBTIENE EL TOKEN

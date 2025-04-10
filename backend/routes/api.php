@@ -1,24 +1,32 @@
 <?php
-// MAIN MENU // GESION LOGIN
+// MAIN MENU // GESION LOGIN // USERS THE MOST IMPORTAN
+
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Users\UsersController;
+
 Route::group([
-    'middleware'=> 'api',
-    'prefix' => 'login'
-], function(){
-    Route::group([
-        'prefix' =>'auth',
-    ], function(){
-        // Route::post('register', [::class, 'register']);
-        // Route::post('login', [ ::clas, 'register']);
-        //Route::post('login', [::class, 'login']);
-        // Route::post('logout', [::class, 'logout'])
-            // ->middleware('auth:student');
-        // Route::get('profile', [::class, 'profile'])
-            // ->middleware('auth:student');
-        // Route::post('refresh', [::class,'refresh'])
-            // ->middleware('auth:student');
-    });
+    'middleware' => 'api',
+    'prefix' => 'gestion_usuarios'
+], function () {
+    Route::get('/', [UsersController::class, 'showAll']); // GET todos los usuarios
+    Route::get('/{id}', [UsersController::class, 'showByID']); // GET por ID
+    Route::post('/crear_usuario', [UsersController::class, 'createUser']); // POST crear usuario
+    // Route::put('/editar_usuario/{id}', [UsersController::class, 'updateUser']); // PUT
+    // Route::patch('/actualizar_campos_especificos_usuario/{id}', [UsersController::class, 'updatePartialUser']); // PATCH
+    // Route::delete('/eliminar_usuario/{id}', [UsersController::class, 'deleteUser']); // DELETE
+});
+
+// AUTH
+use App\Http\Controllers\Auth\AuthAccountController;
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'auth'
+], function () {
+    Route::post('/login', [AuthAccountController::class, 'login']);
+    Route::post('/logout', [AuthAccountController::class, 'logout'])
+        ->middleware('auth:api');
 });
 
 // REPORTES
@@ -124,5 +132,3 @@ Route::group([
     Route::delete('/eliminar_estado/{id}', [EstadoControllers::class, 'deleteEstado']);
 });
 
-
-// mande mal el comit xd
