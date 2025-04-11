@@ -2,7 +2,7 @@ import { Link} from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import FooterGeneral from "../../../componets/Footers/FooterGeneral";
 import NavbarGeneral from "../../../componets/NavBars/NavbarGeneral";
-
+import '../generalStyle.css'
 
 const ManagerProfile = () => {
  return (
@@ -58,8 +58,9 @@ const ManagerProfile = () => {
                               </div>
                         </li>
 
-                        {/* Opción Vehículos con submenú */}
-                        <li className="nav-item">
+                        {/* Opción Vehículos con submenú
+                        
+                          <li className="nav-item">
                             <Link className="nav-link" data-bs-toggle="collapse" to="#VehiculosSubmenu" role="button" aria-expanded="false" aria-controls="VehiculosSubmenu">Vehículos</Link>
                             <div className="collapse" id="VehiculosSubmenu">
                                 <ul className="nav flex-column ms-3">
@@ -69,18 +70,23 @@ const ManagerProfile = () => {
                             </div>
                         </li>
 
+                        */}
                         
-                        {/* Opción Soporte Técnico con submenú */}
-                        <li className="nav-item">
-                          <Link className="nav-link" data-bs-toggle="collapse" to="#SoporteTecnicoSubMenu" role="button" aria-expanded="false" aria-controls="SoporteTecnicoSubMenu">Soporte Técnico</Link>
-                              <div className="collapse" id="SoporteTecnicoSubMenu">
-                                    <ul className="nav flex-column ms-3">
-                                      <Link className="nav-link" to="/manager/chatBot">Chatbot soporte</Link>
-                                      <Link className="nav-link" to="/manager/chatIngeniero">Abrir chat con Ingeniero</Link>
-                                      <Link className="nav-link" to="/manager/reporteAnomalias">Reportar anomalías</Link>
-                                    </ul>
-                              </div>
-                        </li> 
+                        {/* 
+                        // AREA DE BOTONES SOPORTE TECNICO
+                          <li className="nav-item">
+                            <Link className="nav-link" data-bs-toggle="collapse" to="#SoporteTecnicoSubMenu" role="button" aria-expanded="false" aria-controls="SoporteTecnicoSubMenu">Soporte Técnico</Link>
+                                <div className="collapse" id="SoporteTecnicoSubMenu">
+                                      <ul className="nav flex-column ms-3">
+                                        <Link className="nav-link" to="/manager/chatBot">Chatbot soporte</Link>
+                                        <Link className="nav-link" to="/manager/chatIngeniero">Abrir chat con Ingeniero</Link>
+                                        <Link className="nav-link" to="/manager/reporteAnomalias">Reportar anomalías</Link>
+                                      </ul>
+                                </div>
+                          </li> 
+
+                        */}
+                        
 
                         {/* Opción Reportes */}
                         <li className="nav-item">

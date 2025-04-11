@@ -85,8 +85,20 @@ const AppRouter = () => {
                     <Route path="verReportes" element={<VerReportes />} />
                 </Route>
 
-                <Route path="/empleado" element={<EmpleadoProfile />} />
-                {/* PENDIENTE SI A ANDRES SE LE DA LA GANA DE TRABAJAR, PORQUE NO HACE NADA. */}
+                <Route path="/empleado" element={<EmpleadoProfile />}>
+                    <Route index element={<Home />} />
+
+                    {/*ROUTERS GESTIONS ENVIOS*/}
+                    <Route path="verEnvios" element={<VerEnvios />} />
+                    <Route path="crearEnvios" element={<CrearEnvios />} />
+
+                    {/*ROUTERS RUTAS*/}
+                    <Route path="verListaRutas" element={<VerListaRutas />} />
+
+                    {/* ROUTERS REPORTES */}
+                    <Route path="verReportes" element={<VerReportes />} />
+
+                </Route>
             </Routes>
 
             {/* ROUTERS DE EMPLEADO */}

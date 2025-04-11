@@ -1,9 +1,7 @@
 // Simulación de base de datos de usuarios con roles
 export const users: Record<string, string> = {
     "manager_user": "manager",
-    "admin_user": "admin",
-    "employed_user": "employee",
-    "driver_user": "driver",
+    "empleado_user": "empleado",
 };
 
 // Función para autenticar usuario con email y password (en un futuro aquí iría una API)
