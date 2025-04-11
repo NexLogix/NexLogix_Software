@@ -70,4 +70,69 @@ class UserService
             ];
         }
     }
+
+    // PUT SERVICE
+    public function updatePuesto(int $id, array $data): array
+    {
+        $user = User::find($id);
+        if (!$user) {
+            return [
+                'success' => false,
+                'message' => 'Usuario no encontrado',
+                'status' => 404
+            ];
+        }
+        $user->update($data);
+        return [
+            'success' => true,
+            'message' => 'Se ha actualizado toda la informacion general el Usuario correctamente!',
+            'data' => $user,
+            'status' => 200
+        ];
+    }
+
+    // PATCH service
+    public function updateSpecificFields(int $id, array $data): array
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return [
+                'success' => false,
+                'message' => 'Usuario no encontrado',
+                'status' => 404
+            ];
+        }
+
+        $user->update($data);
+
+        return [
+            'success' => true,
+            'message' => 'Han sido actualizados los campos especificos del usuario',
+            'data' => $user,
+            'status' => 200
+        ];
+    }
+
+    // DELETE service
+    public function deleteUser(int $id): array
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return [
+                'success' => false,
+                'message' => 'Usuario no encontrado',
+                'status' => 404
+            ];
+        }
+
+        $user->delete();
+
+        return [
+            'success' => true,
+            'message' => 'Usuario eliminado correctamente',
+            'status' => 200
+        ];
+    }
 }

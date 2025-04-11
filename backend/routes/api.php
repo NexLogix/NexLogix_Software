@@ -12,9 +12,8 @@ Route::group([
     Route::get('/', [UsersController::class, 'showAll']); // GET todos los usuarios
     Route::get('/{id}', [UsersController::class, 'showByID']); // GET por ID
     Route::post('/crear_usuario', [UsersController::class, 'createUser']); // POST crear usuario
-    // Route::put('/editar_usuario/{id}', [UsersController::class, 'updateUser']); // PUT
-    // Route::patch('/actualizar_campos_especificos_usuario/{id}', [UsersController::class, 'updatePartialUser']); // PATCH
-    // Route::delete('/eliminar_usuario/{id}', [UsersController::class, 'deleteUser']); // DELETE
+    Route::patch('/actualizar_campos_especificos_usuario/{id}', [UsersController::class, 'updatePartialUser']); // PATCH
+    Route::delete('/eliminar_usuario/{id}', [UsersController::class, 'deleteUser']); // DELETE
 });
 
 // AUTH

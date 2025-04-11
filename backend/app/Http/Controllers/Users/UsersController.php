@@ -38,11 +38,19 @@ class UsersController extends Controller
         return response()->json($response, $response['status']);
     }
 
-    // PUT controller / updateUser
-
     // PATCH controller / updatePartialUser
+    public function updatePartialUser(Request $request, $id)
+    {
+        $userUpdated = $this->userUseCase->handlePartialUser($id, $request->all());
+        return response()->json(
+            $userUpdated,
+            $userUpdated['status'],
+        );
+    }
 
     // DELETE controller / deleteUser
-
-
+    public function deleteUser($id)
+    {
+        return response()->json($this->userService->deleteUser($id));
+    }
 }
