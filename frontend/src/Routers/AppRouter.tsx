@@ -25,6 +25,7 @@ import EliminarEnvios from "../Views/pages/Envios/EliminarEnvios";
 import CrearUsuarios from "../Views/pages/Users/CrearUsuarios";
 import VerUsuarios from "../Views/pages/Users/VerUsuarios";
 import EditarUsuarios from "../Views/pages/Users/EditarUsuarios";
+import DesactivarUsuario from "../Views/pages/Users/DesactivarUsuarios";
 import EliminarUsuarios from "../Views/pages/Users/EliminarUsuarios";
 
 // AQUI SE IMPORTA RUTAS
@@ -43,6 +44,10 @@ import ReporteAnomalias from "../Views/pages/Soporte/ReporteAnomalias";  // erro
 
 // AQUI SE IMPORTA REPORTES
 import VerReportes from "../Views/pages/Reportes/VerReportes";
+
+// FOOTER 
+import EstamosUbicadosEn from "../Views/componets/Footers/EstamosUbicadoEn";
+import AcercaDe from "../Views/componets/Footers/AcercaDe";
 
 const AppRouter = () => {
     return (
@@ -65,6 +70,7 @@ const AppRouter = () => {
                     <Route path="crearUsuarios" element={<CrearUsuarios />} />
                     <Route path="verUsuarios" element={<VerUsuarios />} />
                     <Route path="editarUsuarios" element={<EditarUsuarios />} />
+                    <Route path="desactivarUsuario" element={<DesactivarUsuario />}/>
                     <Route path="eliminarUsuarios" element={<EliminarUsuarios />} />
 
                     {/*ROUTERS RUTAS*/}
@@ -83,6 +89,10 @@ const AppRouter = () => {
 
                     {/* ROUTERS REPORTES */}
                     <Route path="verReportes" element={<VerReportes />} />
+
+                    {/* ROUTERS FOOTERS*/}
+                    <Route path="ubicacion" element={<EstamosUbicadosEn />} />
+                    <Route path="acerca_de" element={<AcercaDe />} />
                 </Route>
 
                 <Route path="/empleado" element={<EmpleadoProfile />}>

@@ -83,10 +83,10 @@ Route::group([
 ], function () {
     Route::get('/', [RoleControllers::class, 'showAll']); // Listar roles
     Route::get('/{id}', [RoleControllers::class, 'showByID']); // Este sí existe
-    Route::post('/', [RoleControllers::class, 'createRole']); // Crear un nuevo rol
-    Route::put('/{id}', [RoleControllers::class, 'updateRole']); // Actualizar completamente un rol
-    Route::patch('/{id}', [RoleControllers::class, 'updatePartialRole']); // Actualizar parcialmente
-    Route::delete('/{id}', [RoleControllers::class, 'deleteRole']); // Eliminar un rol
+    Route::post('/crear_role', [RoleControllers::class, 'createRole']); // Crear un nuevo rol
+    Route::put('editar_role/{id}', [RoleControllers::class, 'updateRole']); // Actualizar completamente un rol
+    Route::patch('editar_campos_especificos_role/{id}', [RoleControllers::class, 'updatePartialRole']); // Actualizar parcialmente
+    Route::delete('eliminar_role/{id}', [RoleControllers::class, 'deleteRole']); // Eliminar un rol
 });
 
 // AREAS

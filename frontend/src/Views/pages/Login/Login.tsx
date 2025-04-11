@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { handleLogin } from "../../../Controllers/loginController/AuthController";
+import { handleLogin } from "../../../Controllers/Auth/AuthController";
 import "./generalStyleLogin.css";
 
 const Login = () => {

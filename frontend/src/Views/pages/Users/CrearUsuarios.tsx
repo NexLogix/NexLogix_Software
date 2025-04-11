@@ -187,10 +187,8 @@ const CrearUsuario = () => {
                     onChange={handleChange}
                   >
                     <option value="">Seleccione un rol</option>
-                    <option value="Admin">Administrador</option>
                     <option value="Manager">Manager</option>
                     <option value="Empleado">Empleado</option>
-                    <option value="Conductor">Conductor</option>
                   </select>
                   {errors.rol && <div className="invalid-feedback">{errors.rol}</div>}
                 </div>

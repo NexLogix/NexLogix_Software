@@ -41,7 +41,8 @@ const ManagerProfile = () => {
                                       <Link className="nav-link" to="crearUsuarios">Crear usuarios</Link>
                                       <Link className="nav-link" to="/manager/verUsuarios">Lista general</Link>
                                       <Link className="nav-link" to="/manager/editarUsuarios">Editar usuario</Link>
-                                      <Link className="nav-link" to="/manager/eliminarUsuarios">Desactivar usuario</Link>
+                                      <Link className="nav-link" to="/manager/desactivarUsuario">Desactivar Usuario</Link>
+                                      <Link className="nav-link" to="/manager/eliminarUsuarios">Eliminar usuario</Link>
                                     </ul>
                               </div>
                         </li>
