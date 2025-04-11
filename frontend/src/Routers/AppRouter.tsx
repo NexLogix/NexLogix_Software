@@ -9,14 +9,10 @@ import Home from "../Views/pages/Home";
 //  AQUI SE IMPORTA EL PERFIL MANAGER
 import ManagerProfile from "../Views/pages/profiles/ManagerProfile/ManagerProfile";
 
-//  AQUI SE IMPORTA EL PERFIL ADMIN Y LAS RUTAS DE ADMIN
-import AdminProfile from "../Views/pages/profiles/AdminProfile/AdminProfile";
-
 //  AQUI SE IMPORTA EL PERFIL EMPLEADO
 import EmpleadoProfile from "../Views/pages/profiles/EmpleadoProfile/EmpleadoProfile";
 
 //  AQUI SE IMPORTA EL PERFIL CONDUCTOR 
-import Driver from "../Views/pages/profiles/ConductorProfile/CondutorProfile";
 
 
 // AQUI SE IMPORTACIONES LA GESTION ENVIOS
@@ -89,22 +85,8 @@ const AppRouter = () => {
                     <Route path="verReportes" element={<VerReportes />} />
                 </Route>
 
-                {/*PROFILE ADMIN*/}
-                <Route path="/admin" element={<AdminProfile />}>
-                    <Route index element={<Home />} />
-                    {/*ROUTERS GESTIONS ENVIOS*/}
-                    <Route path="verEnvios" element={<VerEnvios />} />
-                    <Route path="crearEnvios" element={<CrearEnvios />} />
-                    <Route path="editarEnvios" element={<EditarEnvios />} />
-                    <Route path="eliminarEnvio" element={<EliminarEnvios />} />
-
-                    {/*ROUTERS GESTION EMPLEADOS/USUARIOS */}
-                    <Route path="crearUsuarios" element={<CrearUsuarios/>} />
-                    <Route path="verUsuarios" element={<VerUsuarios/>} />
-                    <Route path="editarUsuarios" element={<EditarUsuarios/>} />
-                </Route>
                 <Route path="/empleado" element={<EmpleadoProfile />} />
-                <Route path="/conductor" element={<Driver />} />
+                {/* PENDIENTE SI A ANDRES SE LE DA LA GANA DE TRABAJAR, PORQUE NO HACE NADA. */}
             </Routes>
 
             {/* ROUTERS DE EMPLEADO */}
