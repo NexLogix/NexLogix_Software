@@ -11,7 +11,6 @@ class UserService
     {
         $user = User::all();
         // Despues quitamos lo comntado porque ya hay areas creadas
-
         if(!$user) {
             return [
                 'success' => false,
@@ -19,7 +18,6 @@ class UserService
                 'status' => 404
             ];
         }
-
         return [
             'success' => true,
             'data' => $user,
@@ -38,7 +36,6 @@ class UserService
                 'status' => 404
             ];
         }
-
         return [
             'success' => true,
             'data' => $user,
@@ -53,7 +50,6 @@ class UserService
             $data['contrasena']  = bcrypt($data['contrasena']); // se encripta la contrasena
             $user = User::create($data)->fresh(); // se crea el usuario y fresh es para obligar a la DB a traer todos los metodos de la tabla usuarios
             $token = JWTAuth::fromUser($user); // se da un token por cad ausuarios creado
-
             return [ // se retorna los datos el usuario que venga del useCase
                 'success' => true,
                 'message' => 'Usuario creado exitosamente',
@@ -95,7 +91,6 @@ class UserService
     public function updateSpecificFields(int $id, array $data): array
     {
         $user = User::find($id);
-
         if (!$user) {
             return [
                 'success' => false,
@@ -103,9 +98,7 @@ class UserService
                 'status' => 404
             ];
         }
-
         $user->update($data);
-
         return [
             'success' => true,
             'message' => 'Han sido actualizados los campos especificos del usuario',
@@ -118,7 +111,6 @@ class UserService
     public function deleteUser(int $id): array
     {
         $user = User::find($id);
-
         if (!$user) {
             return [
                 'success' => false,
@@ -126,9 +118,7 @@ class UserService
                 'status' => 404
             ];
         }
-
         $user->delete();
-
         return [
             'success' => true,
             'message' => 'Usuario eliminado correctamente',
