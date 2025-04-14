@@ -41,9 +41,6 @@ const HomeManager = () => {
 
     return (
         <>
-            <div className="mt-4">
-                 <p>GESTIÓN GENERAL DE</p>
-            </div>
             <div className="container mt-5">
                 {error && <div className="alert alert-danger">{error}</div>}
                 {profile ? (

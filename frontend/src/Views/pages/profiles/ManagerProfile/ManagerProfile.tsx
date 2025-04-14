@@ -1,6 +1,6 @@
 import { Link} from "react-router-dom";
 import { Outlet } from "react-router-dom";
-import FooterGeneral from "../../../componets/Footers/FooterGeneral";
+import FooterGeneralManager from "../../../componets/Footers/FooterManager";
 import NavbarGeneral from "../../../componets/NavBars/NavbarGeneral";
 import '../../../componets/GeneralStyle/ProfilesGeneralStyle.css';
 
@@ -111,7 +111,7 @@ const ManagerProfile = () => {
         </div>
 
         {/* Pie de página */}
-        <FooterGeneral />
+        <FooterGeneralManager />
       </>
   );
 };

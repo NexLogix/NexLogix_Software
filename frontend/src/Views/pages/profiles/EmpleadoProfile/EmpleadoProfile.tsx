@@ -1,6 +1,6 @@
 import { Link} from "react-router-dom";
 import { Outlet } from "react-router-dom";
-import FooterGeneral from "../../../componets/Footers/FooterGeneral";
+import FooterGeneralEmpleado from "../../../componets/Footers/FooterEmpleado";
 import NavbarGeneral from "../../../componets/NavBars/NavbarGeneral";
 
 const EmpleadoProfile = () => {
@@ -63,7 +63,7 @@ const EmpleadoProfile = () => {
    </div>
 
    {/* Pie de página */}
-   <FooterGeneral />
+   <FooterGeneralEmpleado />
  </>
  );
 };
