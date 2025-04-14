@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import NavBuscarUsuario from "../../componets/NavBars/NavBuscarUsuario";
 
 const CrearUsuario = () => {
   const navigate = useNavigate();
@@ -88,7 +87,6 @@ const CrearUsuario = () => {
 
   return (
     <>
-      <NavBuscarUsuario />
       <div className="container-fluid px-4 py-5">
         <div className="card border-0 shadow">
           <div className="card-header bg-primary text-white p-4">

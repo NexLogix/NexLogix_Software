@@ -144,7 +144,7 @@ const DesactivarUsuario = () => {
                               className="btn btn-sm btn-outline-danger"
                               onClick={() => handleDesactivarClick(usuario)}
                             >
-                              <i className="bi bi-person-dash me-1"></i> Desactivar
+                              <i className="bi bi-person-dash me-1"></i> Suspender
                             </button>
                           ) : (
                             <button

@@ -1,13 +1,196 @@
-// Simulación de base de datos de usuarios con roles
-export const users: Record<string, string> = {
-    "manager_user": "manager",
-    "empleado_user": "empleado",
+import axios, { AxiosResponse } from 'axios';
+import { useState, useEffect } from "react";
+
+const API_URL = 'http://localhost:8000/api/auth';
+
+export interface LoginResponse {
+  success: boolean;
+  message: string;
+  token: string;
+  user: {
+    idusuarios: number;
+    documentoIdentidad: string;
+    nombreCompleto: string;
+    email: string;
+    numContacto: string;
+    direccionResidencia: string;
+    fechaCreacion: string;
+    idRole: number;
+    idestado: number;
+    idPuestos: number;
+  };
+  status: number;
+}
+
+const getRoleName = (idRole: number): string => {
+  switch (idRole) {
+    case 1:
+      return "Soporte Tecnico";
+    case 2:
+      return "Manager";
+    case 3:
+      return "Empleado"
+    default:
+      console.warn("[AuthLoginService] idRole desconocido:", idRole);
+      return "Unknown";
+  }
 };
 
-// Función para autenticar usuario con email y password (en un futuro aquí iría una API)
-export const authenticateUser = (email: string): string | null => {
-    return users[email] || null;
+export const AuthLoginService = async (
+  email: string,
+  contrasena: string
+): Promise<LoginResponse | null> => {
+  try {
+    console.log("[AuthLoginService] Enviando solicitud de login:", { email });
+    const response: AxiosResponse<LoginResponse> = await axios.post(
+      `${API_URL}/login`,
+      {
+        email,
+        contrasena,
+      },
+      {
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
+
+    console.log("[AuthLoginService] Respuesta completa del backend:", response.data);
+    const { token, user } = response.data;
+    console.log("[AuthLoginService] Usuario recibido:", user);
+    console.log("[AuthLoginService] idRole recibido:", user.idRole);
+
+    const roleName = getRoleName(user.idRole);
+    console.log("[AuthLoginService] Rol mapeado:", roleName);
+
+    localStorage.setItem("token", token);
+    localStorage.setItem("userRole", roleName);
+    localStorage.setItem("user", JSON.stringify(user));
+    console.log("[AuthLoginService] Datos guardados en localStorage:", {
+      token: token.slice(0, 10) + "...",
+      userRole: roleName,
+      user,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("[AuthLoginService] Error en login:", error);
+    return null;
+  }
 };
 
-// Exportar correctamente
-export default { authenticateUser };
+
+// ————————————————————————
+// 2) Manejo del header Authorization
+// ————————————————————————
+export const setAuthHeader = () => {
+    const token = getToken();
+    if (token) {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    } else {
+      delete axios.defaults.headers.common["Authorization"];
+    }
+  };
+
+  
+// ————————————————————————
+// 3) Getters / Setters
+// ————————————————————————
+    export const setToken = (token: string) => {
+        localStorage.setItem("token", token);
+    };
+  
+    export const getToken = (): string | null => {
+        return localStorage.getItem("token");
+    };
+  
+    export const setUserRole = (role: string) => {
+        localStorage.setItem("userRole", role);
+    };
+  
+    export const getUserRole = (): string | null => {
+        return localStorage.getItem("userRole");
+    };
+
+// ————————————————————————
+// 4) Hook de autenticación
+  //  esta parte es importante porque es la que usa Private Router
+// ————————————————————————
+
+export const useAuth = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [token, setTokenState] = useState<string | null>(null);
+  const [role, setRole] = useState<string | null>(null);
+
+  const checkAuth = () => {
+    const storedToken = localStorage.getItem("token");
+    const storedRole = localStorage.getItem("userRole");
+    console.log("[useAuth] Verificando auth - Token:", storedToken ? "presente" : "ausente");
+    console.log("[useAuth] Verificando auth - Rol:", storedRole);
+
+    if (storedToken && storedRole) {
+      setTokenState(storedToken);
+      setRole(storedRole);
+      setIsAuthenticated(true);
+      console.log("[useAuth] Autenticación establecida: true");
+    } else {
+      console.log("[useAuth] No hay token o rol en localStorage");
+      setIsAuthenticated(false);
+      setTokenState(null);
+      setRole(null);
+    }
+  };
+
+  useEffect(() => {
+    checkAuth();
+
+    // Escuchar cambios en localStorage
+    window.addEventListener('storage', checkAuth);
+    return () => window.removeEventListener('storage', checkAuth);
+  }, []);
+
+  return { token, role, isAuthenticated, checkAuth };
+};
+
+// ————————————————————————
+// 5) SHOW PROFILE 
+// ————————————————————————
+
+export const getUserProfile = async (): Promise<AxiosResponse> => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+      throw new Error('No autenticado');
+  }
+  try {
+      const response: AxiosResponse = await axios.get(`${API_URL}/mostrar_perfil_auth`, {
+          headers: {
+              Authorization: `Bearer ${token}`,
+          },
+      });
+      return response;
+  } catch {
+      throw new Error('Error al obtener el perfil');
+  }
+};
+
+// ————————————————————————
+// 6) Logout 
+// ————————————————————————
+export const LogoutUser = async (): Promise<void> => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+      throw new Error('No hay sesión activa');
+  }
+  try {
+      await axios.post(`${API_URL}/logout`, {}, {
+          headers: {
+              Authorization: `Bearer ${token}`,
+          },
+      });
+      // Limpiar localStorage
+      localStorage.removeItem('token');
+      localStorage.removeItem('userRole');
+      localStorage.removeItem('user');
+  } catch (error) {
+      console.error('Error al cerrar sesión:', error);
+      throw new Error('Error al cerrar sesión');
+  }
+};

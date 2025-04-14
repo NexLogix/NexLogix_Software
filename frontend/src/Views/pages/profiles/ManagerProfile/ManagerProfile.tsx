@@ -2,7 +2,7 @@ import { Link} from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import FooterGeneral from "../../../componets/Footers/FooterGeneral";
 import NavbarGeneral from "../../../componets/NavBars/NavbarGeneral";
-import '../generalStyle.css'
+import '../../../componets/GeneralStyle/ProfilesGeneralStyle.css';
 
 const ManagerProfile = () => {
  return (

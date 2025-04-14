@@ -25,6 +25,7 @@ class AuthAccountService
                 'success' => true,
                 'message' => 'Inicio de sesión exitoso, ¡bienvenido!',
                 'token' => $token,
+                'user' => $user,
                 'status' => 200
             ];
         } catch (JWTException $e) {

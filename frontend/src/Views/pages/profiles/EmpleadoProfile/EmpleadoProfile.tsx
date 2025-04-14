@@ -3,7 +3,6 @@ import { Outlet } from "react-router-dom";
 import FooterGeneral from "../../../componets/Footers/FooterGeneral";
 import NavbarGeneral from "../../../componets/NavBars/NavbarGeneral";
 
-
 const EmpleadoProfile = () => {
   
  return (
