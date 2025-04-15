@@ -48,7 +48,7 @@ Route::group([
 
 
 //
-/// ROLES
+/// ROLES // RUTAS PROTEGIDAS PERO SIN AUDITORIA, pediente..
 //
 use App\Http\Controllers\Roles\RoleControllers;
 
@@ -71,7 +71,7 @@ Route::group([
 });
 
 //
-/// AREAS
+/// AREAS // Rutas Protegidas
 //
 
 use App\Http\Controllers\Areas\AreasController;
@@ -95,24 +95,31 @@ Route::group([
 });
 
 
-// PUESTOS
+// PUESTOS // RUTAS PROTEGIDAS,  pero SIN AUDITORIA, pendiente....
 
 use App\Http\Controllers\Puestos\PuestosController;
 
 Route::group([
-    'middleware' => 'api',
+    'middleware' => ['api', 'auth:api'],
     'prefix' => 'gestion_puestos'
 ], function () {
-    Route::get('/', [PuestosController::class, 'showAll']);
-    Route::get('/{id}', [PuestosController::class, 'showByID']);
-    Route::post('/crear_puesto', [PuestosController::class, 'createPuesto']);
-    Route::put('/editar_puesto/{id}', [PuestosController::class, 'updatePuesto']);
-    Route::patch('/actualizar_campos_especificos_puesto/{id}', [PuestosController::class, 'updatePartialPuesto']);
-    Route::delete('/eliminar_puesto/{id}', [PuestosController::class, 'deletePuesto']);
+    Route::get('/', [PuestosController::class, 'showAll'])
+        ->middleware('role:2,3'); // Manager y Empleado
+    Route::get('/{id}', [PuestosController::class, 'showByID'])
+        ->middleware('role:2,3'); // Manager y Empleado
+    Route::post('/crear_puesto', [PuestosController::class, 'createPuesto'])
+        ->middleware('role:2'); // Solo Manager
+    Route::put('/editar_puesto/{id}', [PuestosController::class, 'updatePuesto'])
+        ->middleware('role:2'); // Solo Manager
+    Route::patch('/actualizar_campos_especificos_puesto/{id}', [PuestosController::class, 'updatePartialPuesto'])
+        ->middleware('role:2'); // Solo Manager
+    Route::delete('/eliminar_puesto/{id}', [PuestosController::class, 'deletePuesto'])
+        ->middleware('role:2'); // Solo Manager
 });
 
+
 //
-/// REPORTES
+/// REPORTES // SIN RUTAS PROTEGIDAS Y SIN AUDITORIA, pendiente migrar a services, usecase y controller con sis interfaces
 //
 use App\Http\Controllers\Reportes\GetReportesController;
 use App\Http\Controllers\Reportes\GetByIDReportesController;
@@ -134,18 +141,38 @@ Route::group([
 });
 
 //
-/// ESTADO
+/// ESTADO // RUTAS PROTEGIDAS, pero  SIN AUDITORIA, pendiente....
 //
 
 use App\Http\Controllers\Estado\EstadoControllers;
 
 Route::group([
-    'middleware' => 'api',
+    'middleware' => ['api', 'auth:api'],
     'prefix' => 'gestion_estados'
 ], function() {
-    Route::get('/', [EstadoControllers::class, 'showAll']);
-    Route::get('/{id}', [EstadoControllers::class, 'showOne']);
-    Route::post('/crear_estado', [EstadoControllers::class, 'createEstado']);
-    Route::delete('/eliminar_estado/{id}', [EstadoControllers::class, 'deleteEstado']);
+    Route::get('/', [EstadoControllers::class, 'showAll'])
+        ->middleware('role:2,3'); // Manager y Empleado
+    Route::get('/{id}', [EstadoControllers::class, 'showOne'])
+        ->middleware('role:2,3'); // Manager y Empleado
+    Route::post('/crear_estado', [EstadoControllers::class, 'createEstado'])
+        ->middleware('role:2'); // Solo Manager
+    Route::delete('/eliminar_estado/{id}', [EstadoControllers::class, 'deleteEstado'])
+        ->middleware('role:2'); // Solo Manager
 });
 
+
+
+/*
+| | NOTA |
+| * Se espera que con el tiempo se haga mas rutas protegidas explicitas usando PUESTOS, ya que como se hizo
+|   anteriormente con roles, que aunque sea Manager/2 si cierto puesto no esta en la ruta protegida no podra
+|   acceder.
+|
+|   Se espera migrar esto con el tiempo pero ya usando Clean Architecture
+*/
+
+// -------------------------------------------------------------------------------------------------------
+
+//
+/// ENVIOS
+//
