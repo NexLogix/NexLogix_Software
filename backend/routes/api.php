@@ -2,17 +2,20 @@
 // MAIN MENU // GESION LOGIN // USERS THE MOST IMPORTAN
 
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\Users\UsersController;
-
+/*
+    Se modigica de esta manera GESTION USUARIOS para que cuando se haga login /api:auth/ solo los usuarios
+    autenticados puedes hacer las acciones de gestion_usuarios, con esto se llama al idRole, con esto se sabe
+    que role tiene Manager/2, Empleadp/3, despues por medio de Middleware se valida si tiene permiso o no.
+*/
 Route::group([
     'middleware' => ['api', 'auth:api'], // el usuario debe estar autenticado para hacer estas funciones
     'prefix' => 'gestion_usuarios'
 ], function () {
     Route::get('/', [UsersController::class, 'showAll'])
-        ->middleware('role:2,3'); // Manager y Empleado
+        ->middleware('role:2,3'); // Accede Manager y Empleado
     Route::get('/{id}', [UsersController::class, 'showByID'])
-        ->middleware('role:2'); // Manager y Empleado
+        ->middleware('role:2'); // Solo accedeManager
     Route::post('/crear_usuario', [UsersController::class, 'createUser'])
         ->middleware('role:2'); // Solo Manager
     Route::patch('/actualizar_campos_especificos_usuario/{id}', [UsersController::class, 'updatePartialUser'])

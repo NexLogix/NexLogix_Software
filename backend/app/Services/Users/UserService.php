@@ -71,7 +71,7 @@ class UserService implements IUserService // Implementa la Imterfaz IUserService
     // PUT SERVICE
     public function updatePuesto(int $id, array $data): array
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
         if (!$user) {
             return [
                 'success' => false,
@@ -91,7 +91,7 @@ class UserService implements IUserService // Implementa la Imterfaz IUserService
     // PATCH service
     public function updateSpecificFields(int $id, array $data): array
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
         if (!$user) {
             return [
                 'success' => false,

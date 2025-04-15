@@ -13,11 +13,17 @@ class AppServiceProvider extends ServiceProvider
     // Manejo de las inyecciones de dependecias
     public function register(): void
     {
+        // 1. Cuando alguien pida un IUserService, Laravel devolverá una instancia de UserService
         $this->app->bind(IUserService::class, UserService::class);
+
+        /*
+            2. Cuando alguien pida un IUserUseCase, Laravel construye un UserUseCase
+               y automáticamente le inyecta el UserService que ya sabe cómo crear
+        */
         $this->app->bind(IUserUseCase::class, function ($app) {
             return new UserUseCase($app->make(IUserService::class));
         });
-    }   
+    }
 
 
     // Este arreglo registra que el Listener AuditResourceAction debe ejecutarse cada vez que ocurra el evento ResourceAction

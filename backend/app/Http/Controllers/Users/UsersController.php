@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Users;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-// Llamada del evento
 use App\Events\ResourceAction;
 use App\Http\Controllers\Controller;
-// Importacion de Interfaces
 use App\Models\Interfaces\Users\IUserService;
 use App\Models\Interfaces\Users\IUserUseCase;
 
@@ -28,10 +26,10 @@ class UsersController extends Controller
         if($response['success']) {
             event(new ResourceAction(
                 Auth::id(),
-                'get',
-                'user',
+                'Solicitud GET',
+                'Gestion Usuarios',
                 null,
-                ['path' => request()->path()]
+                ['Detalles' => request()->path()]
             ));
         }
         return response()->json($response, $response['status']);
@@ -46,10 +44,10 @@ class UsersController extends Controller
             if ($userId) {
                 event(new ResourceAction(
                     $userId,
-                    'get_by_id',
-                    'user',
+                    'Solicitud GET por ID',
+                    'Gestion Usuarios',
                     $id,
-                    ['path' => request()->path()]
+                    ['Detalles' => request()->path()]
                 ));
             }
         }
@@ -65,10 +63,10 @@ class UsersController extends Controller
             if ($userId) {
                 event(new ResourceAction(
                     $userId,
-                    'create',
-                    'user',
+                    'Solicitud POST',
+                    'Gestion Usuarios',
                     $response['data']['idusuarios'],
-                    ['data' => $request->all()]
+                    ['Detalles' => $request->all()]
                 ));
             }
         }
@@ -84,10 +82,10 @@ class UsersController extends Controller
             if ($userId) {
                 event(new ResourceAction(
                     $userId,
-                    'update_partial',
-                    'user',
+                    'Solicitud PATCH Parcial',
+                    'Gestion Usuarios',
                     $id,
-                    ['data' => $request->all()]
+                    ['Detalles' => $request->all()]
                 ));
             }
         }
@@ -103,10 +101,10 @@ class UsersController extends Controller
             if ($userId) {
                 event(new ResourceAction(
                     $userId,
-                    'delete',
-                    'user',
+                    'Solicitud DELETE',
+                    'Gestion Usuarios',
                     $id,
-                    []
+                    ['Detalles' => 'Eliminación del recurso con ID ' . $id]
                 ));
             }
         }

@@ -2,10 +2,11 @@
 
 namespace App\UseCases\Areas;
 
+use App\Models\Interfaces\Areas\IAreaUseCase;
 use Illuminate\Support\Facades\Validator;
 use App\Services\Areas\AreasService;
 
-class AreasUseCase
+class AreasUseCase implements IAreaUseCase
 {
     protected AreasService $areasService;
 

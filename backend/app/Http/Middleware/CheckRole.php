@@ -6,7 +6,9 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
-
+/*
+    Desde aqui se disparan las excepciones para las rutas protegidas
+*/
 class CheckRole
 {
     /**

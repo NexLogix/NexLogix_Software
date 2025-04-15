@@ -1,16 +1,20 @@
 <?php
 
 namespace App\Http\Controllers\Areas;
+// Importacion de Interfaces
+use App\Models\Interfaces\Areas\IAreaService;
+use App\Models\Interfaces\Areas\IAreaUseCase;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\Areas\AreasService;
+
 use App\UseCases\Areas\AreasUseCase;
 
 class AreasController extends Controller
 {
-    protected AreasService $areasService;
-    protected AreasUseCase $areasUseCase;
+    protected IAreaService $areasService;
+    protected IAreaUseCase $areasUseCase;
 
     public function __construct(AreasService $areasService, AreasUseCase $areasUseCase)
     {
@@ -20,7 +24,10 @@ class AreasController extends Controller
 
     public function showAll()
     {
-        return response()->json($this->areasService->getAll(), 200);
+        $response = $this->areasService->getAll();
+        if ($response['status'] === 200){
+            
+        }
     }
 
     public function showByID($id)
