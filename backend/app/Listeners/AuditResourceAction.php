@@ -3,7 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\ResourceAction;
-use App\Models\AuditLog;
+use App\Models\AuditLog; // llama al modelo AuditLog que es una tabla en la DB
 
 /*
     Los Listeners se activan automaticamente cuando se dispara el evento ResourceAction.

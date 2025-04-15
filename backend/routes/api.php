@@ -21,7 +21,7 @@ Route::group([
 });
 
 //
-/// USERS THE MOST IMPORTAN
+/// USERS, con rutas y con auditoria
 //
 
 use App\Http\Controllers\Users\UsersController;
@@ -30,6 +30,7 @@ use App\Http\Controllers\Users\UsersController;
     autenticados puedes hacer las acciones de gestion_usuarios, con esto se llama al idRole, con esto se sabe
     que role tiene Manager/2, Empleadp/3, despues por medio de Middleware se valida si tiene permiso o no.
 */
+
 Route::group([
     'middleware' => ['api', 'auth:api'], // el usuario debe estar autenticado para hacer estas funciones
     'prefix' => 'gestion_usuarios'
@@ -57,7 +58,7 @@ Route::group([
     'prefix' => 'gestion_roles'
 ], function () {
     Route::get('/', [RoleControllers::class, 'showAll'])
-        ->middleware('role:2'); // Solo Manager
+        ->middleware('role:2,3'); //  Manager y Empleado
     Route::get('/{id}', [RoleControllers::class, 'showByID'])
         ->middleware('role:2'); // Solo Manager
     Route::post('/crear_role', [RoleControllers::class, 'createRole'])
@@ -71,7 +72,7 @@ Route::group([
 });
 
 //
-/// AREAS // Rutas Protegidas
+/// AREAS // Rutas Protegidas y con Auditoria
 //
 
 use App\Http\Controllers\Areas\AreasController;
