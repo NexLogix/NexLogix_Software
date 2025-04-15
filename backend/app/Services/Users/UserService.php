@@ -12,7 +12,7 @@ class UserService implements IUserService // Implementa la Imterfaz IUserService
     {
         $user = User::all();
         // Despues quitamos lo comntado porque ya hay areas creadas
-        if(!$user) {
+        if(!$user) { 
             return [
                 'success' => false,
                 'message' => 'No hay usuarios agregados',

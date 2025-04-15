@@ -10,142 +10,189 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AreasService implements IAreaService
 {
-    // GET ALL
+    // GET GENERAL
     public function getAll(): array
     {
-        $areas = Areas::all();
-        if (!$areas){
-            return [
-                'success' => false,
-                'message' => 'No hay usuarios agregados',
-                'status' => 404
-            ];
-        }
-        return [
-            'success' => true,
-            'data' => $areas,
-            'status' => 200
-        ];
-    }
-
-    // GET BY ID
-    public function getAreaById($id): array
-    {
-        $areas = Areas::findOrFail($id);
-        if(!$areas){
-            return [
-                'success' => false,
-                'message' => 'Area no encontrada!',
-                'status' => 404
-            ];
-        }
-        return [
-            'success' => true,
-            'data' => $areas,
-            'status' => 200
-        ];
-    }
-
-    // POST
-    public function createArea(array $data): array
-    {
         try {
-            if (!isset($data['nombreArea']) || empty($data['nombreArea'])) {
-                throw new Exception("El campo nombreArea es obligatorio", 400);
+            $areas = Areas::all();
+            if ($areas->isEmpty()) {
+                return [
+                    'success' => false,
+                    'message' => 'No hay áreas registradas',
+                    'status' => 404
+                ];
             }
-
-            $area = Areas::create([
-                'nombreArea'      => $data['nombreArea'],
-                'descripcionArea' => $data['descripcionArea'] ?? null,
-            ]);
-
             return [
-                "success" => true,
-                "data"    => $area,
-                "message" => "Área creada exitosamente",
-                "status"  => 201
-            ];
-        } catch (QueryException $e) {
-            return [
-                "success" => false,
-                "message" => "Error al crear el área: " . $e->getMessage(),
-                "error_code" => $e->getCode(),
-                "status"  => 500
+                'success' => true,
+                'data' => $areas,
+                'message' => 'Áreas obtenidas exitosamente',
+                'status' => 200
             ];
         } catch (Exception $e) {
             return [
-                "success" => false,
-                "message" => $e->getMessage(),
-                "status"  => $e->getCode() ?: 500
+                'success' => false,
+                'message' => 'Error al obtener áreas: ' . $e->getMessage(),
+                'status' => 500
             ];
         }
     }
 
-    // PUT
-    public function updateArea($id, array $data): array
+    // GET BY ID
+    public function getAreaById(int $id): array
     {
-        $areas = Areas::findOrFail($id);
-        if (!$areas) {
+        try {
+            $area = Areas::findOrFail($id);
+            return [
+                'success' => true,
+                'data' => $area,
+                'message' => 'Área encontrada',
+                'status' => 200
+            ];
+        } catch (ModelNotFoundException $e) {
             return [
                 'success' => false,
-                'message' => 'Area no encontrada',
+                'message' => "Área con ID $id no encontrada",
                 'status' => 404
             ];
-        }
-        $areas->update($data);
-        return [
-            'success' => true,
-            'message' => 'Se ha actualizado toda la informacion general del Area correctamente!',
-            'data' => $areas,
-            'status' => 200
-        ];
-    }
-
-    // PATCH
-    public function updateSpecificSection($id, array $data): array
-    {
-        $areas = Areas::findOrFail($id);
-        if (!$areas) {
+        } catch (Exception $e) {
             return [
                 'success' => false,
-                'message' => 'Area no encontrada',
-                'status' => 404
+                'message' => 'Error al obtener área: ' . $e->getMessage(),
+                'status' => 500
             ];
         }
-        $areas->update($data);
-        return [
-            'success' => true,
-            'message' => 'Se ha actualizado toda la informacion general del Area correctamente!',
-            'data' => $areas,
-            'status' => 200
-        ];
     }
 
-    // DELETE
-    public function deleteArea($id): array
+    // POST SERVICE
+    public function createArea(array $data): array
+    {
+        try {
+            $area = Areas::create([
+                'nombreArea' => $data['nombreArea'],
+                'descripcionArea' => $data['descripcionArea'] ?? null,
+            ]);
+            return [
+                'success' => true,
+                'data' => $area,
+                'message' => 'Área creada exitosamente',
+                'status' => 201
+            ];
+        } catch (QueryException $e) {
+            return [
+                'success' => false,
+                'message' => 'Error al crear área: ' . $e->getMessage(),
+                'status' => 500
+            ];
+        } catch (Exception $e) {
+            return [
+                'success' => false,
+                'message' => $e->getMessage(),
+                'status' => $e->getCode() ?: 500
+            ];
+        }
+    }
+
+    // PUT SERVICE
+    public function updateArea(int $id, array $data): array
+    {
+        try {
+            $area = Areas::findOrFail($id);
+            $area->update([
+                'nombreArea' => $data['nombreArea'],
+                'descripcionArea' => $data['descripcionArea'],
+            ]);
+            return [
+                'success' => true,
+                'data' => $area,
+                'message' => 'Área actualizada completamente',
+                'status' => 200
+            ];
+        } catch (ModelNotFoundException $e) {
+            return [
+                'success' => false,
+                'message' => "Área con ID $id no encontrada",
+                'status' => 404
+            ];
+        } catch (QueryException $e) {
+            return [
+                'success' => false,
+                'message' => 'Error al actualizar área: ' . $e->getMessage(),
+                'status' => 500
+            ];
+        } catch (Exception $e) {
+            return [
+                'success' => false,
+                'message' => 'Error inesperado: ' . $e->getMessage(),
+                'status' => 500
+            ];
+        }
+    }
+
+    // PATCH SERVICE
+    public function updateSpecificSection(int $id, array $data): array
+    {
+        try {
+            $area = Areas::findOrFail($id);
+            $fields = [];
+            if (isset($data['nombreArea'])) {
+                $fields['nombreArea'] = $data['nombreArea'];
+            }
+            if (isset($data['descripcionArea'])) {
+                $fields['descripcionArea'] = $data['descripcionArea'];
+            }
+            if (empty($fields)) {
+                throw new Exception('No se proporcionaron campos para actualizar', 400);
+            }
+            $area->update($fields);
+            return [
+                'success' => true,
+                'data' => $area,
+                'message' => 'Área actualizada parcialmente',
+                'status' => 200
+            ];
+        } catch (ModelNotFoundException $e) {
+            return [
+                'success' => false,
+                'message' => "Área con ID $id no encontrada",
+                'status' => 404
+            ];
+        } catch (Exception $e) {
+            return [
+                'success' => false,
+                'message' => $e->getMessage(),
+                'status' => $e->getCode() ?: 500
+            ];
+        }
+    }
+
+    // DELETE SERVICE
+    public function deleteArea(int $id): array
     {
         try {
             $area = Areas::findOrFail($id);
             $area->delete();
-
             return [
-                "message" => "Área eliminada exitosamente",
-                "status"  => 200
+                'success' => true,
+                'message' => 'Área eliminada correctamente',
+                'status' => 200
             ];
         } catch (ModelNotFoundException $e) {
             return [
-                "message" => "Área con ID $id no encontrada!",
-                "status"  => 404
+                'success' => false,
+                'message' => "Área con ID $id no encontrada",
+                'status' => 404
             ];
         } catch (QueryException $e) {
             return [
-                "message" => "Error de base de datos: " . $e->getMessage(),
-                "status"  => 500
+                'success' => false,
+                'message' => 'Error al eliminar área: ' . $e->getMessage(),
+                'status' => 500
             ];
         } catch (Exception $e) {
             return [
-                "message" => "Ocurrió un error inesperado: " . $e->getMessage(),
-                "status"  => 500
+                'success' => false,
+                'message' => 'Error inesperado: ' . $e->getMessage(),
+                'status' => 500
             ];
         }
     }

@@ -1,7 +1,29 @@
 <?php
-// MAIN MENU // GESION LOGIN // USERS THE MOST IMPORTAN
-
 use Illuminate\Support\Facades\Route;
+
+//
+/// GESION AUTH
+//
+
+use App\Http\Controllers\Auth\AuthAccountController;
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'auth'
+], function () {
+    Route::post('/login', [AuthAccountController::class, 'login']);
+    Route::post('/logout', [AuthAccountController::class, 'logout'])
+        ->middleware('auth:api');
+    Route::get('/mostrar_perfil_auth', [AuthAccountController::class, 'getProfile'])
+        ->middleware('auth:api');
+    Route::post('/refresh_token', [AuthAccountController::class,'refreshToken'])
+        ->middleware('auth:api');
+});
+
+//
+/// USERS THE MOST IMPORTAN
+//
+
 use App\Http\Controllers\Users\UsersController;
 /*
     Se modigica de esta manera GESTION USUARIOS para que cuando se haga login /api:auth/ solo los usuarios
@@ -24,23 +46,74 @@ Route::group([
         ->middleware('role:2'); // Solo Manage
 });
 
-// AUTH
-use App\Http\Controllers\Auth\AuthAccountController;
+
+//
+/// ROLES
+//
+use App\Http\Controllers\Roles\RoleControllers;
+
+Route::group([
+    'middleware' => ['api', 'auth:api'], // solo autenticados pueden acceder
+    'prefix' => 'gestion_roles'
+], function () {
+    Route::get('/', [RoleControllers::class, 'showAll'])
+        ->middleware('role:2'); // Solo Manager
+    Route::get('/{id}', [RoleControllers::class, 'showByID'])
+        ->middleware('role:2'); // Solo Manager
+    Route::post('/crear_role', [RoleControllers::class, 'createRole'])
+        ->middleware('role:2'); // Solo Manager
+    Route::put('editar_role/{id}', [RoleControllers::class, 'updateRole'])
+        ->middleware('role:2'); // Solo Manager
+    Route::patch('editar_campos_especificos_role/{id}', [RoleControllers::class, 'updatePartialRole'])
+        ->middleware('role:2'); // Solo Manager
+    Route::delete('eliminar_role/{id}', [RoleControllers::class, 'deleteRole'])
+        ->middleware('role:2'); // Solo Manager
+});
+
+//
+/// AREAS
+//
+
+use App\Http\Controllers\Areas\AreasController;
+
+Route::group([
+    'middleware' => ['api', 'auth:api'], // solo autenticados pueden acceder
+    'prefix' => 'gestion_areas'
+], function () {
+    Route::get('/', [AreasController::class, 'showAll'])
+        ->middleware('role:2,3'); // Manager y Empleado
+    Route::get('/{id}', [AreasController::class, 'showByID'])
+        ->middleware('role:2,3'); // Manager y Empleado
+    Route::post('/crear_area', [AreasController::class, 'createArea'])
+        ->middleware('role:2'); // Solo Manager
+    Route::put('/editar_area/{id}', [AreasController::class, 'updateArea'])
+        ->middleware('role:2'); // Solo Manager
+    Route::patch('/actualizar_campos_especificos_area/{id}', [AreasController::class, 'updatePartialArea'])
+        ->middleware('role:2'); // Solo Manager
+    Route::delete('/eliminar_area/{id}', [AreasController::class, 'deleteArea'])
+        ->middleware('role:2'); // Solo Manager
+});
+
+
+// PUESTOS
+
+use App\Http\Controllers\Puestos\PuestosController;
 
 Route::group([
     'middleware' => 'api',
-    'prefix' => 'auth'
+    'prefix' => 'gestion_puestos'
 ], function () {
-    Route::post('/login', [AuthAccountController::class, 'login']);
-    Route::post('/logout', [AuthAccountController::class, 'logout'])
-        ->middleware('auth:api');
-    Route::get('/mostrar_perfil_auth', [AuthAccountController::class, 'getProfile'])
-        ->middleware('auth:api');
-    Route::post('/refresh_token', [AuthAccountController::class,'refreshToken'])
-        ->middleware('auth:api');
+    Route::get('/', [PuestosController::class, 'showAll']);
+    Route::get('/{id}', [PuestosController::class, 'showByID']);
+    Route::post('/crear_puesto', [PuestosController::class, 'createPuesto']);
+    Route::put('/editar_puesto/{id}', [PuestosController::class, 'updatePuesto']);
+    Route::patch('/actualizar_campos_especificos_puesto/{id}', [PuestosController::class, 'updatePartialPuesto']);
+    Route::delete('/eliminar_puesto/{id}', [PuestosController::class, 'deletePuesto']);
 });
 
-// REPORTES
+//
+/// REPORTES
+//
 use App\Http\Controllers\Reportes\GetReportesController;
 use App\Http\Controllers\Reportes\GetByIDReportesController;
 use App\Http\Controllers\Reportes\PostReportesController;
@@ -60,77 +133,10 @@ Route::group([
     Route::delete('/eliminar_reporte/{id}', action: [DeleteReporteController::class,'deleteReporte']);
 });
 
+//
+/// ESTADO
+//
 
-// PERMISOS GENERALES
-use App\Http\Controllers\Permisos\PermisosGenerales\GetPermisoGeneralController;
-use App\Http\Controllers\Permisos\PermisosGenerales\GetByIDPermisoGeneralController;
-use App\Http\Controllers\Permisos\PermisosGenerales\PostPGController;
-use App\Http\Controllers\Permisos\PermisosGenerales\PutPGController;
-use App\Http\Controllers\Permisos\PermisosGenerales\DeletePGController;
-
-
-Route::group([
-    'middleware' => 'api',
-    'prefix'=> 'gestion_permisos_generales'
-], function() {
-    Route::get('/', [GetPermisoGeneralController::class, 'showPermisosGenerales']);
-    Route::get('{id}', [GetByIDPermisoGeneralController::class, 'show_PG_ByID']);
-    Route::post('crear_pg', [PostPGController::class,'createPG']);
-    Route::put('/editar_pg/{id}', [PutPGController::class, 'updatePG']);
-    Route::delete('/delete_pg/{id}', [DeletePGController::class,'deletePG']);
-
-});
-
-
-// ROLES
-use App\Http\Controllers\Roles\RoleControllers;
-
-Route::group([
-    'middleware' => 'api',
-    'prefix' => 'gestion_roles'
-], function () {
-    Route::get('/', [RoleControllers::class, 'showAll']); // Listar roles
-    Route::get('/{id}', [RoleControllers::class, 'showByID']); // Este sí existe
-    Route::post('/crear_role', [RoleControllers::class, 'createRole']); // Crear un nuevo rol
-    Route::put('editar_role/{id}', [RoleControllers::class, 'updateRole']); // Actualizar completamente un rol
-    Route::patch('editar_campos_especificos_role/{id}', [RoleControllers::class, 'updatePartialRole']); // Actualizar parcialmente
-    Route::delete('eliminar_role/{id}', [RoleControllers::class, 'deleteRole']); // Eliminar un rol
-});
-
-// AREAS
-
-use App\Http\Controllers\Areas\AreasController;
-
-Route::group([
-    'middleware' => 'api',
-    'prefix' => 'gestion_areas'
-], function () {
-    Route::get('/', [AreasController::class, 'showAll']);
-    Route::get('/{id}', [AreasController::class, 'showByID']);
-    Route::post('/crear_area', [AreasController::class, 'createArea']);
-    Route::put('/editar_area/{id}', [AreasController::class, 'updateArea']);
-    Route::patch('/actualizar_campos_especificos_area/{id}', [AreasController::class, 'updatePartialArea']);
-    Route::delete('/eliminar_area/{id}', [AreasController::class, 'deleteArea']);
-});
-
-// PUESTOS
-
-use App\Http\Controllers\Puestos\PuestosController;
-
-Route::group([
-    'middleware' => 'api',
-    'prefix' => 'gestion_puestos'
-], function () {
-    Route::get('/', [PuestosController::class, 'showAll']);
-    Route::get('/{id}', [PuestosController::class, 'showByID']);
-    Route::post('/crear_puesto', [PuestosController::class, 'createPuesto']);
-    Route::put('/editar_puesto/{id}', [PuestosController::class, 'updatePuesto']);
-    Route::patch('/actualizar_campos_especificos_puesto/{id}', [PuestosController::class, 'updatePartialPuesto']);
-    Route::delete('/eliminar_puesto/{id}', [PuestosController::class, 'deletePuesto']);
-});
-
-
-// ESTADO
 use App\Http\Controllers\Estado\EstadoControllers;
 
 Route::group([
