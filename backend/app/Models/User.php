@@ -50,7 +50,9 @@ class User extends Authenticatable implements JWTSubject
     //
     public function getJWTCustomClaims()
     {
-        return [];
+        return [
+            'idRole ' => $this->idRole, // metodo hecho para que lo tome AufitLog para auditorias
+        ];
     }
 
 // FUNCIONES Y RELACIONES DE LA BASE DE DATOS

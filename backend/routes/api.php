@@ -6,14 +6,19 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Users\UsersController;
 
 Route::group([
-    'middleware' => 'api',
+    'middleware' => ['api', 'auth:api'], // el usuario debe estar autenticado para hacer estas funciones
     'prefix' => 'gestion_usuarios'
 ], function () {
-    Route::get('/', [UsersController::class, 'showAll']); // GET todos los usuarios
-    Route::get('/{id}', [UsersController::class, 'showByID']); // GET por ID
-    Route::post('/crear_usuario', [UsersController::class, 'createUser']); // POST crear usuario
-    Route::patch('/actualizar_campos_especificos_usuario/{id}', [UsersController::class, 'updatePartialUser']); // PATCH
-    Route::delete('/eliminar_usuario/{id}', [UsersController::class, 'deleteUser']); // DELETE
+    Route::get('/', [UsersController::class, 'showAll'])
+        ->middleware('role:2,3'); // Manager y Empleado
+    Route::get('/{id}', [UsersController::class, 'showByID'])
+        ->middleware('role:2'); // Manager y Empleado
+    Route::post('/crear_usuario', [UsersController::class, 'createUser'])
+        ->middleware('role:2'); // Solo Manager
+    Route::patch('/actualizar_campos_especificos_usuario/{id}', [UsersController::class, 'updatePartialUser'])
+        ->middleware('role:2'); // Solo Manager
+    Route::delete('/eliminar_usuario/{id}', [UsersController::class, 'deleteUser'])
+        ->middleware('role:2'); // Solo Manage
 });
 
 // AUTH

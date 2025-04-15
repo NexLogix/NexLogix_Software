@@ -1,13 +1,14 @@
 <?php
 namespace App\Services\Users;
 
+use App\Models\Interfaces\Users\IUserService;
 use App\Models\User;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
-class UserService
+class UserService implements IUserService // Implementa la Imterfaz IUserService
 {
     // GET SERVICE
-    public function getAllPuestos():array
+    public function getAllUsers():array
     {
         $user = User::all();
         // Despues quitamos lo comntado porque ya hay areas creadas

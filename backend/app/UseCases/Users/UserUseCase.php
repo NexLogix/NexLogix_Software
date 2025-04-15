@@ -1,12 +1,13 @@
 <?php
 namespace App\UseCases\Users;
 
+use App\Models\Interfaces\Users\IUserUseCase;
 use App\Services\Users\UserService;
 
 use Illuminate\Support\Facades\Validator;
 
 
-class UserUseCase
+class UserUseCase implements IUserUseCase
 {
     /*Variable $serviceU, es la llamade del service de usuarios, en vez de importarla a cada rato, se denomina la
     variable $serviceU para trabajo mas rapido*/
