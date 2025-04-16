@@ -11,7 +11,6 @@ class Reportes extends Model
 
     protected $table = 'reportes';
     protected $primaryKey = 'idReporte';
-
     public $timestamps = false;
 
     public $fillable = [
