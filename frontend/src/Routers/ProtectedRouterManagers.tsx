@@ -29,7 +29,7 @@ import ReporteAnomalias from "../Views/pages/Soporte/ReporteAnomalias";
 import VerReportes from "../Views/pages/Reportes/VerReportes";
 import EstamosUbicadosEn from "../Views/componets/Footers/EstamosUbicadoEn";
 import AcercaDe from "../Views/componets/Footers/AcercaDe";
-
+// desde aqui se hacen las rutas como es una ruta privada....
 const ProtectedRouteManagers = () => {
   return (
     <Routes>

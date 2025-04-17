@@ -6,6 +6,7 @@ import '../../../componets/GeneralStyle/ProfilesGeneralStyle.css';
 
 const ManagerProfile = () => {
  return (
+  /// aqui tienen que poner lo demas....
         <>
         <NavbarGeneral/>
         {/* Contenedor principal */}
@@ -59,7 +60,7 @@ const ManagerProfile = () => {
                               </div>
                         </li>
 
-                        {/* Opción Vehículos con submenú
+                        
                         
                           <li className="nav-item">
                             <Link className="nav-link" data-bs-toggle="collapse" to="#VehiculosSubmenu" role="button" aria-expanded="false" aria-controls="VehiculosSubmenu">Vehículos</Link>
@@ -71,7 +72,6 @@ const ManagerProfile = () => {
                             </div>
                         </li>
 
-                        */}
                         
                         {/* 
                         // AREA DE BOTONES SOPORTE TECNICO
