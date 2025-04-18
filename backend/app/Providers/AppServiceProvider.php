@@ -5,14 +5,18 @@ namespace App\Providers;
 // Importacion de Interfaces
 use App\Models\Interfaces\Areas\IAreaService;
 use App\Models\Interfaces\Areas\IAreaUseCase;
+use App\Models\Interfaces\Envios\IEnviosService;
+use App\Models\Interfaces\Envios\IEnviosUseCase;
 use App\Models\Interfaces\Users\IUserService;
 use App\Models\Interfaces\Users\IUserUseCase;
 // Importacion de services
 use App\Services\Areas\AreasService;
+use App\Services\Envios\EnvioService;
 use App\Services\Users\UserService;
 // importaciones casos de uso/ UseCases
 use App\UseCases\Users\UserUseCase;
 use App\UseCases\Areas\AreasUseCase;
+use App\UseCases\Envios\EnvioUseCase;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -35,6 +39,12 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IAreaService::class, AreasService::class);
         $this->app->bind(IAreaUseCase::class, function ($app){
             return new AreasUseCase($app->make(IAreaService::class));
+        });
+
+        // ENVIOS
+        $this->app->bind(IEnviosService::class, EnvioService::class);
+        $this->app->bind(IEnviosUseCase::class, function ($app) {
+            return new EnvioUseCase($app->make(IEnviosService::class));
         });
 
     }

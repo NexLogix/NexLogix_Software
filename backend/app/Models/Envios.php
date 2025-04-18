@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Envios extends Model
 {
     use HasFactory;
+
     protected $table = 'envios';
     protected $primaryKey = 'idEnvio';
     public $timestamps = false;
@@ -16,25 +17,27 @@ class Envios extends Model
         'nombreRemitente',
         'num_ContactoRemitente',
         'nombreDestinatario',
-        'num_ContactoDestinatario ',
+        'num_ContactoDestinatario',
         'metodoPago',
         'costosTotal_Envio',
+        'fechaEnvio',
+        'idusuarios',
+        'idRecogida',
+        'idEntrega',
     ];
 
-    // muchos envios solo puede pertenecer a un USER
     public function user()
     {
-        return $this->belongsTo(User::class, 'idusuarios');
+        return $this->belongsTo(User::class, 'idusuarios', 'idusuarios');
     }
 
-    // muchos envios solo puede pertenecer a una RECOGIDA
     public function recogidas()
     {
-        return $this->belongsTo(Recogidas::class,'idRecogida');
+        return $this->belongsTo(Recogidas::class, 'idRecogida', 'idRecogida');
     }
 
-    // muchos envios solo puede pertenecer a una ENTREGA
-    public function entregas(){
-        return $this->belongsTo(Entregas::class, 'idEntrega');
+    public function entregas()
+    {
+        return $this->belongsTo(Entregas::class, 'idEntrega', 'idEntrega');
     }
 }

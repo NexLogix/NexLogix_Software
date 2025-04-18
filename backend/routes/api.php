@@ -177,3 +177,21 @@ Route::group([
 //
 /// ENVIOS
 //
+use App\Http\Controllers\Envios\EnvioControllers;
+Route::group([
+    'middleware' => ['api', 'auth:api'],
+    'prefix' => 'gestion_envios'
+], function () {
+    Route::get('/', [EnvioControllers::class, 'showAllEnvios'])
+        ->middleware('role:2,3');
+    Route::get('/buscar_envio/{id}', [EnvioControllers::class, 'showEnvioById'])
+        ->middleware('role:2,3');
+    Route::post('/crear_envio', [EnvioControllers::class, 'createEnvio'])
+    ->middleware('role:2');
+    Route::put('/editar_envio/{id}', [EnvioControllers::class, 'updateEnvio'])
+        ->middleware('role:2');
+    Route::patch('/actualizar_campos_especificos_envio/{id}', [EnvioControllers::class, 'updateSpecificSection'])
+        ->middleware('role:2');
+    Route::delete('/eliminar_envio/{id}', [EnvioControllers::class, 'deleteEnvio'])
+        ->middleware('role:2');
+});
