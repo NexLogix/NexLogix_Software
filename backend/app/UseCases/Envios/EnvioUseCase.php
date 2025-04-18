@@ -16,6 +16,7 @@ class EnvioUseCase implements IEnviosUseCase
         $this->envio_service = $envio_service;
     }
 
+    // usecase de POST
     public function handleCreateEnvio(array $data): array
     {
         $validator = Validator::make($data, [
@@ -27,7 +28,6 @@ class EnvioUseCase implements IEnviosUseCase
             'costosTotal_Envio' => 'required|numeric|min:0',
             'idRecogida' => 'required|exists:recogidas,idRecogida',
             'idEntrega' => 'required|exists:entregas,idEntrega',
-            'idusuarios' => 'required|exists:users,idusuarios',
         ]);
 
         if ($validator->fails()) {
@@ -41,11 +41,12 @@ class EnvioUseCase implements IEnviosUseCase
 
         $validatedData = $validator->validated();
         $validatedData['fechaEnvio'] = now();
-        $validatedData['idusuarios'] = $validatedData['idusuarios'] ?? Auth::id();
+        $validatedData['idusuarios'] = Auth::id(); // se asigna automaticamente el id del usuario auteticado gracias JWT
 
         return $this->envio_service->createEnvio($validatedData);
     }
 
+    // use case de PUT
     public function handleUpdateEnvio(int $id, array $data): array
     {
         $validator = Validator::make($data, [
@@ -57,7 +58,6 @@ class EnvioUseCase implements IEnviosUseCase
             'costosTotal_Envio' => 'required|numeric|min:0',
             'idRecogida' => 'required|exists:recogidas,idRecogida',
             'idEntrega' => 'required|exists:entregas,idEntrega',
-            'idusuarios' => 'sometimes|exists:users,idusuarios',
         ]);
 
         if ($validator->fails()) {
@@ -68,10 +68,10 @@ class EnvioUseCase implements IEnviosUseCase
                 'status' => 422
             ];
         }
-
         return $this->envio_service->updateEnvio($id, $validator->validated());
     }
 
+    // usecase de PATCH
     public function handleUpdateSpecificSection(int $id, array $data): array
     {
         $validator = Validator::make($data, [
@@ -79,11 +79,10 @@ class EnvioUseCase implements IEnviosUseCase
             'num_ContactoRemitente' => 'sometimes|string|max:14|regex:/^[0-9+]+$/',
             'nombreDestinatario' => 'sometimes|string|max:255',
             'num_ContactoDestinatario' => 'sometimes|string|max:14|regex:/^[0-9+]+$/',
-            'metodoPago' => 'sometimes|in:Efectivo,Tarjeta Debito,Tarjeta Credito,Plataformas Virtuales,Cupones',
+            'metodoPago' => 'required|in:Efectivo,Tarjeta Debito,Tarjeta Credito,Plataformas Virtuales,Cupones',
             'costosTotal_Envio' => 'sometimes|numeric|min:0',
             'idRecogida' => 'sometimes|exists:recogidas,idRecogida',
             'idEntrega' => 'sometimes|exists:entregas,idEntrega',
-            'idusuarios' => 'sometimes|exists:users,idusuarios',
         ]);
 
         if ($validator->fails()) {

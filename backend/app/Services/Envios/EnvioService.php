@@ -7,6 +7,7 @@ use App\Models\Interfaces\Envios\IEnviosService;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Auth;
 
 class EnvioService implements IEnviosService
 {
@@ -164,7 +165,8 @@ class EnvioService implements IEnviosService
     {
         try {
             $envio = Envios::findOrFail($id);
-            $envio->delete();
+            $envio->deleted_by = Auth::id();
+            $envio->save();
             return [
                 'success' => true,
                 'message' => 'Envío eliminado correctamente',

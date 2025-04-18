@@ -24,7 +24,7 @@ class EnvioControllers extends Controller
         $this->useCase_envios = $useCase_envios;
     }
 
-    // Muestra todos los registros de envíos
+    // GET GENERAL CONTROLLER
     public function showAllEnvios()
     {
         $response = $this->service_envios->getAllEnvios();
@@ -43,7 +43,7 @@ class EnvioControllers extends Controller
         }
     }
 
-    // Muestra un envío específico por su ID
+    // GET BY ID
     public function showEnvioById(int $id)
     {
         $response = $this->service_envios->getEnvioById($id);
@@ -64,7 +64,7 @@ class EnvioControllers extends Controller
         return response()->json($response, $response['status']);
     }
 
-    // Crea un nuevo envío
+    // POST CONTROLLER
     public function createEnvio(Request $request)
     {
         $response = $this->useCase_envios->handleCreateEnvio($request->all());
@@ -84,7 +84,7 @@ class EnvioControllers extends Controller
         return response()->json($response, $response['status']);
     }
 
-    // Actualiza un envío completo
+    // PUT CONTROLLER
     public function updateEnvio(Request $request, int $id)
     {
         $response = $this->useCase_envios->handleUpdateEnvio($id, $request->all());
@@ -104,7 +104,7 @@ class EnvioControllers extends Controller
         return response()->json($response, $response['status']);
     }
 
-    // Actualiza parcialmente un envío
+    // PATCH CONTROLLER
     public function updateSpecificSection(Request $request, int $id)
     {
         $response = $this->useCase_envios->handleUpdateSpecificSection($id, $request->all());
@@ -124,7 +124,7 @@ class EnvioControllers extends Controller
         return response()->json($response, $response['status']);
     }
 
-    // Elimina un envío por su ID
+    // DELETE CONTROLLER
     public function deleteEnvio(int $id)
     {
         $response = $this->service_envios->deleteEnvio($id);

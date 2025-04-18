@@ -195,3 +195,23 @@ Route::group([
     Route::delete('/eliminar_envio/{id}', [EnvioControllers::class, 'deleteEnvio'])
         ->middleware('role:2');
 });
+
+//
+/// RECOGIDAS
+//
+
+//
+/// ENTREGAS
+//
+
+//
+/// CUIDADES
+//
+
+//
+/// RUTAS
+//
+
+//
+/// VEHICULOS
+//
