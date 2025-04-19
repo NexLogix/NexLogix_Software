@@ -221,17 +221,32 @@ Route::group([
 });
 
 //
+/// CUIDADES
+//
+use App\Http\Controllers\Ciudades\ControllerCiudades;
+Route::group([
+    'middleware' => ['api', 'auth:api'],
+    'prefix' => 'gestion_ciudades'
+], function () {
+    Route::get('/', action: [ControllerCiudades::class, 'showAllCiudades'])
+        ->middleware('role:2,3');
+    Route::get('/buscar_ciudad/{id}', [ControllerCiudades::class, 'showCiudadById'])
+        ->middleware('role:2,3');
+    Route::post('/crear_ciudad', [ControllerCiudades::class, 'createCiudad'])
+    ->middleware('role:2,3');
+    Route::patch('/editar_ciudad/{id}', [ControllerCiudades::class, 'updateSpecificSection'])
+        ->middleware('role:2');
+    Route::delete('/eliminar_ciudad/{id}', [ControllerCiudades::class, 'deleteCiudades'])
+        ->middleware('role:2');
+});
+
+//
 /// RECOGIDAS
 //
 
 
-
 //
 /// ENTREGAS
-//
-
-//
-/// CUIDADES
 //
 
 //

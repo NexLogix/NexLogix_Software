@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Cuidades extends Model
+class Ciudades extends Model
 {
     use HasFactory;
     protected $table = 'ciudades';
@@ -16,4 +16,19 @@ class Cuidades extends Model
         'costoPor_Ciudad',
     ];
 
+    public function recogida()
+    {
+        return $this->hasMany(Ciudades::class,
+            'idCiudad',
+            'idCiudad'
+        );
+    }
+
+    public function entregas()
+    {
+        return $this->hasMany(Ciudades::class,
+            'idCiudad',
+            'idCiudad'
+        );
+    }
 }
