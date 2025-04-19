@@ -40,7 +40,7 @@ class EnvioUseCase implements IEnviosUseCase
         }
 
         $validatedData = $validator->validated();
-        $validatedData['fechaEnvio'] = now();
+        $validatedData['fechaEnvio'] = now(); // para poner fecha   
         $validatedData['idusuarios'] = Auth::id(); // se asigna automaticamente el id del usuario auteticado gracias JWT
 
         return $this->envio_service->createEnvio($validatedData);

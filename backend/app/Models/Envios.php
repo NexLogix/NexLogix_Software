@@ -21,6 +21,7 @@ class Envios extends Model
         'metodoPago',
         'costosTotal_Envio',
         'fechaEnvio',
+        'idCategoria',
         'idusuarios',
         'idRecogida',
         'idEntrega',
@@ -39,5 +40,10 @@ class Envios extends Model
     public function entregas()
     {
         return $this->belongsTo(Entregas::class, 'idEntrega', 'idEntrega');
+    }
+
+    public function categoriaEnvio()
+    {
+        return $this->belongsTo(CategoriaEnvio::class, 'idCategoria', 'idCategoria');
     }
 }

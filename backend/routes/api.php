@@ -196,9 +196,35 @@ Route::group([
         ->middleware('role:2');
 });
 
+
+//
+/// Categoria Envios
+//
+use App\Http\Controllers\CategoriaEnvios\CE_Controller;
+
+Route::group([
+    'middleware' => ['api', 'auth:api'],
+    'prefix' => 'gestion_categoria_envios'
+], function () {
+    Route::get('/', action: [CE_Controller::class, 'showAllCE'])
+        ->middleware('role:2,3');
+    Route::get('/buscar_ce/{id}', [CE_Controller::class, 'showCEById'])
+        ->middleware('role:2,3');
+    Route::post('/crear_ce', [CE_Controller::class, 'createCE'])
+    ->middleware('role:2,3');
+    Route::put('/editar_ce/{id}', [CE_Controller::class, 'updateCA'])
+        ->middleware('role:2');
+    Route::patch('/actualizar_campos_especificos_ce/{id}', [CE_Controller::class, 'updateSpecificSectionCE'])
+        ->middleware('role:2');
+    Route::delete('/eliminar_ce/{id}', [CE_Controller::class, 'deleteCE'])
+        ->middleware('role:2');
+});
+
 //
 /// RECOGIDAS
 //
+
+
 
 //
 /// ENTREGAS

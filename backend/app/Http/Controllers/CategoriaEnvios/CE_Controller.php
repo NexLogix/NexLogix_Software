@@ -1,30 +1,30 @@
 <?php
 
-namespace App\Http\Controllers\Envios;
+namespace App\Http\Controllers\CategoriaEnvios;
 
+use App\Events\ResourceAction;
 use App\Http\Controllers\Controller;
-use App\Models\Interfaces\Envios\IEnviosService; // Interfaz para la capa de servicio de envíos
-use App\Models\Interfaces\Envios\IEnviosUseCase; // Interfaz para la capa de casos de uso de envíos
-use Illuminate\Http\Request;
+use App\Models\Interfaces\CategoriaEnvios\ICategoriaEnviosService;
+use App\Models\Interfaces\CategoriaEnvios\ICategoriaEnviosUseCase;
 use Illuminate\Support\Facades\Auth;
-use App\Events\ResourceAction; // Evento personalizado para auditar acciones
+use Illuminate\Http\Request;
 
-class EnvioControllers extends Controller
+class CE_Controller extends Controller
 {
-    protected IEnviosService $service_envios;
-    protected IEnviosUseCase $useCase_envios;
+    protected ICategoriaEnviosService $CategoriaEnviosService;
+    protected ICategoriaEnviosUseCase $categoriaEnviosUseCase;
 
-    // Constructor que inyecta el servicio y el caso de uso
-    public function __construct(IEnviosService $service_envios , IEnviosUseCase $useCase_envios)
+    // constructor de metodos
+    public function __construct(ICategoriaEnviosService $CategoriaEnviosService, ICategoriaEnviosUseCase $categoriaEnviosUseCase )
     {
-        $this->service_envios = $service_envios;
-        $this->useCase_envios = $useCase_envios;
+        $this->CategoriaEnviosService = $CategoriaEnviosService;
+        $this->categoriaEnviosUseCase = $categoriaEnviosUseCase;
     }
 
     // GET GENERAL CONTROLLER
-    public function showAllEnvios()
+    public function showAllCE()
     {
-        $response = $this->service_envios->getAllEnvios();
+        $response = $this->CategoriaEnviosService->getAllCategoriasEnvios();
         if($response['success']) {
             $user_id = Auth::id(); // Obtiene el ID del usuario autenticado
             if($user_id){
@@ -32,20 +32,20 @@ class EnvioControllers extends Controller
                 event( new ResourceAction(
                     $user_id,
                     'Solicitud GET',
-                    'Gestion Envios',
+                    'Gestion Categoria de Envios',
                     null,
                     ['Detalles' => request()->path()],
                 ));
             }
         }
-       // Retorna la respuesta en formato JSON con el código de estado
-       return response()->json($response, $response['status']);
+        // Retorna la respuesta en formato JSON con el código de estado
+        return response()->json($response, $response['status']);
     }
 
     // GET BY ID
-    public function showEnvioById(int $id)
+    public function showCEById(int $id)
     {
-        $response = $this->service_envios->getEnvioById($id);
+        $response = $this->CategoriaEnviosService->getCategoriaEnvioById($id);
         if ($response['success']) {
             $user_id = Auth::id(); // Obtiene el ID del usuario autenticado
             if ($user_id) {
@@ -53,7 +53,7 @@ class EnvioControllers extends Controller
                 event(new ResourceAction(
                     $user_id,
                     'Solicitud GET',
-                    'Gestion Envios',
+                    'Gestion Categoria de Envios',
                     $id,
                     ['path' => request()->path()]
                 ));
@@ -64,9 +64,9 @@ class EnvioControllers extends Controller
     }
 
     // POST CONTROLLER
-    public function createEnvio(Request $request)
+    public function createCE(Request $request)
     {
-        $response = $this->useCase_envios->handleCreateEnvio($request->all());
+        $response = $this->categoriaEnviosUseCase->handleCreateCategoriaEnvio($request->all());
         if ($response['success']) {
             $userId = Auth::id(); // Obtiene el ID del usuario autenticado
             if ($userId) {
@@ -74,8 +74,8 @@ class EnvioControllers extends Controller
                 event(new ResourceAction(
                     $userId,
                     'Solicitud POST',
-                    'Gestion Envios',
-                    $response['data']['idEnvio'],
+                    'Gestion Categoria de Envios',
+                    $response['data']['idCategoria'],
                     ['data' => $request->all()]
                 ));
             }
@@ -84,9 +84,9 @@ class EnvioControllers extends Controller
     }
 
     // PUT CONTROLLER
-    public function updateEnvio(Request $request, int $id)
+    public function updateCA(Request $request, int $id)
     {
-        $response = $this->useCase_envios->handleUpdateEnvio($id, $request->all());
+        $response = $this->categoriaEnviosUseCase->handleUpdateCategoriaEnvio($id, $request->all());
         if ($response['success']) {
             $userId = Auth::id(); // Obtiene el ID del usuario autenticado
             if ($userId) {
@@ -94,7 +94,7 @@ class EnvioControllers extends Controller
                 event(new ResourceAction(
                     $userId,
                     'Solicitud PUT',
-                    'Gestion Envios',
+                    'Gestion Categoria de Envios',
                     $id,
                     ['data' => $request->all()]
                 ));
@@ -104,9 +104,9 @@ class EnvioControllers extends Controller
     }
 
     // PATCH CONTROLLER
-    public function updateSpecificSection(Request $request, int $id)
+    public function updateSpecificSectionCE(Request $request, int $id)
     {
-        $response = $this->useCase_envios->handleUpdateSpecificSection($id, $request->all());
+        $response = $this->categoriaEnviosUseCase->handleUpdateSpecificSection($id, $request->all());
         if ($response['success']) {
             $userId = Auth::id(); // Obtiene el ID del usuario autenticado
             if ($userId) {
@@ -114,7 +114,7 @@ class EnvioControllers extends Controller
                 event(new ResourceAction(
                     $userId,
                     'Solicitud PATCH',
-                    'Gestion Envios',
+                    'Gestion Categoria de Envios',
                     $id,
                     ['data' => $request->all()]
                 ));
@@ -124,9 +124,9 @@ class EnvioControllers extends Controller
     }
 
     // DELETE CONTROLLER
-    public function deleteEnvio(int $id)
+    public function deleteCE(int $id)
     {
-        $response = $this->service_envios->deleteEnvio($id);
+        $response = $this->CategoriaEnviosService->deleteCategoriaEnvio($id);
         if ($response['success']) {
             $userId = Auth::id(); // Obtiene el ID del usuario autenticado
             if ($userId) {
@@ -134,7 +134,7 @@ class EnvioControllers extends Controller
                 event(new ResourceAction(
                     $userId,
                     'Solicitud DELETE',
-                    'Gestion Envios',
+                    'Gestion Categorias de Envios',
                     $id,
                     []
                 ));
