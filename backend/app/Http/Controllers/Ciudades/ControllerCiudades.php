@@ -34,7 +34,7 @@ class ControllerCiudades extends Controller
                     'Gestion Ciudades',
                     null,
                     ['Detalles' => request()->path()],
-                ));
+                ));   
             }
         }
         // Retorna la respuesta en formato JSON con el código de estado

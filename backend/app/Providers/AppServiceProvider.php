@@ -11,6 +11,8 @@ use App\Models\Interfaces\Ciudades\ICiudadesService;
 use App\Models\Interfaces\Ciudades\ICiudadesUseCase;
 use App\Models\Interfaces\Envios\IEnviosService;
 use App\Models\Interfaces\Envios\IEnviosUseCase;
+use App\Models\Interfaces\Recogidas\IRecogidaService;
+use App\Models\Interfaces\Recogidas\IRecogidaUseCase;
 use App\Models\Interfaces\Users\IUserService;
 use App\Models\Interfaces\Users\IUserUseCase;
 // Importacion de services
@@ -18,6 +20,7 @@ use App\Services\Areas\AreasService;
 use App\Services\CategoriaEnvios\CategoriaEnvioService;
 use App\Services\Ciudades\CiudadesService;
 use App\Services\Envios\EnvioService;
+use App\Services\Recogidas\RecogidasService;
 use App\Services\Users\UserService;
 // importaciones casos de uso/ UseCases
 use App\UseCases\CategoriaEnvios\CategoriaEnvioUseCase;
@@ -25,6 +28,7 @@ use App\UseCases\Users\UserUseCase;
 use App\UseCases\Areas\AreasUseCase;
 use App\UseCases\Ciudades\CiudadesUseCase;
 use App\UseCases\Envios\EnvioUseCase;
+use App\UseCases\Recogidas\RecogidaUseCase;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -60,12 +64,19 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ICategoriaEnviosUseCase::class, function ($app) {
             return new CategoriaEnvioUseCase($app->make(ICategoriaEnviosService::class));
         });
-        
+
         // CIUDADES
         $this->app->bind(ICiudadesService::class, CiudadesService::class);
         $this->app->bind(ICiudadesUseCase::class, function ($app) {
             return new CiudadesUseCase($app->make(ICiudadesService::class));
         });
+
+        // RECOGIDAS
+        $this->app->bind(IRecogidaService::class, RecogidasService::class);
+        $this->app->bind(IRecogidaUseCase::class, function ($app) {
+            return new RecogidaUseCase($app->make(IRecogidaService::class));
+        });
+
     }
 
 

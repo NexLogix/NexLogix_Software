@@ -243,8 +243,23 @@ Route::group([
 //
 /// RECOGIDAS
 //
-
-
+use App\Http\Controllers\Recogidas\RecogidasControllers;
+Route::group([
+    'middleware' => ['api', 'auth:api'],
+    'prefix' => 'gestion_recogidas'
+], function () {
+    Route::get('/', action: [RecogidasControllers::class, 'showAllRecogidas'])
+        ->middleware('role:2,3');
+    Route::get('/buscar_recogida/{id}', [RecogidasControllers::class, 'showByIDRecogida'])
+        ->middleware('role:2,3');
+    Route::post('/crear_recogida', [RecogidasControllers::class, 'createRecogida'])
+    ->middleware('role:2,3');
+    Route::patch('/editar_recogida/{id}', [RecogidasControllers::class, 'updateSpecificSection_R'])
+        ->middleware('role:2');
+    Route::delete('/eliminar_recogida/{id}', [RecogidasControllers::class, 'deleteRecogida'])
+        ->middleware('role:2');
+});
+  
 //
 /// ENTREGAS
 //

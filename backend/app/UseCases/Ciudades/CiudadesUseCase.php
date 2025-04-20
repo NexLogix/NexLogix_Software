@@ -36,6 +36,7 @@ class CiudadesUseCase implements ICiudadesUseCase
     public function handleUpdateSpecificSectionC(int $id, array $data): array
     {
         $validator = Validator::make($data, [
+            'idCiudad' => 'sometimes|numeric|min:0',
             "nombreCiudad"=> [
                 "sometimes",
                 "string",

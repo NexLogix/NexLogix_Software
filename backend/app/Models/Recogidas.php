@@ -20,11 +20,11 @@ class Recogidas extends Model
     ];
 
     // una recogida pertenece solo a una  CIUDAD, N:1
-    public function cuidades() {
+    public function ciudades() {
         return $this->belongsTo(Ciudades::class, 'idCiudad');
     }
 
-    // Una recogida tiene muchos envios 
+    // Una recogida tiene muchos envios
     public function envios()
     {
         return $this->hasMany(Envios::class,
