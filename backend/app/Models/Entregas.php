@@ -19,8 +19,16 @@ class Entregas extends Model
         'idCiudad',
     ];
 
-    // muchas entregas pertenecen a una CIUDAD
+    // Una entrega solo pertenece a una CIUDAD
     public function cuidades() {
-        return $this->belongsTo(Cuidades::class, 'idCiudad');
+        return $this->belongsTo(Ciudades::class, 'idCiudad');
+    }
+
+    // una entrega tiene muchos envios
+    public function envios()
+    {
+        return $this->hasMany(Envios::class,
+        'idEntrega',
+        'idEntrega');
     }
 }
