@@ -20,7 +20,7 @@ class Entregas extends Model
     ];
 
     // Una entrega solo pertenece a una CIUDAD
-    public function cuidades() {
+    public function ciudades() {
         return $this->belongsTo(Ciudades::class, 'idCiudad');
     }
 

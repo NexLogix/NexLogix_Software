@@ -9,6 +9,8 @@ use App\Models\Interfaces\CategoriaEnvios\ICategoriaEnviosService;
 use App\Models\Interfaces\CategoriaEnvios\ICategoriaEnviosUseCase;
 use App\Models\Interfaces\Ciudades\ICiudadesService;
 use App\Models\Interfaces\Ciudades\ICiudadesUseCase;
+use App\Models\Interfaces\Entregas\IEntregaService;
+use App\Models\Interfaces\Entregas\IEntregaUseCase;
 use App\Models\Interfaces\Envios\IEnviosService;
 use App\Models\Interfaces\Envios\IEnviosUseCase;
 use App\Models\Interfaces\Recogidas\IRecogidaService;
@@ -19,6 +21,7 @@ use App\Models\Interfaces\Users\IUserUseCase;
 use App\Services\Areas\AreasService;
 use App\Services\CategoriaEnvios\CategoriaEnvioService;
 use App\Services\Ciudades\CiudadesService;
+use App\Services\Entregas\EntregasService;
 use App\Services\Envios\EnvioService;
 use App\Services\Recogidas\RecogidasService;
 use App\Services\Users\UserService;
@@ -27,6 +30,7 @@ use App\UseCases\CategoriaEnvios\CategoriaEnvioUseCase;
 use App\UseCases\Users\UserUseCase;
 use App\UseCases\Areas\AreasUseCase;
 use App\UseCases\Ciudades\CiudadesUseCase;
+use App\UseCases\Entregas\EntregasUseCase;
 use App\UseCases\Envios\EnvioUseCase;
 use App\UseCases\Recogidas\RecogidaUseCase;
 use Illuminate\Support\ServiceProvider;
@@ -75,6 +79,12 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IRecogidaService::class, RecogidasService::class);
         $this->app->bind(IRecogidaUseCase::class, function ($app) {
             return new RecogidaUseCase($app->make(IRecogidaService::class));
+        });
+
+        // ENTREGAS
+        $this->app->bind(IEntregaService::class, EntregasService::class);
+        $this->app->bind(IEntregaUseCase::class, function ($app) {
+            return new EntregasUseCase($app->make(IEntregaService::class));
         });
 
     }

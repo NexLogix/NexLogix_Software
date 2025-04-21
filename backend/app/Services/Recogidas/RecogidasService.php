@@ -56,7 +56,7 @@ class RecogidasService implements IRecogidaService
     public function getRecogidaById(int $id): array
     {
         try {
-            $recogida = Recogidas::with('cuidades')->findOrFail($id);
+            $recogida = Recogidas::with('ciudades')->findOrFail($id);
 
             return [
                 'success' => true,

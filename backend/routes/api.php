@@ -259,10 +259,27 @@ Route::group([
     Route::delete('/eliminar_recogida/{id}', [RecogidasControllers::class, 'deleteRecogida'])
         ->middleware('role:2');
 });
-  
+
 //
 /// ENTREGAS
 //
+use App\Http\Controllers\Entregas\EntregasController;
+Route::group([
+    'middleware' => ['api', 'auth:api'],
+    'prefix' => 'gestion_recogidas'
+], function () {
+    Route::get('/', action: [EntregasController::class, 'showAllEntregas'])
+        ->middleware('role:2,3');
+    Route::get('/buscar_entrega/{id}', [EntregasController::class, 'showByIDEntrega'])
+        ->middleware('role:2,3');
+    Route::post('/crear_entrega', [EntregasController::class, 'createEntrega'])
+    ->middleware('role:2,3');
+    Route::patch('/editar_entrega/{id}', [EntregasController::class, 'updateSpecificSection_E'])
+        ->middleware('role:2');
+    Route::delete('/eliminar_entrega/{id}', [EntregasController::class, 'deleteEntrega'])
+        ->middleware('role:2');
+});
+
 
 //
 /// RUTAS

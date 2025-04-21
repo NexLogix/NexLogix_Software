@@ -1,29 +1,27 @@
 <?php
-namespace App\UseCases\Recogidas;
+namespace App\UseCases\Entregas;
 
-use App\Models\Interfaces\Recogidas\IRecogidaService;
-use App\Models\Interfaces\Recogidas\IRecogidaUseCase;
+use App\Models\Interfaces\Entregas\IEntregaService;
+use App\Models\Interfaces\Entregas\IEntregaUseCase;
 use Illuminate\Support\Facades\Validator;
 
-class RecogidaUseCase implements IRecogidaUseCase
+class EntregasUseCase implements IEntregaUseCase
 {
-    protected IRecogidaService $recogida_service;
-
-    public function __construct(IRecogidaService $recogida_service)
+    protected IEntregaService $entrega_service;
+    public function __construct(IEntregaService $entrega_service)
     {
-        $this->recogida_service = $recogida_service;
+        $this->entrega_service = $entrega_service;
     }
 
-    // POST USE CASE
-    public function handleCreateRecogida(array $data): array
+    // POST
+    public function handleCreateEntrega(array $data): array
     {
         $validator = Validator::make($data, [
-            "fechaRecogidaSeleccionada"  => "required|date",
-            "fechaRecogidaFinal"         => "sometimes|date",
-            "direccionRecogida"          => "required|string|max:255",
-            'idCiudad'                   => 'required|numeric|min:1|exists:ciudades,idCiudad',
+            "fechaEntregaSeleccionada"  => "required|date",
+            "fechaEntregaFinal"         => "sometimes|date",
+            "direccionEntrega"          => "required|string|max:255",
+            'idCiudad'                  => 'required|numeric|min:1|exists:ciudades,idCiudad',
         ]);
-
         if ($validator->fails()) {
             return [
                 'success'   => false,
@@ -32,18 +30,17 @@ class RecogidaUseCase implements IRecogidaUseCase
                 'status'    => 422
             ];
         }
-
-        return $this->recogida_service->createRecogida($data);
+        return $this->entrega_service->createEntrega($data);
     }
 
-    // PATCH USE CASE
+    // PATCH
     public function handleUpdateSpecificSection_R(int $id, array $data): array
     {
         $validator = Validator::make($data, [
             "fechaRecogidaSeleccionada"  => "sometimes|date",
             "fechaRecogidaFinal"         => "sometimes|date",
             "direccionRecogida"          => "sometimes|string|max:255",
-            'idCiudad'                   => 'sometimes|numeric|min:1|exists:ciudades,idCiudad',
+            "idCiudad"                   => "sometimes|numeric|min:0",
         ]);
 
         if ($validator->fails()) {
@@ -55,6 +52,6 @@ class RecogidaUseCase implements IRecogidaUseCase
             ];
         }
 
-        return $this->recogida_service->updateSpecificFields_R($id, $data);
+        return $this->entrega_service->updateSpecificFields_E($id, $data);
     }
 }

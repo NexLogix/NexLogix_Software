@@ -1,43 +1,42 @@
 <?php
 
-namespace App\Http\Controllers\Recogidas;
+namespace App\Http\Controllers\Entregas;
 
 use App\Events\ResourceAction;
 use App\Http\Controllers\Controller;
-use App\Models\Interfaces\Recogidas\IRecogidaService;
-use App\Models\Interfaces\Recogidas\IRecogidaUseCase;
+use App\Models\Interfaces\Entregas\IEntregaService;
+use App\Models\Interfaces\Entregas\IEntregaUseCase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class RecogidasControllers extends Controller
+class EntregasController extends Controller
 {
-    protected IRecogidaService $recogida_service;
-    protected IRecogidaUseCase $recogida_UseCase;
-
-    public function __construct(IRecogidaService $recogida_service, IRecogidaUseCase $recogida_UseCase)
+    protected IEntregaService $entregas_service;
+    protected IEntregaUseCase $entregas_use_case;
+    public function __construct(IEntregaService $entregas_service, IEntregaUseCase $entregas_use_case)
     {
-        $this->recogida_service = $recogida_service;
-        $this->recogida_UseCase = $recogida_UseCase;
+        $this->entregas_service = $entregas_service;
+        $this->entregas_use_case = $entregas_use_case;
     }
 
     // GET COTROLLER
-    public function showAllRecogidas()
+    public function showAllEntregas()
     {
-        $response = $this->recogida_service->getAllRecogidas();
+        $response = $this->entregas_service->getAllEntregas();
         return response()->json($response, $response['status']);
     }
 
     // GET COTROLLER BY ID
-    public function showByIDRecogida(int $id)
+    public function showByIDEntrega(int $id)
     {
-        $response = $this->recogida_service->getRecogidaById($id);
+        $response = $this->entregas_service->getEntregaById($id);
         return response()->json($response, $response['status']);
     }
 
     // POST CONTROLLER
-    public function createRecogida(Request $request)
+    public function createEntrega(Request $request)
     {
-        $response = $this->recogida_UseCase->handleCreateRecogida( $request->all() );
+        $response = $this->entregas_use_case->handleCreateEntrega($request->all());
         if ($response['success']) {
             $userId = Auth::id(); // Obtiene el ID del usuario autenticado
             if ($userId) {
@@ -45,7 +44,7 @@ class RecogidasControllers extends Controller
                 event(new ResourceAction(
                     $userId,
                     'Solicitud POST',
-                    'Gestion Recogidas',
+                    'Gestion Entregas',
                     $response['data']['idCiudad'],
                     ['data' => $request->all()]
                 ));
@@ -55,9 +54,9 @@ class RecogidasControllers extends Controller
     }
 
     // PATCH CONTROLLER
-    public function updateSpecificSection_R(Request $request, int $id)
+    public function updateSpecificSection_E(Request $request, int $id)
     {
-        $response = $this->recogida_UseCase->handleUpdateSpecificSection_R( $id, $request->all());
+        $response = $this->entregas_use_case->handleUpdateSpecificSection_R( $id, $request->all());
         if ($response['success']) {
             $userId = Auth::id(); // Obtiene el ID del usuario autenticado
             if ($userId) {
@@ -65,7 +64,7 @@ class RecogidasControllers extends Controller
                 event(new ResourceAction(
                     $userId,
                     'Solicitud PATCH',
-                    'Gestion Recogidas',
+                    'Gestion Entregas',
                     $id,
                     ['data' => $request->all()]
                 ));
@@ -74,9 +73,9 @@ class RecogidasControllers extends Controller
         return response()->json($response, $response['status']);
     }
     // DELETE CONTROLLER
-    public function deleteRecogida(int $id)
+    public function deleteEntrega(int $id)
     {
-        $response = $this->recogida_service->deleteRecogida( $id );
+        $response = $this->entregas_service->deleteEntrega( $id );
         if ($response['success']) {
             $userId = Auth::id(); // Obtiene el ID del usuario autenticado
             if ($userId) {
@@ -84,10 +83,10 @@ class RecogidasControllers extends Controller
                 event(new ResourceAction(
                     $userId,
                     'Solicitud DELETE',
-                    'Gestion Recogidas',
+                    'Gestion Entregas',
                     $id,
                     []
-                ));  
+                ));
             }
         }
         return response()->json($response, $response['status']);
