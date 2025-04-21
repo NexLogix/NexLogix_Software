@@ -60,6 +60,7 @@ class AuthAccountService
     public function showProfileAuthorized()
     {
         $user = Auth::user();
+        $user->load(['estado', 'roles', 'puestos']);
         if (!$user){
             throw new Exception('Peticion no autorizada!', 401);
         }
@@ -67,7 +68,24 @@ class AuthAccountService
         return [
             'success'=> true,
             'message'=> 'Bienvenido !',
-            'Data' => $user
+            'data' => [
+                'ID'                        => $user->idusuarios,
+                "documentoIdentidad"        => $user->documentoIdentidad,
+                "nombreCompleto"            => $user->nombreCompleto,
+                "email"                     => $user->email,
+                "numContacto"               => $user->numContacto,
+                "direccionResidencia"       => $user->direccionResidencia,
+                "fechaCreacion"             => $user->fechaCreacion,
+                "Role" => [
+                    'nombreRole'                 => $user->roles->nombreRole ?? 'no asignado',
+                    'descripcionRole'           => $user->roles->descripcionRole ?? ' no asignado',
+                    'fechaAsignacionDelRole'  => $user->roles->fechaAsignacionRole ?? ' no asignado'
+                ],
+                "Puesto" => [
+                    "nombrePuesto"  => $user->puestos->nombrePuesto ?? 'no asignado',
+                    "descripcionPuesto"  => $user->puestos->descripcionPuesto ?? 'no asignado',
+                ]
+            ],
         ];
     }
 

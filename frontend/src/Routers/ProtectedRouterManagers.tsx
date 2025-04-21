@@ -39,20 +39,26 @@ const ProtectedRouteManagers = () => {
         <Route path="crearEnvios" element={<CrearEnvios />} />
         <Route path="editarEnvios" element={<EditarEnvios />} />
         <Route path="eliminarEnvio" element={<EliminarEnvios />} />
+
         <Route path="crearUsuarios" element={<CrearUsuario />} />
         <Route path="verUsuarios" element={<VerUsuarios />} />
         <Route path="editarUsuarios" element={<EditarUsuarios />} />
         <Route path="desactivarUsuario" element={<DesactivarUsuario />} />
         <Route path="eliminarUsuarios" element={<EliminarUsuarios />} />
+
         <Route path="verListaRutas" element={<VerListaRutas />} />
         <Route path="editarRutas" element={<EditarRutas />} />
         <Route path="eliminarRutas" element={<EliminarRutas />} />
+
         <Route path="verListaVehiculos" element={<VerListaVehiculos />} />
         <Route path="verConductores" element={<VerConductores />} />
+
         <Route path="chatBot" element={<ChatBot />} />
         <Route path="chatIngeniero" element={<ChatConIngeniero />} />
         <Route path="reporteAnomalias" element={<ReporteAnomalias />} />
+
         <Route path="verReportes" element={<VerReportes />} />
+        
         <Route path="ubicacion" element={<EstamosUbicadosEn />} />
         <Route path="acerca_de" element={<AcercaDe />} />
 

@@ -23,15 +23,6 @@ class UsersController extends Controller
     public function showAll()
     {
         $response = $this->userService->getAllUsers();
-        if($response['success']) {
-            event(new ResourceAction(
-                Auth::id(),
-                'Solicitud GET',
-                'Gestion Usuarios',
-                null,
-                ['Detalles' => request()->path()]
-            ));
-        }
         return response()->json($response, $response['status']);
     }
 
@@ -39,18 +30,6 @@ class UsersController extends Controller
     public function showByID($id)
     {
         $response = $this->userService->getUserById($id);
-        if ($response['success']) {
-            $userId = Auth::id();
-            if ($userId) {
-                event(new ResourceAction(
-                    $userId,
-                    'Solicitud GET por ID',
-                    'Gestion Usuarios',
-                    $id,
-                    ['Detalles' => request()->path()]
-                ));
-            }
-        }
         return response()->json($response, $response['status']);
     }
 

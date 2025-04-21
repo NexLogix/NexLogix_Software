@@ -7,7 +7,6 @@ use App\Models\Interfaces\Envios\IEnviosService;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
-use Illuminate\Support\Facades\Auth;
 
 class EnvioService implements IEnviosService
 {
@@ -15,7 +14,12 @@ class EnvioService implements IEnviosService
     public function getAllEnvios(): array
     {
         try {
-            $envios = Envios::all();
+            $envios = Envios::with([
+                'user',
+                'recogidas.ciudades',
+                'entregas.ciudades',
+                'categoriaEnvio'])->get();
+
             if ($envios->isEmpty()) {
                 return [
                     'success' => false,
@@ -23,11 +27,55 @@ class EnvioService implements IEnviosService
                     'status' => 404
                 ];
             }
+            $data = $envios->map(function ($envio) {
+                return [
+                    "idEnvio"                   => $envio->idEnvio,
+                    "nombreRemitente"           => $envio->nombreRemitente,
+                    "num_ContactoRemitente"     => $envio->num_ContactoRemitente,
+                    "nombreDestinatario"        => $envio->nombreDestinatario,
+                    "num_ContactoDestinatario"  => $envio->num_ContactoDestinatario,
+                    "metodoPago"                => $envio->metodoPago,
+                    "costosTotal_Envio"         => $envio->costosTotal_Envio,
+                    "fechaEnvio"                => $envio->fechaEnvio,
+
+                    "recogidas" => [
+                        "idRecogida"                => $envio->recogidas->idRecogida ?? null,
+                        "fechaRecogidaSeleccionada" => $envio->recogidas->fechaRecogidaSeleccionada ?? null,
+                        "fechaRecogidaFinal"        => $envio->recogidas->fechaRecogidaFinal ?? null,
+                        "direccionRecogida"         => $envio->recogidas->direccionRecogida ?? null,
+                        "ciudad" => [
+                            "idCiudad" => $envio->recogidas->ciudades->idCiudad ?? null,
+                            "nombre"   => $envio->recogidas->ciudades->nombreCiudad ?? null,
+                            "precioCiudad" => $envio->recogidas->ciudades->costoPor_Ciudad ?? null,
+                        ],
+                    ],
+
+                    "entregas" => [
+                        "idEntrega"                => $envio->entregas->idEntrega ?? null,
+                        "fechaEntregaSeleccionada" => $envio->entregas->fechaEntregaSeleccionada ?? null,
+                        "fechaEntregaFinal"        => $envio->entregas->fechaEntregaFinal ?? null,
+                        "direccionEntrega"         => $envio->entregas->direccionEntrega ?? null,
+                        "ciudad" => [
+                            "idCiudad" => $envio->entregas->ciudades->idCiudad ?? null,
+                            "nombre"   => $envio->entregas->ciudades->nombreCiudad ?? null,
+                            "precioCiudad" => $envio->entregas->ciudades->costoPor_Ciudad ?? null,
+                        ],
+                    ],
+
+                    "categoria_envio" => [
+                        "idCategoria"     => $envio->categoriaEnvio->idCategoria ?? null,
+                        "nombreCategoria" => $envio->categoriaEnvio->nombreCategoria ?? null,
+                        "precioCategoria" => $envio->categoriaEnvio->precioCategoria ?? null,
+                        "descripcion"     => $envio->categoriaEnvio->descripcion ?? null,
+                    ],
+                ];
+            });
+
             return [
                 'success' => true,
-                'message' => 'Lista de envios',
-                'data' => $envios,
-                'status' => 200
+                'message' => 'Lista de envíos',
+                'data'    => $data,
+                'status'  => 200
             ];
         } catch (Exception $e) {
             return [
@@ -42,13 +90,57 @@ class EnvioService implements IEnviosService
     public function getEnvioById(int $id): array
     {
         try {
-            $envio = Envios::with(['user', 'recogidas', 'entregas', 'categoriaEnvio'])->findOrFail( $id );
-            return [
-                'success' => true,
-                'data' => $envio,
-                'message' => 'Envío encontrado',
-                'status' => 200
-            ];
+            $envio = Envios::with(['user', 'recogidas.ciudades', 'entregas.ciudades', 'categoriaEnvio'])->findOrFail($id);
+
+        $data = [
+            "idEnvio"                   => $envio->idEnvio,
+            "nombreRemitente"           => $envio->nombreRemitente,
+            "num_ContactoRemitente"     => $envio->num_ContactoRemitente,
+            "nombreDestinatario"        => $envio->nombreDestinatario,
+            "num_ContactoDestinatario"  => $envio->num_ContactoDestinatario,
+            "metodoPago"                => $envio->metodoPago,
+            "costosTotal_Envio"         => $envio->costosTotal_Envio,
+            "fechaEnvio"                => $envio->fechaEnvio,
+
+            "recogidas" => [
+                "idRecogida"                => $envio->recogidas->idRecogida ?? null,
+                "fechaRecogidaSeleccionada" => $envio->recogidas->fechaRecogidaSeleccionada ?? null,
+                "fechaRecogidaFinal"        => $envio->recogidas->fechaRecogidaFinal ?? null,
+                "direccionRecogida"         => $envio->recogidas->direccionRecogida ?? null,
+                "ciudad" => [
+                    "idCiudad" => $envio->recogidas->ciudades->idCiudad ?? null,
+                    "nombre"   => $envio->recogidas->ciudades->nombreCiudad ?? null,
+                    "precioCiudad" => $envio->recogidas->ciudades->costoPor_Ciudad ?? null,
+                ],
+            ],
+
+            "entregas" => [
+                "idEntrega"                => $envio->entregas->idEntrega ?? null,
+                "fechaEntregaSeleccionada" => $envio->entregas->fechaEntregaSeleccionada ?? null,
+                "fechaEntregaFinal"        => $envio->entregas->fechaEntregaFinal ?? null,
+                "direccionEntrega"         => $envio->entregas->direccionEntrega ?? null,
+                "ciudad" => [
+                    "idCiudad" => $envio->entregas->ciudades->idCiudad ?? null,
+                    "nombre"   => $envio->entregas->ciudades->nombreCiudad ?? null,
+                    "precioCiudad" => $envio->entregas->ciudades->costoPor_Ciudad ?? null,
+                ],
+            ],
+
+            "categoria_envio" => [
+                "idCategoria"     => $envio->categoriaEnvio->idCategoria ?? null,
+                "nombreCategoria" => $envio->categoriaEnvio->nombreCategoria ?? null,
+                "precioCategoria" => $envio->categoriaEnvio->precioCategoria ?? null,
+                "descripcion"     => $envio->categoriaEnvio->descripcion ?? null,
+            ],
+        ];
+
+        return [
+            'success' => true,
+            'message' => 'Detalles del envío',
+            'data'    => $data,
+            'status'  => 200
+        ];
+
         } catch (ModelNotFoundException $e) {
             return [
                 'success' => false,
@@ -165,7 +257,6 @@ class EnvioService implements IEnviosService
     {
         try {
             $envio = Envios::findOrFail($id);
-            $envio->deleted_by = Auth::id();
             $envio->save();
             return [
                 'success' => true,

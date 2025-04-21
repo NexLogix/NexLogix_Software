@@ -27,7 +27,7 @@ class AuthAccountController extends Controller
     }
 
     // POST method LOGOUT controller from usecase of auth
-    public function logout(Request $request)
+    public function logout()
     {
         $response = $this->authAccount_Service->logout();
         return response()->json($response, $response['status']);

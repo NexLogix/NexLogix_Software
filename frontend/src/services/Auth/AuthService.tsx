@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { useState, useEffect } from "react";
-
+import { UserProfile } from '../../models/Interfaces/UserProfile';
 const API_URL = 'http://localhost:8000/api/auth';
 
 export interface LoginResponse {
@@ -8,13 +8,6 @@ export interface LoginResponse {
   message: string;
   token: string;
   user: {
-    idusuarios: number;
-    documentoIdentidad: string;
-    nombreCompleto: string;
-    email: string;
-    numContacto: string;
-    direccionResidencia: string;
-    fechaCreacion: string;
     idRole: number;
     idestado: number;
     idPuestos: number;
@@ -154,22 +147,35 @@ export const useAuth = () => {
 // 5) SHOW PROFILE 
 // ————————————————————————
 
-export const getUserProfile = async (): Promise<AxiosResponse> => {
+export const getUserProfile = async (): Promise<UserProfile> => {
   const token = localStorage.getItem('token');
   if (!token) {
-      throw new Error('No autenticado');
+    throw new Error('No autenticado');
   }
+
   try {
-      const response: AxiosResponse = await axios.get(`${API_URL}/mostrar_perfil_auth`, {
-          headers: {
-              Authorization: `Bearer ${token}`,
-          },
-      });
-      return response;
-  } catch {
-      throw new Error('Error al obtener el perfil');
+    console.log('Token encontrado:', token); // Verificar que el token está presente
+
+    const response: AxiosResponse = await axios.get(`${API_URL}/mostrar_perfil_auth`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log('Respuesta del backend:', response);
+
+    if (response.data && response.data.data) {
+      console.log('Perfil del usuario:', response.data.data);
+      return response.data.data as UserProfile;
+    } else {
+      throw new Error('Respuesta inesperada del backend');
+    }
+  } catch (error) {
+    console.error('Error al obtener el perfil:', error);
+    throw new Error('Error al obtener el perfil');
   }
 };
+
 
 // ————————————————————————
 // 6) Logout 

@@ -43,7 +43,7 @@ body {
       background-color: #010211;
       height: 100vh; /*Tamano vertical del nav o columna derecha*/
       box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-      width: 300px; /* Aumenta el ancho, ajusta según necesites */
+      width: 200px; /* Aumenta el ancho, ajusta según necesites */
       min-width: 260px; /* Establece un mínimo */
 }
 .nav-item a {
@@ -62,8 +62,8 @@ body {
 
 /*Ajustes del espacio de paginas anidadas o enrutadas*/
 main {
-      margin-left: 18px; /* Ajusta según el ancho del sidebar */
-      margin-right: 18px; /* Ajusta según el ancho del sidebar */
+      margin-left: 5px; /* Ajusta según el ancho del sidebar */
+      margin-right: 5px; /* Ajusta según el ancho del sidebar */
       width: calc(100% - 250px);
       overflow-x: hidden; /* Evita que se salga del viewport */  
 }

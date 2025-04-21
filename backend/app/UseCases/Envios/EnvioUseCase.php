@@ -112,15 +112,15 @@ class EnvioUseCase implements IEnviosUseCase
     public function handleUpdateSpecificSection(int $id, array $data): array
     {
         $validator = Validator::make($data, [
-            'nombreRemitente'          => 'required|string|max:255',
-            'num_ContactoRemitente'    => 'sometime|string|max:14|regex:/^[0-9+]+$/',
-            'nombreDestinatario'       => 'sometime|string|max:255',
-            'num_ContactoDestinatario' => 'sometime|string|max:14|regex:/^[0-9+]+$/',
-            'metodoPago'               => 'sometime|in:Efectivo,Tarjeta Debito,Tarjeta Credito,Plataformas Virtuales,Cupones',
-            'costosTotal_Envio'        => 'sometime|numeric|min:0',
-            'idRecogida'               => 'sometime|exists:recogidas,idRecogida',
-            'idEntrega'                => 'sometime|exists:entregas,idEntrega',
-            'idCategoria'              => 'sometime|exists:categoriaenvios,idCategoria',
+            'nombreRemitente'          => 'sometimes|string|max:255',
+            'num_ContactoRemitente'    => 'sometimes|string|max:14|regex:/^[0-9+]+$/',
+            'nombreDestinatario'       => 'sometimes|string|max:255',
+            'num_ContactoDestinatario' => 'sometimes|string|max:14|regex:/^[0-9+]+$/',
+            'metodoPago'               => 'sometimes|in:Efectivo,Tarjeta Debito,Tarjeta Credito,Plataformas Virtuales,Cupones',
+            'costosTotal_Envio'        => 'sometimes|numeric|min:0',
+            'idRecogida'               => 'sometimes|exists:recogidas,idRecogida',
+            'idEntrega'                => 'sometimes|exists:entregas,idEntrega',
+            'idCategoria'              => 'sometimes|exists:categoriaenvios,idCategoria',
         ]);
 
         if ($validator->fails()) {
