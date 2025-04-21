@@ -50,7 +50,7 @@ const HomeManager = () => {
   }
 
   return (
-    <div className="container mt-5 mb-5">
+    <div className="container mt-2">
       {error && (
         <div className="alert alert-danger text-center fw-bold">{error}</div>
       )}

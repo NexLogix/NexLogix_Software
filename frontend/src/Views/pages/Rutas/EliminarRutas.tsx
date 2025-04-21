@@ -1,4 +1,3 @@
-import NavBuscarEnvio from "../../componets/NavBars/NavBuscarEnvio";
 
 const EliminarRutas = () => {
   const handleEliminar = (id: number, nombre: string) => {
@@ -11,7 +10,7 @@ const EliminarRutas = () => {
 
   return (
     <div className="container-fluid mt-4">
-      <NavBuscarEnvio />
+            
       {/* Tabla de rutas GENERAL */}
       <div className="row">
         <div className="col-12">

@@ -1,9 +1,18 @@
-import NavBuscarEnvio from "../../componets/NavBars/NavBuscarEnvio";
 const EditarEnvios = () => {
   return (
     
     <div className="container-fluid mt-4">
-      <NavBuscarEnvio/>
+     {/* Barra de búsqueda o navegación */}
+              
+     <nav className="navbar navbar-light bg-light mb-4 p-3 shadow-sm">
+                <div className="container-fluid">
+                  <form className="d-flex">
+                    <input className="form-control me-2" type="search" placeholder="Ingrese ID del Envío" aria-label="Buscar" />
+                    <button className="btn btn-outline-primary" type="submit">Buscar</button>
+                  </form>
+                </div>
+              </nav>
+          
       <div className="row">
         <div className="col-12">
           <div className="card shadow-sm">

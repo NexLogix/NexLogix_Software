@@ -1,9 +1,7 @@
-import NavBuscarEnvio from "../../componets/NavBars/NavBuscarEnvio";
 
 const EditarRutas = () => {
   return (
     <div className="container-fluid mt-4">
-      <NavBuscarEnvio />
       {/* Tabla de rutas GENERAL */}
       <div className="row">
         <div className="col-12">

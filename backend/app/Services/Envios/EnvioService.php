@@ -68,6 +68,12 @@ class EnvioService implements IEnviosService
                         "precioCategoria" => $envio->categoriaEnvio->precioCategoria ?? null,
                         "descripcion"     => $envio->categoriaEnvio->descripcion ?? null,
                     ],
+
+                    "user" => [
+                        "idUser" => $envio->user->idusuarios ?? null,
+                        "nombreUsuario" => $envio->user->nombreCompleto ?? null,
+                        "email" => $envio->user->email ?? null,
+                    ]
                 ];
             });
 
@@ -132,6 +138,12 @@ class EnvioService implements IEnviosService
                 "precioCategoria" => $envio->categoriaEnvio->precioCategoria ?? null,
                 "descripcion"     => $envio->categoriaEnvio->descripcion ?? null,
             ],
+
+            "user" => [
+                "idUser" => $envio->user->idusuarios ?? null,
+                "nombreUsuario" => $envio->user->nombreCompleto ?? null,
+                "email" => $envio->user->email ?? null,
+            ]
         ];
 
         return [
@@ -257,7 +269,7 @@ class EnvioService implements IEnviosService
     {
         try {
             $envio = Envios::findOrFail($id);
-            $envio->save();
+            $envio->delete();
             return [
                 'success' => true,
                 'message' => 'Envío eliminado correctamente',
