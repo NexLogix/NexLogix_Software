@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Areas extends Model
 {
     use HasFactory;
-
+ 
     protected $table = 'areas';
     protected $primaryKey = 'idArea';
     public $timestamps = false;

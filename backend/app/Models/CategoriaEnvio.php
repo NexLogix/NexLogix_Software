@@ -13,7 +13,7 @@ class CategoriaEnvio extends Model
     public $timestamps = false;
     protected $fillable = [
         'nombreCategoria',
-        'precioCategoria',
+        'precioCategoria', 
         'descripcion',
     ];
 

@@ -23,7 +23,7 @@ class Recogidas extends Model
     public function ciudades() {
         return $this->belongsTo(Ciudades::class, 'idCiudad');
     }
-
+ 
     // Una recogida tiene muchos envios
     public function envios()
     {

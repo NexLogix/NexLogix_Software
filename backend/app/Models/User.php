@@ -77,12 +77,14 @@ class User extends Authenticatable implements JWTSubject
 
     // un usuario puede hacer muchos reportes
     public function reportes(){
-        return $this->hasMany(Reportes::class,'idReporte');
+        return $this->hasMany(Reportes::class,
+        'idReporte',
+        'idReporte');
     }
 
     // un usuario puede hacer muchos envios
     public function envios()
     {
-        return $this->hasMany(Envios::class, 'idusuarios');
+        return $this->hasMany(Envios::class, 'idusuarios', 'idusuarios');
     }
 }

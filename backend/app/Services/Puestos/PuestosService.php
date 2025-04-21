@@ -9,7 +9,7 @@ class PuestosService
     // GET SERVICE
     public function getAllPuestos():array
     {
-        $puestos = Puestos::all();
+        $puestos = Puestos::with('areas')->get();
         // Despues quitamos lo comntado porque ya hay areas creadas
 
         if(!$puestos) {
@@ -30,7 +30,7 @@ class PuestosService
     // GET BY ID SERVICE
     public function getPuestoById(int $id):array
     {
-        $puesto = Puestos::find($id);
+        $puesto = Puestos::with('areas')->find( $id );
         if(!$puesto){
             return [
                 'success' => false,

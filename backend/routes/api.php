@@ -37,7 +37,7 @@ Route::group([
 ], function () {
     Route::get('/', [UsersController::class, 'showAll'])
         ->middleware('role:2,3'); // Accede Manager y Empleado
-    Route::get('/{id}', [UsersController::class, 'showByID'])
+    Route::get('buscar_usuario/{id}', [UsersController::class, 'showByID'])
         ->middleware('role:2'); // Solo accedeManager
     Route::post('/crear_usuario', [UsersController::class, 'createUser'])
         ->middleware('role:2'); // Solo Manager
@@ -266,7 +266,7 @@ Route::group([
 use App\Http\Controllers\Entregas\EntregasController;
 Route::group([
     'middleware' => ['api', 'auth:api'],
-    'prefix' => 'gestion_recogidas'
+    'prefix' => 'gestion_entregas'
 ], function () {
     Route::get('/', action: [EntregasController::class, 'showAllEntregas'])
         ->middleware('role:2,3');

@@ -16,7 +16,7 @@ class Entregas extends Model
         'fechaEntregaSeleccionada',
         'fechaEntregaFinal',
         'direccionEntrega',
-        'idCiudad',
+        'idCiudad', 
     ];
 
     // Una entrega solo pertenece a una CIUDAD

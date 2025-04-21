@@ -42,7 +42,7 @@ class EnvioService implements IEnviosService
     public function getEnvioById(int $id): array
     {
         try {
-            $envio = Envios::findOrFail($id);
+            $envio = Envios::with(['user', 'recogidas', 'entregas', 'categoriaEnvio'])->findOrFail( $id );
             return [
                 'success' => true,
                 'data' => $envio,

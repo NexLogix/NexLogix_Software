@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Puestos extends Model
 {
     use HasFactory;
-
     protected $table = 'puestos';
     protected $primaryKey = 'idPuestos';
     public $timestamps = false;
@@ -21,7 +20,7 @@ class Puestos extends Model
     ];
 
     // Relación: Un Puesto pertenece a una sola Área
-    public function area()
+    public function areas()
     {
         return $this->belongsTo(Areas::class, 'idArea', 'idArea');
     }

@@ -10,9 +10,9 @@ class UserService implements IUserService // Implementa la Imterfaz IUserService
     // GET SERVICE
     public function getAllUsers():array
     {
-        $user = User::all();
+        $user = User::with(['estado', 'roles', 'puestos'])->get();
         // Despues quitamos lo comntado porque ya hay areas creadas
-        if(!$user) { 
+        if(!$user) {
             return [
                 'success' => false,
                 'message' => 'No hay usuarios agregados',
@@ -29,7 +29,7 @@ class UserService implements IUserService // Implementa la Imterfaz IUserService
     // GET BY ID SERVICE
     public function getUserById(int $id):array
     {
-        $user = User::find($id);
+        $user = User::with(['estado', 'roles', 'puestos'])->findOrFail($id);
         if(!$user){
             return [
                 'success' => false,

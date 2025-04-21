@@ -45,7 +45,9 @@ class EntregasService implements IEntregaService
 
             return [
                 'success' => true,
+                'message' => 'Entrega encontrada',
                 'data' => [
+                    'id Entrega' => $entrega->idEntrega,
                     'fecha Entrega seleccionada' => $entrega->fechaEntregaSeleccionada,
                     'direccion Entrega' => $entrega->direccionEntrega,
                     // llamada de cuidades
@@ -54,7 +56,6 @@ class EntregasService implements IEntregaService
                         'costo de la cuidad' => $entrega->ciudades->costoPor_Ciudad ?? 'Precio no asignado',
                     ]
                 ],
-                'message' => 'Entrega encontrada',
                 'status' => 200
             ];
         } catch (ModelNotFoundException $e) {

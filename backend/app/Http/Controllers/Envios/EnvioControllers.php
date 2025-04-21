@@ -25,19 +25,6 @@ class EnvioControllers extends Controller
     public function showAllEnvios()
     {
         $response = $this->service_envios->getAllEnvios();
-        if($response['success']) {
-            $user_id = Auth::id(); // Obtiene el ID del usuario autenticado
-            if($user_id){
-                // Dispara un evento de auditoría para registrar la solicitud
-                event( new ResourceAction(
-                    $user_id,
-                    'Solicitud GET',
-                    'Gestion Envios',
-                    null,
-                    ['Detalles' => request()->path()],
-                ));
-            }
-        }
        // Retorna la respuesta en formato JSON con el código de estado
        return response()->json($response, $response['status']);
     }
@@ -46,19 +33,6 @@ class EnvioControllers extends Controller
     public function showEnvioById(int $id)
     {
         $response = $this->service_envios->getEnvioById($id);
-        if ($response['success']) {
-            $user_id = Auth::id(); // Obtiene el ID del usuario autenticado
-            if ($user_id) {
-                // Dispara un evento de auditoría para registrar la solicitud por ID
-                event(new ResourceAction(
-                    $user_id,
-                    'Solicitud GET',
-                    'Gestion Envios',
-                    $id,
-                    ['path' => request()->path()]
-                ));
-            }
-        }
         // Retorna la respuesta en formato JSON con el código de estado
         return response()->json($response, $response['status']);
     }

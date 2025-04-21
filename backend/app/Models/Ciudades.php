@@ -17,7 +17,7 @@ class Ciudades extends Model
     ];
 
     public function recogida()
-    {
+    { 
         return $this->hasMany(Ciudades::class,
             'idCiudad',
             'idCiudad'

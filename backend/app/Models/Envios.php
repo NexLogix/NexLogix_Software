@@ -25,7 +25,7 @@ class Envios extends Model
         'idusuarios',
         'idRecogida',
         'idEntrega',
-    ];
+    ]; 
 
     public function user()
     {

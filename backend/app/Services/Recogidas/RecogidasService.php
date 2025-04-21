@@ -32,7 +32,8 @@ class RecogidasService implements IRecogidaService
                     'direccion_recogida' => $recogida->direccionRecogida,
                     // llamada de cuidades
                     'info cuidad Recogida' => [
-                        'nombre cuidad Recogida' => $recogida->ciudades->nombreCiudad ?? 'No asignada'
+                        'nombre cuidad Recogida' => $recogida->ciudades->nombreCiudad ?? 'No asignada',
+                        'precio de envio por la cuidad' => $recogida->ciudades->costoPor_Ciudad ?? 'no asiganda',
                     ]
                 ];
             });
