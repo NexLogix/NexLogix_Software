@@ -6,7 +6,7 @@ import HomeManager from "../Views/pages/profiles/ManagerProfile/HomeManager";
 
 // AREAS
 import VerAreas from '../Views/pages/Areas/VerAreas';
-import EditarAreas from "../Views/pages/Areas/EditarEras";
+import EditarAreas from "../Views/pages/Areas/EditarArea";
 import CrearArea from "../Views/pages/Areas/CrearArea";
 import EliminarArea from "../Views/pages/Areas/EliminarArea";
 

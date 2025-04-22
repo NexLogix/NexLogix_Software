@@ -23,36 +23,12 @@ class AreasController extends Controller
     public function showAll()
     {
         $response = $this->areasService->getAll();
-        if ($response['status']) {
-            $user_id = Auth::id();
-            if ($user_id) {
-                event(new ResourceAction(
-                    $user_id,
-                    'Solicitud GET',
-                    'Gestion Areas',
-                    null,
-                    ['Detalles' => request()->path()]
-                ));
-            }
-        }
         return response()->json($response, $response['status']);
     }
 
     public function showByID($id)
     {
-        $response = $this->areasService->getAreaById($id); // Asumo que era getById, no getAll
-        if ($response['success']) {
-            $user_id = Auth::id();
-            if ($user_id) {
-                event(new ResourceAction(
-                    $user_id,
-                    'Solicitud GET_by_id',
-                    'Gestion Areas',
-                    $id,
-                    ['Detalles' => request()->path()]
-                ));
-            }
-        }
+        $response = $this->areasService->getAreaById($id);
         return response()->json($response, $response['status']);
     }
 
