@@ -127,7 +127,7 @@ class PuestosService
             ];
         }
 
-        $puesto->delete();
+        $puesto->delete(); 
 
         return [
             'success' => true,

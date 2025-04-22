@@ -106,7 +106,7 @@ Route::group([
 ], function () {
     Route::get('/', [PuestosController::class, 'showAll'])
         ->middleware('role:2,3'); // Manager y Empleado
-    Route::get('/{id}', [PuestosController::class, 'showByID'])
+    Route::get('/buscar_puesto/{id}', [PuestosController::class, 'showByID'])
         ->middleware('role:2,3'); // Manager y Empleado
     Route::post('/crear_puesto', [PuestosController::class, 'createPuesto'])
         ->middleware('role:2'); // Solo Manager
