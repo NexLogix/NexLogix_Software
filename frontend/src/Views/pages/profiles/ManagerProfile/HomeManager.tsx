@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { UserProfileController } from '../../../../Controllers/Users/UserController';
 import { UserProfile } from './../../../../models/Interfaces/UserProfile';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const HomeManager = () => {
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -41,75 +42,107 @@ const HomeManager = () => {
 
   if (!profile && !error) {
     return (
-      <div className="d-flex justify-content-center align-items-center vh-100">
-        <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">Cargando...</span>
+      <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
+        <div className="text-center">
+          <div className="spinner-border text-primary" style={{ width: '3rem', height: '3rem' }} role="status">
+            <span className="visually-hidden">Cargando...</span>
+          </div>
+          <p className="mt-3 text-muted">Cargando perfil...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="container mt-2">
-      {error && (
-        <div className="alert alert-danger text-center fw-bold">{error}</div>
-      )}
-      {profile ? (
-        <div className="card shadow-lg mx-auto border-0 rounded-4" style={{ maxWidth: '800px' }}>
-          <div className="card-header bg-primary text-white text-center py-4 rounded-top-4">
-            <h2 className="mb-0">
-              Bienvenid@ a <strong>NEXLOGIX</strong>
-            </h2>
+    <div className="container-fluid bg-light py-5 min-vh-100">
+      <div className="container">
+        {error && (
+          <div className="alert alert-danger d-flex align-items-center mb-4 animate__animated animate__fadeIn" role="alert">
+            <i className="bi bi-exclamation-triangle-fill me-2"></i>
+            <div>{error}</div>
           </div>
-          <div className="card-body px-5 py-4 bg-light rounded-bottom-4">
-            <h5 className="mb-4 text-primary">Información del EMPLEADO</h5>
-            <ul className="list-group list-group-flush">
-              <li className="list-group-item">
-                <strong>ID usuario:</strong> {profile.ID}
-              </li>
-              <li className="list-group-item">
-                <strong>Cédula de Ciudadanía:</strong> {profile.documentoIdentidad}
-              </li>
-              <li className="list-group-item">
-                <strong>Nombre completo:</strong> {profile.nombreCompleto}
-              </li>
-              <li className="list-group-item">
-                <strong>Email:</strong> {profile.email}
-              </li>
-              <li className="list-group-item">
-                <strong>Teléfono:</strong> {profile.numContacto}
-              </li>
-              <li className="list-group-item">
-                <strong>Dirección:</strong> {profile.direccionResidencia}
-              </li>
-              <li className="list-group-item">
-                <strong>Fecha de Creación:</strong>{' '}
-                {new Date(profile.fechaCreacion).toLocaleDateString()}
-              </li>
-              <li className="list-group-item">
-                <strong>Role:</strong> {profile.Role?.nombreRole}
-                <div>
-                  <strong>Descripción:</strong> {profile.Role?.descripcionRole}
+        )}
+        {profile ? (
+          <div className="card shadow-lg mx-auto border-0 animate__animated animate__fadeInUp" style={{ maxWidth: '1010px', borderRadius: '15px', overflow: 'hidden' }}>
+            <div className="card-header text-white text-center py-4" style={{ background: 'linear-gradient(135deg, #0052cc 0%, #007bff 100%)' }}>
+              <h1 className="mb-0 display-5 fw-bold">
+                Bienvenid@ a <span className="text-warning">NEXLOGIX</span>
+              </h1>
+              <p className="mt-2 text-light">Tu solución integral para logística</p>
+            </div>
+            <div className="card-body p-5 bg-white">
+              <h4 className="mb-4 text-primary fw-bold">Información del Empleado</h4>
+              <div className="row">
+                <div className="col-md-6">
+                  <ul className="list-group list-group-flush">
+                    <li className="list-group-item d-flex justify-content-between align-items-center py-3">
+                      <strong>ID usuario:</strong>
+                      <span className="badge bg-primary text-white rounded-pill">{profile.ID}</span>
+                    </li>
+                    <li className="list-group-item d-flex justify-content-between align-items-center py-3">
+                      <strong>Cédula de Ciudadanía:</strong>
+                      <span>{profile.documentoIdentidad}</span>
+                    </li>
+                    <li className="list-group-item d-flex justify-content-between align-items-center py-3">
+                      <strong>Nombre completo:</strong>
+                      <span>{profile.nombreCompleto}</span>
+                    </li>
+                    <li className="list-group-item d-flex justify-content-between align-items-center py-3">
+                      <strong>Email:</strong>
+                      <span>{profile.email}</span>
+                    </li>
+                  </ul>
                 </div>
-                <div>
-                  <strong>Fecha Asignación:</strong>{' '}
-                  {profile.Role?.fechaAsignacionDelRole}
+                <div className="col-md-6">
+                  <ul className="list-group list-group-flush">
+                    <li className="list-group-item d-flex justify-content-between align-items-center py-3">
+                      <strong>Teléfono:</strong>
+                      <span>{profile.numContacto}</span>
+                    </li>
+                    <li className="list-group-item d-flex justify-content-between align-items-center py-3">
+                      <strong>Dirección:</strong>
+                      <span>{profile.direccionResidencia}</span>
+                    </li>
+                    <li className="list-group-item d-flex justify-content-between align-items-center py-3">
+                      <strong>Fecha de Creación de la cuenta:</strong>
+                      <span>{new Date(profile.fechaCreacion).toLocaleDateString()}</span>
+                    </li>
+                  </ul>
                 </div>
-              </li>
-              <li className="list-group-item">
-                <strong>Puesto: </strong> {profile.Puesto?.nombrePuesto}
-                <div>
-                  <strong>Descripción:</strong> {profile.Puesto?.descripcionPuesto}
-                </div>
-              </li>
-            </ul>
+              </div>
+              <hr className="my-4" />
+              <h5 className="mb-3 text-primary">Detalles del Rol</h5>
+              <ul className="list-group list-group-flush">
+                <li className="list-group-item py-3">
+                  <strong>Rol:</strong> {profile.Role?.nombreRole}
+                  <div className="mt-2">
+                    <strong>Descripción:</strong> {profile.Role?.descripcionRole}
+                  </div>
+                  <div>
+                    <strong>Fecha Asignación:</strong> {profile.Role?.fechaAsignacionDelRole}
+                  </div>
+                </li>
+                <li className="list-group-item py-3">
+                  <strong>Puesto:</strong> {profile.Puesto?.nombrePuesto}
+                  <div className="mt-2">
+                    <strong>Descripción:</strong> {profile.Puesto?.descripcionPuesto}
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div className="card-footer text-center py-3 bg-light">
+              <small className="text-muted">NEXLOGIX - Optimizando tu logística</small>
+            </div>
           </div>
-        </div>
-      ) : (
-        !error && (
-          <h1 className="text-center text-primary mt-5">Bienvenido a NexLogix Manager</h1>
-        )
-      )}
+        ) : (
+          !error && (
+            <div className="text-center mt-5 animate__animated animate__fadeIn">
+              <h1 className="display-4 fw-bold text-primary">Bienvenido a <span className="text-warning">NexLogix Manager</span></h1>
+              <p className="lead text-muted">Gestiona tu logística con eficiencia y precisión</p>
+            </div>
+          )
+        )}
+      </div>
     </div>
   );
 };

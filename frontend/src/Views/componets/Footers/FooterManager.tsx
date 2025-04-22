@@ -12,12 +12,9 @@ const FooterGeneralManager = () => {
                 <div className="col-md-4">
                   <Link to="/Manager/acerca_de">Acerca de:</Link>
                 </div>
-                <div className="col-md-4">
-                  <Link to="/Manager/contactanos">Soporte Tecnico:</Link>
-                </div>
               </div>
               <div className="row">
-                <div className="col text-center mt-3">
+                <div className="col text-center mt-4">
                   <p>Derechos reservados © 2025</p>
                 </div>
               </div>
