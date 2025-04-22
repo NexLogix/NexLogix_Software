@@ -1,12 +1,9 @@
-import { useEffect } from 'react';
-import { useState, useCallback } from 'react';
-import { fetchEnvios, fetchEnvioPorId } from '../../services/Envios/EnvioService';
-import { Envio } from '../../models/Interfaces/IEnvios';
-import { fetchCiudades, fetchCategoriasEnvio, Ciudad, CategoriaEnvio } from '../../services/Envios/EnviosService';
-import { EnvioFormData } from '../../UseCases/Envios/EnviosUseCase';
-import { CrearEnvioUseCase } from '../../UseCases/Envios/EnviosUseCase';
+import { useState, useEffect, useCallback } from 'react';
+import { fetchCiudades, fetchCategoriasEnvio, fetchEnvios, fetchEnvioPorId } from '../../services/Envios/EnvioService';
+import { Ciudad, CategoriaEnvio, Envio } from '../../models/Interfaces/IEnvios';
+import { EnvioFormData, CrearEnvioUseCase } from '../../UseCases/Envios/EnviosUseCase';
 
-
+// Controlador para listar y buscar envíos
 interface EnviosState {
   envios: Envio[];
   error: string;
@@ -47,7 +44,6 @@ export const useEnviosController = () => {
     }
   }, []);
 
-  // GET BY ID CONTROLLER
   const buscarEnvioPorId = useCallback(async (idEnvio: number) => {
     try {
       setState((prev) => ({ ...prev, loading: true, error: '' }));
@@ -99,8 +95,7 @@ export const useEnviosController = () => {
   return { state, fetchEnviosData, handleSearchChange, handleSearch, resetSearch };
 };
 
-// POST CONTROLLER
-
+// Controlador para crear envíos
 interface CrearEnvioState {
   ciudades: Ciudad[];
   categorias: CategoriaEnvio[];
@@ -110,6 +105,12 @@ interface CrearEnvioState {
   successMessage: string;
   errorMessage: string;
 }
+
+// Tipo para las claves de EnvioFormData que son objetos
+type ObjectKeys<T> = {
+  [K in keyof T]: T[K] extends object ? K : never;
+}[keyof T];
+type EnvioFormDataObjectKeys = ObjectKeys<EnvioFormData>; // "recogida" | "entrega"
 
 export const useCrearEnvioController = () => {
   const [state, setState] = useState<CrearEnvioState>({
@@ -146,8 +147,14 @@ export const useCrearEnvioController = () => {
     const loadData = async () => {
       try {
         const [ciudadesResponse, categoriasResponse] = await Promise.all([
-          fetchCiudades(),
-          fetchCategoriasEnvio(),
+          fetchCiudades().catch((error) => {
+            console.error('Error al cargar ciudades:', error);
+            throw new Error('Error al cargar las ciudades');
+          }),
+          fetchCategoriasEnvio().catch((error) => {
+            console.error('Error al cargar categorías:', error);
+            throw new Error('Error al cargar las categorías');
+          }),
         ]);
         setState((prev) => ({
           ...prev,
@@ -155,6 +162,7 @@ export const useCrearEnvioController = () => {
           categorias: categoriasResponse.data,
         }));
       } catch (error) {
+        console.error('Error en loadData:', error);
         setState((prev) => ({
           ...prev,
           errorMessage: error instanceof Error ? error.message : 'Error al cargar ciudades o categorías',
@@ -170,14 +178,14 @@ export const useCrearEnvioController = () => {
     const [field, subField] = name.split('.');
 
     setState((prev) => {
-      if (subField) {
+      if (subField && (field === 'recogida' || field === 'entrega')) {
         // Actualizar campos anidados (recogida o entrega)
         return {
           ...prev,
           formData: {
             ...prev.formData,
             [field]: {
-              ...prev.formData[field as keyof EnvioFormData],
+              ...prev.formData[field as EnvioFormDataObjectKeys],
               [subField]: subField.includes('id') ? Number(value) : value,
             },
           },

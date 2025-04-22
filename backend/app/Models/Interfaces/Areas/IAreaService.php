@@ -1,7 +1,7 @@
 <?php
 namespace App\Models\Interfaces\Areas;
 
-interface IAreaService
+interface IAreaService  
 {
     public function getAll(): array;
     public function getAreaById(int $id): array;

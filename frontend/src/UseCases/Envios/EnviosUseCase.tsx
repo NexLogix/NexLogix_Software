@@ -1,11 +1,6 @@
-import {
-    createRecogida,
-    createEntrega,
-    createEnvio,
-    RecogidaData,
-    EntregaData,
-    EnvioData,
-  } from '../../services/Envios/EnvioService';
+import { createRecogida, createEntrega, createEnvio } from '../../services/Envios/EnvioService';
+import {  RecogidaData, EntregaData, EnvioData} from '../../models/Interfaces/IEnvios';
+
   
   export interface EnvioFormData {
     nombreRemitente: string;

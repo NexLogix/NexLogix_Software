@@ -14,12 +14,30 @@ const BASE_URL = 'http://127.0.0.1:8000/api';
 // Obtener lista de ciudades
 export const fetchCiudades = async (): Promise<ApiResponse<Ciudad[]>> => {
   const token = localStorage.getItem('token');
-  if (!token) throw new Error('No autenticado');
+  if (!token) {
+    console.error('fetchCiudades: No se encontró token en localStorage');
+    throw new Error('No autenticado');
+  }
   try {
-    const response: AxiosResponse<ApiResponse<Ciudad[]>> = await axios.get(`${BASE_URL}/gestion_ciudades`, {
+    console.log('fetchCiudades: Enviando solicitud a', `${BASE_URL}/gestion_ciudades`);
+    const response: AxiosResponse<
+      ApiResponse<{
+        idCiudad: number;
+        nombreCiudad: string;
+        costoPor_Ciudad: string;
+      }[]>
+    > = await axios.get(`${BASE_URL}/gestion_ciudades`, {
       headers: { Authorization: `Bearer ${token}` },
     });
-    return response.data;
+    console.log('fetchCiudades: Respuesta recibida:', JSON.stringify(response.data, null, 2));
+    // Transformar datos para que coincidan con la interfaz Ciudad
+    const transformedData: Ciudad[] = response.data.data.map((item) => ({
+      idCiudad: item.idCiudad,
+      nombre: item.nombreCiudad,
+      precioCiudad: item.costoPor_Ciudad,
+    }));
+    console.log('fetchCiudades: Datos transformados:', JSON.stringify(transformedData, null, 2));
+    return { ...response.data, data: transformedData };
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const status = error.response?.status ?? 500;
@@ -28,11 +46,17 @@ export const fetchCiudades = async (): Promise<ApiResponse<Ciudad[]>> => {
       const errorMessage = Object.values(errors).length > 0 
         ? `${message}: ${Object.values(errors).join(', ')}`
         : message;
+      console.error(`fetchCiudades: Error ${status}: ${errorMessage}`, error.response?.data);
+      if (status === 401) {
+        window.location.href = '/login';
+      }
       throw new Error(`Error ${status}: ${errorMessage}`);
     }
+    console.error('fetchCiudades: Error desconocido:', error);
     throw new Error('Error desconocido al cargar las ciudades');
   }
 };
+
 
 // Obtener lista de categorías
 export const fetchCategoriasEnvio = async (): Promise<ApiResponse<CategoriaEnvio[]>> => {

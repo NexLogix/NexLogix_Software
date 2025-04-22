@@ -40,7 +40,7 @@ class CiudadesService implements ICiudadesService
     public function getCiudadById(int $id): array
     {
         try {
-            $ciudad = Ciudades::findOrFail($id);
+            $ciudad = Ciudades::findOrFail($id); 
             return [
                 'success' => true,
                 'data' => $ciudad,

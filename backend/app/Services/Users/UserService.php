@@ -22,24 +22,7 @@ class UserService implements IUserService // Implementa la Imterfaz IUserService
         return [
             'success' => true,
             'message' => 'Lista de empleados',
-            'data' => [
-                'ID'                        => $user->idusuarios,
-                "documentoIdentidad"        => $user->documentoIdentidad,
-                "nombreCompleto"            => $user->nombreCompleto,
-                "email"                     => $user->email,
-                "numContacto"               => $user->numContacto,
-                "direccionResidencia"       => $user->direccionResidencia,
-                "fechaCreacion"             => $user->fechaCreacion,
-                "Role" => [
-                    'nombre role'                 => $user->roles->nombreRole ?? 'no asignado',
-                    'descripcion role '           => $user->roles->descripcionRole ?? ' no asignado',
-                    'fecha asignacion del role '  => $user->roles->fechaAsignacionRole ?? ' no asignado'
-                ],
-                "Puesto" => [
-                    "nombre puesto"  => $user->puestos->nombrePuesto ?? 'no asignado',
-                    "descripcion puesto"  => $user->puestos->descripcionPuesto ?? 'no asignado',
-                ]
-            ],
+            'data' => $user,
             'status' => 200
         ];
     }

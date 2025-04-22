@@ -288,3 +288,7 @@ Route::group([
 //
 /// VEHICULOS
 //
+
+//
+/// AUDITORIA / Inventarios
+//
