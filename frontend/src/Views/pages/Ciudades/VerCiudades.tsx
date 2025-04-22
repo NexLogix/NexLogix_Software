@@ -42,7 +42,7 @@ const VerCiudades: React.FC = () => {
       <table className="table table-bordered">
         <thead>
           <tr>
-            <th>ID</th>
+            <th>ID Ciudad</th>
             <th>Nombre de la Ciudad</th>
             <th>Costo por Ciudad</th>
           </tr>

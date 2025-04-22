@@ -21,9 +21,15 @@ const EditarCiudad: React.FC = () => {
     console.log('EditarCiudad: Modo edición activado para ID:', ciudad.idCiudad);
   };
 
-  const handleSave = (id: number) => {
-    handleUpdateSubmit(id);
-    setEditMode(null);
+  const handleSave = (id: number, isPartial: boolean) => {
+    handleUpdateSubmit(id, isPartial).then(() => {
+      if (createState.successMessage) {
+        // Refrescar la lista de ciudades después de una edición exitosa
+        fetchCiudadesData();
+        setEditMode(null);
+        console.log('EditarCiudad: Lista de ciudades refrescada después de guardar');
+      }
+    });
   };
 
   return (
@@ -103,10 +109,17 @@ const EditarCiudad: React.FC = () => {
                   <>
                     <button
                       className="btn btn-success me-2"
-                      onClick={() => handleSave(ciudad.idCiudad)}
+                      onClick={() => handleSave(ciudad.idCiudad, false)}
                       disabled={createState.loading}
                     >
-                      Guardar
+                      Guardar (Completo)
+                    </button>
+                    <button
+                      className="btn btn-warning me-2"
+                      onClick={() => handleSave(ciudad.idCiudad, true)}
+                      disabled={createState.loading}
+                    >
+                      Guardar (Parcial)
                     </button>
                     <button
                       className="btn btn-secondary"

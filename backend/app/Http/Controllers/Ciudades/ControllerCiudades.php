@@ -24,19 +24,6 @@ class ControllerCiudades extends Controller
     public function showAllCiudades()
     {
         $response = $this->ciudades_service->getAllCiudades();
-        if($response['success']) {
-            $user_id = Auth::id(); // Obtiene el ID del usuario autenticado
-            if($user_id){
-                // Dispara un evento de auditoría para registrar la solicitud
-                event( new ResourceAction(
-                    $user_id,
-                    'Solicitud GET',
-                    'Gestion Ciudades',
-                    null,
-                    ['Detalles' => request()->path()],
-                ));   
-            }
-        }
         // Retorna la respuesta en formato JSON con el código de estado
         return response()->json($response, $response['status']);
     }
@@ -45,19 +32,6 @@ class ControllerCiudades extends Controller
     public function showCiudadById(int $id)
     {
         $response = $this->ciudades_service->getCiudadById($id);
-        if ($response['success']) {
-            $user_id = Auth::id(); // Obtiene el ID del usuario autenticado
-            if ($user_id) {
-                // Dispara un evento de auditoría para registrar la solicitud por ID
-                event(new ResourceAction(
-                    $user_id,
-                    'Solicitud GET',
-                    'Gestion Ciudades',
-                    $id,
-                    ['path' => request()->path()]
-                ));
-            }
-        }
         // Retorna la respuesta en formato JSON con el código de estado
         return response()->json($response, $response['status']);
     }
@@ -75,6 +49,26 @@ class ControllerCiudades extends Controller
                     'Solicitud POST',
                     'Gestion Ciudades',
                     $response['data']['idCiudad'],
+                    ['data' => $request->all()]
+                ));
+            }
+        }
+        return response()->json($response, $response['status']);
+    }
+
+    // PUT CONTROLLER
+    public function updateCiudad(Request $request, int $id)
+    {
+        $response = $this->ciudades_use_case->handleUpdateCiudad($id, $request->all());
+        if ($response['success']) {
+            $userId = Auth::id(); // Obtiene el ID del usuario autenticado
+            if ($userId) {
+                // Dispara un evento de auditoría para registrar la actualización parcial
+                event(new ResourceAction(
+                    $userId,
+                    'Solicitud PUT',
+                    'Gestion Ciudades',
+                    $id,
                     ['data' => $request->all()]
                 ));
             }

@@ -1,4 +1,4 @@
-import { createCiudad, updatePartialCiudad } from '../../services/Ciudades/CiudadesService';
+import { createCiudad, updateCiudad, updatePartialCiudad } from '../../services/Ciudades/CiudadesService';
 import { ICiudad, ICiudad_ApiResponse } from '../../models/Interfaces/ICiudades';
 
 export class CiudadesUseCase {
@@ -34,6 +34,42 @@ export class CiudadesUseCase {
       return response;
     } catch (error) {
       console.error('CiudadesUseCase: Error en executeCreateCiudad:', error);
+      throw error;
+    }
+  }
+
+  // PUT: Editar ciudad completamente
+  async executeUpdateCiudad(id: number, data: { nombreCiudad: string; costoPor_Ciudad: number }): Promise<ICiudad_ApiResponse<ICiudad>> {
+    console.log('CiudadesUseCase: Ejecutando executeUpdateCiudad con ID:', id, 'y datos:', data);
+    
+    // Validaciones adicionales
+    if (!data.nombreCiudad.trim()) {
+      console.error('CiudadesUseCase: Error de validación - nombreCiudad es requerido');
+      return {
+        success: false,
+        message: 'Errores de validación',
+        data: {} as ICiudad,
+        errors: { nombreCiudad: 'El nombre de la ciudad es requerido' },
+        status: 422,
+      };
+    }
+    if (data.costoPor_Ciudad < 0) {
+      console.error('CiudadesUseCase: Error de validación - costoPor_Ciudad no puede ser negativo');
+      return {
+        success: false,
+        message: 'Errores de validación',
+        data: {} as ICiudad,
+        errors: { costoPor_Ciudad: 'El costo por ciudad no puede ser negativo' },
+        status: 422,
+      };
+    }
+
+    try {
+      const response = await updateCiudad(id, data);
+      console.log('CiudadesUseCase: Respuesta de updateCiudad:', response);
+      return response;
+    } catch (error) {
+      console.error('CiudadesUseCase: Error en executeUpdateCiudad:', error);
       throw error;
     }
   }

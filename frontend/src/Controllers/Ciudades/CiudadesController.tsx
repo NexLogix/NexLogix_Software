@@ -217,16 +217,18 @@ export const useCreateCiudadController = () => {
     }
   };
 
-  const handleUpdateSubmit = async (id: number) => {
+  const handleUpdateSubmit = async (id: number, isPartial: boolean = false) => {
     setState((prev) => ({ ...prev, loading: true, errorMessage: '', successMessage: '', errors: {} }));
-    console.log('useCreateCiudadController: Enviando formulario de edición:', state.formData, 'ID:', id);
+    console.log('useCreateCiudadController: Enviando formulario de edición:', state.formData, 'ID:', id, 'Parcial:', isPartial);
 
     try {
       const data = {
         nombreCiudad: state.formData.nombreCiudad,
         costoPor_Ciudad: state.formData.costoPor_Ciudad,
       };
-      const response = await ciudadesUseCase.executeUpdatePartialCiudad(id, data);
+      const response = isPartial
+        ? await ciudadesUseCase.executeUpdatePartialCiudad(id, data)
+        : await ciudadesUseCase.executeUpdateCiudad(id, data);
       if (response.success) {
         setState((prev) => ({
           ...prev,

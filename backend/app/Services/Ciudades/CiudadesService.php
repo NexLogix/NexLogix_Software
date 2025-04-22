@@ -40,7 +40,7 @@ class CiudadesService implements ICiudadesService
     public function getCiudadById(int $id): array
     {
         try {
-            $ciudad = Ciudades::findOrFail($id); 
+            $ciudad = Ciudades::findOrFail($id);
             return [
                 'success' => true,
                 'data' => $ciudad,
@@ -88,6 +88,42 @@ class CiudadesService implements ICiudadesService
         }
     }
 
+    //PUT
+
+    public function updateCiudad(int $id, array $data)
+    {
+        try {
+            $ciudad = Ciudades::findOrFail($id);
+
+            if (empty($data)) {
+                return [
+                    'success' => false,
+                    'message' => 'No se proporcionaron campos válidos para actualizar',
+                    'status' => 400
+                ];
+            }
+
+            $ciudad->update($data);
+            return [
+                'success' => true,
+                'message' => 'La Ciudad ha sido actualizada',
+                'data' => $ciudad,
+                'status' => 200
+            ];
+        } catch (ModelNotFoundException $e) {
+            return [
+                'success' => false,
+                'message' => "Ciudades con ID $id no encontrado",
+                'status' => 404
+            ];
+        } catch (Exception $e) {
+            return [
+                'success' => false,
+                'message' => 'Error al actualizar la Ciudad ' . $e->getMessage(),
+                'status' => 500
+            ];
+        }
+    }
     // PATCH
     public function updateSpecificSectionCiudad(int $id, array $data): array
     {
@@ -105,7 +141,7 @@ class CiudadesService implements ICiudadesService
             $ciudad->update($data);
             return [
                 'success' => true,
-                'message' => 'Ciudades actualizado parcialmente',
+                'message' => 'Ciudad actualizada pero parcialmente',
                 'data' => $ciudad,
                 'status' => 200
             ];

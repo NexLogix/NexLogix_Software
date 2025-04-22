@@ -26,7 +26,6 @@ export const fetchCiudades = async (): Promise<ICiudad_ApiResponse<ICiudad[]>> =
         ? `${message}: ${Object.values(errors).join(', ')}`
         : message;
       console.error(`fetchCiudades: Error ${status}: ${errorMessage}`, error.response?.data);
-      // Excepcion de status 401, que dice que, si las credenciales no estan autorizadas, se cierra la seccion y redirije a Login
       if (status === 401) {
         window.location.href = '/login';
       }
@@ -60,7 +59,6 @@ export const fetchCiudadById = async (id: number): Promise<ICiudad_ApiResponse<I
         ? `${message}: ${Object.values(errors).join(', ')}`
         : message;
       console.error(`fetchCiudadById: Error ${status}: ${errorMessage}`, error.response?.data);
-    // Excepcion de status 401, que dice que, si las credenciales no estan autorizadas, se cierra la seccion y redirije a Login
       if (status === 401) {
         window.location.href = '/login';
       }
@@ -104,6 +102,39 @@ export const createCiudad = async (data: { nombreCiudad: string; costoPor_Ciudad
   }
 };
 
+// PUT: Editar una ciudad completamente
+export const updateCiudad = async (id: number, data: { nombreCiudad: string; costoPor_Ciudad: number }): Promise<ICiudad_ApiResponse<ICiudad>> => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    console.error('updateCiudad: No se encontró token en localStorage');
+    throw new Error('No autenticado');
+  }
+  try {
+    console.log('updateCiudad: Enviando solicitud a', `${BASE_URL}/gestion_ciudades/editar_ciudad/${id}`, 'con datos:', data);
+    const response: AxiosResponse<ICiudad_ApiResponse<ICiudad>> = await axios.put(`${BASE_URL}/gestion_ciudades/editar_ciudad/${id}`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    console.log('updateCiudad: Respuesta recibida:', JSON.stringify(response.data, null, 2));
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const status = error.response?.status ?? 500;
+      const message = error.response?.data?.message ?? 'Error al editar la ciudad';
+      const errors = error.response?.data?.errors ?? {};
+      const errorMessage = Object.values(errors).length > 0 
+        ? `${message}: ${Object.values(errors).join(', ')}`
+        : message;
+      console.error(`updateCiudad: Error ${status}: ${errorMessage}`, error.response?.data);
+      throw new Error(`Error ${status}: ${errorMessage}`);
+    }
+    console.error('updateCiudad: Error desconocido:', error);
+    throw new Error('Error desconocido al editar la ciudad');
+  }
+};
+
 // PATCH: Editar parcialmente una ciudad
 export const updatePartialCiudad = async (id: number, data: Partial<{ nombreCiudad: string; costoPor_Ciudad: number }>): Promise<ICiudad_ApiResponse<ICiudad>> => {
   const token = localStorage.getItem('token');
@@ -112,8 +143,8 @@ export const updatePartialCiudad = async (id: number, data: Partial<{ nombreCiud
     throw new Error('No autenticado');
   }
   try {
-    console.log('updatePartialCiudad: Enviando solicitud a', `${BASE_URL}/gestion_ciudades/editar_ciudad/${id}`, 'con datos:', data);
-    const response: AxiosResponse<ICiudad_ApiResponse<ICiudad>> = await axios.patch(`${BASE_URL}/gestion_ciudades/editar_ciudad/${id}`, data, {
+    console.log('updatePartialCiudad: Enviando solicitud a', `${BASE_URL}/gestion_ciudades/editar_parcial_ciudad/${id}`, 'con datos:', data);
+    const response: AxiosResponse<ICiudad_ApiResponse<ICiudad>> = await axios.patch(`${BASE_URL}/gestion_ciudades/editar_parcial_ciudad/${id}`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',

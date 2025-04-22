@@ -234,7 +234,9 @@ Route::group([
         ->middleware('role:2,3');
     Route::post('/crear_ciudad', [ControllerCiudades::class, 'createCiudad'])
     ->middleware('role:2,3');
-    Route::patch('/editar_ciudad/{id}', [ControllerCiudades::class, 'updateSpecificSection'])
+    Route::put('/editar_ciudad/{id}', [ControllerCiudades::class, 'updateCiudad'])
+        ->middleware('role:2');
+    Route::patch('/editar_parcial_ciudad/{id}', [ControllerCiudades::class, 'updateSpecificSection'])
         ->middleware('role:2');
     Route::delete('/eliminar_ciudad/{id}', [ControllerCiudades::class, 'deleteCiudades'])
         ->middleware('role:2');

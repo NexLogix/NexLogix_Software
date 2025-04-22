@@ -32,6 +32,31 @@ class CiudadesUseCase implements ICiudadesUseCase
         return $this->ciudades_service->createCiudad($data);
     }
 
+    // PUT
+
+    public function handleUpdateCiudad(int $id, array $data)
+    {
+        $validator = Validator::make($data, [
+            "nombreCiudad"=> [
+                "required",
+                "string",
+                "max:255",
+                'nombreCiudad' => 'unique:ciudades,nombreCiudad,' . $id . ',idCiudad'
+            ],
+            "costoPor_Ciudad" =>  "required|numeric|min:0",
+        ]);
+        if ($validator->fails()) {
+            return [
+                'success' => false,
+                'message' => 'Errores de validación',
+                'errors' => $validator->errors(),
+                'status' => 422
+            ];
+        }
+        return $this->ciudades_service->updateCiudad($id, $data);
+    }
+
+
     // PATCH SERVICES
     public function handleUpdateSpecificSectionC(int $id, array $data): array
     {
