@@ -49,12 +49,7 @@ const VerEnvios = () => {
       </nav>
   
       <div className="row">
-        <div className="col-12">
-          <div className="card shadow-sm">
-            <div className="card-header bg-primary text-white">
-              <h3 className="mb-0">Ver Envíos</h3>
-            </div>
-  
+        <div className="col-12"> 
             <div className="card-body">
               {error && (
                 <div className="alert alert-danger text-center fw-bold">
@@ -135,7 +130,6 @@ const VerEnvios = () => {
               )}
             </div>
           </div>
-        </div>
       </div>
     </div>
   );

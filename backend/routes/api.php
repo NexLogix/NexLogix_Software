@@ -21,6 +21,15 @@ Route::group([
 });
 
 //
+/*
+    La rason por la cual en todas las rutas se pone auth:api, es para que esta ruta solo este funcionando si esta autenticada,
+    gracias al middleware que es checkrole, se revisa el role del usuario, si cumple los requerimientos se enruta a su respectivas
+    funciones y permisos por el role.
+*/
+//
+//----------------------------------------------------------------------------------------------------------------------------------------
+
+//
 /// USERS, con rutas y con auditoria
 //
 
@@ -28,7 +37,7 @@ use App\Http\Controllers\Users\UsersController;
 /*
     Se modigica de esta manera GESTION USUARIOS para que cuando se haga login /api:auth/ solo los usuarios
     autenticados puedes hacer las acciones de gestion_usuarios, con esto se llama al idRole, con esto se sabe
-    que role tiene Manager/2, Empleadp/3, despues por medio de Middleware se valida si tiene permiso o no.
+    que role tiene Manager/2, Empleado/3, despues por medio de Middleware se valida si tiene permiso o no.
 */
 
 Route::group([
@@ -36,7 +45,7 @@ Route::group([
     'prefix' => 'gestion_usuarios'
 ], function () {
     Route::get('/', [UsersController::class, 'showAll'])
-        ->middleware('role:2,3'); // Accede Manager y Empleado
+        ->middleware('role:2'); // Accede Manager y Empleado
     Route::get('buscar_usuario/{id}', [UsersController::class, 'showByID'])
         ->middleware('role:2'); // Solo accedeManager
     Route::post('/crear_usuario', [UsersController::class, 'createUser'])
@@ -82,9 +91,9 @@ Route::group([
     'prefix' => 'gestion_areas'
 ], function () {
     Route::get('/', [AreasController::class, 'showAll'])
-        ->middleware('role:2,3'); // Manager y Empleado
+        ->middleware('role:2'); // Manager y Empleado
     Route::get('/{id}', [AreasController::class, 'showByID'])
-        ->middleware('role:2,3'); // Manager y Empleado
+        ->middleware('role:2'); // Manager y Empleado
     Route::post('/crear_area', [AreasController::class, 'createArea'])
         ->middleware('role:2'); // Solo Manager
     Route::put('/editar_area/{id}', [AreasController::class, 'updateArea'])
@@ -229,9 +238,9 @@ Route::group([
     'prefix' => 'gestion_ciudades'
 ], function () {
     Route::get('/', action: [ControllerCiudades::class, 'showAllCiudades'])
-        ->middleware('role:2,3');
+        ->middleware('role:2');
     Route::get('/buscar_ciudad/{id}', [ControllerCiudades::class, 'showCiudadById'])
-        ->middleware('role:2,3');
+        ->middleware('role:2');
     Route::post('/crear_ciudad', [ControllerCiudades::class, 'createCiudad'])
     ->middleware('role:2,3');
     Route::put('/editar_ciudad/{id}', [ControllerCiudades::class, 'updateCiudad'])

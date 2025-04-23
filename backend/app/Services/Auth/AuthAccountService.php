@@ -11,7 +11,7 @@ class AuthAccountService
     public function login(array $credentials): array
     {
         try {
-            if (!$token = Auth::attempt($credentials)) {
+            if (!$token = Auth::attempt($credentials)) { // AUTH viene de JWT, si no tiene token las credeciales, no se puede logear
                 return [
                     'success' => false,
                     'message' => 'Credenciales incorrectas',
@@ -19,7 +19,7 @@ class AuthAccountService
                 ];
             }
 
-            $user = Auth::user();
+            $user = Auth::user(); // usuario autenticado
 
             return [
                 'success' => true,

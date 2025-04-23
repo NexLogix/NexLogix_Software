@@ -44,11 +44,8 @@ const NavbarGeneral = () => {
                         Configuraciones
                         </a>
                         <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li><a className="dropdown-item" href="#">Configuración de cuenta</a></li>
-                            <li><a className="dropdown-item" href="#">Configuración de sistema</a></li>
-                            <li><a className="dropdown-item" href="#">Configuración de notificaciones</a></li>
+                            <li><a className="dropdown-item" href="#">Configuración de informacion personal</a></li>
                             <li><a className="dropdown-item" href="#">Preferencias de idioma</a></li>
-                            <li><a className="dropdown-item" href="#">Manual de Uso</a></li>
                             <li>
                                 {/*NO TOCAR POR EL AMOR A CRISTO
                                     Aqui esta la llamada del controller Logout

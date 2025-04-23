@@ -15,20 +15,21 @@ class AreasService implements IAreaService
     {
         try {
             $areas = Areas::all();
-            if ($areas->isEmpty()) {
+            if ($areas->isEmpty()) { // si esta vacio muestra el estado 404
                 return [
                     'success' => false,
                     'message' => 'No hay áreas registradas',
                     'status' => 404
                 ];
             }
+            // get exitoso
             return [
                 'success' => true,
                 'data' => $areas,
                 'message' => 'Áreas obtenidas exitosamente',
                 'status' => 200
             ];
-        } catch (Exception $e) {
+        } catch (Exception $e) { // excepcion si la DB no se conecto
             return [
                 'success' => false,
                 'message' => 'Error al obtener áreas: ' . $e->getMessage(),
@@ -41,7 +42,7 @@ class AreasService implements IAreaService
     public function getAreaById(int $id): array
     {
         try {
-            $area = Areas::findOrFail($id);
+            $area = Areas::findOrFail($id); // se encuentra ID o sino falla
             return [
                 'success' => true,
                 'data' => $area,
@@ -67,7 +68,7 @@ class AreasService implements IAreaService
     public function createArea(array $data): array
     {
         try {
-            $area = Areas::create([
+            $area = Areas::create([ // se crea la Area Aqui
                 'nombreArea' => $data['nombreArea'],
                 'descripcionArea' => $data['descripcionArea'] ?? null,
             ]);
@@ -96,7 +97,7 @@ class AreasService implements IAreaService
     public function updateArea(int $id, array $data): array
     {
         try {
-            $area = Areas::findOrFail($id);
+            $area = Areas::findOrFail($id); // primero se busca el area por ID
             $area->update([
                 'nombreArea' => $data['nombreArea'],
                 'descripcionArea' => $data['descripcionArea'],
@@ -133,7 +134,7 @@ class AreasService implements IAreaService
     {
         try {
             $area = Areas::findOrFail($id);
-            $fields = [];
+            $fields = []; // arrego vacio
             if (isset($data['nombreArea'])) {
                 $fields['nombreArea'] = $data['nombreArea'];
             }
@@ -143,7 +144,7 @@ class AreasService implements IAreaService
             if (empty($fields)) {
                 throw new Exception('No se proporcionaron campos para actualizar', 400);
             }
-            $area->update($fields);
+            $area->update($fields); // metodo para actualizar, pero los fields que esten ahi
             return [
                 'success' => true,
                 'data' => $area,
@@ -170,7 +171,7 @@ class AreasService implements IAreaService
     {
         try {
             $area = Areas::findOrFail($id);
-            $area->delete();
+            $area->delete(); // metodo para eliminar
             return [
                 'success' => true,
                 'message' => 'Área eliminada correctamente',
