@@ -35,6 +35,13 @@ use App\UseCases\Envios\EnvioUseCase;
 use App\UseCases\Recogidas\RecogidaUseCase;
 use Illuminate\Support\ServiceProvider;
 
+// GESTION AUDITORIAS
+use App\Services\Auditoria\AuditLogService;
+use App\UseCases\Auditorias\AuditoriasUseCase;
+use App\Models\Interfaces\Auditoria\IAudit_log_UseCase;
+use App\Models\Interfaces\Auditoria\IAuditLogService;
+
+
 class AppServiceProvider extends ServiceProvider
 {
     // Manejo de las inyecciones de dependecias
@@ -85,6 +92,12 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IEntregaService::class, EntregasService::class);
         $this->app->bind(IEntregaUseCase::class, function ($app) {
             return new EntregasUseCase($app->make(IEntregaService::class));
+        });
+
+        // AUDITORIAS
+        $this->app->bind(IAuditLogService::class, AuditLogService::class);
+        $this->app->bind(IAudit_log_UseCase::class, function($app){
+            return new AuditoriasUseCase($app->make(IAuditLogService::class));
         });
 
     }

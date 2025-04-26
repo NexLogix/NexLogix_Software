@@ -9,8 +9,9 @@ class AuditLog extends Model
 {
     use HasFactory;
     protected $table = 'audit_logs';
+
     protected $primaryKey = 'id';
-    public $timestamps = false;
+    public $timestamps = true;
     protected $fillable = ['user_id', 'action', 'resource_type', 'resource_id', 'details'];
     protected $casts = ['details' => 'array'];
 }

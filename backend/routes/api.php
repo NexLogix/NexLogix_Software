@@ -56,6 +56,23 @@ Route::group([
         ->middleware('role:2'); // Solo Manage
 });
 
+//
+/// AUDITORIAS
+//
+use App\Http\Controllers\Auditorias\AuditoriaController;
+Route::group([
+    'middleware' => ['api', 'auth:api'],
+    'prefix' => 'gestion_auditorias'
+], function () {
+    Route::get('/', action: [AuditoriaController::class, 'showAllAuditorias'])
+        ->middleware('role:2');
+    Route::get('/buscar_auditoria/{id}', [AuditoriaController::class, 'showAuditoriaByID'])
+        ->middleware('role:2');
+    Route::patch('/editar_auditoria/{id}', [AuditoriaController::class, 'updateAuditoria'])
+        ->middleware('role:2');
+    Route::delete('/eliminar_auditoria/{id}', [AuditoriaController::class, 'deleteAuditoria'])
+        ->middleware('role:2');
+});
 
 //
 /// ROLES // RUTAS PROTEGIDAS PERO SIN AUDITORIA, pediente..

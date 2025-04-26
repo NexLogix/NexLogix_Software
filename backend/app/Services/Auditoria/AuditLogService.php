@@ -1,4 +1,5 @@
 <?php
+namespace App\Services\Auditoria;
 
 use App\Models\AuditLog;
 use App\Models\Interfaces\Auditoria\IAuditLogService;
