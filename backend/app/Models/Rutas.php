@@ -13,14 +13,13 @@ class Rutas extends Model
     public $timestamps = false;
     protected $fillable = [
         'nombreRuta',
-        'fechaAsignacionRuta',
         'horaEntrada',
         'horaSalida',
         'idCiudad',
     ];
 
      // muchas Rutas pertenecen a una CIUDAD
-     public function cuidades() {
-        return $this->belongsTo(Cuidades::class, 'idCiudad');
+     public function ciudades() {
+        return $this->belongsTo(Ciudades::class, 'idCiudad');
     }
 }

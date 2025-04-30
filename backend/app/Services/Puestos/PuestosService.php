@@ -19,7 +19,7 @@ class PuestosService
                 'status' => 404
             ];
         }
-
+ 
         return [
             'success' => true,
             'data' => $puestos,
@@ -127,7 +127,7 @@ class PuestosService
             ];
         }
 
-        $puesto->delete(); 
+        $puesto->delete();
 
         return [
             'success' => true,

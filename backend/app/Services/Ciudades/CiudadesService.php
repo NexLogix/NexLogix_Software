@@ -155,7 +155,7 @@ class CiudadesService implements ICiudadesService
             return [
                 'success' => false,
                 'message' => 'Error al actualizar la Ciudad ' . $e->getMessage(),
-                'status' => 500
+                'status' => 500 
             ];
         }
     }

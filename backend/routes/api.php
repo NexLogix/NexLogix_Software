@@ -30,7 +30,7 @@ Route::group([
 //----------------------------------------------------------------------------------------------------------------------------------------
 
 //
-/// USERS, con rutas y con auditoria
+/// USERS, con rutas
 //
 
 use App\Http\Controllers\Users\UsersController;
@@ -59,6 +59,7 @@ Route::group([
 //
 /// AUDITORIAS
 //
+
 use App\Http\Controllers\Auditorias\AuditoriaController;
 Route::group([
     'middleware' => ['api', 'auth:api'],
@@ -249,6 +250,7 @@ Route::group([
 //
 /// CUIDADES
 //
+
 use App\Http\Controllers\Ciudades\ControllerCiudades;
 Route::group([
     'middleware' => ['api', 'auth:api'],
@@ -271,6 +273,7 @@ Route::group([
 //
 /// RECOGIDAS
 //
+
 use App\Http\Controllers\Recogidas\RecogidasControllers;
 Route::group([
     'middleware' => ['api', 'auth:api'],
@@ -291,6 +294,7 @@ Route::group([
 //
 /// ENTREGAS
 //
+
 use App\Http\Controllers\Entregas\EntregasController;
 Route::group([
     'middleware' => ['api', 'auth:api'],
@@ -312,11 +316,24 @@ Route::group([
 //
 /// RUTAS
 //
+use App\Http\Controllers\Rutas\RutasController;
+
+Route::group([
+    'middleware' => ['api', 'auth:api'],
+    'prefix' => 'gestion_rutas'
+], function () {
+    Route::get('/', action: [RutasController::class, 'getAllRutas'])
+        ->middleware('role:2');
+    Route::get('/buscar_ruta/{id}', [RutasController::class, 'getRutaByID'])
+        ->middleware('role:2,3');
+    Route::post('/crear_ruta', [RutasController::class, 'createRuta'])
+    ->middleware('role:2');
+    Route::patch('/editar_ruta/{id}', [RutasController::class, 'updateRuta'])
+        ->middleware('role:2');
+    Route::delete('/eliminar_ruta/{id}', [RutasController::class, 'deleteRuta'])
+        ->middleware('role:2');
+});
 
 //
 /// VEHICULOS
-//
-
-//
-/// AUDITORIA / Inventarios
 //

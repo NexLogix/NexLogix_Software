@@ -40,7 +40,10 @@ use App\Services\Auditoria\AuditLogService;
 use App\UseCases\Auditorias\AuditoriasUseCase;
 use App\Models\Interfaces\Auditoria\IAudit_log_UseCase;
 use App\Models\Interfaces\Auditoria\IAuditLogService;
-
+use App\Models\Interfaces\Rutas\IRutasService;
+use App\Models\Interfaces\Rutas\IRutasUseCase;
+use App\Services\Rutas\RutasService;
+use App\UseCases\Rutas\RutasUseCase;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -98,6 +101,12 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IAuditLogService::class, AuditLogService::class);
         $this->app->bind(IAudit_log_UseCase::class, function($app){
             return new AuditoriasUseCase($app->make(IAuditLogService::class));
+        });
+
+        // RUTAS
+        $this->app->bind(IRutasService::class, RutasService::class);
+        $this->app->bind(IRutasUseCase::class, function ($app){
+            return new RutasUseCase($app->make(IRutasService::class));
         });
 
     }
