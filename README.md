@@ -1,5 +1,3 @@
-![imagen](https://github.com/user-attachments/assets/d5a49cea-4168-43c5-b952-22737f34cfc8)<div style="text-align: center;">
-
 # 🚚 **NexLogix Software** 🚚
 
 
