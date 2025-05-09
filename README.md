@@ -1,4 +1,4 @@
-<div style="text-align: center;">
+![imagen](https://github.com/user-attachments/assets/d5a49cea-4168-43c5-b952-22737f34cfc8)<div style="text-align: center;">
 
 # 🚚 **NexLogix Software** 🚚
 
@@ -33,5 +33,21 @@
 
 ### 🔍 **Planteamiento del Problema**
 Las empresas de logística enfrentan desafíos como la ineficiencia en la planificación de rutas, la falta de visibilidad en tiempo real de los envíos y la gestión manual de inventarios. Estos problemas generan costos adicionales, retrasos en las entregas y una experiencia subóptima para los clientes. NexLogix Software aborda estas cuestiones mediante una plataforma integral que automatiza y optimiza los procesos logísticos. 🚨
+
+### 🎯 **Alcance**
+El software cubre las siguientes áreas:
+- **Gestión de rutas**: Planificación y optimización de rutas basada en tráfico, distancia y prioridades.
+- **Seguimiento de envíos**: Monitoreo en tiempo real con integración de GPS.
+- **Gestión de inventarios**: Control de stock y automatización de pedidos.
+- **Análisis de datos**: Generación de reportes para evaluar el rendimiento operativo.
+- **Funciones y características**: Base de datos de inventario, informes detallados en tiempo real, llevar informes detallados de la mercancía que entra y sale de la empresa.
+- **Restricciones**: Solamente será utilizado por los trabajadores por su correspondiente cargo y usuario de la empresa utilizando una red local.
+
+El sistema está diseñado para ser escalable, permitiendo su uso en pequeñas empresas locales hasta grandes corporaciones internacionales. 🌎
+
+### 📝 **Justificación**
+La digitalización de los procesos logísticos es esencial en un mercado globalizado. NexLogix Software ofrece una solución que reduce costos operativos, mejora los tiempos de entrega y aumenta la satisfacción del cliente. Al integrar tecnologías modernas como algoritmos de optimización y seguimiento en tiempo real, el software posiciona a las empresas para competir en un entorno dinámico y exigente. 💼
+
+---
 
 *Desarrollado con ❤️ y 🍩 por el equipo de NexLogix.*
