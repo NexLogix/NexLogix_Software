@@ -5,7 +5,7 @@
 <img src="https://github.com/NexLogix/NexLogix_Software/blob/master/logo.png" alt="NexLogix Logo" width="400" height="400"/>
 </div>
 
-**Bienvenidos al repositorio oficial del software de NexLogix**, una solución integral diseñada para optimizar las operaciones de logística y transporte. Este sistema ofrece herramientas avanzadas para la gestión de rutas, inventarios, pedidos y más, todo con una interfaz intuitiva y moderna. 🌐
+**⚡Control total, cero complicaciones.**
 
 
 ## 🚀 **Objetivo General**
