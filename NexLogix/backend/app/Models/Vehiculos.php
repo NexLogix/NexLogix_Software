@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Models;
-
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,5 +15,21 @@ class Vehiculos extends Model
         'marcaVehiculo', 'tipoVehiculo', 'placa',
     ];
 
+    // Un Vehiculo puede tener varios usuarios asignados
+    public function users()
+    {
+        return $this->hasMany(User::class,
+        'idusuarios',
+        'idusuarios');
+    }
+
+    // Muchos vehiculos están relacionados con AsignacionRuta
+    public function asignacionRutas()
+    {
+        return $this->hasMany(AsignacionRutas::class,
+            'idAsignacionRuta',
+            'idAsignacionRuta',
+        );
+    }
 
 }
