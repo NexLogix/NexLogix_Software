@@ -16,5 +16,4 @@ class Vehiculos extends Model
         'marcaVehiculo', 'tipoVehiculo', 'placa',
     ];
 
-
 }
