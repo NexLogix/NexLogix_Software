@@ -35,6 +35,7 @@ use App\UseCases\Ciudades\CiudadesUseCase;
 use App\UseCases\Entregas\EntregasUseCase;
 use App\UseCases\Envios\EnvioUseCase;
 use App\UseCases\Recogidas\RecogidaUseCase;
+use App\UseCases\Vehiculos\VehiculosUseCase;
 use Illuminate\Support\ServiceProvider;
 
 // GESTION AUDITORIAS
@@ -44,7 +45,10 @@ use App\Models\Interfaces\Auditoria\IAudit_log_UseCase;
 use App\Models\Interfaces\Auditoria\IAuditLogService;
 use App\Models\Interfaces\Rutas\IRutasService;
 use App\Models\Interfaces\Rutas\IRutasUseCase;
+use App\Models\Interfaces\Vehiculos\IVehiculoService;
+use App\Models\Interfaces\Vehiculos\IVehiculoUseCase;
 use App\Services\Rutas\RutasService;
+use App\Services\Vehiculos\VehiculoService;
 use App\UseCases\Rutas\RutasUseCase;
 
 class AppServiceProvider extends ServiceProvider
@@ -109,6 +113,12 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IRutasService::class, RutasService::class);
         $this->app->bind(IRutasUseCase::class, function ($app){
             return new RutasUseCase($app->make(IRutasService::class));
+        });
+
+        // VEHICULOS
+        $this->app->bind(IVehiculoService::class, VehiculoService::class);
+        $this->app->bind(IVehiculoUseCase::class, function($app){
+            return new VehiculosUseCase($app->make(IVehiculoService::class));
         });
 
     }

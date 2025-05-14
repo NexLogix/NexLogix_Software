@@ -13,22 +13,28 @@ class VehiculoService implements IVehiculoService
     // service HTTP GET
     public function getAllVehiculos(): array
     {
-
-        $vehiculos = Vehiculos::all();
-        if ($vehiculos->isEmpty()) {
-            return [
+        try {
+            $vehiculo = Vehiculos::all();
+            if ($vehiculo->isEmpty()) {
+                return [
                     'success' => false,
-                    'message' => 'No hay vehiculos registradas',
+                    'message' => 'No hay cehiculos registrados',
                     'status' => 404
+                ];
+            }
+            return [
+                'success' => true,
+                'message' => 'Lista de vehiculos:',
+                'data' => $vehiculo,
+                'status' => 200
+            ];
+        } catch (Exception $e) {
+            return [
+                'success' => false,
+                'message' => 'Error al obtener el vehiculo ' . $e->getMessage(),
+                'status' => 500
             ];
         }
-
-        return [
-            'success' => true,
-            'message' => 'Lista de Vehiculos.',
-            'data' => $vehiculos,
-            'status' => 200
-        ];
     }
 
 
