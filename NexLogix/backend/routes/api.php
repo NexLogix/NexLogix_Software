@@ -335,5 +335,27 @@ Route::group([
 });
 
 //
+/// GESTION ASIGNACION DE RUTAS
+//
+
+use App\Http\Controllers\AsignacionRutas\AR_controller;
+
+Route::group([
+    'middleware' => ['api', 'auth:api'],
+    'prefix' => 'gestion_asignacio_rutas'
+], function () {
+    Route::get('/', action: [AR_controller::class, 'showAll_AR'])
+        ->middleware('role:2');
+    Route::get('/buscar_AR/{id}', [AR_controller::class, 'show_AR_ById'])
+        ->middleware('role:2,3');
+    Route::post('/crear_AR', [AR_controller::class, 'create_AR'])
+    ->middleware('role:2');
+    Route::patch('/editar_AR/{id}', [AR_controller::class, 'update_AR'])
+        ->middleware('role:2');
+    Route::delete('/eliminar_AR/{id}', [AR_controller::class, 'delete_AR'])
+        ->middleware('role:2');
+});
+
+//
 /// VEHICULOS
 //
