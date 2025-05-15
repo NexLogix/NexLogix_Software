@@ -157,7 +157,7 @@ $this->app->bind(IUserService::class, UserService::class);
 * [x] Gestion de envios, rutas, ciudades, recogidas, entregas con sus respectivas auditorias completadas.
 * [ ] Capa de Excepciones en proceso, es espera que todos los services y useCases los tengas para que se documenten todos los metodos HTTP
 * [ ] Gestion de reportes (en desarrollo).
-* [ ] Vehículos y Asignación de Rutas (en desarrollo).
+* [x] Vehículos y Asignación de Rutas (en desarrollo).
 * [ ] Migración completa de dependencias a interfaces (en curso).
 * [ ] Validaciones están siendo migradas 100% a los UseCases.
 
@@ -165,7 +165,7 @@ $this->app->bind(IUserService::class, UserService::class);
 
 ## 📚 Pendientes
 
-- Pendiente los modulos de vehiculos y asignacionRutas, (Estan en Proceso).
+
 - Estamos haciendo varias migraciones de Inyecciones de dependencias, como lo es en Reportes y Roles. 
 - Se esta haciendo lo posible para que cada solicitud HTTP se valide en sus respectivos UseCases y no en sus en el Service.
 - No acceder directamente a Eloquent fuera del Service.
