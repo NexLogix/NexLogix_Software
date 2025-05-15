@@ -4,19 +4,19 @@ use App\Models\Interfaces\AsignacionRutas\IAsignacionRutasService;
 
 class AsignacionRutasService implements IAsignacionRutasService
 {
-    public function getAllCiudades()
-    {
-        
-    }
-    public function getCiudadById(int $id): array
+    public function getAllAsignacionRutas()
     {
 
     }
-    public function createCiudad(array $data): array
+    public function getAsignacionRutaById(int $id): array
     {
 
     }
-    public function updateCiudad(int $id, array $data)
+    public function createAsignacionRutas(array $data): array
+    {
+
+    }
+    public function updatedAsignacionRutas(int $id, array $data)
     {
 
     }
@@ -24,7 +24,7 @@ class AsignacionRutasService implements IAsignacionRutasService
     {
 
     }
-    public function deleteCiudad(int $id): array
+    public function deleteAsignacionRuta(int $id): array
     {
 
     }
