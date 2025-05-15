@@ -13,7 +13,7 @@ use App\Models\User; // Se importa el modelo User, que representa la tabla 'user
 use Tymon\JWTAuth\Facades\JWTAuth; // Librería JWT para generar el token de autenticación tras crear un usuario
 
 // Aqui Implementamos la interfaz IUserService definida para estandarizar el servicio, siguiendo los principios de las inyecciones de dependecias y la arquitectura de Inyerfaces como contratos
-class UserService implements IUserService
+class UserService implements IUserService 
 {
     // GET SERVICE
     public function getAllUsers():array

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+//RELACION N:1 con vehiculos y rutas
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

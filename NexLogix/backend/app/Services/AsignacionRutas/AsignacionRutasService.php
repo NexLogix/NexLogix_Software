@@ -7,6 +7,12 @@ class AsignacionRutasService implements IAsignacionRutasService
     public function getAllAsignacionRutas()
     {
 
+
+class AsignacionRutaService implements IAsignacionRutasService
+{
+    public function getAllAsignacionRutas()
+    {
+
     }
     public function getAsignacionRutaById(int $id): array
     {
