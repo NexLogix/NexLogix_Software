@@ -60,7 +60,7 @@ class ControllerCiudades extends Controller
     public function updateCiudad(Request $request, int $id)
     {
         $response = $this->ciudades_use_case->handleUpdateCiudad($id, $request->all());
-        if ($response['success']) { 
+        if ($response['success']) {
             $userId = Auth::id(); // Obtiene el ID del usuario autenticado
             if ($userId) {
                 // Dispara un evento de auditoría para registrar la actualización parcial

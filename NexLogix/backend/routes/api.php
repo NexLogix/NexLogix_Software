@@ -359,3 +359,22 @@ Route::group([
 //
 /// VEHICULOS
 //
+
+use App\Http\Controllers\vehiculos\VehiculosController;
+
+Route::group([
+    'middleware' => ['api', 'auth:api'],
+    'prefix' => 'gestion_vehiculos'
+], function () {
+    Route::get('/', [VehiculosController::class, 'showAllVehiculos'])
+        ->middleware('role:2,3');
+    Route::get('/buscar_vehiculo/{id}', [VehiculosController::class, 'showVehiculoById'])
+        ->middleware('role:2,3');
+    Route::post('/crear_vehiculo', [VehiculosController::class, 'createVehiculo'])
+        ->middleware('role:2');
+    Route::patch('/editar_vehiculo/{id}', [VehiculosController::class, 'updateVehiculo'])
+        ->middleware('role:2');
+    Route::delete('/eliminar_vehiculo/{id}', [VehiculosController::class, 'deleteVehiculo'])
+        ->middleware('role:2');
+});
+
