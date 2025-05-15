@@ -342,7 +342,7 @@ use App\Http\Controllers\AsignacionRutas\AR_controller;
 
 Route::group([
     'middleware' => ['api', 'auth:api'],
-    'prefix' => 'gestion_asignacio_rutas'
+    'prefix' => 'gestion_asignacion_rutas'
 ], function () {
     Route::get('/', action: [AR_controller::class, 'showAll_AR'])
         ->middleware('role:2');
