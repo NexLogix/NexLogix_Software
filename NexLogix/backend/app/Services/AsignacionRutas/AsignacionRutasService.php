@@ -2,11 +2,11 @@
 
 use App\Models\Interfaces\AsignacionRutas\IAsignacionRutasService;
 
-class AsignacionRutasService implements IAsignacionRutasService
+class AsignacionRutaService implements IAsignacionRutasService
 {
     public function getAllAsignacionRutas()
     {
-
+        
     }
     public function getAsignacionRutaById(int $id): array
     {
