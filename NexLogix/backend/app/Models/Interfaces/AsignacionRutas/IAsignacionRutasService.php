@@ -1,12 +1,12 @@
 <?php
 namespace App\Models\Interfaces\AsignacionRutas;
 
+// se pone AR por Aasignacion Rutas
 interface IAsignacionRutasService
 {
-    public function getAllCiudades();
-    public function getCiudadById(int $id): array;
-    public function createCiudad(array $data): array;
-    public function updateCiudad(int $id, array $data);
-    public function updateSpecificSectionCiudad(int $id, array $data): array;
-    public function deleteCiudad(int $id): array;
+    public function getAll_AR();
+    public function get_AR_ById(int $id): array;
+    public function create_AR(array $data): array;
+    public function update_AR(int $id, array $data);
+    public function delete_AR(int $id): array;
 }

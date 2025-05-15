@@ -1,8 +1,10 @@
 <?php
 namespace App\Models\Interfaces\AsignacionRutas;
 
+// se pone AR por Aasignacion Rutas
 interface IAsignacionRutasUseCase
 {
-    public function handleCreateCiudad(array $data): array;
-    public function handleUpdateCiudad(int $id, array $data);
+    public function handleCreate_AR(array $data): array;
+    public function handleUpdate_AR(int $id, array $data);
 }
+
