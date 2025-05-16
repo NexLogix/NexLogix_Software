@@ -1,54 +1,54 @@
-# React + TypeScript + Vite
+# 🚀 NEXLOGX
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Tecnologías usadas: **React** & **Vite**, **TypeScript** y **Bootstrap**.
 
-Currently, two official plugins are available:
+Este proyecto adopta una arquitectura inspirada en el patrón MVC, combinada con principios de Clean Architecture. El objetivo es lograr un frontend altamente modular, escalable y fácil de mantener.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 🧱 Arquitectura de Capas
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+El frontend está estructurado en siete capas principales, cada una con una responsabilidad clara:
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+### 1. 📁 assets/
+Contiene todos los recursos multimedia como imágenes, íconos, videos y otros archivos estáticos.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. 📂 controllers/
+Actúa como puente entre la vista (view) y las capas de lógica. Aquí se coordinan acciones del usuario con los usecases o servicios correspondientes.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 3. 📦 usecases/
+Responsable de la lógica de negocio y las validaciones. Filtra y determina qué información debe pasar entre controladores y servicios. Esta capa representa el “cerebro” de la aplicación.
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+### 4. 🌐 services/
+Aquí se configuran las llamadas HTTP hacia el backend. Incluye las URL de las APIs y maneja la comunicación con el servidor. Los datos se devuelven a los usecases o controladores.
+
+### 5. 🧩 models/
+Contiene todos los modelos e interfaces TypeScript que definen la forma de los datos en la aplicación. Ideal para mantener tipado fuerte y consistente.
+
+### 6. 🖼 views/
+Es la capa de presentación. Aquí se construyen las interfaces de usuario utilizando HTML (JSX), Bootstrap, CSS y TypeScript.
+
+- 📁 components/: Contiene los componentes reutilizables como botones, tarjetas, menús, etc.
+- 📁 pages/: Agrupa las páginas principales de la app, cada una representando una vista completa.
+
+### 7. 🧭 routers/
+Configura toda la navegación de la aplicación utilizando React Router con TypeScript.
+
+- AppRouter: Componente principal de enrutamiento que se importa en App.tsx. Separa la lógica de rutas de la estructura principal siguiendo el principio de responsabilidad única (S de SOLID).
+- ProtectRouterEmpleados: Agrupa y protege las rutas exclusivas para los usuarios con rol de "empleado".
+- ProtectRouterManager: Agrupa y protege las rutas exclusivas para usuarios con rol de "manager".
+
+---
+
+## ✅ Buenas Prácticas
+
+- Separación de responsabilidades entre capas.
+- Tipado fuerte con TypeScript.
+- Uso de principios SOLID.
+- Navegación protegida basada en roles de usuario.
+- Código organizado y reutilizable.
+
+---
+
+> Esta estructura está pensada para ser escalable en proyectos empresariales, facilitando la implementación de nuevas funcionalidades y el mantenimiento continuo del sistema.
+
