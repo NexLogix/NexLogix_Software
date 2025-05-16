@@ -163,12 +163,52 @@ $this->app->bind(IUserService::class, UserService::class);
 
 ---
 
-## 📚 Pendientes
+## 📚 Pendientes de Implementación
 
+- ✅ Migración progresiva hacia **inyección de dependencias**, como ya se ha realizado en módulos de **Reportes** y **Roles**.
+- ⚠️ Centralizar la **validación de datos** en los **UseCases**. Los Services no deben validar solicitudes.
+- 🔒 Evitar el **acceso directo a Eloquent** fuera de los Services.
+- 📁 Las rutas deben mantenerse **limpias de lógica**, delegando toda operación a su UseCase correspondiente.
+- 📛 Usar nombres consistentes para clases clave: `EntidadService`, `EntidadUseCase`, `EntidadRepository`.
+- 🛠 Aplicar validaciones robustas en módulos como **Gestión**, **Settings** y **Configuración general del sistema**.
+- 🧠 Implementar los **principios SOLID** de forma completa en todas las capas del sistema.
+- 🧩 Aplicar **patrones de diseño** clásicos como:
+  - Factory
+  - Strategy
+  - Repository
+  - Observer
+- ♻️ Incorporar **patrones de resiliencia**:
+  - Circuit Breaker
+  - Retry Policy
+  - Fallback Handlers
+- 🧯 Consolidar el manejo **centralizado y específico de excepciones**, categorizadas por tipo de error (HTTP, DB, lógica, etc.).
 
-- Estamos haciendo varias migraciones de Inyecciones de dependencias, como lo es en Reportes y Roles. 
-- Se esta haciendo lo posible para que cada solicitud HTTP se valide en sus respectivos UseCases y no en sus en el Service.
-- No acceder directamente a Eloquent fuera del Service.
-- Las rutas no deben contener lógica.
-- Prefiere nombres claros: `UserService`, `CreateUserUseCase`, `IUserService`.
+---
 
+## 🎯 Objetivos a Corto y Mediano Plazo
+
+### 🔐 Gestión de Usuario Autenticado
+- Permitir que cada **usuario autenticado** pueda:
+  - 🔁 Cambiar su **contraseña**.
+  - ✏️ Editar su **información personal**.
+- Estas funciones estarán protegidas por autenticación activa (JWT o sesión verificada).
+
+### 📡 Events & Listeners para Estados HTTP
+- Implementar **eventos** y **escuchas (listeners)** para manejar reacciones ante códigos HTTP:
+  - `1xx` – Informativos
+  - `3xx` – Redirecciones
+  - `4xx` – Errores del cliente
+  - `5xx` – Errores del servidor
+- Esto soportará **tolerancia a fallos y resiliencia del sistema** en tiempo real.
+
+### 🦴 Principios de Skeleton (estructura base)
+- Aplicar los **10 principios de Skeleton** para mejorar la organización y legibilidad del código.
+
+### 🛡️ Ciberseguridad Aplicada
+- Iniciar implementación de **medidas de seguridad**:
+  - Protección contra CSRF, XSS, SQL Injection (aunque esta ya esta hecha, debe de reforzarse).
+  - Control de sesiones activas y múltiples dispositivos.
+  - Autenticación reforzada.
+  - Cifrado avanzado de contraseñas y tokens.
+
+---
