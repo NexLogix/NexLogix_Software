@@ -1,291 +1,368 @@
-import { useState, useCallback } from 'react'; // Importa useState y useCallback desde React para manejar estado y memorizar funciones
-import { fetchPuestos, fetchPuestoById, deletePuesto, fetchAreas } from '../../services/Puestos/PuestosService'; // Importa funciones del servicio para obtener, buscar, eliminar puestos y obtener áreas
-import { PuestosUseCase } from '../../UseCases/Puestos/PuestosUseCase'; // Importa la clase PuestosUseCase para manejar la lógica de negocio
-import { IPuesto, IArea } from '../../models/Interfaces/IPuestos'; // Importa interfaces IPuesto e IArea para definir tipos de datos
+// Importa hooks de React para manejar estado, efectos secundarios y funciones memorizadas
+import { useState, useCallback } from 'react';
+// Importa funciones del servicio para interactuar con la API de puestos y áreas
+import { fetchPuestos, fetchPuestoById, deletePuesto, fetchAreas } from '../../services/Puestos/PuestosService';
+// Importa la clase PuestosUseCase para manejar la lógica de negocio
+import { PuestosUseCase } from '../../UseCases/Puestos/PuestosUseCase'; 
+// Importa las interfaces necesarias para tipar los datos de puestos y áreas
+import { IPuesto, IArea } from '../../models/Interfaces/IPuestos';
 
-interface PuestosState { // Define una interfaz para el estado del controlador de listar/eliminar puestos
-  puestos: IPuesto[]; // Arreglo de puestos de trabajo
-  areas: IArea[]; // Arreglo de áreas
-  error: string; // Mensaje de error para mostrar al usuario
-  loading: boolean; // Indicador de carga para mostrar estado de procesamiento
-  searchId: string; // ID de búsqueda ingresado por el usuario como cadena
+// Define la interfaz PuestosState para tipar el estado del controlador de puestos
+interface PuestosState {
+  puestos: IPuesto[]; // Lista de puestos
+  areas: IArea[]; // Lista de áreas (para el select)
+  error: string; // Mensaje de error
+  loading: boolean; // Indicador de carga
+  searchId: string; // ID de búsqueda ingresado por el usuario
 }
 
-interface CreatePuestoState { // Define una interfaz para el estado del controlador de crear/editar puestos
-  formData: { nombrePuesto: string; descripcionPuesto: string; idArea: number }; // Datos del formulario para crear/editar un puesto
-  errors: Record<string, string>; // Objeto que mapea nombres de campos a mensajes de error
-  loading: boolean; // Indicador de carga para mostrar estado de procesamiento
-  successMessage: string; // Mensaje de éxito tras una operación exitosa
-  errorMessage: string; // Mensaje de error tras una operación fallida
+// Define la interfaz CreatePuestoState para tipar el estado del controlador de creación/edición
+interface CreatePuestoState {
+  formData: { nombrePuesto: string; descripcionPuesto: string; idArea: number }; // Datos del formulario
+  errors: Record<string, string>; // Errores de validación
+  loading: boolean; // Indicador de carga
+  successMessage: string; // Mensaje de éxito
+  errorMessage: string; // Mensaje de error
 }
 
-// Controlador para listar y eliminar puestos
-export const usePuestosController = () => { // Define un hook personalizado para manejar la lógica de listar y eliminar puestos
-  const [state, setState] = useState<PuestosState>({ // Inicializa el estado con useState, usando la interfaz PuestosState
-    puestos: [], // Inicializa el arreglo de puestos como vacío
-    areas: [], // Inicializa el arreglo de áreas como vacío
+// Define el hook personalizado usePuestosController para manejar la lógica de listar y eliminar puestos
+export const usePuestosController = () => {
+  // Inicializa el estado con useState usando la interfaz PuestosState
+  const [state, setState] = useState<PuestosState>({
+    puestos: [], // Inicializa la lista de puestos como vacía
+    areas: [], // Inicializa la lista de áreas como vacía
     error: '', // Inicializa el mensaje de error como vacío
-    loading: true, // Inicializa el estado de carga como verdadero
+    loading: true, // Indica que está cargando inicialmente
     searchId: '', // Inicializa el ID de búsqueda como vacío
   });
 
-  const fetchPuestosData = useCallback(async () => { // Define una función memorizada para obtener todos los puestos
-    try { // Inicia un bloque try para manejar errores
-      console.log('usePuestosController: Ejecutando fetchPuestosData'); // Registra la ejecución para depuración
-      const response = await fetchPuestos(); // Llama al servicio para obtener los puestos, esperando la respuesta
-      setState((prev) => ({ // Actualiza el estado con la respuesta
-        ...prev, // Mantiene las propiedades anteriores
-        puestos: response.success ? response.data : [], // Asigna los puestos si la respuesta es exitosa, o un arreglo vacío
-        error: response.success ? '' : 'No se pudo cargar la lista de puestos', // Limpia o asigna un mensaje de error
-        loading: false, // Desactiva el estado de carga
+  // Define la función fetchPuestosData para cargar todos los puestos desde la API
+  const fetchPuestosData = useCallback(async () => {
+    try {
+      // Log para depuración: indica que se está ejecutando la función
+      console.log('usePuestosController: Ejecutando fetchPuestosData');
+      // Llama al servicio para obtener los puestos
+      const response = await fetchPuestos();
+      // Actualiza el estado con los datos recibidos
+      setState((prev) => ({
+        ...prev,
+        puestos: response.success ? response.data : [], // Si la solicitud es exitosa, asigna los puestos
+        error: response.success ? '' : 'No se pudo cargar la lista de puestos', // Muestra un error si falla
+        loading: false, // Indica que la carga ha finalizado
       }));
-      console.log('usePuestosController: Puestos cargados:', response.data); // Registra los datos obtenidos
-    } catch (error) { // Captura cualquier error durante la ejecución
-      const message = error instanceof Error ? error.message : 'Error desconocido al cargar los puestos'; // Determina el mensaje de error
-      console.error('usePuestosController: Error en fetchPuestosData:', message); // Registra el error
-      setState((prev) => ({ // Actualiza el estado con el error
-        ...prev, // Mantiene las propiedades anteriores
-        puestos: [], // Limpia el arreglo de puestos
+      // Log para depuración: muestra los puestos cargados
+      console.log('usePuestosController: Puestos cargados:', response.data);
+    } catch (error) {
+      // Maneja errores al cargar los puestos
+      const message = error instanceof Error ? error.message : 'Error desconocido al cargar los puestos';
+      console.error('usePuestosController: Error en fetchPuestosData:', message);
+      // Actualiza el estado con el error
+      setState((prev) => ({
+        ...prev,
+        puestos: [], // Limpia la lista de puestos
         error: message, // Asigna el mensaje de error
-        loading: false, // Desactiva el estado de carga
+        loading: false, // Indica que la carga ha finalizado
       }));
-      if (message.includes('Error 401')) { // Verifica si el error es de autenticación (401)
-        window.location.href = '/login'; // Redirige a la página de inicio de sesión
+      // Redirige al login si el error es 401 (no autorizado)
+      if (message.includes('Error 401')) {
+        window.location.href = '/login';
       }
     }
-  }, []); // Dependencias vacías para memorizar la función
+  }, []);
 
-  const fetchAreasData = useCallback(async () => { // Define una función memorizada para obtener todas las áreas
-    try { // Inicia un bloque try para manejar errores
-      console.log('usePuestosController: Ejecutando fetchAreasData'); // Registra la ejecución para depuración
-      const response = await fetchAreas(); // Llama al servicio para obtener las áreas, esperando la respuesta
-      setState((prev) => ({ // Actualiza el estado con la respuesta
-        ...prev, // Mantiene las propiedades anteriores
-        areas: response.success ? response.data : [], // Asigna las áreas si la respuesta es exitosa, o un arreglo vacío
-        error: response.success ? prev.error : 'No se pudo cargar la lista de áreas', // Mantiene o asigna un mensaje de error
+  // Define la función fetchAreasData para cargar todas las áreas desde la API
+  const fetchAreasData = useCallback(async () => {
+    try {
+      // Log para depuración: indica que se está ejecutando la función
+      console.log('usePuestosController: Ejecutando fetchAreasData');
+      // Llama al servicio para obtener las áreas
+      const response = await fetchAreas();
+      // Actualiza el estado con los datos recibidos
+      setState((prev) => ({
+        ...prev,
+        areas: response.success ? response.data : [], // Si la solicitud es exitosa, asigna las áreas
+        error: response.success ? prev.error : 'No se pudo cargar la lista de áreas', // Muestra un error si falla
       }));
-      console.log('usePuestosController: Áreas cargadas:', response.data); // Registra los datos obtenidos
-    } catch (error) { // Captura cualquier error durante la ejecución
-      const message = error instanceof Error ? error.message : 'Error desconocido al cargar las áreas'; // Determina el mensaje de error
-      console.error('usePuestosController: Error en fetchAreasData:', message); // Registra el error
-      setState((prev) => ({ // Actualiza el estado con el error
-        ...prev, // Mantiene las propiedades anteriores
-        areas: [], // Limpia el arreglo de áreas
+      // Log para depuración: muestra las áreas cargadas
+      console.log('usePuestosController: Áreas cargadas:', response.data);
+    } catch (error) {
+      // Maneja errores al cargar las áreas
+      const message = error instanceof Error ? error.message : 'Error desconocido al cargar las áreas';
+      console.error('usePuestosController: Error en fetchAreasData:', message);
+      // Actualiza el estado con el error
+      setState((prev) => ({
+        ...prev,
+        areas: [], // Limpia la lista de áreas
         error: message, // Asigna el mensaje de error
       }));
     }
-  }, []); // Dependencias vacías para memorizar la función
+  }, []);
 
-  const searchPuestoById = useCallback(async (idPuestos: number) => { // Define una función memorizada para buscar un puesto por ID
-    try { // Inicia un bloque try para manejar errores
-      console.log('usePuestosController: Buscando puesto con ID:', idPuestos); // Registra el ID buscado
-      setState((prev) => ({ ...prev, loading: true, error: '' })); // Activa el estado de carga y limpia el error
-      const response = await fetchPuestoById(idPuestos); // Llama al servicio para buscar el puesto, esperando la respuesta
-      if (response.success) { // Verifica si la respuesta es exitosa
-        setState((prev) => ({ // Actualiza el estado con el puesto encontrado
-          ...prev, // Mantiene las propiedades anteriores
-          puestos: [response.data], // Asigna el puesto encontrado como un arreglo de un elemento
-          loading: false, // Desactiva el estado de carga
+  // Define la función searchPuestoById para buscar un puesto por ID
+  const searchPuestoById = useCallback(async (idPuestos: number) => {
+    try {
+      // Log para depuración: indica que se está buscando un puesto
+      console.log('usePuestosController: Buscando puesto con ID:', idPuestos);
+      // Actualiza el estado para indicar que está cargando
+      setState((prev) => ({ ...prev, loading: true, error: '' }));
+      // Llama al servicio para obtener el puesto por ID
+      const response = await fetchPuestoById(idPuestos);
+      if (response.success) {
+        // Si la solicitud es exitosa, actualiza la lista de puestos con el puesto encontrado
+        setState((prev) => ({
+          ...prev,
+          puestos: [response.data],
+          loading: false,
         }));
-        console.log('usePuestosController: Puesto encontrado:', response.data); // Registra el puesto encontrado
-      } else { // Si la respuesta no es exitosa
-        setState((prev) => ({ // Actualiza el estado con un error
-          ...prev, // Mantiene las propiedades anteriores
-          puestos: [], // Limpia el arreglo de puestos
-          error: 'No se encontró el puesto', // Asigna un mensaje de error
-          loading: false, // Desactiva el estado de carga
+        // Log para depuración: muestra el puesto encontrado
+        console.log('usePuestosController: Puesto encontrado:', response.data);
+      } else {
+        // Si no se encuentra el puesto, actualiza el estado con un error
+        setState((prev) => ({
+          ...prev,
+          puestos: [],
+          error: 'No se encontró el puesto',
+          loading: false,
         }));
-        console.log('usePuestosController: Puesto no encontrado para ID:', idPuestos); // Registra que no se encontró el puesto
+        // Log para depuración: indica que no se encontró el puesto
+        console.log('usePuestosController: Puesto no encontrado para ID:', idPuestos);
       }
-    } catch (error) { // Captura cualquier error durante la ejecución
-      const message = error instanceof Error ? error.message : 'Error desconocido al buscar el puesto'; // Determina el mensaje de error
-      console.error('usePuestosController: Error en searchPuestoById:', message); // Registra el error
-      setState((prev) => ({ // Actualiza el estado con el error
-        ...prev, // Mantiene las propiedades anteriores
-        puestos: [], // Limpia el arreglo de puestos
-        error: message, // Asigna el mensaje de error
-        loading: false, // Desactiva el estado de carga
+    } catch (error) {
+      // Maneja errores al buscar el puesto
+      const message = error instanceof Error ? error.message : 'Error desconocido al buscar el puesto';
+      console.error('usePuestosController: Error en searchPuestoById:', message);
+      // Actualiza el estado con el error
+      setState((prev) => ({
+        ...prev,
+        puestos: [],
+        error: message,
+        loading: false,
       }));
     }
-  }, []); // Dependencias vacías para memorizar la función
+  }, []);
 
-  const deletePuestoById = useCallback(async (idPuestos: number) => { // Define una función memorizada para eliminar un puesto por ID
-    try { // Inicia un bloque try para manejar errores
-      console.log('usePuestosController: Eliminando puesto con ID:', idPuestos); // Registra el ID del puesto a eliminar
-      setState((prev) => ({ ...prev, loading: true, error: '' })); // Activa el estado de carga y limpia el error
-      const response = await deletePuesto(idPuestos); // Llama al servicio para eliminar el puesto, esperando la respuesta
-      if (response.success) { // Verifica si la respuesta es exitosa
-        setState((prev) => ({ // Actualiza el estado eliminando el puesto
-          ...prev, // Mantiene las propiedades anteriores
-          puestos: prev.puestos.filter((puesto) => puesto.idPuestos !== idPuestos), // Filtra el puesto eliminado
-          loading: false, // Desactiva el estado de carga
-          error: '', // Limpia el mensaje de error
+  // Define la función deletePuestoById para eliminar un puesto por ID
+  const deletePuestoById = useCallback(async (idPuestos: number) => {
+    try {
+      // Log para depuración: indica que se está eliminando un puesto
+      console.log('usePuestosController: Eliminando puesto con ID:', idPuestos);
+      // Actualiza el estado para indicar que está cargando
+      setState((prev) => ({ ...prev, loading: true, error: '' }));
+      // Llama al servicio para eliminar el puesto
+      const response = await deletePuesto(idPuestos);
+      if (response.success) {
+        // Si la solicitud es exitosa, filtra el puesto eliminado de la lista
+        setState((prev) => ({
+          ...prev,
+          puestos: prev.puestos.filter((puesto) => puesto.idPuestos !== idPuestos),
+          loading: false,
+          error: '',
         }));
-        console.log('usePuestosController: Puesto eliminado con éxito, ID:', idPuestos); // Registra la eliminación exitosa
-      } else { // Si la respuesta no es exitosa
-        setState((prev) => ({ // Actualiza el estado con un error
-          ...prev, // Mantiene las propiedades anteriores
-          error: response.message, // Asigna el mensaje de error de la respuesta
-          loading: false, // Desactiva el estado de carga
+        // Log para depuración: indica que el puesto fue eliminado
+        console.log('usePuestosController: Puesto eliminado con éxito, ID:', idPuestos);
+      } else {
+        // Si falla la eliminación, actualiza el estado con un error
+        setState((prev) => ({
+          ...prev,
+          error: response.message,
+          loading: false,
         }));
-        console.log('usePuestosController: Error al eliminar puesto:', response.message); // Registra el error
+        // Log para depuración: muestra el error
+        console.log('usePuestosController: Error al eliminar puesto:', response.message);
       }
-    } catch (error) { // Captura cualquier error durante la ejecución
-      const message = error instanceof Error ? error.message : 'Error desconocido al eliminar el puesto'; // Determina el mensaje de error
-      console.error('usePuestosController: Error en deletePuestoById:', message); // Registra el error
-      setState((prev) => ({ // Actualiza el estado con el error
-        ...prev, // Mantiene las propiedades anteriores
-        error: message, // Asigna el mensaje de error
-        loading: false, // Desactiva el estado de carga
+    } catch (error) {
+      // Maneja errores al eliminar el puesto
+      const message = error instanceof Error ? error.message : 'Error desconocido al eliminar el puesto';
+      console.error('usePuestosController: Error en deletePuestoById:', message);
+      // Actualiza el estado con el error
+      setState((prev) => ({
+        ...prev,
+        error: message,
+        loading: false,
       }));
     }
-  }, []); // Dependencias vacías para memorizar la función
+  }, []);
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => { // Define una función para manejar cambios en el campo de búsqueda
-    setState((prev) => ({ ...prev, searchId: e.target.value })); // Actualiza el estado con el valor del campo de búsqueda
-    console.log('usePuestosController: Search ID actualizado:', e.target.value); // Registra el nuevo valor
+  // Define la función handleSearchChange para manejar cambios en el input de búsqueda
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setState((prev) => ({ ...prev, searchId: e.target.value }));
+    // Log para depuración: muestra el valor del input de búsqueda
+    console.log('usePuestosController: Search ID actualizado:', e.target.value);
   };
 
-  const handleSearch = () => { // Define una función para iniciar la búsqueda de un puesto
+  // Define la función handleSearch para manejar la búsqueda de un puesto por ID
+  const handleSearch = () => {
     const idPuestos = parseInt(state.searchId, 10); // Convierte el ID de búsqueda a número
-    if (!isNaN(idPuestos)) { // Verifica si el ID es un número válido
-      searchPuestoById(idPuestos); // Llama a la función de búsqueda con el ID
-    } else { // Si el ID no es válido
-      setState((prev) => ({ ...prev, error: 'Ingrese un ID válido' })); // Actualiza el estado con un error
-      console.log('usePuestosController: Error - ID inválido:', state.searchId); // Registra el error
+    if (!isNaN(idPuestos)) { // Verifica que el ID sea un número válido
+      searchPuestoById(idPuestos); // Busca el puesto por ID
+    } else {
+      // Si el ID no es válido, muestra un error
+      setState((prev) => ({ ...prev, error: 'Ingrese un ID válido' }));
+      // Log para depuración: indica que el ID no es válido
+      console.log('usePuestosController: Error - ID inválido:', state.searchId);
     }
   };
 
-  const resetSearch = () => { // Define una función para restablecer la búsqueda
-    setState((prev) => ({ ...prev, searchId: '', error: '' })); // Limpia el ID de búsqueda y el error
-    fetchPuestosData(); // Vuelve a cargar todos los puestos
-    console.log('usePuestosController: Búsqueda reseteada'); // Registra la acción
+  // Define la función resetSearch para restablecer la búsqueda y mostrar todos los puestos
+  const resetSearch = () => {
+    setState((prev) => ({ ...prev, searchId: '', error: '' }));
+    fetchPuestosData(); // Recarga todos los puestos
+    // Log para depuración: indica que se restableció la búsqueda
+    console.log('usePuestosController: Búsqueda reseteada');
   };
 
-  return { state, fetchPuestosData, fetchAreasData, handleSearchChange, handleSearch, resetSearch, deletePuestoById }; // Devuelve el estado y las funciones del controlador
+  // Devuelve el estado y las funciones para ser usadas por los componentes
+  return { state, fetchPuestosData, fetchAreasData, handleSearchChange, handleSearch, resetSearch, deletePuestoById };
 };
 
-// Controlador para crear y editar puestos
-export const useCreatePuestoController = () => { // Define un hook personalizado para manejar la lógica de crear y editar puestos
-  const [state, setState] = useState<CreatePuestoState>({ // Inicializa el estado con useState, usando la interfaz CreatePuestoState
-    formData: { // Inicializa los datos del formulario
-      nombrePuesto: '', // Nombre del puesto como cadena vacía
-      descripcionPuesto: '', // Descripción del puesto como cadena vacía
-      idArea: 0, // ID del área como 0
+// Define el hook personalizado useCreatePuestoController para manejar la lógica de creación y edición de puestos
+export const useCreatePuestoController = () => {
+  // Inicializa el estado con useState usando la interfaz CreatePuestoState
+  const [state, setState] = useState<CreatePuestoState>({
+    formData: {
+      nombrePuesto: '', // Inicializa el nombre del puesto como vacío
+      descripcionPuesto: '', // Inicializa la descripción como vacía
+      idArea: 0, // Inicializa el ID del área como 0
     },
-    errors: {}, // Inicializa el objeto de errores como vacío
-    loading: false, // Inicializa el estado de carga como falso
+    errors: {}, // Inicializa los errores como vacíos
+    loading: false, // Indica que no está cargando inicialmente
     successMessage: '', // Inicializa el mensaje de éxito como vacío
     errorMessage: '', // Inicializa el mensaje de error como vacío
   });
 
-  const puestosUseCase = new PuestosUseCase(); // Crea una instancia de la clase PuestosUseCase para manejar la lógica de negocio
+  // Instancia la clase PuestosUseCase para manejar la lógica de negocio
+  const puestosUseCase = new PuestosUseCase();
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => { // Define una función para manejar cambios en los campos del formulario
-    const { name, value } = e.target; // Extrae el nombre y valor del campo
-    setState((prev) => ({ // Actualiza el estado
-      ...prev, // Mantiene las propiedades anteriores
-      formData: { // Actualiza los datos del formulario
-        ...prev.formData, // Mantiene los datos anteriores
-        [name]: name === 'idArea' ? parseInt(value, 10) : value, // Convierte el valor a número para idArea, o usa la cadena
+  // Define la función handleInputChange para manejar cambios en los inputs del formulario
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target; // Obtiene el nombre y valor del input
+    setState((prev) => ({
+      ...prev,
+      formData: {
+        ...prev.formData,
+        [name]: name === 'idArea' ? parseInt(value, 10) : value, // Convierte idArea a número si es necesario
       },
-      errors: { // Limpia los errores para el campo actualizado
-        ...prev.errors, // Mantiene los errores anteriores
-        [name]: '', // Limpia el error para el campo
+      errors: {
+        ...prev.errors,
+        [name]: '', // Limpia el error del campo actual
       },
     }));
-    console.log('useCreatePuestoController: Campo actualizado:', name, '=', value); // Registra la actualización
+    // Log para depuración: muestra el campo actualizado
+    console.log('useCreatePuestoController: Campo actualizado:', name, '=', value);
   };
 
-  const handleCreateSubmit = async (e: React.FormEvent<HTMLFormElement>) => { // Define una función para manejar el envío del formulario de creación
+  // Define la función handleCreateSubmit para manejar la creación de un puesto
+  const handleCreateSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // Previene el comportamiento por defecto del formulario
-    setState((prev) => ({ ...prev, loading: true, errorMessage: '', successMessage: '', errors: {} })); // Activa la carga y limpia mensajes y errores
-    console.log('useCreatePuestoController: Enviando formulario de creación:', state.formData); // Registra los datos del formulario
+    // Actualiza el estado para indicar que está cargando
+    setState((prev) => ({ ...prev, loading: true, errorMessage: '', successMessage: '', errors: {} }));
+    // Log para depuración: muestra los datos del formulario
+    console.log('useCreatePuestoController: Enviando formulario de creación:', state.formData);
 
-    try { // Inicia un bloque try para manejar errores
-      const data = { // Prepara los datos para enviar al caso de uso
-        nombrePuesto: state.formData.nombrePuesto, // Asigna el nombre del puesto
-        descripcionPuesto: state.formData.descripcionPuesto || undefined, // Asigna la descripción o undefined si está vacía
-        idArea: state.formData.idArea, // Asigna el ID del área
+    try {
+      // Prepara los datos para enviar al servicio
+      const data = {
+        nombrePuesto: state.formData.nombrePuesto,
+        descripcionPuesto: state.formData.descripcionPuesto || undefined, // Convierte descripción vacía a undefined
+        idArea: state.formData.idArea,
       };
-      const response = await puestosUseCase.executeCreatePuesto(data); // Llama al caso de uso para crear el puesto
-      if (response.success) { // Verifica si la respuesta es exitosa
-        setState((prev) => ({ // Actualiza el estado con éxito
-          ...prev, // Mantiene las propiedades anteriores
-          loading: false, // Desactiva la carga
-          successMessage: response.message, // Asigna el mensaje de éxito
-          errorMessage: '', // Limpia el mensaje de error
-          formData: { nombrePuesto: '', descripcionPuesto: '', idArea: 0 }, // Restablece el formulario
-          errors: {}, // Limpia los errores
+      // Llama al UseCase para crear el puesto
+      const response = await puestosUseCase.executeCreatePuesto(data);
+      if (response.success) {
+        // Si la creación es exitosa, actualiza el estado
+        setState((prev) => ({
+          ...prev,
+          loading: false,
+          successMessage: response.message,
+          errorMessage: '',
+          formData: { nombrePuesto: '', descripcionPuesto: '', idArea: 0 }, // Resetea el formulario
+          errors: {},
         }));
-        console.log('useCreatePuestoController: Puesto creado con éxito:', response.data); // Registra la creación exitosa
-      } else { // Si la respuesta no es exitosa
-        setState((prev) => ({ // Actualiza el estado con error
-          ...prev, // Mantiene las propiedades anteriores
-          loading: false, // Desactiva la carga
-          successMessage: '', // Limpia el mensaje de éxito
-          errorMessage: response.message, // Asigna el mensaje de error
-          errors: response.errors || {}, // Asigna los errores específicos
+        // Log para depuración: indica que el puesto fue creado
+        console.log('useCreatePuestoController: Puesto creado con éxito:', response.data);
+      } else {
+        // Si falla la creación, actualiza el estado con el error
+        setState((prev) => ({
+          ...prev,
+          loading: false,
+          successMessage: '',
+          errorMessage: response.message,
+          errors: response.errors || {},
         }));
-        console.log('useCreatePuestoController: Error al crear puesto:', response.message, response.errors); // Registra el error
+        // Log para depuración: muestra el error
+        console.log('useCreatePuestoController: Error al crear puesto:', response.message, response.errors);
       }
-    } catch (error) { // Captura cualquier error durante la ejecución
-      const message = error instanceof Error ? error.message : 'Error desconocido al crear el puesto'; // Determina el mensaje de error
-      setState((prev) => ({ // Actualiza el estado con el error
-        ...prev, // Mantiene las propiedades anteriores
-        loading: false, // Desactiva la carga
-        successMessage: '', // Limpia el mensaje de éxito
-        errorMessage: message, // Asigna el mensaje de error
-        errors: {}, // Limpia los errores específicos
+    } catch (error) {
+      // Maneja errores al crear el puesto
+      const message = error instanceof Error ? error.message : 'Error desconocido al crear el puesto';
+      setState((prev) => ({
+        ...prev,
+        loading: false,
+        successMessage: '',
+        errorMessage: message,
+        errors: {},
       }));
-      console.error('useCreatePuestoController: Error en handleCreateSubmit:', message); // Registra el error
+      // Log para depuración: muestra el error
+      console.error('useCreatePuestoController: Error en handleCreateSubmit:', message);
     }
   };
 
-  const handleUpdateSubmit = async (id: number, isPartial: boolean = false) => { // Define una función para manejar el envío del formulario de edición
-    setState((prev) => ({ ...prev, loading: true, errorMessage: '', successMessage: '', errors: {} })); // Activa la carga y limpia mensajes y errores
-    console.log('useCreatePuestoController: Enviando formulario de edición:', state.formData, 'ID:', id, 'Parcial:', isPartial); // Registra los datos y parámetros
+  // Define la función handleUpdateSubmit para manejar la edición de un puesto
+  const handleUpdateSubmit = async (id: number, isPartial: boolean = false) => {
+    // Actualiza el estado para indicar que está cargando
+    setState((prev) => ({ ...prev, loading: true, errorMessage: '', successMessage: '', errors: {} }));
+    // Log para depuración: muestra los datos del formulario y si es una edición parcial
+    console.log('useCreatePuestoController: Enviando formulario de edición:', state.formData, 'ID:', id, 'Parcial:', isPartial);
 
-    try { // Inicia un bloque try para manejar errores
-      const data = { // Prepara los datos para enviar al caso de uso
-        nombrePuesto: state.formData.nombrePuesto, // Asigna el nombre del puesto
-        descripcionPuesto: state.formData.descripcionPuesto || undefined, // Asigna la descripción o undefined si está vacía
-        idArea: state.formData.idArea, // Asigna el ID del área
+    try {
+      // Prepara los datos para enviar al servicio
+      const data = {
+        nombrePuesto: state.formData.nombrePuesto,
+        descripcionPuesto: state.formData.descripcionPuesto || undefined, // Convierte descripción vacía a undefined
+        idArea: state.formData.idArea,
       };
-      const response = isPartial // Determina si es una actualización parcial o completa
-        ? await puestosUseCase.executeUpdatePartialPuesto(id, data) // Llama al caso de uso para actualización parcial
-        : await puestosUseCase.executeUpdatePuesto(id, data); // Llama al caso de uso para actualización completa
-      if (response.success) { // Verifica si la respuesta es exitosa
-        setState((prev) => ({ // Actualiza el estado con éxito
-          ...prev, // Mantiene las propiedades anteriores
-          loading: false, // Desactiva la carga
-          successMessage: response.message, // Asigna el mensaje de éxito
-          errorMessage: '', // Limpia el mensaje de error
-          errors: {}, // Limpia los errores
+      // Llama al UseCase para editar el puesto (PUT o PATCH según isPartial)
+      const response = isPartial
+        ? await puestosUseCase.executeUpdatePartialPuesto(id, data)
+        : await puestosUseCase.executeUpdatePuesto(id, data);
+      if (response.success) {
+        // Si la edición es exitosa, actualiza el estado
+        setState((prev) => ({
+          ...prev,
+          loading: false,
+          successMessage: response.message,
+          errorMessage: '',
+          errors: {},
         }));
-        console.log('useCreatePuestoController: Puesto actualizado con éxito:', response.data); // Registra la actualización exitosa
-      } else { // Si la respuesta no es exitosa
-        setState((prev) => ({ // Actualiza el estado con error
-          ...prev, // Mantiene las propiedades anteriores
-          loading: false, // Desactiva la carga
-          successMessage: '', // Limpia el mensaje de éxito
-          errorMessage: response.message, // Asigna el mensaje de error
-          errors: response.errors || {}, // Asigna los errores específicos
+        // Log para depuración: indica que el puesto fue actualizado
+        console.log('useCreatePuestoController: Puesto actualizado con éxito:', response.data);
+      } else {
+        // Si falla la edición, actualiza el estado con el error
+        setState((prev) => ({
+          ...prev,
+          loading: false,
+          successMessage: '',
+          errorMessage: response.message,
+          errors: response.errors || {},
         }));
-        console.log('useCreatePuestoController: Error al actualizar puesto:', response.message, response.errors); // Registra el error
+        // Log para depuración: muestra el error
+        console.log('useCreatePuestoController: Error al actualizar puesto:', response.message, response.errors);
       }
-    } catch (error) { // Captura cualquier error durante la ejecución
-      const message = error instanceof Error ? error.message : 'Error desconocido al actualizar el puesto'; // Determina el mensaje de error
-      setState((prev) => ({ // Actualiza el estado con el error
-        ...prev, // Mantiene las propiedades anteriores
-        loading: false, // Desactiva la carga
-        successMessage: '', // Limpia el mensaje de éxito
-        errorMessage: message, // Asigna el mensaje de error
-        errors: {}, // Limpia los errores específicos
+    } catch (error) {
+      // Maneja errores al editar el puesto
+      const message = error instanceof Error ? error.message : 'Error desconocido al actualizar el puesto';
+      setState((prev) => ({
+        ...prev,
+        loading: false,
+        successMessage: '',
+        errorMessage: message,
+        errors: {},
       }));
-      console.error('useCreatePuestoController: Error en handleUpdateSubmit:', message); // Registra el error
+      // Log para depuración: muestra el error
+      console.error('useCreatePuestoController: Error en handleUpdateSubmit:', message);
     }
   };
 
-  return { state, handleInputChange, handleCreateSubmit, handleUpdateSubmit }; // Devuelve el estado y las funciones del controlador
+  // Devuelve el estado y las funciones para ser usadas por los componentes
+  return { state, handleInputChange, handleCreateSubmit, handleUpdateSubmit };
 };
