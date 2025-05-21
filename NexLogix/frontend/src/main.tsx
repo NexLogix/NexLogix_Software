@@ -1,12 +1,18 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import App from './App.tsx';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import { StrictMode } from 'react'; // Importa StrictMode de React para habilitar verificaciones adicionales en desarrollo
+import { createRoot } from 'react-dom/client'; // Importa createRoot de React DOM para renderizar la aplicación en el DOM
+import App from './App.tsx'; // Importa el componente raíz App, que contiene la estructura principal de la aplicación
+import 'bootstrap/dist/css/bootstrap.min.css'; // Importa los estilos CSS de Bootstrap para diseño responsivo y componentes predefinidos
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Importa el JavaScript de Bootstrap (incluye Popper.js) para funcionalidades interactivas como menús colapsables y modales
+import 'bootstrap-icons/font/bootstrap-icons.css'; // En main.tsx
 
+createRoot(document.getElementById('root')!).render( // Crea un punto de entrada en el DOM y renderiza la aplicación
+  <>
+    {/* Envuelve la aplicación en StrictMode para detectar problemas potenciales en desarrollo */}
+    <StrictMode> 
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+        {/* Renderiza el componente App, que contiene la lógica de enrutamiento y la estructura de la SPA */}
+        <App /> 
+        
+    </StrictMode>,
+  </>
+);

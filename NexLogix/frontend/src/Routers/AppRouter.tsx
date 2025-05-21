@@ -1,48 +1,62 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom"; // Importa componentes de react-router-dom para manejar la navegación
 
 // PÁGINAS PÚBLICAS
-import Login from "../Views/componets/Login";
-import UnauthorizedRoute from "../Views/componets/UnauthorizedRoute";
-import EstamosUbicadosEn from "../Views/componets/Footers/EstamosUbicadoEn";
-import AcercaDe from "../Views/componets/Footers/AcercaDe";
+import Login from "../Views/componets/Login"; // Importa el componente de la página de inicio de sesión
+import UnauthorizedRoute from "../Views/componets/UnauthorizedRoute"; // Importa el componente para la página de acceso no autorizado
+import EstamosUbicadosEn from "../Views/componets/Footers/EstamosUbicadoEn"; // Importa el componente para la página de ubicación
+import AcercaDe from "../Views/componets/Footers/AcercaDe"; // Importa el componente para la página "Acerca de"
 
 // PROTECCIÓN DE RUTAS
-import PrivateRoute from "../Views/componets/PrivateRoute";
-import ProtectedRouteEmpleados from "./ProtectedRouterEmpleados";
-import ProtectedRouteManagers from "./ProtectedRouterManagers";
+import PrivateRoute from "../Views/componets/PrivateRoute"; // Importa el componente que protege rutas según autenticación y roles
+import ProtectedRouteEmpleados from "./ProtectedRouterEmpleados"; // Importa el componente de rutas protegidas para el rol Empleado
+import ProtectedRouteManagers from "./ProtectedRouterManagers"; // Importa el componente de rutas protegidas para el rol Manager
 
+// DEFINE EL COMPONENTE FUNCIONAL DE AppRouter PARA CONFIGURAR LAS RUTAS PRINCIPALES
 const AppRouter = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* RUTAS PÚBLICAS */}
-        <Route path="/login" index element={<Login />} />
-        <Route path="/unauthorized" element={<UnauthorizedRoute />} />
-        <Route path="/ubicacion" element={<EstamosUbicadosEn />} />
-        <Route path="/acerca_de" element={<AcercaDe />} />
+    <>
+      {/*Envuelve la aplicación en BrowserRouter para habilitar la navegación basada en la URL */} 
+      <BrowserRouter> 
 
-        {/* RUTAS PROTEGIDAS - MANAGER */}
-        <Route
-          path="/Manager/*"
-          element={
-            <PrivateRoute allowedRoles={["Manager"]}>
-              <ProtectedRouteManagers />
-            </PrivateRoute>
-          }
-        />
+          <Routes> {/* Define un contenedor para todas las rutas de la aplicación */}
 
-        {/* RUTAS PROTEGIDAS - EMPLEADO */}
-        <Route
-          path="/Empleado/*"
-          element={
-            <PrivateRoute allowedRoles={["Empleado"]}>
-              <ProtectedRouteEmpleados />
-            </PrivateRoute>
-          }
-        />
-      </Routes>
-    </BrowserRouter>
+                {/* RUTAS PÚBLICAS */}
+                <Route path="/login" index element={<Login />} /> {/* Ruta pública para la página de login, marcada como ruta raíz */}
+                <Route path="/unauthorized" element={<UnauthorizedRoute />} /> {/* Ruta pública para la página de acceso no autorizado */}
+                <Route path="/ubicacion" element={<EstamosUbicadosEn />} /> {/* Ruta pública para la página de ubicación */}
+                <Route path="/acerca_de" element={<AcercaDe />} /> {/* Ruta pública para la página "Acerca de" */}
+
+                {/* RUTAS PROTEGIDAS - MANAGER */}
+                <Route
+                    path="/Manager/*" // Ruta base para todas las subrutas de Manager, el asterisco permite subrutas anidadas
+                    element={ /* Define el componente a renderizar para esta ruta */
+                      
+                      // Protege la ruta, solo permite acceso al rol Manager 
+                      <PrivateRoute allowedRoles={["Manager"]}> 
+                          {/* Renderiza el componente con las subrutas de Manager */}
+                          <ProtectedRouteManagers /> 
+                      </PrivateRoute>
+                    }
+                />
+
+                {/* RUTAS PROTEGIDAS - EMPLEADO */}
+                <Route
+                    path="/Empleado/*" // Ruta base para todas las subrutas de Empleado, el asterisco permite subrutas anidadas
+                    element={ /* Define el componente a renderizar para esta ruta */
+
+                      // Protege la ruta, solo permite acceso al rol Empleado
+                      <PrivateRoute allowedRoles={["Empleado"]}> 
+                          {/* Renderiza el componente con las subrutas de Empleado */}
+                          <ProtectedRouteEmpleados /> 
+                      </PrivateRoute>
+                    }
+                />
+              </Routes>
+      </BrowserRouter>
+    </>
   );
+  
 };
 
-export default AppRouter;
+export default AppRouter; // Exporta AppRouter como componente predeterminado
+// BrowserRouter habilita la navegacion basada en URL
