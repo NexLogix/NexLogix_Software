@@ -21,7 +21,7 @@ const AppRouter = () => {
           <Routes> {/* Define un contenedor para todas las rutas de la aplicación */}
 
                 {/* RUTAS PÚBLICAS */}
-                <Route path="/login" index element={<Login />} /> {/* Ruta pública para la página de login, marcada como ruta raíz */}
+                <Route path="/" index element={<Login />} /> {/* Ruta pública para la página de login, marcada como ruta raíz */}
                 <Route path="/unauthorized" element={<UnauthorizedRoute />} /> {/* Ruta pública para la página de acceso no autorizado */}
                 <Route path="/ubicacion" element={<EstamosUbicadosEn />} /> {/* Ruta pública para la página de ubicación */}
                 <Route path="/acerca_de" element={<AcercaDe />} /> {/* Ruta pública para la página "Acerca de" */}
