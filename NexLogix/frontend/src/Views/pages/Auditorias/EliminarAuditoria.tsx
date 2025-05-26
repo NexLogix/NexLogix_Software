@@ -1,17 +1,24 @@
 // Importa React y useEffect para manejar efectos secundarios
 import React, { useEffect } from 'react';
-// Importa el controlador personalizado para manejar la lógica de listar auditorías
+// Importa el controlador personalizado para manejar la lógica de eliminación y obtención de datos
 import { useAuditoriasController } from '../../../Controllers/Auditorias/AuditoriasController';
 
-// Define un componente funcional VerAuditorias, tipado con React.FC para indicar que no recibe props
-const VerAuditorias: React.FC = () => {
+// Define un componente funcional EliminarAuditorias, tipado con React.FC para indicar que no recibe props
+const EliminarAuditorias: React.FC = () => {
   // Desestructura el estado y las funciones proporcionadas por useAuditoriasController
-  const { state, fetchAuditoriasData, handleSearchChange, handleSearch, resetSearch } = useAuditoriasController();
+  const { state, handleSearchChange, handleSearch, fetchAuditoriasData, deleteAuditoriaById } = useAuditoriasController();
 
   // Define un efecto secundario para cargar los datos iniciales cuando el componente se monta
   useEffect(() => {
     fetchAuditoriasData(); // Llama a fetchAuditoriasData para cargar las auditorías desde la API
   }, [fetchAuditoriasData]); // Especifica fetchAuditoriasData como dependencia
+
+  // Define la función handleDelete para manejar la eliminación de una auditoría
+  const handleDelete = (id: number) => {
+    if (window.confirm('¿Estás seguro de que deseas eliminar esta auditoría?')) {
+      deleteAuditoriaById(id); // Llama a la función para eliminar la auditoría
+    }
+  };
 
   // Inicia el retorno del JSX que define la interfaz de usuario del componente
   return (
@@ -30,12 +37,8 @@ const VerAuditorias: React.FC = () => {
               onChange={handleSearchChange} // Maneja cambios en el input
             />
             {/* Botón de búsqueda con estilo Bootstrap */}
-            <button className="btn btn-outline-primary me-2" type="submit">
+            <button className="btn btn-outline-danger me-2" type="submit">
               Buscar
-            </button>
-            {/* Botón para mostrar todos con estilo Bootstrap */}
-            <button className="btn btn-outline-secondary" type="button" onClick={resetSearch}>
-              Mostrar Todos
             </button>
           </form>
         </div>
@@ -47,7 +50,7 @@ const VerAuditorias: React.FC = () => {
       {state.loading && <div className="alert alert-info">Cargando...</div>}
 
       {/* Título de la sección con márgenes Bootstrap */}
-      <h2 className="mb-3">Historial de Auditorías</h2>
+      <h2 className="mb-3 mt-5">Eliminar Auditorías</h2>
       {/* Tabla estilizada con Bootstrap para mostrar las auditorías */}
       <table className="table table-bordered">
         {/* Encabezado de la tabla */}
@@ -60,6 +63,7 @@ const VerAuditorias: React.FC = () => {
             <th>Detalles</th> {/* Columna para los detalles de la acción */}
             <th>Fecha de Creación</th> {/* Columna para la fecha de creación */}
             <th>Fecha de Actualización</th> {/* Columna para la fecha de actualización */}
+            <th>Acciones</th> {/* Columna para los botones de acción */}
           </tr>
         </thead>
 
@@ -75,6 +79,15 @@ const VerAuditorias: React.FC = () => {
               <td>{auditoria.details}</td> {/* Celda con los detalles */}
               <td>{auditoria.created_at}</td> {/* Celda con la fecha de creación */}
               <td>{auditoria.updated_at}</td> {/* Celda con la fecha de actualización */}
+              <td>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => handleDelete(auditoria.id)}
+                  disabled={state.loading}
+                >
+                  Eliminar
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -83,4 +96,4 @@ const VerAuditorias: React.FC = () => {
   );
 };
 
-export default VerAuditorias;
+export default EliminarAuditorias;

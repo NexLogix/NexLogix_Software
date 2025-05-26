@@ -44,6 +44,8 @@ const ManagerProfile = () => {
                           <div className="collapse" id="AuditoriasSubmenu">
                             <ul className="nav flex-column ms-3">
                               <Link className="nav-link" to="/manager/verAuditorias">Lista de auditorías</Link>
+                              <Link className="nav-link" to="/manager/editarAuditorias">Editar auditorías</Link>
+                              <Link className="nav-link" to="/manager/eliminarAuditorias">Eliminar auditorías</Link>
                             </ul>
                           </div>
                         </li>
