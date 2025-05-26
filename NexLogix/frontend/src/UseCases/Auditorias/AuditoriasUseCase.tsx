@@ -1,46 +1,35 @@
-// Importa las funciones del servicio para interactuar con la API de auditorías
-import { updateAuditoria } from '../../services/Auditorias/AuditoriasService';
-// Importa las interfaces necesarias para tipar los datos de auditorías
-import { IAuditoria, IAuditoria_ApiResponse } from '../../models/Interfaces/IAuditorias';
+// Importa la función del servicio para actualizar parcialmente auditorías
+import { updatePartialAuditoria } from '../../services/Auditorias/AuditoriasService';
+// Importa las interfaces necesarias para tipar los datos de las auditorías
+import { IAuditoria, IAuditoriaApiResponse } from '../../models/Interfaces/IAuditorias';
 
 // Define la clase AuditoriasUseCase para manejar la lógica de negocio de las auditorías
 export class AuditoriasUseCase {
-  // Método executeUpdateAuditoria para manejar la edición de una auditoría (PATCH)
-  async executeUpdateAuditoria(id: number, data: Partial<{ action: string; resource_type: string; details: string; updated_at: string }>): Promise<IAuditoria_ApiResponse<IAuditoria>> {
-    console.log('AuditoriasUseCase: Ejecutando executeUpdateAuditoria con ID:', id, 'y datos:', data);
-    
-    // Validaciones adicionales en el frontend
-    const cleanedData: Partial<{ action: string; resource_type: string; details: string; updated_at: string }> = {};
-    if (data.action !== undefined) {
-      cleanedData.action = data.action.trim();
-      if (!cleanedData.action) {
-        console.error('AuditoriasUseCase: Error de validación - action no puede estar vacío si se proporciona');
-        return {
-          success: false,
-          message: 'Errores de validación',
-          data: {} as IAuditoria,
-          errors: { action: 'La acción no puede estar vacía' },
-          status: 422,
-        };
-      }
+  // Método executeUpdatePartialAuditoria para manejar la edición parcial de una auditoría (PATCH)
+  async executeUpdatePartialAuditoria(id: number, data: Partial<IAuditoria>): Promise<IAuditoriaApiResponse<IAuditoria>> {
+    // Validación: asegura que 'action' no esté vacío si se proporciona
+    if (data.action && !data.action.trim()) {
+      return {
+        success: false,
+        message: 'Errores de validación',
+        data: {} as IAuditoria,
+        errors: { action: 'La acción no puede estar vacía' },
+        status: 422,
+      };
     }
-    if (data.resource_type !== undefined) {
-      cleanedData.resource_type = data.resource_type.trim();
-    }
-    if (data.details !== undefined) {
-      cleanedData.details = data.details;
-    }
-    if (data.updated_at !== undefined) {
-      cleanedData.updated_at = data.updated_at;
+    // Validación: asegura que 'resource_type' no esté vacío si se proporciona
+    if (data.resource_type && !data.resource_type.trim()) {
+      return {
+        success: false,
+        message: 'Errores de validación',
+        data: {} as IAuditoria,
+        errors: { resource_type: 'El tipo de recurso no puede estar vacío' },
+        status: 422,
+      };
     }
 
-    try {
-      const response = await updateAuditoria(id, cleanedData);
-      console.log('AuditoriasUseCase: Respuesta de updateAuditoria:', response);
-      return response;
-    } catch (error) {
-      console.error('AuditoriasUseCase: Error en executeUpdateAuditoria:', error);
-      throw error;
-    }
+    // Llama directamente al servicio para actualizar parcialmente la auditoría
+    // No se usa try/catch aquí porque el controlador ya maneja los errores
+    return await updatePartialAuditoria(id, data);
   }
 }

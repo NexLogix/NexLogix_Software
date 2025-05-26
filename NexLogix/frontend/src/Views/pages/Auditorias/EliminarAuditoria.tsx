@@ -1,92 +1,76 @@
-// Importa React y useEffect para manejar efectos secundarios
 import React, { useEffect } from 'react';
-// Importa el controlador personalizado para manejar la lógica de eliminación y obtención de datos
 import { useAuditoriasController } from '../../../Controllers/Auditorias/AuditoriasController';
+import { IAuditoria } from '../../../models/Interfaces/IAuditorias';
 
-// Define un componente funcional EliminarAuditorias, tipado con React.FC para indicar que no recibe props
 const EliminarAuditorias: React.FC = () => {
-  // Desestructura el estado y las funciones proporcionadas por useAuditoriasController
-  const { state, handleSearchChange, handleSearch, fetchAuditoriasData, deleteAuditoriaById } = useAuditoriasController();
+  const { state, fetchAuditoriasData, handleSearchChange, handleSearch, deleteAuditoriaById } = useAuditoriasController();
 
-  // Define un efecto secundario para cargar los datos iniciales cuando el componente se monta
   useEffect(() => {
-    fetchAuditoriasData(); // Llama a fetchAuditoriasData para cargar las auditorías desde la API
-  }, [fetchAuditoriasData]); // Especifica fetchAuditoriasData como dependencia
+    fetchAuditoriasData();
+  }, [fetchAuditoriasData]);
 
-  // Define la función handleDelete para manejar la eliminación de una auditoría
   const handleDelete = (id: number) => {
     if (window.confirm('¿Estás seguro de que deseas eliminar esta auditoría?')) {
-      deleteAuditoriaById(id); // Llama a la función para eliminar la auditoría
+      deleteAuditoriaById(id);
     }
   };
 
-  // Inicia el retorno del JSX que define la interfaz de usuario del componente
+  const renderDetails = (details: IAuditoria['details']) => {
+    if (typeof details === 'string') return details;
+    if (Array.isArray(details)) return details.join(', ');
+    return Object.entries(details)
+      .map(([key, value]) => `${key}: ${value}`)
+      .join(', ');
+  };
+
   return (
     <div className="container mt-4">
-      {/* Barra de navegación estilizada con Bootstrap para el formulario de búsqueda */}
       <nav className="navbar navbar-light bg-light mb-4 p-3 shadow-sm">
         <div className="container-fluid">
-          {/* Formulario de búsqueda, previene el envío por defecto y ejecuta handleSearch */}
-          <form className="d-flex" onSubmit={(e) => { e.preventDefault(); handleSearch(); }}>
+          <div className="d-flex">
             <input
               className="form-control me-2"
               type="search"
               placeholder="Ingrese ID de la Auditoría"
-              aria-label="Buscar"
-              value={state.searchId} // Valor controlado por el estado
-              onChange={handleSearchChange} // Maneja cambios en el input
+              value={state.searchId}
+              onChange={handleSearchChange}
             />
-            {/* Botón de búsqueda con estilo Bootstrap */}
-            <button className="btn btn-outline-danger me-2" type="submit">
+            <button className="btn btn-outline-danger" onClick={handleSearch}>
               Buscar
             </button>
-          </form>
+          </div>
         </div>
       </nav>
 
-      {/* Muestra una alerta roja si hay un error en state.error */}
       {state.error && <div className="alert alert-danger">{state.error}</div>}
-      {/* Muestra una alerta azul si state.loading es verdadero */}
       {state.loading && <div className="alert alert-info">Cargando...</div>}
 
-      {/* Título de la sección con márgenes Bootstrap */}
-      <h2 className="mb-3 mt-5">Eliminar Auditorías</h2>
-      {/* Tabla estilizada con Bootstrap para mostrar las auditorías */}
+      <h2 className="mb-3">Eliminar Auditorías</h2>
       <table className="table table-bordered">
-        {/* Encabezado de la tabla */}
         <thead>
           <tr>
-            <th>ID</th> {/* Columna para el ID de la auditoría */}
-            <th>Usuario ID</th> {/* Columna para el ID del usuario */}
-            <th>Acción</th> {/* Columna para la acción realizada */}
-            <th>Tipo de Recurso</th> {/* Columna para el tipo de recurso */}
-            <th>Detalles</th> {/* Columna para los detalles de la acción */}
-            <th>Fecha de Creación</th> {/* Columna para la fecha de creación */}
-            <th>Fecha de Actualización</th> {/* Columna para la fecha de actualización */}
-            <th>Acciones</th> {/* Columna para los botones de acción */}
+            <th>ID</th>
+            <th>Usuario ID</th>
+            <th>Acción</th>
+            <th>Tipo de Recurso</th>
+            <th>Detalles</th>
+            <th>Fecha de Creación</th>
+            <th>Fecha de Actualización</th>
+            <th>Acciones</th>
           </tr>
         </thead>
-
-        {/* Cuerpo de la tabla */}
         <tbody>
-          {/* Itera sobre state.auditorias para renderizar una fila por cada auditoría */}
           {state.auditorias.map((auditoria) => (
-            <tr key={auditoria.id}> {/* Fila con clave única basada en id */}
-              <td>{auditoria.id}</td> {/* Celda con el ID de la auditoría */}
-              <td>{auditoria.user_id}</td> {/* Celda con el ID del usuario */}
-              <td>{auditoria.action}</td> {/* Celda con la acción */}
-              <td>{auditoria.resource_type}</td> {/* Celda con el tipo de recurso */}
-              <td>{auditoria.details}</td> {/* Celda con los detalles */}
-              <td>{auditoria.created_at}</td> {/* Celda con la fecha de creación */}
-              <td>{auditoria.updated_at}</td> {/* Celda con la fecha de actualización */}
+            <tr key={auditoria.id}>
+              <td>{auditoria.id}</td>
+              <td>{auditoria.user_id}</td>
+              <td>{auditoria.action}</td>
+              <td>{auditoria.resource_type}</td>
+              <td>{renderDetails(auditoria.details)}</td>
+              <td>{auditoria.created_at}</td>
+              <td>{auditoria.updated_at}</td>
               <td>
-                <button
-                  className="btn btn-danger"
-                  onClick={() => handleDelete(auditoria.id)}
-                  disabled={state.loading}
-                >
-                  Eliminar
-                </button>
+                <button className="btn btn-danger" onClick={() => handleDelete(auditoria.id)}>Eliminar</button>
               </td>
             </tr>
           ))}
