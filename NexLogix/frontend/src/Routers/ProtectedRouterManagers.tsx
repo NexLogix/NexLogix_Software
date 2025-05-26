@@ -115,7 +115,6 @@ const ProtectedRouteManagers = () => {
 
         {/*GESTION REPORTES*/}
         <Route path="verReportes" element={<VerReportes />} />
-      
         <Route path="ubicacion" element={<EstamosUbicadosEn />} />
         <Route path="acerca_de" element={<AcercaDe />} />
 
