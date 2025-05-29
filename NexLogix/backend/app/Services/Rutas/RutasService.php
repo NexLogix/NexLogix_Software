@@ -15,7 +15,7 @@ class RutasService implements IRutasService
     {
         try {
             // Obtiene todas las rutas junto con su ciudad relacionada
-            $rutas = Rutas::with('ciudades')->get();
+            $rutas = Rutas::all();
 
             // Si no hay rutas registradas, retorna una respuesta indicando vacío
             if ($rutas->isEmpty()) {
@@ -49,7 +49,7 @@ class RutasService implements IRutasService
     {
         try {
             // Busca una ruta por ID, incluyendo la ciudad relacionada
-            $ruta = Rutas::with('ciudades')->findOrFail($id);
+            $ruta = Rutas::find($id);
 
             // Si se encuentra, devuelve éxito con los datos
             return [
@@ -88,7 +88,7 @@ class RutasService implements IRutasService
             return [
                 'success' => true,
                 'data' => $ruta,
-                'message' => 'Ruta creada exitosamente',
+                'message' => 'La Ruta ha sido creada exitosamente',
                 'status' => 201
             ];
 
@@ -124,7 +124,7 @@ class RutasService implements IRutasService
             // Retorna éxito con el objeto actualizado
             return [
                 'success' => true,
-                'message' => 'Ruta actualizada pero parcialmente',
+                'message' => 'La Ruta ha sido actualizada',
                 'data' => $ruta,
                 'status' => 200
             ];

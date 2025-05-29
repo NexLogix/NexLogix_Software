@@ -4,6 +4,7 @@ namespace App\UseCases\Rutas;
 use App\Models\Interfaces\Rutas\IRutasService;
 use App\Models\Interfaces\Rutas\IRutasUseCase;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 // Clase que implementa la lógica de negocio para las rutas
 // Se comunica con el servicio que interactúa con la base de datos
@@ -28,10 +29,7 @@ class RutasUseCase implements IRutasUseCase
         // Se valida que las horas estén en formato Y-m-d H:i:s
         // Se valida que el id de ciudad exista en la tabla 'ciudades' bajo la columna 'idCiudad'
         $validator = Validator::make($data, [
-            "nombreRuta"    => "required|string|max:255",
-            "horaEntrada"   => "required|date_format:Y-m-d H:i:s",
-            "horaSalida"    => "required|date_format:Y-m-d H:i:s",
-            "idCiudad"      => "required|integer|exists:ciudades,idCiudad",
+            "nombreRuta"    => "required|string|max:255|unique:rutas,nombreRuta",
         ]);
 
         // Si la validación falla, se retorna un array con los errores
@@ -54,10 +52,10 @@ class RutasUseCase implements IRutasUseCase
     {
         // Validaciones condicionales: si el campo viene, se valida su tipo y formato
         $validator = Validator::make($data, [
-            "nombreRuta"     => "sometimes|string|max:255",
-            "horaEntrada"    => "sometimes|date",
-            "horaSalida"     => "sometimes|date",
-            "idCiudad"       => "sometimes|integer|exists:ciudades,idCiudad",
+            "nombreRuta" => [
+            'sometimes', 'string', 'max:255',
+            Rule::unique('rutas', 'nombreRuta')->ignore($id, 'idRuta')
+        ],
         ]);
 
         // Si hay errores de validación, se retornan en la respuesta
