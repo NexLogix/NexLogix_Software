@@ -23,4 +23,20 @@ class Rutas extends Model
     protected $fillable = [
         'nombreRuta','fechaCreacionRuta',
     ];
+
+    public function Asignacion_Rutas()
+    {
+        return $this->hasMany(AsignacionRutas::class,
+            'idAsignacionRuta',
+            'idAsignacionRuta',
+        );
+    }
+
+    public function Asignacion_Rutas_Por_Ciudades()
+    {
+        return $this->hasMany(Asignacion_Rutas_Por_Ciudades::class,
+            'idAsignacionRuta',
+            'idAsignacionRuta',
+        );
+    }
 }
