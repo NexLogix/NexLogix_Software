@@ -5,6 +5,8 @@ namespace App\Providers;
 // Importacion de Interfaces
 use App\Models\Interfaces\Areas\IAreaService;
 use App\Models\Interfaces\Areas\IAreaUseCase;
+use App\Models\Interfaces\AsignacionRutas\IAsignacionRutasService;
+use App\Models\Interfaces\AsignacionRutas\IAsignacionRutasUseCase;
 use App\Models\Interfaces\CategoriaEnvios\ICategoriaEnviosService;
 use App\Models\Interfaces\CategoriaEnvios\ICategoriaEnviosUseCase;
 use App\Models\Interfaces\Ciudades\ICiudadesService;
@@ -47,8 +49,10 @@ use App\Models\Interfaces\Rutas\IRutasService;
 use App\Models\Interfaces\Rutas\IRutasUseCase;
 use App\Models\Interfaces\Vehiculos\IVehiculoService;
 use App\Models\Interfaces\Vehiculos\IVehiculoUseCase;
+use App\Services\AsignacionRutas\AsignacionRutasService;
 use App\Services\Rutas\RutasService;
 use App\Services\Vehiculos\VehiculoService;
+use App\UseCases\AsignacionRutas\AsignacionRutasUseCase;
 use App\UseCases\Rutas\RutasUseCase;
 
 class AppServiceProvider extends ServiceProvider
@@ -121,6 +125,11 @@ class AppServiceProvider extends ServiceProvider
             return new VehiculosUseCase($app->make(IVehiculoService::class));
         });
 
+        // ASIGNACION RUTAS
+        $this->app->bind(IAsignacionRutasService::class, AsignacionRutasService::class);
+        $this->app->bind(IAsignacionRutasUseCase::class, function($app) {
+            return new AsignacionRutasUseCase($app->make(IAsignacionRutasService::class));
+        });
     }
 
 
