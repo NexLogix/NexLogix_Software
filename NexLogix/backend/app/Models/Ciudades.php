@@ -31,4 +31,12 @@ class Ciudades extends Model
             'idCiudad'
         );
     }
+
+    public function Asignacion_Rutas_Por_Ciudades()
+    {
+         return $this->hasMany(Ciudades::class,
+            'idCiudad',
+            'idCiudad'
+        );
+    }
 }

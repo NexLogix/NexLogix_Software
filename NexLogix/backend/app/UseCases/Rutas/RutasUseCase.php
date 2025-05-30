@@ -29,7 +29,13 @@ class RutasUseCase implements IRutasUseCase
         // Se valida que las horas estén en formato Y-m-d H:i:s
         // Se valida que el id de ciudad exista en la tabla 'ciudades' bajo la columna 'idCiudad'
         $validator = Validator::make($data, [
-            "nombreRuta"    => "required|string|max:255|unique:rutas,nombreRuta",
+            "nombreRuta"        => "required|string|max:255|unique:rutas,nombreRuta",
+            "fechaSalida"       => "required|date",
+            "estadoTrayecto"    => [
+                "required",
+                Rule::in(['EN_BODEGA','EN_RUTA','EN_RECOGIDA','EN_ENTREGA','EN_DEVOLUCIONES']),
+            ],
+            "novedades" => "required|string",
         ]);
 
         // Si la validación falla, se retorna un array con los errores
@@ -53,9 +59,16 @@ class RutasUseCase implements IRutasUseCase
         // Validaciones condicionales: si el campo viene, se valida su tipo y formato
         $validator = Validator::make($data, [
             "nombreRuta" => [
-            'sometimes', 'string', 'max:255',
-            Rule::unique('rutas', 'nombreRuta')->ignore($id, 'idRuta')
-        ],
+                'sometimes', 'string', 'max:255',
+                    Rule::unique('rutas', 'nombreRuta')->ignore($id, 'idRuta')
+                ],
+            "fechaSalida"        => "sometimes|date",
+            "fechaLlegada"       => "sometimes|date",
+            "estadoTrayecto"     => [
+                "sometimes",
+                Rule::in(['EN_BODEGA','EN_RUTA','EN_RECOGIDA','EN_ENTREGA','EN_DEVOLUCIONES']),
+            ],
+            "novedades" => "sometimes|string",
         ]);
 
         // Si hay errores de validación, se retornan en la respuesta
