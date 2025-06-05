@@ -48,7 +48,7 @@ class AsignacionRutasService implements IAsignacionRutasService
     {
         try {
             // Busca una asignación específica por su ID junto con sus relaciones
-            $A_R = AsignacionRutas::with('vehiculo', 'ruta')->find($id);
+            $A_R = AsignacionRutas::with('vehiculo', 'ruta')->findOrFail($id);
 
             // Si la encuentra, retorna la información con estado 200
             return [
