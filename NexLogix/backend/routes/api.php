@@ -377,4 +377,3 @@ Route::group([
     Route::delete('/eliminar_vehiculo/{id}', [VehiculosController::class, 'deleteVehiculo'])
         ->middleware('role:2');
 });
-
