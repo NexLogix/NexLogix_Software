@@ -2,6 +2,6 @@
 namespace App\Models\Interfaces\Reportes;
 
 interface IReportes_UseCases {
-    public function handleCreate_ARPC(array $data): array;
-    public function handleUpdate_ARPC(int $id, array $data);
+    public function handleCreateReporte(array $data): array;
+    public function handleUpdateReporte(int $id, array $data);
 }

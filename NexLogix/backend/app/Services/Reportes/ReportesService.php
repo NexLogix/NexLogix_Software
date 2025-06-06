@@ -97,7 +97,7 @@ class ReportesService implements IReportesService
             ];
         }
     }
-    public function update_ARPC(int $id, array $data)
+    public function update_Reportes(int $id, array $data)
     {
         try {
             // Busca la asignación por ID, lanza excepción si no existe
@@ -138,7 +138,7 @@ class ReportesService implements IReportesService
             ];
         }
     }
-    public function delete_ARPC(int $id): array
+    public function delete_Reportes(int $id): array
     {
         try {
             // Busca la asignación por su ID y lanza excepción si no existe
