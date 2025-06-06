@@ -212,3 +212,9 @@ $this->app->bind(IUserService::class, UserService::class);
   - Cifrado avanzado de contraseñas y tokens.
 
 ---
+
+### PENDIENTES ACTUALES
+
+- Terminar asignacion_rutas_por_ciudades.
+- Que cada respuesta este personalizada en cada gestion, sin mostrar informacion delicada y que sobra
+- Revision de todas las APIS por parte de Esteban

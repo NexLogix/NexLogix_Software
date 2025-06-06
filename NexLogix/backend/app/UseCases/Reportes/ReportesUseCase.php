@@ -23,7 +23,7 @@ class ReportesUseCase implements IReportes_UseCases
 
         $validator = Validator::make($data, [
             "tipoReporte" => "required|string|max:150",
-            "descripcion" => "descripcion|string|max:1000",
+            "descripcion" => "nullable|string|max:1000",
             "idusuarios" =>  "required|integer|exists:usuarios,idusuarios",
         ]);
 

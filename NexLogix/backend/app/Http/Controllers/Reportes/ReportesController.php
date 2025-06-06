@@ -49,7 +49,7 @@ class ReportesController extends Controller
     // DELETE CONTROLLER
     public function  delete_Reportes($id)
     {
-        $response = $this->reportes_service->delete_Reportes($id->all());
+        $response = $this->reportes_service->delete_Reportes($id);
         return response()->json($response, $response['status']);
     }
 }

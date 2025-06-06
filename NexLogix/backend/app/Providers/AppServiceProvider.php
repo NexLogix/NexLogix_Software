@@ -55,6 +55,15 @@ use App\Services\Vehiculos\VehiculoService;
 use App\UseCases\AsignacionRutas\AsignacionRutasUseCase;
 use App\UseCases\Rutas\RutasUseCase;
 
+// GESTION REPORTES
+use App\UseCases\Reportes\ReportesUseCase;
+use App\Models\Interfaces\Reportes\IReportesService;
+use App\Services\Reportes\ReportesService;
+use App\Models\Interfaces\Reportes\IReportes_UseCases;
+
+
+
+
 class AppServiceProvider extends ServiceProvider
 {
     // Manejo de las inyecciones de dependecias
@@ -130,6 +139,12 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IAsignacionRutasUseCase::class, function($app) {
             return new AsignacionRutasUseCase($app->make(IAsignacionRutasService::class));
         });
+
+        // REPORTES
+        $this->app->bind(IReportesService::class, ReportesService::class);
+        $this->app->bind(IReportes_UseCases::class, function ($app) {
+            return new ReportesUseCase($app->make(IReportesService::class));
+        });
     }
 
 
@@ -142,6 +157,6 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        // 
+        //
     }
 }
