@@ -218,3 +218,5 @@ $this->app->bind(IUserService::class, UserService::class);
 - Terminar asignacion_rutas_por_ciudades.
 - Que cada respuesta este personalizada en cada gestion, sin mostrar informacion delicada y que sobra
 - Revision de todas las APIS por parte de Esteban
+- Se creo la gestion y sus apis funcionan, sin embargo, como en las otras gestiones o modulos, se dejo en los metodos POST, PUT/PATCH y DELETE la integracion con los Evenys y listeners de Auditoria.
+- Error en Gestion Auditorias, en details no se registra nada, este debe de agregar el id, de l recuros y lo que se hizo en la peticion HTTP registrada.
