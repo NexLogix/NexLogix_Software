@@ -53,3 +53,4 @@ class ReportesController extends Controller
         return response()->json($response, $response['status']);
     }
 }
+// PENDIENTE DEJAR REPORTES CON AUDITORIAS
