@@ -44,12 +44,6 @@ class RoleControllers extends Controller
         return response()->json($result, $result['status']);
     }
 
-    // PATCH: /api/roles/{id}
-    public function updatePartialRole(Request $request, $id)
-    {
-        $result = $this->roleUseCase->handleUpdateSpecificSection($id, $request->all());
-        return response()->json($result, $result['status']);
-    }
 
     // DELETE: /api/roles/{id}
     public function deleteRole($id)

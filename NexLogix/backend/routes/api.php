@@ -90,9 +90,7 @@ Route::group([
         ->middleware('role:2'); // Solo Manager
     Route::post('/crear_role', [RoleControllers::class, 'createRole'])
         ->middleware('role:2'); // Solo Manager
-    Route::put('editar_role/{id}', [RoleControllers::class, 'updateRole'])
-        ->middleware('role:2'); // Solo Manager
-    Route::patch('editar_campos_especificos_role/{id}', [RoleControllers::class, 'updatePartialRole'])
+    Route::patch('editar_role/{id}', [RoleControllers::class, 'updateRole'])
         ->middleware('role:2'); // Solo Manager
     Route::delete('eliminar_role/{id}', [RoleControllers::class, 'deleteRole'])
         ->middleware('role:2'); // Solo Manager

@@ -14,26 +14,21 @@ class RoleService
     {
         try {
             $roles = Roles::all();
-            if ($roles->isEmpty()) {
-                throw new ModelNotFoundException("No hay roles creados!");
-            }
             return [
+                "success" => true,
                 "message" => "Roles obtenidos exitosamente",
                 "data"    => $roles,
                 "status"  => 200
             ];
         } catch (ModelNotFoundException $e) {
             return [
+                "success" => false,
                 "message" => $e->getMessage(),
                 "status"  => 404
             ];
-        } catch (QueryException $e) {
-            return [
-                "message" => "Error de base de datos: " . $e->getMessage(),
-                "status"  => 500
-            ];
         } catch (Exception $e) {
             return [
+                "success" => false,
                 "message" => "Ocurrió un error inesperado: " . $e->getMessage(),
                 "status"  => 500
             ];
@@ -46,12 +41,14 @@ class RoleService
         try {
             $role = Roles::findOrFail($id);
             return [
+                "success" => true,
                 "message" => "Role encontrado!",
                 "data"    => $role,
                 "status"  => 200
             ];
         } catch (ModelNotFoundException $e) {
             return [
+                "success" => false,
                 "message" => "Role con ID $id no encontrado!",
                 "status"  => 404
             ];
@@ -62,6 +59,7 @@ class RoleService
             ];
         } catch (Exception $e) {
             return [
+                "success" => false,
                 "message" => "Ocurrió un error inesperado: " . $e->getMessage(),
                 "status"  => 500
             ];
@@ -72,23 +70,10 @@ class RoleService
     public function createRole(array $data): array
     {
         try {
-            if (!isset($data['nombreRole']) || empty($data['nombreRole'])) {
-                throw new Exception("El campo nombreRole es obligatorio", 400);
-            }
-            $role = Roles::create([
-                'nombreRole'          => $data['nombreRole'],
-                'descripcionRole'     => $data['descripcionRole'] ?? null,
-                'fechaAsignacionRole' => $data['fechaAsignacionRole'] ?? now()
-            ]);
-
-            // Si se envía un array de permisos generales, se sincroniza la relación
-            if (isset($data['permisosGenerales'])) {
-                $role->permisosGenerales()->sync($data['permisosGenerales']);
-            }
-
+            $role = Roles::create($data);
             return [
                 "success" => true,
-                "data"    => $role->load('permisosGenerales'),
+                "data"    => $role,
                 "message" => "Rol creado exitosamente",
                 "status"  => 201
             ];
@@ -108,67 +93,46 @@ class RoleService
         }
     }
 
-    // PUT
+    // PATCH
     public function updateRole($id, array $data): array
     {
         try {
             $role = Roles::findOrFail($id);
-
-            if (!isset($data['nombreRole']) || !isset($data['descripcionRole']) || !isset($data['fechaAsignacionRole'])) {
-                throw new Exception("Faltan campos obligatorios para la actualización completa.", 400);
-            }
-
-            $role->update([
-                'nombreRole'          => $data['nombreRole'],
-                'descripcionRole'     => $data['descripcionRole'],
-                'fechaAsignacionRole' => $data['fechaAsignacionRole'],
-            ]);
-
+            $role->update($data);
             return [
-                "message" => "Role actualizado exitosamente.",
-                "data"    => $role,
-                "status"  => 200
-            ];
+                    'success' => true,
+                    'message' => 'Role creado exitosamente',
+                    'data' => $role,
+                    'status' => 200
+                ];
         } catch (ModelNotFoundException $e) {
             return [
+                "success" => false,
                 "message" => "Role con ID $id no encontrado!",
                 "status"  => 404
             ];
         } catch (QueryException $e) {
             return [
+                "success" => false,
                 "message" => "Error de base de datos: " . $e->getMessage(),
                 "status"  => 500
             ];
         } catch (Exception $e) {
             return [
+                "success" => false,
                 "message" => "Ocurrió un error inesperado: " . $e->getMessage(),
                 "status"  => 500
             ];
         }
     }
 
-    // PATCH
-    public function updateSpecificSection($id, array $data): array
+    // put documentado
+    /*
+    public function updatePUT($id, array $data): array
     {
         try {
             $role = Roles::findOrFail($id);
-
-            $fields = [];
-            if (isset($data['nombreRole'])) {
-                $fields['nombreRole'] = $data['nombreRole'];
-            }
-            if (isset($data['descripcionRole'])) {
-                $fields['descripcionRole'] = $data['descripcionRole'];
-            }
-            if (isset($data['fechaAsignacionRole'])) {
-                $fields['fechaAsignacionRole'] = $data['fechaAsignacionRole'];
-            }
-
-            if (empty($fields)) {
-                throw new Exception("No se han enviado campos para actualizar.", 400);
-            }
-
-            $role->update($fields);
+            $role->update($data);
 
             return [
                 "message" => "Role actualizado exitosamente.",
@@ -192,6 +156,7 @@ class RoleService
             ];
         }
     }
+    */
 
     // DELETE
     public function deleteRole($id): array

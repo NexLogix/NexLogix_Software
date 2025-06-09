@@ -20,9 +20,7 @@ class RoleUseCase
         $validator = Validator::make($data, [
             'nombreRole'          => 'required|string|max:100',
             'descripcionRole'     => 'nullable|string',
-            'fechaAsignacionRole' => 'nullable|date',
-            'permisosGenerales'   => 'nullable|array'
-        ]);
+    ]);
 
         if ($validator->fails()) {
             return [
@@ -41,7 +39,6 @@ class RoleUseCase
         $validator = Validator::make($data, [
             'nombreRole'          => 'required|string|max:100',
             'descripcionRole'     => 'required|string',
-            'fechaAsignacionRole' => 'required|date'
         ]);
 
         if ($validator->fails()) {
@@ -59,9 +56,8 @@ class RoleUseCase
     public function handleUpdateSpecificSection($id, array $data): array
     {
         $validator = Validator::make($data, [
-            'nombreRole'          => 'sometimes|string|max:100',
+            'nombreRole'          => 'sometimes|string|max:100', // pendiente pasarlo a unique, que la DB tenga index unique
             'descripcionRole'     => 'sometimes|string',
-            'fechaAsignacionRole' => 'sometimes|date'
         ]);
 
         if ($validator->fails()) {
@@ -73,6 +69,6 @@ class RoleUseCase
             ];
         }
 
-        return $this->roleService->updateSpecificSection($id, $validator->validated());
+        return $this->roleService->updateRole($id, $validator->validated());
     }
 }
