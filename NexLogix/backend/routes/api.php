@@ -147,25 +147,24 @@ Route::group([
 
 
 //
-/// REPORTES // SIN RUTAS PROTEGIDAS Y SIN AUDITORIA, pendiente migrar a services, usecase y controller con sis interfaces
+/// REPORTES
 //
-use App\Http\Controllers\Reportes\GetReportesController;
-use App\Http\Controllers\Reportes\GetByIDReportesController;
-use App\Http\Controllers\Reportes\PostReportesController;
-use App\Http\Controllers\Reportes\UpdateReporteController;
-use App\Http\Controllers\Reportes\DeleteReporteController;
-use App\Http\Controllers\Reportes\PatchReportesController;
+use App\Http\Controllers\Reportes\ReportesController;
 
 Route::group([
-    'middleware' => 'api',
+    'middleware' => ['api', 'auth:api'],
     'prefix'=> 'gestion_reportes'
 ], function(){
-    Route::get('/', [GetReportesController::class, 'verReportes']);
-    Route::get('{id}', [GetByIDReportesController::class, 'showReporte']);
-    Route::post('/crear_reporte', [PostReportesController::class, 'handle']);
-    Route::put('/editar_reporte/{id}', [UpdateReporteController::class, 'updateReporte']);
-    Route::patch('/actualizar_campos_especificos_reportes/{id}', [PatchReportesController::class, 'updateReporte']);
-    Route::delete('/eliminar_reporte/{id}', action: [DeleteReporteController::class,'deleteReporte']);
+    Route::get('/', [ReportesController::class, 'getAllReportes'])
+        ->middleware('role:2,3'); // Manager y Empleado;
+    Route::get('/{id}', [ReportesController::class, 'getAllReportes_ById'])
+        ->middleware('role:2,3'); // Manager y Empleado;
+    Route::post('/', [ReportesController::class, 'create_Reportes'])
+        ->middleware('role:2,3'); // Manager y Empleado;
+    Route::patch('/{id}', [ReportesController::class, 'update_Reportes'])
+        ->middleware('role:2'); // Manager y Empleado;
+    Route::delete('/{id}',[ReportesController::class,'delete_Reportes'])
+        ->middleware('role:2'); // Manager y Empleado;
 });
 
 //
@@ -335,6 +334,28 @@ Route::group([
 });
 
 //
+/// GESTION ASIGNACION DE RUTAS
+//
+
+use App\Http\Controllers\AsignacionRutas\AR_controller;
+
+Route::group([
+    'middleware' => ['api', 'auth:api'],
+    'prefix' => 'gestion_asignacion_rutas'
+], function () {
+    Route::get('/', action: [AR_controller::class, 'showAll_AR'])
+        ->middleware('role:2');
+    Route::get('/buscar_AR/{id}', [AR_controller::class, 'show_AR_ById'])
+        ->middleware('role:2,3');
+    Route::post('/crear_AR', [AR_controller::class, 'create_AR'])
+    ->middleware('role:2');
+    Route::patch('/editar_AR/{id}', [AR_controller::class, 'update_AR'])
+        ->middleware('role:2');
+    Route::delete('/eliminar_AR/{id}', [AR_controller::class, 'delete_AR'])
+        ->middleware('role:2');
+});
+
+//
 /// VEHICULOS
 //
 
@@ -355,4 +376,3 @@ Route::group([
     Route::delete('/eliminar_vehiculo/{id}', [VehiculosController::class, 'deleteVehiculo'])
         ->middleware('role:2');
 });
-
