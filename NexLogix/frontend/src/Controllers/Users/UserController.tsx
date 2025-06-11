@@ -50,7 +50,7 @@ export const useLogoutController = () => {
     const handleLogout = async () => {
         try {
             await LogoutUser();
-            navigate("/login", { replace: true });
+            navigate("/", { replace: true });
             return { success: true, message: 'Sesión cerrada correctamente' };
         } catch (error) {
             const message = error instanceof Error ? error.message : 'Error al cerrar sesión';
