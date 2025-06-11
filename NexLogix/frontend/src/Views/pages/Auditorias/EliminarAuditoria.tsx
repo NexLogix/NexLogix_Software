@@ -2,12 +2,18 @@ import React, { useEffect } from 'react';
 import { useAuditoriasController } from '../../../Controllers/Auditorias/AuditoriasController';
 import { IAuditoria } from '../../../models/Interfaces/IAuditorias';
 
-const VerAuditorias: React.FC = () => {
-  const { state, fetchAuditoriasData, handleSearchChange, handleSearch, resetSearch } = useAuditoriasController();
+const EliminarAuditorias: React.FC = () => {
+  const { state, fetchAuditoriasData, handleSearchChange, handleSearch, deleteAuditoriaById } = useAuditoriasController();
 
   useEffect(() => {
     fetchAuditoriasData();
   }, [fetchAuditoriasData]);
+
+  const handleDelete = (id: number) => {
+    if (window.confirm('¿Estás seguro de que deseas eliminar esta auditoría?')) {
+      deleteAuditoriaById(id);
+    }
+  };
 
   const renderDetails = (details: IAuditoria['details']) => {
     if (typeof details === 'string') return details;
@@ -29,11 +35,8 @@ const VerAuditorias: React.FC = () => {
               value={state.searchId}
               onChange={handleSearchChange}
             />
-            <button className="btn btn-outline-primary me-2" onClick={handleSearch}>
+            <button className="btn btn-outline-danger" onClick={handleSearch}>
               Buscar
-            </button>
-            <button className="btn btn-outline-secondary" onClick={resetSearch}>
-              Mostrar Todos
             </button>
           </div>
         </div>
@@ -42,7 +45,7 @@ const VerAuditorias: React.FC = () => {
       {state.error && <div className="alert alert-danger">{state.error}</div>}
       {state.loading && <div className="alert alert-info">Cargando...</div>}
 
-      <h2 className="mb-3">Historial de Auditorías</h2>
+      <h2 className="mb-3">Eliminar Auditorías</h2>
       <table className="table table-bordered">
         <thead>
           <tr>
@@ -53,6 +56,7 @@ const VerAuditorias: React.FC = () => {
             <th>Detalles</th>
             <th>Fecha de Creación</th>
             <th>Fecha de Actualización</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -65,6 +69,9 @@ const VerAuditorias: React.FC = () => {
               <td>{renderDetails(auditoria.details)}</td>
               <td>{auditoria.created_at}</td>
               <td>{auditoria.updated_at}</td>
+              <td>
+                <button className="btn btn-danger" onClick={() => handleDelete(auditoria.id)}>Eliminar</button>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -73,4 +80,4 @@ const VerAuditorias: React.FC = () => {
   );
 };
 
-export default VerAuditorias;
+export default EliminarAuditorias;
