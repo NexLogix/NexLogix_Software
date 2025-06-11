@@ -22,6 +22,6 @@ class Reportes extends Model
 
     public function users()
     {
-        return $this->belongsTo(User::class, 'idusuarios');
+        return $this->belongsTo(User::class, 'idusuarios', 'idusuarios');
     }
 }

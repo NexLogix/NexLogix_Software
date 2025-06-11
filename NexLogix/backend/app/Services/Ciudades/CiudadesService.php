@@ -193,5 +193,4 @@ class CiudadesService implements ICiudadesService
     }
 }
 
-// Aqui no ira put porque cuidades no es una tabla que se requiera editar todos los campos, sino ciertos campos
-// de manera especifica.
+// COMENTARIO PARA HACER MERGE ENTRE CIUDADES Y DEVELOP

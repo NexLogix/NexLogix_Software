@@ -1,13 +1,17 @@
-import AppRouter from "./Routers/AppRouter";
-import { setAuthHeader } from './services/Auth/AuthService';
-import { useEffect } from "react";
+import AppRouter from "./Routers/AppRouter"; // Importa el componente AppRouter que define las rutas de la aplicación
+import { setAuthHeader } from './services/Auth/AuthService'; // Importa la función setAuthHeader para configurar el encabezado de autenticación
+import { useEffect } from "react"; // Importa el hook useEffect de React para ejecutar efectos secundarios
 
-function App() {
-    useEffect(() => {
-        setAuthHeader(); // Establece encabezado por defecto si hay token
-    }, []);
+// Define el componente funcional App, que sirve como raíz de la aplicación
+function App() { 
 
-    return <AppRouter />;
+    // Define un efecto secundario que se ejecuta al montar el componente
+    useEffect(() => { 
+        // Llama a setAuthHeader para establecer el encabezado Authorization con el token (si existe) en las solicitudes HTTP
+        setAuthHeader(); 
+    }, []); // Arreglo de dependencias vacío asegura que el efecto se ejecute solo una vez al montar
+
+    return <AppRouter />; // Renderiza el componente AppRouter, que contiene toda la lógica de enrutamiento de la SPA
 }
 
-export default App;
+export default App; // Exporta App como componente predeterminado para ser usado en main.tsx

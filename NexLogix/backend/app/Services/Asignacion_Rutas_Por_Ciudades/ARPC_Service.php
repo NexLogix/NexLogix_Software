@@ -1,24 +1,25 @@
 <?php
 namespace App\Services\Rutas;
 
-use App\Models\Interfaces\Rutas\IRutasService; // Interfaz que este servicio implementa
+use App\Models\Asignacion_Rutas_Por_Ciudades;
+use App\Models\Interfaces\Asignacion_Rutas_Por_Ciudades\I_ARPC_Service;
 use App\Models\Rutas; // Modelo de Eloquent para rutas
 use Exception; // Excepciones generales
 use Illuminate\Database\Eloquent\ModelNotFoundException; // Excepción cuando no se encuentra un modelo
 use Illuminate\Database\QueryException; // Excepción para errores de base de datos
 
 // Clase que implementa la lógica del servicio para las rutas
-class RutasService implements IRutasService
+class ARPC_Service implements I_ARPC_Service
 {
     // Método para obtener todas las rutas registradas
-    function getAllRutas()
+    function getAll_ARPC()
     {
         try {
             // Obtiene todas las rutas junto con su Ruta relacionada
-            $rutas = Rutas::all();
+            $ARPC = Asignacion_Rutas_Por_Ciudades::with('ciudades', 'rutas')->get();
 
             // Si no hay rutas registradas, retorna una respuesta indicando vacío
-            if ($rutas->isEmpty()) {
+            if ($ARPC->isEmpty()) {
                 return [
                     'success' => false,
                     'message' => 'No hay Rutas registradas',
@@ -30,7 +31,7 @@ class RutasService implements IRutasService
             return [
                 'success' => true,
                 'message' => 'Lista de Rutas:',
-                'data' => $rutas,
+                'data' => $ARPC,
                 'status' => 200
             ];
 
@@ -45,16 +46,16 @@ class RutasService implements IRutasService
     }
 
     // Método para obtener una ruta específica por ID
-    function getRutaByID(int $id): array
+    function get_ARPC_ById(int $id): array
     {
         try {
             // Busca una ruta por ID, incluyendo la Ruta relacionada
-            $ruta = Rutas::find($id);
+            $ARPC = Asignacion_Rutas_Por_Ciudades::with('ciudades', 'rutas')->findOrFail($id);
 
             // Si se encuentra, devuelve éxito con los datos
             return [
                 'success' => true,
-                'data' => $ruta,
+                'data' => $ARPC,
                 'message' => 'Ruta encontrada',
                 'status' => 200
             ];
@@ -78,7 +79,7 @@ class RutasService implements IRutasService
     }
 
     // Método para crear una nueva ruta en la base de datos
-    function createRuta(array $data): array
+    function create_ARPC(array $data): array
     {
         try {
             // Se crea la ruta usando asignación masiva
@@ -103,11 +104,11 @@ class RutasService implements IRutasService
     }
 
     // Método para actualizar una ruta existente por ID
-    function updateRuta(array $data, int $id): array
+    function update_ARPC(int $id, array $data): array
     {
         try {
             // Busca la ruta por ID
-            $ruta = Rutas::findOrFail($id);
+            $ARPC = Rutas::findOrFail($id);
 
             // Verifica si el array de datos está vacío
             if (empty($data)) {
@@ -119,13 +120,13 @@ class RutasService implements IRutasService
             }
 
             // Actualiza los campos que fueron enviados
-            $ruta->update($data);
+            $ARPC->update($data);
 
             // Retorna éxito con el objeto actualizado
             return [
                 'success' => true,
                 'message' => 'La Ruta ha sido actualizada',
-                'data' => $ruta,
+                'data' => $ARPC,
                 'status' => 200
             ];
 
@@ -148,7 +149,7 @@ class RutasService implements IRutasService
     }
 
     // Método para eliminar una ruta por ID
-    function deleteRuta(int $id): array
+    function delete_ARPC(int $id): array
     {
         try {
             // Busca la ruta por ID

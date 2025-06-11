@@ -1,90 +1,105 @@
- /* Estilos generales de la tarjeta de login */
-
- .bg_login {
+/* Estilos generales para la página de login */
+.bg_login {
   width: 100%;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #ffffff;
-  background: linear-gradient(135deg, #9247e2 10%, #1f516e 40%, #040624 98%);
+  background: linear-gradient(135deg, #1B263B 0%, #F4A261 100%); /* Gradiente empresarial azul oscuro a naranja */
+  font-family: 'Poppins', sans-serif; /* Fuente moderna y profesional */
 }
 
-
+/* Estilos para la caja del formulario */
 .login_caja {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 15px;
-    padding: 40px;
-    width: 100%;
-    max-width: 400px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    text-align: center;
-    animation: fadeIn 1s ease-in-out;
+  background: rgba(255, 255, 255, 0.95); /* Fondo blanco opaco para contraste */
+  border-radius: 15px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 450px; /* Ligeramente más ancho para mejor legibilidad */
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Sombra suave para profundidad */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Borde sutil */
+  text-align: center;
 }
 
-/* Animación de aparición */
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-        transform: translateY(-40px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Estilos del título */
+/* Estilos del título y marca */
 .login_caja h1 {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #ffffff;
-    margin-bottom: 20px;
-    text-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #1B263B; /* Azul oscuro para contraste */
+  margin-bottom: 1.5rem;
+}
+
+.login_caja h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #F4A261; /* Naranja para resaltar la marca */
+  margin-bottom: 0.5rem;
 }
 
 /* Estilos de los inputs */
 .login_caja .form-control {
-    font-size: 1.1rem;
-    padding: 12px;
-    border: 2px solid rgba(255, 255, 255, 0.5);
-    border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.8);
-    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+  font-size: 1rem;
+  padding: 0.75rem;
+  border: 1px solid #ced4da; /* Borde estándar de Bootstrap */
+  border-radius: 0.5rem;
+  background-color: #fff;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login_caja .input-group-text {
+  border-radius: 0.5rem 0 0 0.5rem;
+  border: 1px solid #ced4da;
+  background-color: #fff;
 }
 
 /* Estilos al enfocar inputs */
 .login_caja .form-control:focus {
-    background-color: #ffffff;
-    border-color: #6a11cb;
-    box-shadow: 0 0 8px rgba(106, 17, 203, 0.5);
-    outline: none;
+  border-color: #F4A261; /* Naranja para el foco */
+  box-shadow: 0 0 0 0.2rem rgba(244, 162, 97, 0.25); /* Sombra naranja suave */
+  outline: none;
 }
 
 /* Botón de inicio de sesión */
-.login_caja .btn {
-    background: linear-gradient(90deg, #6a11cb, #2575fc);
-    color: #fff;
-    font-size: 1.2rem;
-    font-weight: bold;
-    padding: 12px 0;
-    border: none;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s, box-shadow 0.3s;
+.login_caja .btn-primary {
+  background: #1B263B; /* Azul oscuro empresarial */
+  border: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* Efecto hover en botón */
-.login_caja .btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-    background: linear-gradient(90deg, #2575fc, #6a11cb);
+.login_caja .btn-primary:hover {
+  background: #2A3F66; /* Tono más claro de azul */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 /* Efecto al presionar el botón */
-.login_caja .btn:active {
-    box-shadow: 0 0 15px rgba(106, 17, 203, 0.6);
+.login_caja .btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos para el toast de error */
+.login_caja .toast {
+  max-width: 300px;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsividad para pantallas pequeñas */
+@media (max-width: 576px) {
+  .login_caja {
+    max-width: 90%; /* Más flexible en móviles */
+    padding: 1.5rem;
+  }
+  .login_caja h1 {
+    font-size: 1.5rem;
+  }
+  .login_caja h2 {
+    font-size: 1.8rem;
+  }
 }
