@@ -1,11 +1,8 @@
 /* Estilos generales para la página de login */
 .bg_login {
-  width: 100%;
-  height: 100vh;
-  display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #1B263B 0%, #F4A261 100%); /* Gradiente empresarial azul oscuro a naranja */
+  background: linear-gradient(135deg, #1B263B 10%, #61f4e8b9 100%); /* Gradiente empresarial azul oscuro a naranja */
   font-family: 'Poppins', sans-serif; /* Fuente moderna y profesional */
 }
 
@@ -42,7 +39,6 @@
   padding: 0.75rem;
   border: 1px solid #ced4da; /* Borde estándar de Bootstrap */
   border-radius: 0.5rem;
-  background-color: #fff;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -88,18 +84,4 @@
   max-width: 300px;
   border-radius: 0.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-/* Responsividad para pantallas pequeñas */
-@media (max-width: 576px) {
-  .login_caja {
-    max-width: 90%; /* Más flexible en móviles */
-    padding: 1.5rem;
-  }
-  .login_caja h1 {
-    font-size: 1.5rem;
-  }
-  .login_caja h2 {
-    font-size: 1.8rem;
-  }
 }

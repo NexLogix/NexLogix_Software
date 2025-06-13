@@ -65,7 +65,8 @@ main {
       margin-left: 5px; /* Ajusta según el ancho del sidebar */
       margin-right: 5px; /* Ajusta según el ancho del sidebar */
       width: calc(100% - 250px);
-      overflow-x: hidden; /* Evita que se salga del viewport */  
+      overflow-x: hidden; /* Evita que se salga del viewport */ 
+      overflow: auto;
 }
 
 

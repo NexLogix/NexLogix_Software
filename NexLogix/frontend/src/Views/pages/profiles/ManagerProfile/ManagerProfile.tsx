@@ -44,8 +44,6 @@ const ManagerProfile = () => {
                           <div className="collapse" id="AuditoriasSubmenu">
                             <ul className="nav flex-column ms-3">
                               <Link className="nav-link" to="/manager/verAuditorias">Lista de auditorías</Link>
-                              <Link className="nav-link" to="/manager/editarAuditorias">Editar auditorías</Link>
-                              <Link className="nav-link" to="/manager/eliminarAuditorias">Eliminar auditorías</Link>
                             </ul>
                           </div>
                         </li>
@@ -163,7 +161,7 @@ const ManagerProfile = () => {
             </nav>
 
             {/* Área principal (Main) */}
-              <main className="p-3">
+              <main>
                 <Outlet />  {/* Aquí se renderiza el contenido según la ruta */}
               </main>
           </div>
