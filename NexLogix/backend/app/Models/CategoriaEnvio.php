@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class CategoriaEnvio extends Model
 {
     use HasFactory;
-    protected $table = 'CategoriaEnvios';
+    protected $table = 'categoriaenvios';
     protected $primaryKey = 'idCategoria';
     public $timestamps = false;
     protected $fillable = [
         'nombreCategoria',
-        'precioCategoria', 
+        'precioCategoria',
         'descripcion',
     ];
 
