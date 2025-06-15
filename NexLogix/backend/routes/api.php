@@ -280,13 +280,13 @@ Route::group([
 ], function () {
     Route::get('/', action: [RecogidasControllers::class, 'showAllRecogidas'])
         ->middleware('role:2,3');
-    Route::get('/buscar_recogida/{id}', [RecogidasControllers::class, 'showByIDRecogida'])
+    Route::get('/{id}', [RecogidasControllers::class, 'showByIDRecogida'])
         ->middleware('role:2,3');
-    Route::post('/crear_recogida', [RecogidasControllers::class, 'createRecogida'])
+    Route::post('/', [RecogidasControllers::class, 'createRecogida'])
     ->middleware('role:2,3');
-    Route::patch('/editar_recogida/{id}', [RecogidasControllers::class, 'updateSpecificSection_R'])
+    Route::patch('/{id}', [RecogidasControllers::class, 'updateSpecificSection_R'])
         ->middleware('role:2');
-    Route::delete('/eliminar_recogida/{id}', [RecogidasControllers::class, 'deleteRecogida'])
+    Route::delete('/{id}', [RecogidasControllers::class, 'deleteRecogida'])
         ->middleware('role:2');
 });
 
