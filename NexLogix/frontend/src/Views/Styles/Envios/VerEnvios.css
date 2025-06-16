@@ -1,3 +1,9 @@
+.envios-container {
+  background-color: #fff;
+  height: 100%;
+  padding: 5px;
+}
+
 .table-responsive {
   max-height: 600px;
   overflow-y: auto;

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserProfileController } from '../../../../Controllers/Users/UserController';
-import { UserProfile } from './../../../../models/Interfaces/UserProfile';
+import { UserProfileController } from '../../../Controllers/Users/UserController';
+import { UserProfile } from '../../../models/Interfaces/UserProfile';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -44,7 +44,7 @@ const HomeManager = () => {
     return (
       <div className="d-flex justify-content-center align-items-center bg-light">
         <div className="text-center">
-          <div className="spinner-border text-primary" style={{ width: '3rem', height: '3rem' }} role="status">
+          <div className="spinner-border text-primary" role="status">
             <span className="visually-hidden">Cargando...</span>
           </div>
           <p className="mt-3 text-muted">Cargando perfil...</p>

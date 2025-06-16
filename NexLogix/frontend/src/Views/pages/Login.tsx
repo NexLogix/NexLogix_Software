@@ -1,5 +1,5 @@
 import { useAuthLoginController } from "../../Controllers/Auth/AuthController"; // Importa el hook personalizado useAuthLoginController para manejar la lógica de autenticación
-import "../componets/GeneralStyle/generalStyleLogin.css"; // Importa el archivo CSS personalizado para estilos específicos del componente Login
+import "../Styles/generalStyleLogin.css"; // Importa el archivo CSS personalizado para estilos específicos del componente Login
 
 const Login = () => { // Define el componente funcional Login para la página de inicio de sesión
   const { // Desestructura las propiedades y funciones retornadas por useAuthLoginController
@@ -12,7 +12,7 @@ const Login = () => { // Define el componente funcional Login para la página de
   return (
     <> {/* Fragmento para envolver múltiples elementos sin agregar un contenedor adicional */}
       <div className="bg_login"> {/* Contenedor principal con clase personalizada bg_login para el fondo */}
-        <div className="container d-flex justify-content-center align-items-center vh-100"> {/* Contenedor Bootstrap centrado verticalmente y horizontalmente */}
+        <div className="container d-flex justify-content-center align-items-center "> {/* Contenedor Bootstrap centrado verticalmente y horizontalmente */}
           <div className="login_caja animate__animated animate__fadeIn"> {/* Contenedor del formulario con clase personalizada y animación */}
             <div className="text-center"> {/* Contenedor para el logo o nombre de la marca */}
               <h2 className="fw-bold text-black mb-5">NexLogix</h2> {/* Nombre de la aplicación como marca */}

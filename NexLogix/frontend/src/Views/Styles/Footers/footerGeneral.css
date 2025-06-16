@@ -1,13 +1,12 @@
 
 main {
- flex: 1; /* Empuja el footer hacia abajo */
+ flex: 2; /* Empuja el footer hacia abajo */
 }
 
 /* Footer */
 .footer {
  background-color: #010211;
  color: white;
- text-align: center;
 }
 
 .footer a:hover, 

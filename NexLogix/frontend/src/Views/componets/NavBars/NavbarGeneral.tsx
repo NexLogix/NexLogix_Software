@@ -1,6 +1,6 @@
 // src/components/NavbarGeneral.tsx
 import { useLogoutController } from "../../../Controllers/Users/UserController";
-import "./styles/NavGeneral.css";
+import "./../../Styles/Navs/NavGeneral.css";
 
 const NavbarGeneral = () => {
     // Llamada del controller logout

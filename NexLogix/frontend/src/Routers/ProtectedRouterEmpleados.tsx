@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
-import EmpleadoProfile from "../Views/pages/profiles/EmpleadoProfile/EmpleadoProfile";
-import HomeEmpleado from "../Views/pages/profiles/EmpleadoProfile/HomeEmpleado";
+import EmpleadoProfile from "../Views/profiles/EmpleadoProfile/EmpleadoProfile";
+import HomeEmpleado from "../Views/profiles/EmpleadoProfile/HomeEmpleado";
 import VerEnvios from "../Views/pages/Envios/VerEnvios";
 import CrearEnvios from "../Views/pages/Envios/CrearEnvios";
 import VerListaRutas from "../Views/pages/Rutas/VerListaRutas";

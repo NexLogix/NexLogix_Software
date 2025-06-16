@@ -1,6 +1,6 @@
 import { FC, ReactNode, useEffect, useState } from "react"; // Importa tipos y hooks de React
 import { Navigate, useLocation } from "react-router-dom"; // Importa componentes de react-router-dom para redirección y ubicación
-import { useAuth } from "../../services/Auth/AuthService"; // Importa el hook useAuth para manejar autenticación
+import { useAuth } from "../services/Auth/AuthService"; // Importa el hook useAuth para manejar autenticación
 
 interface PrivateRouteProps { // Define la interfaz para las props del componente PrivateRoute
   children: ReactNode; // Contenido anidado que se renderiza si se permite el acceso
@@ -13,18 +13,18 @@ const PrivateRoute: FC<PrivateRouteProps> = ({ children, allowedRoles }) => { //
   const [isChecking, setIsChecking] = useState(true); // Estado para controlar el proceso de verificación de autenticación
 
   useEffect(() => { // Define un efecto para manejar la bandera authRedirect
-    const authRedirect = localStorage.getItem("authRedirect"); // Obtiene la bandera authRedirect de localStorage
-    if (authRedirect === "true") { // Si la bandera está activa
-      console.log("[PrivateRoute] Detectada bandera authRedirect, esperando autenticación"); // Log para depuración
-      // Esperar brevemente para que useAuth se actualice
-      const timer = setTimeout(() => { // Configura un temporizador de 500ms
-        setIsChecking(false); // Marca la verificación como completa
-        localStorage.removeItem("authRedirect"); // Limpia la bandera
-      }, 500); // 500ms debería ser suficiente
-      return () => clearTimeout(timer); // Limpia el temporizador al desmontar
-    } else {
-      setIsChecking(false); // Si no hay bandera, marca la verificación como completa
-    }
+      const authRedirect = localStorage.getItem("authRedirect"); // Obtiene la bandera authRedirect de localStorage
+      if (authRedirect === "true") { // Si la bandera está activa
+        console.log("[PrivateRoute] Detectada bandera authRedirect, esperando autenticación"); // Log para depuración
+        // Esperar brevemente para que useAuth se actualice
+        const timer = setTimeout(() => { // Configura un temporizador de 500ms
+          setIsChecking(false); // Marca la verificación como completa
+          localStorage.removeItem("authRedirect"); // Limpia la bandera
+        }, 500); // 500ms debería ser suficiente
+        return () => clearTimeout(timer); // Limpia el temporizador al desmontar
+      } else {
+        setIsChecking(false); // Si no hay bandera, marca la verificación como completa
+      }
   }, []); // Efecto sin dependencias, se ejecuta solo al montar
 
   console.log("[PrivateRoute] Estado - Token:", token ? "presente" : "ausente"); // Log del estado del token
@@ -50,7 +50,7 @@ const PrivateRoute: FC<PrivateRouteProps> = ({ children, allowedRoles }) => { //
   // SECCION ACCESO DENEGADO 1
   if (!token || !isAuthenticated) { // Si no hay token o no está autenticado
     console.log("[PrivateRoute] Redirigiendo a /login: no autenticado"); // Log para depuración
-    return <Navigate to="/login" state={{ from: location }} replace />; /* Redirige al login con la ubicación actual */
+    return <Navigate to="/unauthorized" state={{ from: location }} replace />; /* Redirige al login con la ubicación actual */
   }
 
   // SECCION ACCESO DENEGADO 2

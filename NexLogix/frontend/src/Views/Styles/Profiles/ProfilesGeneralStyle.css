@@ -1,13 +1,19 @@
+/*general profiles.css*/
+
 /* Colores generales */
 body {
-    
     color: #333; /* Texto principal */
+    /*background-color: #010211;*/
+    /*ASI se arregla el bug de la barra blanca que aparece abajo, pero si se hace asi con background-color: #010211; 
+    en BODY, se debe de personalizar todas las vistas.*/
+    color: #333;
 }
 
 /* Navbar */
 .navbar {
       background-color: #010211;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      
 }
 
 .navbar-brand, .nav-link {
@@ -16,7 +22,7 @@ body {
 
 .navbar .navbar-nav .nav-link:hover {
       background-color: rgba(0, 105, 217, 0.2);
-      color: #fff !important;
+      color: #fff !important; 
 }
 
 /* Habilitar desplazamiento en la barra desplegable */
@@ -30,7 +36,6 @@ body {
 /* Estilos para los ítems del dropdown */
 .dropdown-item {
       color: white !important;
-      white-space: nowrap; /* Evita que el texto se divida en varias líneas */
 }
 
 .dropdown-item:hover, .dropdown-item:focus {
@@ -64,11 +69,22 @@ body {
 main {
       margin-left: 5px; /* Ajusta según el ancho del sidebar */
       margin-right: 5px; /* Ajusta según el ancho del sidebar */
-      width: calc(100% - 250px);
+      width: calc(100% - 260px);
       overflow-x: hidden; /* Evita que se salga del viewport */ 
       overflow: auto;
 }
 
+/*CONFIGURACION NAB SUPERIOR, CONFIGIRACIONES*/
+
+/* Estilo especial para el botón de SALIR */
+.dropdown-item.text-danger {
+ color: #dc3545 !important;
+}
+
+.dropdown-item.text-danger:hover {
+ background-color: rgb(83, 16, 23) !important;
+ color: white !important;
+}
 
 
 

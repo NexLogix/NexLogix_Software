@@ -1,10 +1,18 @@
 /* Estilos generales para la página de login */
 .bg_login {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #1B263B 10%, #61f4e8b9 100%); /* Gradiente empresarial azul oscuro a naranja */
-  font-family: 'Poppins', sans-serif; /* Fuente moderna y profesional */
+  background: linear-gradient(135deg, #1B263B 10%, #61f4e8b9 100%);
+  font-family: 'Poppins', sans-serif;
+  overflow: hidden; /* Esto previene que el contenido rompa el contenedor */
 }
+
 
 /* Estilos para la caja del formulario */
 .login_caja {
@@ -48,12 +56,6 @@
   background-color: #fff;
 }
 
-/* Estilos al enfocar inputs */
-.login_caja .form-control:focus {
-  border-color: #F4A261; /* Naranja para el foco */
-  box-shadow: 0 0 0 0.2rem rgba(244, 162, 97, 0.25); /* Sombra naranja suave */
-  outline: none;
-}
 
 /* Botón de inicio de sesión */
 .login_caja .btn-primary {
@@ -69,7 +71,7 @@
 /* Efecto hover en botón */
 .login_caja .btn-primary:hover {
   background: #2A3F66; /* Tono más claro de azul */
-  transform: translateY(-2px);
+  transform: translateY(-5px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 

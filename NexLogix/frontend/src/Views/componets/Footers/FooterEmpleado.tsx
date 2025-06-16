@@ -1,4 +1,4 @@
-import "../GeneralStyle/footerGeneral.css"
+import "../../Styles/Footers/footerGeneral.css"
 import { Link } from "react-router-dom";
 const FooterGeneralEmpleado = () => {
   return (

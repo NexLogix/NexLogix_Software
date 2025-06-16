@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 
 // IMPORT PROFILE MANAGER
-import ManagerProfile from "../Views/pages/profiles/ManagerProfile/ManagerProfile";
-import HomeManager from "../Views/pages/profiles/ManagerProfile/HomeManager";
+import ManagerProfile from "../Views/profiles/ManagerProfile/ManagerProfile";
+import HomeManager from "../Views/profiles/ManagerProfile/HomeManager";
 
 // AREAS
 import VerAreas from '../Views/pages/Areas/VerAreas';
