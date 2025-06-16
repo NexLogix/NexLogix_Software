@@ -3,7 +3,7 @@
 /* Colores generales */
 body {
     color: #333; /* Texto principal */
-    /*background-color: #010211;*/
+    background-color: #010211;
     /*ASI se arregla el bug de la barra blanca que aparece abajo, pero si se hace asi con background-color: #010211; 
     en BODY, se debe de personalizar todas las vistas.*/
     color: #333;

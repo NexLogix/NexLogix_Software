@@ -8,12 +8,12 @@ export default function UnauthorizedRoute() { // Define el componente funcional 
     // Opcional: redireccionar automáticamente después de unos segundos
     const timeout = setTimeout(() => { // Configura un temporizador de 5 segundos
       navigate("/"); // Navega a la página de inicio
-    }, 5000); // 5000ms de espera
+    }, 8000); // 8000ms de espera
     return () => clearTimeout(timeout); // Limpia el temporizador al desmontar
   }, [navigate]); // Dependencia: navigate
 
   return (
-    <div className="container text-center mt-5"> {/* Contenedor principal con estilos Bootstrap */}
+    <div className="container text-center mt-5 bg-"> {/* Contenedor principal con estilos Bootstrap */}
       <h1 className="display-4 text-danger">403 - No Autorizado</h1> {/* Título de error */}
       <p className="lead"> {/* Mensaje principal */}
         Lo sentimos, no tienes permisos para acceder a esta página.
