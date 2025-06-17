@@ -20,20 +20,14 @@ const EliminarArea: React.FC = () => {
 
     <div className='areas_container'>
         <div className="container">
-            <nav className="navbar navbar-light bg-light mb-4 p-3 shadow-sm">
+            <nav className="nav_areas navbar navbar-light shadow-sm">
               <div className="container-fluid">
                 <form className="d-flex" onSubmit={(e) => { e.preventDefault(); handleSearch(); }}>
                   <input
-                    className="form-control me-2"
-                    type="search"
-                    placeholder="Ingrese ID del Área"
-                    aria-label="Buscar"
-                    value={state.searchId}
-                    onChange={handleSearchChange}
+                    className="form-control me-2" type="search" placeholder="Ingrese ID del Área" aria-label="Buscar"
+                    value={state.searchId} onChange={handleSearchChange}
                   />
-                  <button className="btn btn-outline-danger me-2" type="submit">
-                    Buscar
-                  </button>
+                  <button className="btn btn-outline-danger me-2" type="submit">Buscar</button>
                 </form>
               </div>
             </nav>
@@ -41,7 +35,7 @@ const EliminarArea: React.FC = () => {
             {state.error && <div className="alert alert-danger">{state.error}</div>}
             {state.loading && <div className="alert alert-info">Cargando...</div>}
 
-            <h2 className="mb-3 mt-5 text-danger">Eliminar Áreas</h2>
+            <h2 className="mt-5 mb-5 text-danger">Eliminar Áreas</h2>
             <table className="table table-bordered">
               <thead>
                 <tr>

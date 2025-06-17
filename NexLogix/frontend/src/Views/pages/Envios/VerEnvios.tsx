@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useEnviosController } from '../../../Controllers/Envios/EnviosController';
 import { Envio } from '../../../models/Interfaces/IEnvios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../../Styles/Envios/VerEnvios.css';
 
 const VerEnvios = () => {
   const { state, fetchEnviosData, handleSearchChange, handleSearch, resetSearch } = useEnviosController();

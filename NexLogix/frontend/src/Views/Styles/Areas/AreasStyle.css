@@ -1,7 +1,38 @@
+
 /* Estilos para el contenedor principal */
 .areas_container {
-   background-color: #fff;
-   height: 100%;
-   padding: 5px;
+  background-color : rgb(11, 11, 27);
+  height: 100%;
+  padding: 5px;
 }
+
+/* Estilos para el nav específico */
+.nav_areas {
+  background-color: #232c42;
+  color: #ffffff;
+  padding: 15px;
+  border-radius: 15px;
+}
+
+.nav_areas .form-control {
+  background-color: #232c42;
+  border-color: #ffffff;
+  color: #ffffff;
+}
+
+.nav_areas .form-control::placeholder {
+  color: #cccccc;
+}
+
+/*BOTON BUSCAR STYLE*/
+.nav_areas .btn-outline-primary {
+  color: #ffffff;
+  border-color: #86aaf9;
+}
+
+.nav_areas .btn-outline-primary:hover {
+  background-color: #627bb2;
+  color: #ffffff;
+}
+
 

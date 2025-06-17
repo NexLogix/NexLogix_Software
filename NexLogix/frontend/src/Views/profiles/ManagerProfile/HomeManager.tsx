@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { UserProfileController } from '../../../Controllers/Users/UserController';
 import { UserProfile } from '../../../models/Interfaces/UserProfile';
 import axios from 'axios';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import './../../Styles/Profiles/HomeStyle.css';
 
 const HomeManager = () => {
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -30,7 +30,7 @@ const HomeManager = () => {
           console.error('Status:', status);
           setError(`Error ${status}: ${message}`);
           if (status === 401) {
-            navigate('/login');
+            navigate('/');
           }
         } else {
           setError('Error desconocido al cargar el perfil');
@@ -42,7 +42,7 @@ const HomeManager = () => {
 
   if (!profile && !error) {
     return (
-      <div className="d-flex justify-content-center align-items-center bg-light">
+      <div className="loading-container">
         <div className="text-center">
           <div className="spinner-border text-primary" role="status">
             <span className="visually-hidden">Cargando...</span>
@@ -54,7 +54,7 @@ const HomeManager = () => {
   }
 
   return (
-    <div className="container-fluid bg-light py-5 min-vh-100">
+    <div className="home_manager_container">
       <div className="container">
         {error && (
           <div className="alert alert-danger d-flex align-items-center mb-4 animate__animated animate__fadeIn" role="alert">
@@ -63,14 +63,16 @@ const HomeManager = () => {
           </div>
         )}
         {profile ? (
-          <div className="card shadow-lg mx-auto border-0 animate__animated animate__fadeInUp" style={{ maxWidth: '1010px', borderRadius: '15px', overflow: 'hidden' }}>
-            <div className="card-header text-white text-center py-4" style={{ background: 'linear-gradient(135deg, #0052cc 0%, #007bff 100%)' }}>
+          <div className=" border-0 animate__animated animate__fadeInUp">
+
+            <div className="card-header text-white text-center py-4">
               <h1 className="mb-0 display-5 fw-bold">
                 Bienvenid@ a <span className="text-warning">NEXLOGIX</span>
               </h1>
               <p className="mt-2 text-light">Tu solución integral para logística</p>
             </div>
-            <div className="card-body p-5 bg-white">
+
+            <div className="card-body p-5">
               <h4 className="mb-4 text-primary fw-bold">Información del Empleado</h4>
               <div className="row">
                 <div className="col-md-6">
@@ -110,6 +112,8 @@ const HomeManager = () => {
                   </ul>
                 </div>
               </div>
+
+              
               <hr className="my-4" />
               <h5 className="mb-3 text-primary">Detalles del Rol</h5>
               <ul className="list-group list-group-flush">
@@ -130,13 +134,13 @@ const HomeManager = () => {
                 </li>
               </ul>
             </div>
-            <div className="card-footer text-center py-3 bg-light">
+            <div className="card-footer text-center py-3">
               <small className="text-muted">NEXLOGIX - Optimizando tu logística</small>
             </div>
           </div>
         ) : (
           !error && (
-            <div className="text-center mt-5 animate__animated animate__fadeIn">
+            <div className="welcome-text">
               <h1 className="display-4 fw-bold text-primary">Bienvenido a <span className="text-warning">NexLogix Manager</span></h1>
               <p className="lead text-muted">Gestiona tu logística con eficiencia y precisión</p>
             </div>

@@ -31,7 +31,7 @@ const EditarAreas: React.FC = () => {
   return (
     <div className='areas_container'>
         <div className="container mt-4">
-          <nav className="navbar navbar-light bg-light mb-4 p-3 shadow-sm">
+          <nav className=" nav_areas navbar  shadow-sm">
             <div className="container-fluid">
               <form className="d-flex" onSubmit={(e) => { e.preventDefault(); handleSearch(); }}>
                 <input
@@ -55,7 +55,7 @@ const EditarAreas: React.FC = () => {
           {createState.errorMessage && <div className="alert alert-danger">{createState.errorMessage}</div>}
           {createState.loading && <div className="alert alert-info">Actualizando...</div>}
 
-          <h2 className="mb-3 mt-5">Editar Información de Área</h2>
+          <h2 className="text-white mt-5 mb-5">Editar Información de Área</h2>
           <table className="table table-bordered">
             <thead>
               <tr>

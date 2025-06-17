@@ -8,17 +8,13 @@ const CrearArea: React.FC = () => {
   return (
     <div className='areas_container'>
           <div className="container-fluid mt-4">
-            <nav className="navbar navbar-light bg-light mb-4 p-3 shadow-sm">
-              <div className="container-fluid">
-                <h4 className="mb-0">Crear Nueva Área</h4>
-              </div>
-            </nav>
-
+            <div className='text-white mt-4 mb-4'> Crear Nueva Área </div>
+            
             {state.successMessage && <div className="alert alert-success">{state.successMessage}</div>}
             {state.errorMessage && <div className="alert alert-danger">{state.errorMessage}</div>}
             {state.loading && <div className="alert alert-info">Cargando...</div>}
 
-            <div className="card shadow-sm">
+            <div className=" card shadow-sm">
               <div className="card-body">
                 <form onSubmit={handleCreateSubmit}>
                   <div className="mb-3">

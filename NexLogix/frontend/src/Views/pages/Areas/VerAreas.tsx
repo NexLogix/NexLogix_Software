@@ -11,14 +11,16 @@ const VerAreas: React.FC = () => {
   }, [fetchAreasData]);
 
   return (
-
       <div className='areas_container'>
           <div className="container mt-4">
-            <nav className="navbar navbar-light bg-light mb-4 p-3 shadow-sm">
+            <nav className="nav_areas navbar mb-4 p-3 shadow-sm">
               <div className="container-fluid">
                 <form className="d-flex" onSubmit={(e) => { e.preventDefault(); handleSearch(); }}>
                   <input 
-                    className="form-control me-2" type="search" placeholder="Ingrese ID del Área" aria-label="Buscar"
+                    className="form-control me-2" 
+                    type="search" 
+                    placeholder="Ingrese ID del Área" 
+                    aria-label="Buscar"
                     value={state.searchId}
                     onChange={handleSearchChange}
                   />
@@ -35,11 +37,10 @@ const VerAreas: React.FC = () => {
                 </form>
               </div>
             </nav>
-
             {state.error && <div className="alert alert-danger">{state.error}</div>}
             {state.loading && <div className="alert alert-info">Cargando...</div>}
 
-            <h2 className="mb-3">Listado de Áreas</h2>
+            <h2 className="mt-5 mb-5 text-white">Listado de Áreas</h2>
             <table className="table table-bordered">
               <thead>
                 <tr>

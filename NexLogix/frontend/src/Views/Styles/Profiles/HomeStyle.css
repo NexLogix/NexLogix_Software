@@ -1,0 +1,84 @@
+/* Estilos para el contenedor principal */
+.home_manager_container {
+  background-color: #161625;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* Estilos para la cabecera de la tarjeta */
+.card-header {
+  background: #627bb2;
+  color: #ffffff;
+  padding: 20px;
+  border-radius: 15px 15px 0 0;
+}
+
+.card-header .text-light {
+  color: #cccccc !important;
+}
+
+/* Estilos para el cuerpo de la tarjeta */
+.card-body {
+  background-color: #0c0c14;
+  color: #ffffff;
+  padding: 30px;
+}
+
+.card-body h4, .card-body h5 {
+  color: #627bb2;
+}
+
+/* Estilos para las listas */
+.list-group-item {
+  background-color: #1a1a2b;
+  color: #ffffff;
+  border-color: #2a2a3a;
+  padding: 15px;
+}
+
+.list-group-item strong {
+  color: #ffffff;
+}
+
+
+/* Estilos para las alertas */
+.alert-danger {
+  background-color: #dc3545;
+  color: #ffffff;
+  border-radius: 10px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  transition: opacity 0.3s ease;
+}
+
+.text-muted {
+  color: #cccccc !important;
+}
+
+.welcome-text .text-muted {
+  color: #cccccc !important;
+}
+
+/* Estilos para el footer de la tarjeta */
+.card-footer {
+  background-color: #1a1a2b;
+  color: #cccccc;
+  border-radius: 0 0 15px 15px;
+  padding: 15px;
+}
+
+/* Media query para responsividad */
+@media (max-width: 768px) {
+  .home_manager_container {
+    padding: 10px;
+  }
+
+  .card-body {
+    padding: 20px;
+  }
+
+  .list-group-item {
+    padding: 10px;
+  }
+}
