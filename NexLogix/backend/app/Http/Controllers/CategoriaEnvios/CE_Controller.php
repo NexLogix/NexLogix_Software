@@ -25,19 +25,6 @@ class CE_Controller extends Controller
     public function showAllCE()
     {
         $response = $this->CategoriaEnviosService->getAllCategoriasEnvios();
-        if($response['success']) {
-            $user_id = Auth::id(); // Obtiene el ID del usuario autenticado
-            if($user_id){
-                // Dispara un evento de auditoría para registrar la solicitud
-                event( new ResourceAction(
-                    $user_id,
-                    'Solicitud GET',
-                    'Gestion Categoria de Envios',
-                    null,
-                    ['Detalles' => request()->path()],
-                ));
-            }
-        }
         // Retorna la respuesta en formato JSON con el código de estado
         return response()->json($response, $response['status']);
     }
@@ -46,19 +33,6 @@ class CE_Controller extends Controller
     public function showCEById(int $id)
     {
         $response = $this->CategoriaEnviosService->getCategoriaEnvioById($id);
-        if ($response['success']) {
-            $user_id = Auth::id(); // Obtiene el ID del usuario autenticado
-            if ($user_id) {
-                // Dispara un evento de auditoría para registrar la solicitud por ID
-                event(new ResourceAction(
-                    $user_id,
-                    'Solicitud GET',
-                    'Gestion Categoria de Envios',
-                    $id,
-                    ['path' => request()->path()]
-                ));
-            }
-        }
         // Retorna la respuesta en formato JSON con el código de estado
         return response()->json($response, $response['status']);
     }
@@ -118,7 +92,7 @@ class CE_Controller extends Controller
                     $id,
                     ['data' => $request->all()]
                 ));
-            }
+            }   
         }
         return response()->json($response, $response['status']);
     }

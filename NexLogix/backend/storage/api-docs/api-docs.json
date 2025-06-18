@@ -1,0 +1,354 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "NexLogix API",
+        "description": "Documentación de la API NexLogix",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/gestion_areas": {
+            "get": {
+                "tags": [
+                    "Areas"
+                ],
+                "summary": "Obtener todas las áreas",
+                "operationId": "218450c255ee24ae5b8e7f49bf0a7176",
+                "responses": {
+                    "200": {
+                        "description": "Lista de áreas obtenida exitosamente"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/gestion_areas/{id}": {
+            "get": {
+                "tags": [
+                    "Areas"
+                ],
+                "summary": "Obtener un área por ID",
+                "operationId": "25211b478a43ec58e75fa16f8ab97e28",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del área",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Área encontrada exitosamente"
+                    },
+                    "404": {
+                        "description": "Área no encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/gestion_areas/crear_area": {
+            "post": {
+                "tags": [
+                    "Areas"
+                ],
+                "summary": "Crear un área",
+                "operationId": "ba5d74e810f2c0c3bcf38f455e9abeed",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre"
+                                ],
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Area Administrativa"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Área creada exitosamente"
+                    },
+                    "400": {
+                        "description": "Error en la solicitud"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/gestion_areas/editar_area/{id}": {
+            "put": {
+                "tags": [
+                    "Areas"
+                ],
+                "summary": "Actualizar un área",
+                "operationId": "a6185627855962130bb6d58394a1652e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del área a actualizar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre"
+                                ],
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Área Modificada"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Área actualizada exitosamente"
+                    },
+                    "404": {
+                        "description": "Área no encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/gestion_areas/actualizar_campos_especificos_area/{id}": {
+            "patch": {
+                "tags": [
+                    "Areas"
+                ],
+                "summary": "Actualizar parcialmente un área",
+                "operationId": "69f0aa3baf425ee43c52ba194e653115",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del área a actualizar parcialmente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Nombre Parcial Actualizado"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Área actualizada parcialmente exitosamente"
+                    },
+                    "404": {
+                        "description": "Área no encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/gestion_areas/eliminar_area/{id}": {
+            "delete": {
+                "tags": [
+                    "Areas"
+                ],
+                "summary": "Eliminar un área",
+                "operationId": "3be0bd9f9fbd8431b428503bcf08de99",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del área a eliminar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Área eliminada exitosamente"
+                    },
+                    "404": {
+                        "description": "Área no encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Iniciar sesión",
+                "operationId": "02d3f75f80bcd6b4e6e0affaa301ad15",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "contrasena"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "usuario@ejemplo.com"
+                                    },
+                                    "contrasena": {
+                                        "type": "string",
+                                        "example": "123456"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login exitoso, devuelve el token"
+                    },
+                    "401": {
+                        "description": "Credenciales inválidas"
+                    }
+                }
+            }
+        },
+        "/api/auth/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Cerrar sesión",
+                "operationId": "2cdf73ed4b231f88a8b09af77a39d3c2",
+                "responses": {
+                    "200": {
+                        "description": "Logout exitoso"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/mostrar_perfil_auth": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Obtener perfil autenticado",
+                "operationId": "f41e919dc46a6300c930b107aac51454",
+                "responses": {
+                    "200": {
+                        "description": "Perfil del usuario autenticado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/refresh_token": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Refrescar token JWT",
+                "operationId": "301719db5e01586d7fd59dbe4a1f0979",
+                "responses": {
+                    "200": {
+                        "description": "Token refrescado exitosamente"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Areas",
+            "description": "Operaciones sobre las Areas"
+        },
+        {
+            "name": "Auth",
+            "description": "Auth"
+        }
+    ]
+}

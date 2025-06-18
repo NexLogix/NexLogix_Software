@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 
 // IMPORT PROFILE MANAGER
-import ManagerProfile from "../Views/pages/profiles/ManagerProfile/ManagerProfile";
-import HomeManager from "../Views/pages/profiles/ManagerProfile/HomeManager";
+import ManagerProfile from "../Views/profiles/ManagerProfile/ManagerProfile";
+import HomeManager from "../Views/profiles/ManagerProfile/HomeManager";
 
 // AREAS
 import VerAreas from '../Views/pages/Areas/VerAreas';
@@ -51,6 +51,8 @@ import AcercaDe from "../Views/componets/Footers/AcercaDe";
 
 // AUDITORIAS
 import VerAuditorias from "../Views/pages/Auditorias/VerAuditoria";
+import EditarAuditorias from "../Views/pages/Auditorias/EditarAuditoria";
+import EliminarAuditorias from "../Views/pages/Auditorias/EliminarAuditoria";
 // desde aqui se hacen las rutas como es una ruta privada....
 
 const ProtectedRouteManagers = () => {
@@ -67,6 +69,8 @@ const ProtectedRouteManagers = () => {
 
         {/*GESTION AUDITORIAS*/}
         <Route path="verAuditorias" element={<VerAuditorias />} />
+        <Route path="editarAuditorias" element={<EditarAuditorias />} />
+        <Route path="eliminarAuditorias" element={<EliminarAuditorias />} />
 
 
         {/*GESTIÓN PUESTOS */}
@@ -111,7 +115,6 @@ const ProtectedRouteManagers = () => {
 
         {/*GESTION REPORTES*/}
         <Route path="verReportes" element={<VerReportes />} />
-      
         <Route path="ubicacion" element={<EstamosUbicadosEn />} />
         <Route path="acerca_de" element={<AcercaDe />} />
 

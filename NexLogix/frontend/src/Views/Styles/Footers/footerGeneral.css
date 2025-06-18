@@ -1,0 +1,16 @@
+
+main {
+ flex: 2; /* Empuja el footer hacia abajo */
+}
+
+/* Footer */
+.footer {
+ background-color: #010211;
+ color: white;
+}
+
+.footer a:hover, 
+.footer .nav-item:hover {
+  background-color: #0056b3;
+  color: aliceblue;
+}

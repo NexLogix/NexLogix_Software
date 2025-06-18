@@ -1,42 +1,66 @@
 <?php
 namespace App\Services\Auth;
+
+use App\Models\User;
 use Exception;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\QueryException;
 
 class AuthAccountService
 {
     // LOGIN AUTH
     public function login(array $data_credentials): array
-    {
-        try {
-            if (!$token = Auth::attempt($data_credentials)) { // AUTH viene de JWT, si no tiene token las credeciales, no se puede logear
-                return [
-                    'success' => false,
-                    'message' => 'Credenciales incorrectas',
-                    'status' => 401
-                ];
-            }
+{
+    try {
+        // Verificar si el email existe
+        $user = User::where('email', $data_credentials['email'])->first();
 
-            $user = Auth::user();// usuario autenticado
-
-            return [
-                'success' => true,
-                'message' => 'Inicio de sesión exitoso, ¡bienvenido!',
-                'user' => $user,
-                'token' => $token,
-                'status' => 200
-            ];
-
-        } catch (JWTException $e) {
+        if (!$user) {
+            // Excepción: Usuario no encontrado
             return [
                 'success' => false,
-                'message' => 'No se pudo crear el token', $e->getMessage(),
-                'status' => 500
+                'message' => 'Usuario no encontrado',
+                'status' => 405
             ];
         }
+
+        // Verificar si las credenciales son correctas
+        if (!$token = Auth::attempt($data_credentials)) {
+            // Excepción: Credenciales incorrectas
+            return [
+                'success' => false,
+                'message' => 'Credenciales incorrectas o contraseña inválida',
+                'status' => 405
+            ];
+        }
+
+        $user = Auth::user(); // Usuario autenticado correctamente
+
+        return [
+            'success' => true,
+            'message' => 'Inicio de sesión exitoso, ¡bienvenido!',
+            'user' => $user,
+            'token' => $token,
+            'status' => 200
+        ];
+
+    } catch (JWTException $e) {
+        return [
+            'success' => false,
+            'message' => 'No se pudo crear el token. ' . $e->getMessage(),
+            'status' => 500
+        ];
+    } catch (QueryException $e){
+        return [
+            'success' => false,
+            'message' => 'Error de conexión a la base de datos. Por favor, intente más tarde.',
+            'error' => $e->getMessage(),
+            'status' => 500
+        ];
     }
+}
 
     // AUTH LOGOUT
     public function logout(): array

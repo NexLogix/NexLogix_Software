@@ -232,15 +232,15 @@ Route::group([
 ], function () {
     Route::get('/', action: [CE_Controller::class, 'showAllCE'])
         ->middleware('role:2,3');
-    Route::get('/buscar_ce/{id}', [CE_Controller::class, 'showCEById'])
+    Route::get('/{id}', [CE_Controller::class, 'showCEById'])
         ->middleware('role:2,3');
-    Route::post('/crear_ce', [CE_Controller::class, 'createCE'])
+    Route::post('/', [CE_Controller::class, 'createCE'])
     ->middleware('role:2,3');
-    Route::put('/editar_ce/{id}', [CE_Controller::class, 'updateCA'])
+    Route::put('/{id}', [CE_Controller::class, 'updateCA'])
         ->middleware('role:2');
-    Route::patch('/actualizar_campos_especificos_ce/{id}', [CE_Controller::class, 'updateSpecificSectionCE'])
+    Route::patch('/{id}', [CE_Controller::class, 'updateSpecificSectionCE'])
         ->middleware('role:2');
-    Route::delete('/eliminar_ce/{id}', [CE_Controller::class, 'deleteCE'])
+    Route::delete('/{id}', [CE_Controller::class, 'deleteCE'])
         ->middleware('role:2');
 });
 
@@ -278,13 +278,13 @@ Route::group([
 ], function () {
     Route::get('/', action: [RecogidasControllers::class, 'showAllRecogidas'])
         ->middleware('role:2,3');
-    Route::get('/buscar_recogida/{id}', [RecogidasControllers::class, 'showByIDRecogida'])
+    Route::get('/{id}', [RecogidasControllers::class, 'showByIDRecogida'])
         ->middleware('role:2,3');
-    Route::post('/crear_recogida', [RecogidasControllers::class, 'createRecogida'])
+    Route::post('/', [RecogidasControllers::class, 'createRecogida'])
     ->middleware('role:2,3');
-    Route::patch('/editar_recogida/{id}', [RecogidasControllers::class, 'updateSpecificSection_R'])
+    Route::patch('/{id}', [RecogidasControllers::class, 'updateSpecificSection_R'])
         ->middleware('role:2');
-    Route::delete('/eliminar_recogida/{id}', [RecogidasControllers::class, 'deleteRecogida'])
+    Route::delete('/{id}', [RecogidasControllers::class, 'deleteRecogida'])
         ->middleware('role:2');
 });
 

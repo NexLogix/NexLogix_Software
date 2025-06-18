@@ -1,9 +1,9 @@
-import "../../componets/GeneralStyle/footerGeneral.css"
+import "../../Styles/Footers/footerGeneral.css"
 import { Link } from "react-router-dom";
 const FooterGeneralManager = () => {
   return (
     <>
-      <footer className="footer mt-auto py-3 w-100 text-center">
+      <footer className="footer mt-auto pt-4 w-100 text-center">
           <div className="container">
               <div className="row justify-content-center">
                 <div className="col-md-4">

@@ -1,7 +1,7 @@
 import { Link} from "react-router-dom";
 import { Outlet } from "react-router-dom";
-import FooterGeneralEmpleado from "../../../componets/Footers/FooterEmpleado";
-import NavbarGeneral from "../../../componets/NavBars/NavbarGeneral";
+import FooterGeneralEmpleado from "../../componets/Footers/FooterEmpleado";
+import NavbarGeneral from "../../componets/NavBars/NavbarGeneral";
 
 const EmpleadoProfile = () => {
   

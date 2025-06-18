@@ -1,8 +1,8 @@
 import { Link} from "react-router-dom";
 import { Outlet } from "react-router-dom";
-import FooterGeneralManager from "../../../componets/Footers/FooterManager";
-import NavbarGeneral from "../../../componets/NavBars/NavbarGeneral";
-import '../../../componets/GeneralStyle/ProfilesGeneralStyle.css';
+import FooterGeneralManager from "../../componets/Footers/FooterManager";
+import NavbarGeneral from "../../componets/NavBars/NavbarGeneral";
+import '../../../Views/Styles/Profiles/ProfilesGeneralStyle.css';
 
 const ManagerProfile = () => {
  return (
@@ -44,6 +44,8 @@ const ManagerProfile = () => {
                           <div className="collapse" id="AuditoriasSubmenu">
                             <ul className="nav flex-column ms-3">
                               <Link className="nav-link" to="/manager/verAuditorias">Lista de auditorías</Link>
+                              <Link className="nav-link" to="/manager/editarAuditorias">Editar auditorías</Link>
+                              <Link className="nav-link" to="/manager/eliminarAuditorias">Eliminar auditorías</Link>
                             </ul>
                           </div>
                         </li>
@@ -161,7 +163,7 @@ const ManagerProfile = () => {
             </nav>
 
             {/* Área principal (Main) */}
-              <main className="p-3">
+              <main>
                 <Outlet />  {/* Aquí se renderiza el contenido según la ruta */}
               </main>
           </div>

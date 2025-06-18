@@ -1,8 +1,8 @@
 // src/components/HomeManager.tsx
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserProfileController } from '../../../../Controllers/Users/UserController';
-import { UserProfile } from './../../../../models/Interfaces/UserProfile';
+import { UserProfileController } from '../../../Controllers/Users/UserController';
+import { UserProfile } from '../../../models/Interfaces/UserProfile';
 import axios from 'axios';
 
 const HomeEmpleado = () => {

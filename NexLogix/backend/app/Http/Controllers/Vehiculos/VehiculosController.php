@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\vehiculos;
+namespace App\Http\Controllers\Vehiculos;
 
 use App\Events\ResourceAction;
 use App\Http\Controllers\Controller;

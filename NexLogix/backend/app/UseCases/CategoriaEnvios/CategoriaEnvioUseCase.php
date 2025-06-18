@@ -39,14 +39,14 @@ class CategoriaEnvioUseCase implements ICategoriaEnviosUseCase
         $validator = Validator::make($data, [
             'nombreCategoria' => [
                 // metodo para que no lance error si no se actualiza nombreCategoria
-                'sometimes',
+                'required',
                 'string',
                 'max:200',
                 // "Quiero validar que nombreCategoria sea único... excepto para el registro con idCategoria = $id."
                 'unique:categoriaenvios,nombreCategoria,' . $id . ',idCategoria', // ignora el unique piendo el id
             ],
-            'precioCategoria'=> 'sometimes|numeric|min:0',
-            'descripcion' => 'somtimes|string',
+            'precioCategoria'=> 'required|numeric|min:0',
+            'descripcion' => 'required|string',
         ]);
 
         if ($validator->fails()) {
@@ -73,7 +73,7 @@ class CategoriaEnvioUseCase implements ICategoriaEnviosUseCase
                 'unique:categoriaenvios,nombreCategoria,' . $id . ',idCategoria', // ignora el unique piendo el id
             ],
             'precioCategoria'=> 'sometimes|numeric|min:0',
-            'descripcion' => 'somtimes|string',
+            'descripcion' => 'sometimes|string',
         ]);
 
         if ($validator->fails()) {

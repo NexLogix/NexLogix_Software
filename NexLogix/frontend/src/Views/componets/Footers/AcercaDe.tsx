@@ -2,9 +2,9 @@ const AcercaDe = () => {
     return (
         <>
             <div className="container py-5">
-                <h2 className="text-center mb-4">Acerca de NexLogix</h2>
-                <div className="card shadow p-4">
-                    <p>
+                <h1 className="text-center text-white mt-4 mb-4">Acerca de NexLogix</h1>
+                <div className="p-5">
+                    <p className="text-white">
                         Somos una empresa dedicada a la logística y envíos a nivel nacional. Nuestro objetivo es brindar un
                         servicio rápido, seguro y eficiente para satisfacer las necesidades de nuestros clientes. Contamos con
                         un equipo profesional comprometido y tecnología de punta que nos permite optimizar cada etapa del proceso logístico.

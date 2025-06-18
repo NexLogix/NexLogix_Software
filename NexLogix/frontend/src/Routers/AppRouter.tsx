@@ -1,13 +1,13 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"; // Importa componentes de react-router-dom para manejar la navegación
 
 // PÁGINAS PÚBLICAS
-import Login from "../Views/componets/Login"; // Importa el componente de la página de inicio de sesión
-import UnauthorizedRoute from "../Views/componets/UnauthorizedRoute"; // Importa el componente para la página de acceso no autorizado
+import Login from "../Views/pages/Login"; // Importa el componente de la página de inicio de sesión
+import UnauthorizedRoute from "./UnauthorizedRoute"; // Importa el componente para la página de acceso no autorizado
 import EstamosUbicadosEn from "../Views/componets/Footers/EstamosUbicadoEn"; // Importa el componente para la página de ubicación
 import AcercaDe from "../Views/componets/Footers/AcercaDe"; // Importa el componente para la página "Acerca de"
 
 // PROTECCIÓN DE RUTAS
-import PrivateRoute from "../Views/componets/PrivateRoute"; // Importa el componente que protege rutas según autenticación y roles
+import PrivateRoute from "./PrivateRoute"; // Importa el componente que protege rutas según autenticación y roles
 import ProtectedRouteEmpleados from "./ProtectedRouterEmpleados"; // Importa el componente de rutas protegidas para el rol Empleado
 import ProtectedRouteManagers from "./ProtectedRouterManagers"; // Importa el componente de rutas protegidas para el rol Manager
 
