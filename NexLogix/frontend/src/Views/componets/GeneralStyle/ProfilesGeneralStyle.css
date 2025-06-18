@@ -3,6 +3,12 @@ body {
     
     color: #333; /* Texto principal */
 }
+.container-fluid {
+  padding: 0 !important;
+}
+.row {
+  margin: 0 !important;
+}
 
 /* Navbar */
 .navbar {
@@ -64,6 +70,7 @@ body {
 main {
       margin-left: 5px; /* Ajusta según el ancho del sidebar */
       margin-right: 5px; /* Ajusta según el ancho del sidebar */
+      margin-bottom: 0px;
       width: calc(100% - 250px);
       overflow-x: hidden; /* Evita que se salga del viewport */  
 }

@@ -30,7 +30,7 @@ const HomeManager = () => {
           console.error('Status:', status);
           setError(`Error ${status}: ${message}`);
           if (status === 401) {
-            navigate('/login');
+            navigate('/');
           }
         } else {
           setError('Error desconocido al cargar el perfil');
@@ -54,7 +54,7 @@ const HomeManager = () => {
   }
 
   return (
-    <div className="container-fluid bg-light py-5 min-vh-100">
+    <div className="container-fluid bg-black py-5 min-vh-100">
       <div className="container">
         {error && (
           <div className="alert alert-danger d-flex align-items-center mb-4 animate__animated animate__fadeIn" role="alert">

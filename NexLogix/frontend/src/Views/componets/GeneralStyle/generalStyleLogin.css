@@ -1,24 +1,45 @@
 /* Estilos generales para la página de login */
 .bg_login {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(135deg, #1B263B 0%, #F4A261 100%); /* Gradiente empresarial azul oscuro a naranja */
-  font-family: 'Poppins', sans-serif; /* Fuente moderna y profesional */
+  width: 100vw; /** Establece el ancho del elemento al 100% del ancho de la ventana del navegador */
+  height: 100vh; /** Establece la altura del elemento al 100% de la altura de la ventana del navegador */
+  min-height: -webkit-fill-available; /** Ajusta la altura mínima al espacio disponible en navegadores WebKit (como Safari o Chrome en móviles) */
+  display: flex; /** Aplica el modelo de caja flexible (Flexbox) al contenedor */
+  justify-content: center; /** Centra horizontalmente el contenido dentro del contenedor */
+  align-items: center; /** Centra verticalmente el contenido dentro del contenedor */
+  background: linear-gradient(135deg, #0F2027 0%, #203A43 50%, #2C5364 100%); /** Aplica un fondo con degradado lineal en diagonal de 135 grados con tres colores */
+  overflow: hidden; /** Oculta cualquier contenido que se desborde del contenedor */
+  margin: 0; /** Elimina el margen externo del elemento */
+  padding: 0; /** Elimina el relleno interno del elemento */
+  position: fixed; /** Fija el elemento en la ventana, incluso al hacer scroll */
+  top: 0; /** Posiciona el elemento en la parte superior de la ventana */
+  left: 0; /** Posiciona el elemento en el borde izquierdo de la ventana */
 }
+
+/* Animación de entrada */
+@keyframes fadeIn {
+  from {
+    opacity: 0; /** Comienza con el elemento completamente transparente */
+    transform: translateY(20px); /** Comienza movido 20 píxeles hacia abajo */
+  }
+  to {
+    opacity: 1; /** Termina con el elemento completamente visible */
+    transform: translateY(0); /** Termina en su posición original sin desplazamiento */
+  }
+}
+
 
 /* Estilos para la caja del formulario */
 .login_caja {
-  background: rgba(255, 255, 255, 0.95); /* Fondo blanco opaco para contraste */
-  border-radius: 15px;
-  padding: 2rem;
-  width: 100%;
-  max-width: 450px; /* Ligeramente más ancho para mejor legibilidad */
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Sombra suave para profundidad */
-  border: 1px solid rgba(255, 255, 255, 0.2); /* Borde sutil */
-  text-align: center;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
 }
 
 /* Estilos del título y marca */

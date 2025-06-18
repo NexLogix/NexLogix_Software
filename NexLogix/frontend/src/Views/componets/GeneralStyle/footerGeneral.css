@@ -10,10 +10,17 @@ main {
 
 /* Footer */
 .footer {
- background-color: #010211;
- color: white;
- padding: 15px 0;
- text-align: center;
+  background: linear-gradient(135deg, #0F2027 0%, #203A43 50%, #2C5364 100%); /** Aplica un fondo con degradado lineal en diagonal de 135 grados con tres colores */
+  color: white;
+  padding: 15px 0;
+  text-align: center;
+  margin: 0;
+  overflow: hidden; /** Oculta cualquier contenido que se desborde del contenedor */
+  margin: 0; /** Elimina el margen externo del elemento */
+  padding: 0; /** Elimina el relleno interno del elemento */
+  position: fixed; * Fija el elemento en la ventana, incluso al hacer scroll
+  top: 0; /** Posiciona el elemento en la parte superior de la ventana */
+  left: 0; /** Posiciona el elemento en el borde izquierdo de la ventana */
 }
 
 .footer a:hover, 

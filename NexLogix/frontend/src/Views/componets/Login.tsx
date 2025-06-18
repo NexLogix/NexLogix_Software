@@ -15,9 +15,8 @@ const Login = () => { // Define el componente funcional Login para la página de
         <div className="container d-flex justify-content-center align-items-center vh-100"> {/* Contenedor Bootstrap centrado verticalmente y horizontalmente */}
           <div className="login_caja animate__animated animate__fadeIn"> {/* Contenedor del formulario con clase personalizada y animación */}
             <div className="text-center"> {/* Contenedor para el logo o nombre de la marca */}
-              <h2 className="fw-bold text-black">NexLogix</h2> {/* Nombre de la aplicación como marca */}
+              <h2 className="fw-bold text-white">NexLogix</h2> {/* Nombre de la aplicación como marca */}
             </div>
-            <h1 className="mb-1 text-white">Iniciar Sesión</h1> {/* Título del formulario */}
             {error && ( /* Muestra un toast para errores en lugar de alert */
               <div className="toast show mx-auto mb-3" role="alert">
                 <div className="toast-header bg-danger text-white">

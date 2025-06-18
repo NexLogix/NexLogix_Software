@@ -9,7 +9,8 @@ Este documento describe el sistema de enrutamiento de la Single Page Application
 1. Arquitectura de Enrutamiento
 2. Rutas y Componentes
 
-   * Rutas Públicas
+   * Rutas Públicas: Login
+   * Rutas Públicas: Ubicación
    * Rutas Protegidas: Empleado
    * Rutas Protegidas: Manager
 3. Componentes Clave

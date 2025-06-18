@@ -15,8 +15,8 @@
     "bootstrap": "^5.3.6",
     "bootstrap-icons": "^1.13.1",
     "react": "^19.0.0",
-    "react-bootstrap": "^2.10.9",
-    "react-bootstrap-icons": "^1.11.5",
+    "react-bootstrap": "^2.10.10",
+    "react-bootstrap-icons": "^1.11.6",
     "react-dom": "^19.0.0",
     "react-router-dom": "^6.30.0"
   },
