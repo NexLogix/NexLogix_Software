@@ -30,7 +30,7 @@ Route::group([
 //----------------------------------------------------------------------------------------------------------------------------------------
 
 //
-/// USERS, con rutas
+/// GESTION USUARIOS
 //
 
 use App\Http\Controllers\Users\UsersController;
@@ -45,14 +45,14 @@ Route::group([
     'prefix' => 'gestion_usuarios'
 ], function () {
     Route::get('/', [UsersController::class, 'showAll'])
-        ->middleware('role:2'); // Accede Manager y Empleado
-    Route::get('buscar_usuario/{id}', [UsersController::class, 'showByID'])
+        ->middleware('role:2'); // Accede Manager
+    Route::get('/{id}', [UsersController::class, 'showByID'])
         ->middleware('role:2'); // Solo accedeManager
-    Route::post('/crear_usuario', [UsersController::class, 'createUser'])
+    Route::post('/', [UsersController::class, 'createUser'])
         ->middleware('role:2'); // Solo Manager
-    Route::patch('/actualizar_campos_especificos_usuario/{id}', [UsersController::class, 'updatePartialUser'])
+    Route::patch('/{id}', [UsersController::class, 'updatePartialUser'])
         ->middleware('role:2'); // Solo Manager
-    Route::delete('/eliminar_usuario/{id}', [UsersController::class, 'deleteUser'])
+    Route::delete('/{id}', [UsersController::class, 'deleteUser'])
         ->middleware('role:2'); // Solo Manage
 });
 

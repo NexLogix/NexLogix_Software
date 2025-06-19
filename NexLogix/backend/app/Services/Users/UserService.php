@@ -13,7 +13,7 @@ use App\Models\User; // Se importa el modelo User, que representa la tabla 'user
 use Tymon\JWTAuth\Facades\JWTAuth; // Librería JWT para generar el token de autenticación tras crear un usuario
 
 // Aqui Implementamos la interfaz IUserService definida para estandarizar el servicio, siguiendo los principios de las inyecciones de dependecias y la arquitectura de Inyerfaces como contratos
-class UserService implements IUserService 
+class UserService implements IUserService
 {
     // GET SERVICE
     public function getAllUsers():array
@@ -105,7 +105,7 @@ class UserService implements IUserService
             return [
                 'success' => false,
                 'message' => 'Usuario no encontrado',
-                'status' => 404
+                'status'  => 404
             ];
         }
 
@@ -116,8 +116,8 @@ class UserService implements IUserService
         return [
             'success' => true,
             'message' => 'Se ha actualizado toda la informacion general el Usuario correctamente!',
-            'data' => $user,
-            'status' => 200
+            'data'    => $user,
+            'status'  => 200
         ];
     }
 
@@ -132,7 +132,7 @@ class UserService implements IUserService
             return [
                 'success' => false,
                 'message' => 'Usuario no encontrado',
-                'status' => 404
+                'status'  => 404
             ];
         }
 
@@ -143,8 +143,8 @@ class UserService implements IUserService
         return [
             'success' => true,
             'message' => 'Han sido actualizados los campos especificos del usuario',
-            'data' => $user,
-            'status' => 200
+            'data'    => $user,
+            'status'  => 200
         ];
     }
 
@@ -159,7 +159,7 @@ class UserService implements IUserService
             return [
                 'success' => false,
                 'message' => 'Usuario no encontrado',
-                'status' => 404
+                'status'  => 404
             ];
         }
 
@@ -170,7 +170,7 @@ class UserService implements IUserService
         return [
             'success' => true,
             'message' => 'Usuario eliminado correctamente',
-            'status' => 200
+            'status'  => 200
         ];
     }
 }
