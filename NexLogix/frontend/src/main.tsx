@@ -13,6 +13,6 @@ createRoot(document.getElementById('root')!).render( // Crea un punto de entrada
         {/* Renderiza el componente App, que contiene la lógica de enrutamiento y la estructura de la SPA */}
         <App /> 
         
-    </StrictMode>,
+    </StrictMode> {/*aki ubo un error :(  "la coma"*/}
   </>
 );

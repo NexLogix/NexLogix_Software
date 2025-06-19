@@ -2,18 +2,15 @@
 
 /* Colores generales */
 body {
-    color: #333; /* Texto principal */
-    background-color: #010211;
+    background-color: #161625;
     /*ASI se arregla el bug de la barra blanca que aparece abajo, pero si se hace asi con background-color: #010211; 
     en BODY, se debe de personalizar todas las vistas.*/
-    color: #333;
+    color: #cccccc;
 }
 
 /* Navbar */
 .navbar {
-      background-color: #010211;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      
+      background-color: #161625;
 }
 
 .navbar-brand, .nav-link {
@@ -21,49 +18,47 @@ body {
 }
 
 .navbar .navbar-nav .nav-link:hover {
-      background-color: rgba(0, 105, 217, 0.2);
+      background-color: #161625;
       color: #fff !important; 
 }
 
 /* Habilitar desplazamiento en la barra desplegable */
 .dropdown-menu {
-  background-color: #010211 !important;
+  background-color: #161625 !important;
   border: none;
   max-height: 250px; /* Ajusta la altura máxima antes del scroll */
-  
 }
 
 /* Estilos para los ítems del dropdown */
 .dropdown-item {
-      color: white !important;
+      color: rgb(21, 255, 0) !important; /*cambiar a white el color, no se para que es esto*/
 }
 
 .dropdown-item:hover, .dropdown-item:focus {
-      background-color: rgba(0, 105, 217, 0.3) !important;
-      color: white !important;
+      background-color: #161625 !important;
+      color: #ffffff !important;
 }
 
 /* Sidebar */
 .sidebar {
-      background-color: #010211;
+      background-color: #161625;
       height: 100vh; /*Tamano vertical del nav o columna derecha*/
-      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
       width: 200px; /* Aumenta el ancho, ajusta según necesites */
-      min-width: 260px; /* Establece un mínimo */
+      min-width: 220px; /* Establece un mínimo */
 }
 .nav-item a {
     color: white !important;
 }
 .nav-item a:hover {
-        background-color: #627bb2;
+      background-color: #232c42; /* Cambia el color de fondo al pasar el mouse */
 }
 
-/*Ajustes de la columna o nav de menus desplegables!*/
-.sidebar {
+/*Ajustes de la columna o nav de menus desplegables!*/ /*Descomentar para agregar barra de scroll en la barra lateral*/
+/* .sidebar {
       position: sticky;
       top: 0;
       overflow-y: auto;
-}
+} */
 
 /*Ajustes del espacio de paginas anidadas o enrutadas*/
 main {
@@ -74,15 +69,12 @@ main {
       overflow: auto;
 }
 
-/*CONFIGURACION NAB SUPERIOR, CONFIGIRACIONES*/
-
 /* Estilo especial para el botón de SALIR */
 .dropdown-item.text-danger {
  color: #dc3545 !important;
 }
-
 .dropdown-item.text-danger:hover {
- background-color: rgb(83, 16, 23) !important;
+ background-color: rgb(155, 23, 37) !important;
  color: white !important;
 }
 
