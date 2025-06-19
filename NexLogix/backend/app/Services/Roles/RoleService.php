@@ -74,7 +74,7 @@ class RoleService
             return [
                 "success" => true,
                 "data"    => $role,
-                "message" => "Rol creado exitosamente",
+                "message" => "Role creado exitosamente",
                 "status"  => 201
             ];
         } catch (QueryException $e) {
@@ -101,7 +101,7 @@ class RoleService
             $role->update($data);
             return [
                     'success' => true,
-                    'message' => 'Role creado exitosamente',
+                    'message' => 'Role actualizado exitosamente',
                     'data' => $role,
                     'status' => 200
                 ];

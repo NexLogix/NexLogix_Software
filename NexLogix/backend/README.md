@@ -153,6 +153,7 @@ $this->app->bind(IUserService::class, UserService::class);
 
 ## Listado de Gestiones Backend
 - Se marca con X las gestiones que ya fueron revisadas y sus metodos http funcionan correctamente.
+- Las que no tienen X estan siendo actualizadas o se estan probando su funcionalidad acorde al sistema.
 
 - [] Gestión Asignacion Rutas Por Ciudades
 - [x] Gestión Areas
@@ -166,7 +167,7 @@ $this->app->bind(IUserService::class, UserService::class);
 - [x] Gestión Puestos
 - [x] Gestión Recogidas
 - [] Gestión Reportes
-- [] Gestión Roles
+- [x] Gestión Roles
 - [] Gestión Rutas
 - [] Gestión Usuario Dispositivos Autorizados
 - [x] Gestión Usuarios
