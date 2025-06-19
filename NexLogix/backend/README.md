@@ -163,14 +163,27 @@ $this->app->bind(IUserService::class, UserService::class);
 - [x] Gestión Ciudades
 - [x] Gestión Entregas
 - [x] Gestión Envios
-- [] Gestión Estado
+- [x] Gestión Estado
 - [x] Gestión Puestos
 - [x] Gestión Recogidas
 - [x] Gestión Reportes
 - [x] Gestión Roles
 - [] Gestión Rutas
-- [] Gestión Usuario Dispositivos Autorizados
 - [x] Gestión Usuarios
 - [] Gestión Vehículos
 
+---
+
+# NOTA:
+Para la logica de negocio se plantea esta idea:
+
+- Cuando se registra un envío, se deja pendiente la fecha de recogida. Esta fecha será asignada por el sistema en el momento en que el conductor marque que ha llegado al punto de recogida. En ese instante:
+
+El sistema actualizará el estado de la ruta a "En recogida".
+
+El sistema actualizará el estado del envío a "En recogida".
+
+Posteriormente, transcurridos aproximadamente 10 a 20 minutos, el sistema cambiará automáticamente el estado del envío y de la ruta a "En ruta".
+
+Este mismo flujo se aplicará durante el proceso de entrega, así como cuando el conductor notifique que se dirige a realizar una devolución.
 
