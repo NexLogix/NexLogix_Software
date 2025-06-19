@@ -151,18 +151,6 @@ $this->app->bind(IUserService::class, UserService::class);
 
 ---
 
-## 📚 Estado actual del desarrollo
-
-* [x] Gestion de autenticacion, Login, usuarios, roles, auditoría base implementados.
-* [x] Gestion de envios, rutas, ciudades, recogidas, entregas con sus respectivas auditorias completadas.
-* [ ] Capa de Excepciones en proceso, es espera que todos los services y useCases los tengas para que se documenten todos los metodos HTTP
-* [ ] Gestion de reportes (en desarrollo).
-* [x] Vehículos y Asignación de Rutas (en desarrollo).
-* [ ] Migración completa de dependencias a interfaces (en curso).
-* [ ] Validaciones están siendo migradas 100% a los UseCases.
-
----
-
 ## Listado de Gestiones Backend
 - Se marca con X las gestiones que ya fueron revisadas y sus metodos http funcionan correctamente.
 
@@ -172,7 +160,7 @@ $this->app->bind(IUserService::class, UserService::class);
 - [x] Gestión Audit Logs
 - [x] Gestión Categoría Envios
 - [x] Gestión Ciudades
-- [] Gestión Entregas
+- [x] Gestión Entregas
 - [x] Gestión Envios
 - [] Gestión Estado
 - [x] Gestión Puestos
