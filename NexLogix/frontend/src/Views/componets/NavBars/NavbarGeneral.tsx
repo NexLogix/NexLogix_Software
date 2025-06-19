@@ -1,5 +1,7 @@
 // src/components/NavbarGeneral.tsx
 import { useLogoutController } from "../../../Controllers/Users/UserController";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const NavbarGeneral = () => {
     // Llamada del controller logout

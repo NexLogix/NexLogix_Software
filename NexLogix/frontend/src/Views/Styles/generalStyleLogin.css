@@ -114,9 +114,7 @@
   font-weight: 600;
   padding: 0.75rem;
   border-radius: 0.5rem;
-  border: 1px solid #86aaf9;
-  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-}
+  border: 1px solid #86aaf9;}
 
 /* Efecto hover en botón */
 .login_caja .btn-primary:hover {

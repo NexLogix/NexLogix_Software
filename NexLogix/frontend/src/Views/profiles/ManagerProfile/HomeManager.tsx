@@ -65,8 +65,8 @@ const HomeManager = () => {
         {profile ? (
           <div className=" border-0 animate__animated animate__fadeInUp">
 
-            <div className="card-header text-white text-center py-4">
-              <h1 className="mb-0 display-5 fw-bold">
+            <div className="card-header rounded-lg text-white text-center py-4 ">
+              <h1 className="mb-0 display-4 fw-bold">
                 Bienvenid@ a <span className="text-warning">NEXLOGIX</span>
               </h1>
               <p className="mt-2 text-light">Tu solución integral para logística</p>

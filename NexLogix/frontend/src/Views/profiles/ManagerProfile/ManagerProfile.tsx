@@ -14,12 +14,12 @@ const ManagerProfile = () => {
           <div className="row">
 
             {/* Sidebar: barra lateral de navegación */}
-            <nav id="sidebar" className="col-md-3 col-lg-2 d-md-block sidebar shadow-lg">
+            <nav id="sidebar" className="col-md-3 col-lg-2 d-md-block sidebar">
               <div className="position-sticky">
                 <ul className="nav flex-column">
 
                         {/* Opción Inicio */}
-                        <Link className="nav-link active" to="/manager">Inicio MANAGER</Link>
+                        <Link className="nav-link active" to="/manager">INICIO MANAGER</Link>
 
                         {/* Opción Gestión Áreas con submenú */}
                         <li className="nav-item">

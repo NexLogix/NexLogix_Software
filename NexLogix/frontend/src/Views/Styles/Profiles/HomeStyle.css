@@ -1,16 +1,14 @@
 /* Estilos para el contenedor principal */
 .home_manager_container {
   background-color: #161625;
-  min-height: 100vh;
-  padding: 20px;
+  /* min-height: 100vh; */ /* Descomentar si hay errores en el contenedor "INICIO" */
 }
 
 /* Estilos para la cabecera de la tarjeta */
 .card-header {
-  background: #627bb2;
+  background: #232c42;
   color: #ffffff;
-  padding: 20px;
-  border-radius: 15px 15px 0 0;
+  margin-top: 10px;
 }
 
 .card-header .text-light {
@@ -19,7 +17,7 @@
 
 /* Estilos para el cuerpo de la tarjeta */
 .card-body {
-  background-color: #0c0c14;
+  background-color: #161625;
   color: #ffffff;
   padding: 30px;
 }
@@ -32,7 +30,7 @@
 .list-group-item {
   background-color: #1a1a2b;
   color: #ffffff;
-  border-color: #2a2a3a;
+  border-color: #3d3d52;
   padding: 15px;
 }
 

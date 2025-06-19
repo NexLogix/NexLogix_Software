@@ -1,82 +1,73 @@
-/*general profiles.css*/
-
 /* Colores generales */
 body {
     background-color: #161625;
-    /*ASI se arregla el bug de la barra blanca que aparece abajo, pero si se hace asi con background-color: #010211; 
-    en BODY, se debe de personalizar todas las vistas.*/
     color: #cccccc;
 }
 
-/* Navbar */
+/* Navbar o barra superior */
 .navbar {
-      background-color: #161625;
+    background-color: #161625;
 }
 
 .navbar-brand, .nav-link {
-      color: white !important;
+    color: white !important;
+    border-radius: 10px;
 }
 
 .navbar .navbar-nav .nav-link:hover {
-      background-color: #161625;
-      color: #fff !important; 
-}
-
-/* Habilitar desplazamiento en la barra desplegable */
-.dropdown-menu {
-  background-color: #161625 !important;
-  border: none;
-  max-height: 250px; /* Ajusta la altura máxima antes del scroll */
-}
-
-/* Estilos para los ítems del dropdown */
-.dropdown-item {
-      color: rgb(21, 255, 0) !important; /*cambiar a white el color, no se para que es esto*/
-}
-
-.dropdown-item:hover, .dropdown-item:focus {
-      background-color: #161625 !important;
-      color: #ffffff !important;
-}
-
-/* Sidebar */
-.sidebar {
-      background-color: #161625;
-      height: 100vh; /*Tamano vertical del nav o columna derecha*/
-      width: 200px; /* Aumenta el ancho, ajusta según necesites */
-      min-width: 220px; /* Establece un mínimo */
-}
-.nav-item a {
-    color: white !important;
-}
-.nav-item a:hover {
-      background-color: #232c42; /* Cambia el color de fondo al pasar el mouse */
-}
-
-/*Ajustes de la columna o nav de menus desplegables!*/ /*Descomentar para agregar barra de scroll en la barra lateral*/
-/* .sidebar {
-      position: sticky;
-      top: 0;
-      overflow-y: auto;
-} */
-
-/*Ajustes del espacio de paginas anidadas o enrutadas*/
-main {
-      margin-left: 5px; /* Ajusta según el ancho del sidebar */
-      margin-right: 5px; /* Ajusta según el ancho del sidebar */
-      width: calc(100% - 260px);
-      overflow-x: hidden; /* Evita que se salga del viewport */ 
-      overflow: auto;
+    background-color: #232c42;
+    border-radius: 10px;
+    color: #fff !important; 
 }
 
 /* Estilo especial para el botón de SALIR */
 .dropdown-item.text-danger {
- color: #dc3545 !important;
+    color: #dc3545 !important;
 }
+
 .dropdown-item.text-danger:hover {
- background-color: rgb(155, 23, 37) !important;
- color: white !important;
+    background-color: rgb(155, 23, 37) !important;
+    color: white !important;
 }
 
+/* Habilitar desplazamiento en la barra desplegable */
+.dropdown-menu {
+    background-color: #161625 !important;
+    border: none;
+    max-height: 250px; /* Ajusta la altura máxima antes del scroll */
+}
 
+/* Estilos para los ítems del dropdown */
+.dropdown-item {
+    color: white !important; /* Cambiado de rgb(21, 255, 0) a white */
+}
 
+.dropdown-item:hover, .dropdown-item:focus {
+    background-color: #232c42 !important;
+    color: #ffffff !important;
+}
+
+/* Sidebar o Barra lateral izquierda */
+.sidebar {
+    background-color: #161625;
+}
+
+.nav-item a {
+    color: white !important; /* Cambia el color del texto de las letras */
+    padding: 10px 15px; /* Espaciado interno */
+    text-decoration: none; /* Elimina el subrayado */
+    transition: background-color 0.25s ease; /* Transición suave para el color de fondo */
+}
+
+.nav-item a:hover {
+    background-color: #232c42; /* Cambia el color de fondo al pasar el mouse */
+}
+
+/* Ajustes del espacio de páginas anidadas o enrutadas */
+main {
+    margin-left: 0px; /* Ajusta según el ancho del sidebar */
+    margin-right: 0px; /* Ajusta según el ancho del sidebar */
+    width: calc(100% - 260px); /* Ajusta el ancho del main para que no se superponga con el sidebar */
+    overflow-x: hidden; /* Evita que se salga del viewport */ 
+    overflow: auto; /* Permite el desplazamiento si el contenido es más grande que la pantalla */
+}
