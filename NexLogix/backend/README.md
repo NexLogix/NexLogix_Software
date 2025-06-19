@@ -176,7 +176,7 @@ $this->app->bind(IUserService::class, UserService::class);
 - [x] Gestión Envios
 - [] Gestión Estado
 - [x] Gestión Puestos
-- [] Gestión Recogidas
+- [x] Gestión Recogidas
 - [] Gestión Reportes
 - [] Gestión Roles
 - [] Gestión Rutas
