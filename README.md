@@ -1,11 +1,11 @@
-# 🚚 **NexLogix Software** 🚚
-
-
-
-<img src="https://github.com/NexLogix/NexLogix_Software/blob/master/logo.png" alt="NexLogix Logo" width="400" height="400"/>
+<div align="center">
+  <img src="https://raw.githubusercontent.com/NexLogix/NexLogix_Software/cosasfront/NexLogix/frontend/src/assets/logo.png" alt="NexLogix Logo" width="400" height="400" />
 </div>
 
-**⚡Control total, cero complicaciones.**
+<h1 align="center">NexLogix Software</h1>
+
+<p align="center"><strong><em>Control total, cero complicaciones.</em></strong></p>
+
 
 
 ## 🚀 **Objetivo General**
