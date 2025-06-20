@@ -1,54 +1,71 @@
-
-
-
 <div align="center">
-  <img src="https://raw.githubusercontent.com/NexLogix/NexLogix_Software/cosasfront/NexLogix/frontend/src/assets/logo.png" alt="NexLogix Logo" width="400" height="400" />
+  <img src="https://raw.githubusercontent.com/NexLogix/NexLogix_Software/cosasfront/NexLogix/frontend/src/assets/logo.png" alt="NexLogix Logo" width="280" height="280" />
 </div>
 
-<h1 align="center">
-  NexLogix Software<br>
-  <span style="font-weight: normal; font-size: 15px;">Control total, cero complicaciones.</span>
-</h1>
+<h1 align="center">NexLogix Software</h1>
 
-
-## 🚀 **Objetivo General**
-
-**NexLogix Software** Desarrollar una aplicación para empresas de logística, que optimizará la cadena de suministro, reportes e inventarios para garantizar la entrega y recogida eficiente, oportuna y segura de envíos a clientes finales, maximizando la rentabilidad, la administración eficiente de datos y la satisfacción del cliente.
- 🌍
-
-🔑 **Objetivos Especificos**:
-- Crear usuarios con permisos específicos según su cargo en la empresa.
-- Registrar clientes y sus datos de contacto.
-- Gestionar solicitudes de envíos y recogidas.
-- Clasificar pedidos según la ciudad de destino.
-- Generar notificaciones sobre posibles percances durante el envío o recogida.
-- Generar informes e inventarios detallados.
-- Registrar conductores y sus datos.
-- Crear y asignar rutas para conductores.
-- Confirmar la entrega de pedidos.
-
+<p align="center"><strong><em>Control total, cero complicaciones.</em></strong></p>
 
 ---
 
-## 📋 **Componente Metodológico**
+## Objetivo General
 
-### 🔍 **Planteamiento del Problema**
-Las empresas de logística enfrentan desafíos como la ineficiencia en la planificación de rutas, la falta de visibilidad en tiempo real de los envíos y la gestión manual de inventarios. Estos problemas generan costos adicionales, retrasos en las entregas y una experiencia subóptima para los clientes. NexLogix Software aborda estas cuestiones mediante una plataforma integral que automatiza y optimiza los procesos logísticos. 🚨
+Desarrollar una aplicación integral para microempresas de logística y transporte que optimice la cadena de suministro, la generación de reportes y la gestión de inventarios, garantizando procesos de entrega y recogida eficientes, seguros y oportunos. El objetivo es maximizar la rentabilidad operativa, asegurar una administración precisa de datos y elevar los niveles de satisfacción del cliente.
 
-### 🎯 **Alcance**
-El software cubre las siguientes áreas:
-- **Gestión de rutas**: Planificación y optimización de rutas basada en tráfico, distancia y prioridades.
-- **Seguimiento de envíos**: Monitoreo en tiempo real con integración de GPS.
-- **Gestión de inventarios**: Control de stock y automatización de pedidos.
-- **Análisis de datos**: Generación de reportes para evaluar el rendimiento operativo.
-- **Funciones y características**: Base de datos de inventario, informes detallados en tiempo real, llevar informes detallados de la mercancía que entra y sale de la empresa.
-- **Restricciones**: Solamente será utilizado por los trabajadores por su correspondiente cargo y usuario de la empresa utilizando una red local.
+## Objetivos Específicos
 
-El sistema está diseñado para ser escalable, permitiendo su uso en pequeñas empresas locales hasta grandes corporaciones internacionales. 🌎
-
-### 📝 **Justificación**
-La digitalización de los procesos logísticos es esencial en un mercado globalizado. NexLogix Software ofrece una solución que reduce costos operativos, mejora los tiempos de entrega y aumenta la satisfacción del cliente. Al integrar tecnologías modernas como algoritmos de optimización y seguimiento en tiempo real, el software posiciona a las empresas para competir en un entorno dinámico y exigente. 💼
+- Implementar un sistema de gestión de usuarios con permisos diferenciados por jerarquía organizacional.
+- Desarrollar un módulo completo de registro y administración de clientes con información de contacto estructurada.
+- Incorporar funcionalidades para la gestión integral de solicitudes de envíos y recogidas.
+- Establecer un sistema de clasificación de pedidos basado en criterios geográficos y logísticos.
+- Integrar un sistema de notificaciones automatizadas ante incidencias operativas.
+- Permitir la generación de informes detallados e inventarios en tiempo real.
+- Desarrollar un módulo de gestión de conductores con información personal, legal y operativa.
+- Crear un sistema de planificación y asignación de rutas optimizadas.
+- Implementar mecanismos de confirmación, trazabilidad y seguimiento de entregas.
 
 ---
 
-*Desarrollado con ❤️ y 🍩 por el equipo de NexLogix.*
+## Componente Metodológico
+
+### Planteamiento del Problema
+
+Las microempresas del sector logístico enfrentan desafíos recurrentes en la eficiencia de sus procesos operativos: planificación inadecuada de rutas, ausencia de control en tiempo real de los envíos, y administración manual de inventarios. Estas deficiencias generan sobrecostos, demoras en la prestación del servicio y deterioro en la experiencia del cliente final.
+
+NexLogix Software surge como respuesta tecnológica a estos problemas mediante el desarrollo de una plataforma integral que digitaliza y automatiza los procesos logísticos esenciales. La solución está diseñada específicamente para responder a las necesidades reales del sector, proporcionando herramientas que mejoran la productividad y reducen los márgenes de error.
+
+### Alcance
+
+El sistema abarca las siguientes áreas funcionales:
+
+#### Gestión Operativa
+
+- Planificación y asignación de rutas con criterios de tráfico, distancia y prioridad.
+- Seguimiento de envíos en tiempo real mediante integración con tecnologías de geolocalización.
+- Control automatizado de inventarios, registro de entradas y salidas de mercancía.
+
+#### Análisis y Reportes
+
+- Generación de reportes operativos y analíticos en tiempo real.
+- Trazabilidad completa de paquetes e inventario a lo largo del flujo logístico.
+- Consola de estadísticas para toma de decisiones gerenciales.
+
+#### Restricciones Técnicas
+
+- Acceso restringido a personal autorizado, según el rol dentro de la organización.
+- Ejecución sobre red local para garantizar la seguridad de la información.
+- Módulo de autenticación con control de accesos y permisos.
+
+El sistema está diseñado para escalar de forma modular, permitiendo su implementación tanto en microempresas locales como en organizaciones logísticas con operaciones más complejas.
+
+### Justificación
+
+La transformación digital en la gestión logística es un componente estratégico esencial para garantizar la competitividad de las empresas en un entorno globalizado. NexLogix Software responde a esta necesidad ofreciendo una solución tecnológica robusta y adaptada a las capacidades y requerimientos de las microempresas del sector.
+
+Su implementación contribuye a una notable mejora en los indicadores clave de desempeño (KPIs), como tiempos de entrega, reducción de errores humanos, gestión de inventario, y eficiencia de rutas. Además, habilita a las organizaciones para ofrecer servicios más confiables y predecibles, elevando la satisfacción del cliente y fortaleciendo su posición en el mercado.
+
+---
+
+**Desarrollado por el equipo de NexLogix**
+
+Repositorio privado – Código fuente protegido y reservado exclusivamente para fines de desarrollo interno.
