@@ -44,10 +44,10 @@ const HomeManager = () => {
     return (
       <div className="loading-container">
         <div className="text-center">
-          <div className="spinner-border text-primary" role="status">
+          <div className="spinner-border text-primary mb-4" style={{ width: 60, height: 60 }} role="status">
             <span className="visually-hidden">Cargando...</span>
           </div>
-          <p className="mt-3 text-muted">Cargando perfil...</p>
+          <div className="loading-message">Cargando perfil...</div>
         </div>
       </div>
     );

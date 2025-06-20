@@ -1,7 +1,13 @@
+/*Barras rojas para ver el borde de todos los elementos, comentar para no verlo, descomentar para verlo*/
+/* * { 
+  outline: 1px solid red;
+} */
+
+
 /* Colores generales */
 body {
     background-color: #161625;
-    color: #cccccc;
+    color: #ffffff;
 }
 
 /* Navbar o barra superior */
@@ -70,4 +76,70 @@ main {
     width: calc(100% - 260px); /* Ajusta el ancho del main para que no se superponga con el sidebar */
     overflow-x: hidden; /* Evita que se salga del viewport */ 
     overflow: auto; /* Permite el desplazamiento si el contenido es más grande que la pantalla */
+}
+
+/* Sidebar Resizable */
+.sidebar-resizable {
+  width: 240px; /* valor inicial */
+  min-width: 0px; /* Permitir cerrar completamente */
+  background: transparent;
+  position: relative;
+  transition: width 0.2s;
+  overflow: hidden; /* Ocultar contenido al cerrar */
+}
+
+/* Manejador con ícono */
+.sidebar-resize-handle {
+  position: absolute;
+  top: 30vb;         /* Distancia desde arriba */
+  right: 0;
+  width: 24px;
+  height: 100px;      /* Altura del manejador */
+  cursor: col-resize;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  background: transparent;
+  transition: background-color 0.2s ease;
+  border-radius: 8px;
+}
+
+.sidebar-resize-handle:hover {
+  background-color: #232c42; /* Suave indicador al pasar */
+}
+
+/* Ícono interno */
+.sidebar-resize-handle::before {
+  content: "⠿"; /* Puedes cambiar por otro ícono o usar SVG */
+  font-size: 16px;
+  color: #627bb2;
+  pointer-events: none;
+}
+.noselect {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+@media (max-width: 700px) {
+  .sidebar-resizable {
+    width: 56px !important; /* Solo lo suficiente para los íconos */
+    min-width: 56px !important;
+    overflow: visible;
+  }
+  .sidebar-content {
+    display: none; /* Oculta el contenido textual */
+  }
+  .sidebar-icon-menu {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding-top: 32px;
+  }
+  .sidebar-resize-handle {
+    display: none !important; /* Oculta el manejador en modo compacto */
+  }
 }

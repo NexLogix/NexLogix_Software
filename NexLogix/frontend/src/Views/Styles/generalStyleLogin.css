@@ -91,14 +91,13 @@
   font-size: 1rem;
   padding: 0.75rem;
   border: 1px solid #3a4566;
-  border-radius: 0.5rem;
-  background: #2f3d5c;
+  border-radius: 1.0rem;
+  background: #ffffff;
   color: #232c42;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .login_caja .input-group-text {
-  border-radius: 0.5rem 0 0 0.5rem;
+  border-radius: 1.0rem 0 0 1.0rem;
   border: 1px solid #3a4566;
   background-color: #232c42;
   color: #232c42;
@@ -114,7 +113,8 @@
   font-weight: 600;
   padding: 0.75rem;
   border-radius: 0.5rem;
-  border: 1px solid #86aaf9;}
+  border: 1px solid #86aaf9;
+}
 
 /* Efecto hover en botón */
 .login_caja .btn-primary:hover {

@@ -1,33 +1,118 @@
+/* Estilos globales para todas las tablas Bootstrap del frontend */
+
+.table:not(.table-unstyled) { /* Aplica estilos a todas las tablas excepto las que tengan la clase table-unstyled */
+  background-color: transparent; /* Fondo transparente para la tabla */
+  border-collapse: separate; /* Separa los bordes de las celdas */
+  border-spacing: 0; /* Sin espacio entre celdas */
+  color: #e5e5e5; /* Color del texto de la tabla */
+  table-layout: auto; /* Permite que las columnas se ajusten al contenido */
+  width: 100%; /* La tabla ocupa todo el ancho disponible */
+  margin-bottom: 0; /* Elimina el margen inferior de la tabla */
+  border-radius: 12px; /* Bordes redondeados para la tabla */
+  overflow: hidden; /* Oculta el desbordamiento para mantener los bordes redondeados */
+}
+
+.table:not(.table-unstyled) thead { /* Estilos para el encabezado de la tabla */
+  background-color: #2f3d5c; /* Fondo del encabezado */
+  color: #ffffff; /* Color del texto del encabezado */
+}
+
+.table:not(.table-unstyled) thead th { /* Estilos para las celdas del encabezado */
+  border-bottom: 1px solid #3a4a6a; /* Borde inferior de las celdas del encabezado (más delgado) */
+  padding: 12px; /* Espaciado interno de las celdas del encabezado */
+  text-align: center; /* Centra el texto del encabezado */
+  background-color: #2f3d5c; /* Fondo del encabezado */
+}
+
+.table:not(.table-unstyled) tbody td { /* Estilos para las celdas del cuerpo de la tabla */
+  padding: 8px; /* Espaciado interno de la celda */
+  vertical-align: middle; /* Centra verticalmente el contenido */
+  text-align: center; /* Centra horizontalmente el contenido */
+  background-color: #232c42; /* Color de fondo de la celda */
+  border-top: 1px solid #3a4a6a; /* Borde superior de la celda */
+}
+
+.table:not(.table-unstyled) tbody tr:hover { /* Estilo al pasar el mouse sobre una fila */
+  background-color: #2c3958; /* Cambia el fondo al hacer hover */
+  transition: background-color 0.3s ease; /* Transición suave del color de fondo */
+}
+
+/* Bordes redondeados superiores */
+.table:not(.table-unstyled) thead th:first-child { /* Primera celda del encabezado */
+  border-top-left-radius: 12px; /* Redondea la esquina superior izquierda */
+}
+.table:not(.table-unstyled) thead th:last-child { /* Última celda del encabezado */
+  border-top-right-radius: 12px; /* Redondea la esquina superior derecha */
+}
+
+/* Bordes redondeados inferiores */
+.table:not(.table-unstyled) tbody tr:last-child td:first-child { /* Primera celda de la última fila */
+  border-bottom-left-radius: 12px; /* Redondea la esquina inferior izquierda */
+}
+.table:not(.table-unstyled) tbody tr:last-child td:last-child { /* Última celda de la última fila */
+  border-bottom-right-radius: 12px; /* Redondea la esquina inferior derecha */
+}
+
+/* Opcional: envoltura para sombra y borde exterior */
+.table-wrapper { /* Contenedor para dar sombra y borde a la tabla */
+  background-color: #232c42; /* Fondo del contenedor */
+  border-radius: 12px; /* Bordes redondeados para el contenedor */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); /* Sombra para dar profundidad */
+  overflow: hidden; /* Oculta el desbordamiento para mantener los bordes redondeados */
+  margin-top: 1rem; /* Espacio superior respecto a otros elementos */
+  border: 1px solid #3a4a6a; /* Borde sutil alrededor del contenedor */
+}
+
+/* Botones CRUD en grid */
+.crud-btn-grid { /* Contenedor para los botones CRUD en formato grid */
+  display: grid; /* Usa grid para organizar los botones */
+  grid-template-columns: repeat(2, 32px); /* Dos columnas de 32px */
+  grid-template-rows: repeat(2, 32px); /* Dos filas de 32px */
+  gap: 8px; /* Espacio entre los botones */
+  justify-content: center; /* Centra horizontalmente el grid */
+  align-content: center; /* Centra verticalmente el grid */
+}
+
+.crud-btn-grid .btn { /* Estilos para los botones dentro del grid */
+  width: 32px; /* Ancho fijo del botón */
+  height: 32px; /* Alto fijo del botón */
+  display: flex; /* Usa flex para centrar el contenido */
+  align-items: center; /* Centra verticalmente el contenido */
+  justify-content: center; /* Centra horizontalmente el contenido */
+  padding: 0; /* Sin padding interno */
+  font-size: 1.2rem; /* Tamaño de fuente del icono o texto */
+  border-radius: 8px; /* Bordes redondeados para el botón */
+}
+
 /* Estilos para las tablas */
-.table {
-  width: 100%;
-  table-layout: auto;
-  overflow-y: auto,
-  
+.table { /* Estilos generales para todas las tablas */
+  width: 100%; /* Ocupa todo el ancho disponible */
+  table-layout: fixed; /* Columnas de ancho fijo */
+  overflow-y: auto; /* Permite scroll vertical si es necesario */
+  font-size: 0.8em; /* Tamaño de fuente reducido */
 }
 
-.table thead th {
-  background-color: #232c42;
-  color: white;
-  padding: 12px;
-  text-align: left;
+.table thead th { /* Encabezado de la tabla */
+  background-color: #232c42; /* Fondo del encabezado */
+  color: white; /* Color del texto */
+  /* padding: 12px; */ /* Comentado para evitar padding duplicado */
+  text-align: left; /* Alinea el texto a la izquierda */
 }
 
-.table tbody td {
-  word-wrap: break-word;
-  background-color: rgb(189, 182, 182);
-  overflow-wrap: break-word;
-  max-width: 300px;
-  padding: 10px;
-  vertical-align: top;
-  color: #000000;
+.table tbody td { /* Celdas del cuerpo de la tabla */
+  word-wrap: break-word; /* Permite que el texto se divida en varias líneas */
+  background-color: #2f3d5c; /* Fondo de la celda */
+  overflow-wrap: break-word; /* Rompe palabras largas */
+  max-width: 300px; /* Ancho máximo de la celda */
+  padding: 10px; /* Espaciado interno */
+  vertical-align: top; /* Alinea el contenido arriba */
+  color: #e0e0e0; /* Color del texto */
 }
-
 
 /* Media query para responsividad en pantallas pequeñas */
-@media (max-width: 768px) {
-  .table tbody td {
-    max-width: 150px;
-    font-size: 0.9em;
+@media (max-width: 768px) { /* Aplica estilos cuando la pantalla es menor a 768px */
+  .table tbody td { /* Celdas del cuerpo de la tabla */
+    max-width: 150px; /* Reduce el ancho máximo en pantallas pequeñas */
+    font-size: 0.9em; /* Aumenta ligeramente el tamaño de fuente */
   }
 }

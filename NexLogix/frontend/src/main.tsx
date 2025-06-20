@@ -11,7 +11,7 @@ createRoot(document.getElementById('root')!).render( // Crea un punto de entrada
     <StrictMode> 
 
         {/* Renderiza el componente App, que contiene la lógica de enrutamiento y la estructura de la SPA */}
-        <App /> 
+        <App/> 
         
     </StrictMode> {/*aki ubo un error :(  "la coma"*/}
   </>

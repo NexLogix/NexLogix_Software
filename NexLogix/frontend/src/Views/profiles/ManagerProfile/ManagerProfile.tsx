@@ -14,7 +14,7 @@ const ManagerProfile = () => {
           <div className="row">
 
             {/* Sidebar: barra lateral de navegación */}
-            <nav id="sidebar" className="col-md-3 col-lg-2 d-md-block sidebar">
+            <nav id="sidebar" className=" col-lg-2 d-md-block sidebar">
               <div className="position-sticky">
                 <ul className="nav flex-column">
 
