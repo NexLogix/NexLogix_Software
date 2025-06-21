@@ -22,10 +22,14 @@ const VerConductores = () => {
   const [conductores, setConductores] = useState<Conductor[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showStatusModal, setShowStatusModal] = useState(false);
-  const [selectedDriver, setSelectedDriver] = useState<Conductor | null>(null);
   const [newStatus, setNewStatus] = useState("");
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editedDriver, setEditedDriver] = useState<Partial<Conductor>>({});
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editDriver, setEditDriver] = useState<Conductor | null>(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedDriver, setSelectedDriver] = useState<Conductor | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -251,12 +255,13 @@ const VerConductores = () => {
                 >
                   Mostrar todos
                 </Button>
-                {/* <Link to="/manager/crearReporte" style={{ minWidth: 140, textDecoration: "none" }}> */}
+                {/* <Link to="/manager/crearConductor" style={{ minWidth: 140, textDecoration: "none" }}> */}
                   <Button
                     variant="warning"
                     style={{ minWidth: 140, width: "100%" }}
+                    onClick={() => setShowCreateModal(true)}
                   >
-                    Crear reporte
+                    Crear conductor
                   </Button>
                 {/* </Link> */}
               </div>
@@ -429,7 +434,10 @@ const VerConductores = () => {
                                 <Button
                                   variant="primary"
                                   size="sm"
-                                  onClick={() => handleEdit(driver.id)}
+                                  onClick={() => {
+                                    setEditDriver(driver);
+                                    setShowEditModal(true);
+                                  }}
                                 >
                                   <PencilFill />
                                 </Button>
@@ -438,7 +446,10 @@ const VerConductores = () => {
                                 <Button
                                   variant="danger"
                                   size="sm"
-                                  onClick={() => handleDelete(driver.id)}
+                                  onClick={() => {
+                                    setSelectedDriver(driver);
+                                    setShowDeleteModal(true);
+                                  }}
                                 >
                                   <TrashFill />
                                 </Button>
@@ -511,6 +522,166 @@ const VerConductores = () => {
           </div>
         </div>
       </div>
+
+      {/* Modal para crear conductor */}
+      {showCreateModal && (
+        <div className="crear-conductor-modal-bg">
+          <div className="crear-conductor-modal">
+            <h5 className="modal-title">Crear Conductor</h5>
+            <form>
+              <div className="crear-conductor-form">
+                <div className="mb-2">
+                  <label className="form-label">Nombre completo</label>
+                  <input className="form-control" placeholder="Nombre" />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Email</label>
+                  <input className="form-control" placeholder="Email" type="email" />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Documento</label>
+                  <input className="form-control" placeholder="Documento" />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Numero de licencia</label>
+                  <input className="form-control" placeholder="Licencia" />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Tipo de licencia</label>
+                  <select className="form-select">
+                    <option>A1</option>
+                    <option>A2</option>
+                    <option>B1</option>
+                    <option>B2</option>
+                    <option>B3</option>
+                    <option>C1</option>
+                    <option>C2</option>
+                    <option>C3</option>
+                  </select>
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Fecha de vencimiento de licencia</label>
+                  <input className="form-control" type="date" />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Estado</label>
+                  <select className="form-select">
+                    <option>Disponible</option>
+                    <option>En ruta</option>
+                    <option>Vacaciones</option>
+                    <option>En capacitación</option>
+                    <option>Inactivo</option>
+                  </select>
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Vehículo Asignado</label>
+                  <input className="form-control" placeholder="Vehículo" />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Contacto</label>
+                  <input className="form-control" placeholder="Teléfono" />
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => setShowCreateModal(false)}
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-success"
+                  onClick={() => setShowCreateModal(false)}
+                >
+                  Guardar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal para editar conductor */}
+      {showEditModal && editDriver && (
+        <div className="crear-conductor-modal-bg">
+          <div className="crear-conductor-modal">
+            <h5 className="modal-title">Editar Conductor</h5>
+            <form>
+              <div className="crear-conductor-form">
+                <div className="mb-2">
+                  <label className="form-label">Nombre completo</label>
+                  <input className="form-control" defaultValue={editDriver.nombre} />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Email</label>
+                  <input className="form-control" defaultValue={editDriver.email} type="email" />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Documento</label>
+                  <input className="form-control" defaultValue={editDriver.documento} />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Numero de licencia</label>
+                  <input className="form-control" defaultValue={editDriver.licencia} />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Tipo de licencia</label>
+                  <select className="form-select" defaultValue={editDriver.tipoLicencia}>
+                    <option>A1</option>
+                    <option>A2</option>
+                    <option>B1</option>
+                    <option>B2</option>
+                    <option>B3</option>
+                    <option>C1</option>
+                    <option>C2</option>
+                    <option>C3</option>
+                  </select>
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Fecha de vencimiento de licencia</label>
+                  <input className="form-control" type="date" defaultValue={editDriver.vigenciaLicencia} />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Estado</label>
+                  <select className="form-select" defaultValue={editDriver.estado}>
+                    <option>Disponible</option>
+                    <option>En ruta</option>
+                    <option>Vacaciones</option>
+                    <option>En capacitación</option>
+                    <option>Inactivo</option>
+                  </select>
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Vehículo Asignado</label>
+                  <input className="form-control" defaultValue={editDriver.vehiculoAsignado} />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Contacto</label>
+                  <input className="form-control" defaultValue={editDriver.telefono} />
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => setShowEditModal(false)}
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-success"
+                  onClick={() => setShowEditModal(false)}
+                >
+                  Guardar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </Container>
   );
 };

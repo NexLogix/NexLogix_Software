@@ -126,8 +126,8 @@ const ManagerProfile = () => {
                             <Link className="nav-link" data-bs-toggle="collapse" to="#VehiculosSubmenu" role="button" aria-expanded="false" aria-controls="VehiculosSubmenu">Gestion Vehículos</Link>
                             <div className="collapse" id="VehiculosSubmenu">
                                 <ul className="nav flex-column ms-3">
-                                  <Link className="nav-link" to="/manager/verListaVehiculos">Ver lista de vehículos</Link>
-                                  <Link className="nav-link" to="/manager/verConductores">Ver conductores</Link>
+                                  <Link className="nav-link" to="/manager/verListaVehiculos">Lista de vehículos</Link>
+                                  <Link className="nav-link" to="/manager/verConductores">Conductores</Link>
                                 </ul>
                             </div>
                         </li>

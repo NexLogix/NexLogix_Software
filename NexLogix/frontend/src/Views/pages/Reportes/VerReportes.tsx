@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Card, Table, Badge, Button, Container, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { ExclamationTriangleFill, Search, EyeFill, PencilFill, TrashFill, PlusCircleFill } from "react-bootstrap-icons";
-import { Link } from "react-router-dom";
+import { ExclamationTriangleFill, Search, PencilFill, TrashFill, PlusCircleFill } from "react-bootstrap-icons";
 import "../../../Views/Styles/Reportes/ReportesStyle.css";
 
 interface Reporte {
@@ -16,12 +15,29 @@ interface Reporte {
   reportadoPor: string;
 }
 
+const initialForm = {
+  tipo: "",
+  descripcion: "",
+  urgencia: "",
+  fecha: "",
+  estado: "",
+  vehiculo: "",
+  ubicacion: "",
+  reportadoPor: ""
+};
+
 const VerReportes = () => {
   const [reportes, setReportes] = useState<Reporte[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterEstado] = useState<string>("todos");
 
-  // Datos de ejemplo para reportes
+  // Modales
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editReporte, setEditReporte] = useState<Reporte | null>(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedReporte, setSelectedReporte] = useState<Reporte | null>(null);
+
   useEffect(() => {
     const mockReportes: Reporte[] = [
       {
@@ -109,14 +125,14 @@ const VerReportes = () => {
   };
 
   // Handlers para los botones CRUD
-
-  const handleEdit = (id: number) => {
-    console.log("Editar reporte:", id);
+  const handleEdit = (reporte: Reporte) => {
+    setEditReporte(reporte);
+    setShowEditModal(true);
   };
-  const handleDelete = (id: number) => {
-    console.log("Eliminar reporte:", id);
+  const handleDelete = (reporte: Reporte) => {
+    setSelectedReporte(reporte);
+    setShowDeleteModal(true);
   };
-
 
   return (
     <Container fluid className="p-0 m-0">
@@ -134,7 +150,7 @@ const VerReportes = () => {
           <div className="d-flex justify-content-between mb-4 align-items-center">
             {/* Barra de búsqueda y botón Mostrar reportes */}
             <div className="d-flex align-items-center" style={{ flex: 1, minWidth: 0 }}>
-              <div className="input-group w-100" /* elimina style={{ maxWidth: 500 }} */>
+              <div className="input-group w-100">
                 <span className="input-group-text px-2">
                   <Search />
                 </span>
@@ -162,14 +178,13 @@ const VerReportes = () => {
                 >
                   Mostrar todos
                 </Button>
-                <Link to="/manager/crearReporte" style={{ minWidth: 140, textDecoration: "none" }}>
-                  <Button
-                    variant="warning"
-                    style={{ minWidth: 140, width: "100%" }}
-                  >
-                    Crear reporte
-                  </Button>
-                </Link>
+                <Button
+                  variant="warning"
+                  style={{ minWidth: 140, width: "100%" }}
+                  onClick={() => setShowCreateModal(true)}
+                >
+                  Crear reporte
+                </Button>
               </div>
             </div>
           </div>
@@ -219,7 +234,7 @@ const VerReportes = () => {
                             <Button
                               variant="primary"
                               size="sm"
-                              onClick={() => handleEdit(reporte.id)}
+                              onClick={() => handleEdit(reporte)}
                             >
                               <PencilFill />
                             </Button>
@@ -228,7 +243,7 @@ const VerReportes = () => {
                             <Button
                               variant="danger"
                               size="sm"
-                              onClick={() => handleDelete(reporte.id)}
+                              onClick={() => handleDelete(reporte)}
                             >
                               <TrashFill />
                             </Button>
@@ -249,6 +264,179 @@ const VerReportes = () => {
           </div>
         </Card.Body>
       </Card>
+
+      {/* Modal para crear reporte */}
+      {showCreateModal && (
+        <div className="crear-conductor-modal-bg">
+          <div className="crear-conductor-modal">
+            <h5 className="modal-title">Crear Reporte</h5>
+            <form>
+              <div className="crear-conductor-form">
+                <div className="mb-2">
+                  <label className="form-label">Tipo de reporte</label>
+                  <input className="form-control" placeholder="Tipo" />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Descripción</label>
+                  <textarea className="form-control" placeholder="Descripción" />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Urgencia</label>
+                  <select className="form-select">
+                    <option>Baja</option>
+                    <option>Media</option>
+                    <option>Alta</option>
+                    <option>Crítica</option>
+                  </select>
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Fecha</label>
+                  <input className="form-control" type="date" />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Estado</label>
+                  <select className="form-select">
+                    <option>Pendiente</option>
+                    <option>En revisión</option>
+                    <option>Resuelto</option>
+                    <option>Rechazado</option>
+                  </select>
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Vehículo</label>
+                  <input className="form-control" placeholder="Vehículo" />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Ubicación</label>
+                  <input className="form-control" placeholder="Ubicación" />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Reportado por</label>
+                  <input className="form-control" placeholder="Reportado por" />
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => setShowCreateModal(false)}
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-success"
+                  onClick={() => setShowCreateModal(false)}
+                >
+                  Guardar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal para editar reporte */}
+      {showEditModal && editReporte && (
+        <div className="crear-conductor-modal-bg">
+          <div className="crear-conductor-modal">
+            <h5 className="modal-title">Editar Reporte</h5>
+            <form>
+              <div className="crear-conductor-form">
+                <div className="mb-2">
+                  <label className="form-label">Tipo de reporte</label>
+                  <input className="form-control" defaultValue={editReporte.tipo} />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Descripción</label>
+                  <textarea className="form-control" defaultValue={editReporte.descripcion} />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Urgencia</label>
+                  <select className="form-select" defaultValue={editReporte.urgencia}>
+                    <option value="baja">Baja</option>
+                    <option value="media">Media</option>
+                    <option value="alta">Alta</option>
+                    <option value="critica">Crítica</option>
+                  </select>
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Fecha</label>
+                  <input className="form-control" type="date" defaultValue={editReporte.fecha} />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Estado</label>
+                  <select className="form-select" defaultValue={editReporte.estado}>
+                    <option value="pendiente">Pendiente</option>
+                    <option value="en_revision">En revisión</option>
+                    <option value="resuelto">Resuelto</option>
+                    <option value="rechazado">Rechazado</option>
+                  </select>
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Vehículo</label>
+                  <input className="form-control" defaultValue={editReporte.vehiculo} />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Ubicación</label>
+                  <input className="form-control" defaultValue={editReporte.ubicacion} />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Reportado por</label>
+                  <input className="form-control" defaultValue={editReporte.reportadoPor} />
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => setShowEditModal(false)}
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-success"
+                  onClick={() => setShowEditModal(false)}
+                >
+                  Guardar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de confirmación de eliminar */}
+      {showDeleteModal && selectedReporte && (
+        <div className="crear-conductor-modal-bg">
+          <div className="crear-conductor-modal" style={{ maxWidth: 380 }}>
+            <h5 className="modal-title mb-3 text-danger">
+              <ExclamationTriangleFill className="me-2" />
+              Confirmar Eliminación
+            </h5>
+            <div className="mb-3">
+              ¿Estás seguro que deseas eliminar este reporte? Esta acción no se puede deshacer.
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => setShowDeleteModal(false)}
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={() => setShowDeleteModal(false)}
+              >
+                Eliminar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </Container>
   );
 };

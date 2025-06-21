@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import NavBuscarUsuario from "../../componets/NavBars/NavBuscarUsuario";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import "../../../Views/Styles/Profiles/ListaVehiculos.css";
 
 interface Vehiculo {
   id: number;
@@ -19,12 +20,13 @@ const VerListaVehiculos = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedVehicle, setSelectedVehicle] = useState<number | null>(null);
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editVehicle, setEditVehicle] = useState<Vehiculo | null>(null);
   const navigate = useNavigate();
 
-  // Simulación de carga de datos
   useEffect(() => {
     const fetchVehiculos = async () => {
-      // Simulación de API call
       setTimeout(() => {
         const data: Vehiculo[] = [
           {
@@ -64,7 +66,6 @@ const VerListaVehiculos = () => {
         setVehiculos(data);
       }, 500);
     };
-
     fetchVehiculos();
   }, []);
 
@@ -91,141 +92,165 @@ const VerListaVehiculos = () => {
   };
 
   const getStatusBadge = (estado: string) => {
-    switch(estado) {
-      case "Disponible":
-        return "bg-success";
-      case "En ruta":
-        return "bg-primary";
-      case "En mantenimiento":
-        return "bg-warning";
-      case "Inactivo":
-        return "bg-danger";
-      default:
-        return "bg-secondary";
+    switch (estado) {
+      case "Disponible": return "success";
+      case "En ruta": return "primary";
+      case "En mantenimiento": return "warning";
+      case "Inactivo": return "danger";
+      default: return "secondary";
     }
   };
 
   return (
-    <>
-      <NavBuscarUsuario />
-      <div className="container-fluid px-4 py-5">
-        <div className="card border-0 shadow">
-          <div className="card-header bg-primary text-white p-4">
-            <div className="d-flex justify-content-between align-items-center">
-              <h2 className="mb-0">Gestión de Vehículos</h2>
-              <div className="d-flex gap-2">
+    <div className="container-fluid p-0 m-0">
+      {/* Header azul */}
+      <div className="header-azul mb-3">
+        <div className="d-flex align-items-center p-3">
+          <i className="bi bi-truck me-2" style={{ fontSize: 24 }} />
+          <h2 className="mb-0 text-white">Gestión de Vehículos</h2>
+        </div>
+      </div>
+
+      <div className="card">
+        <div className="card-body">
+          {/* Barra de búsqueda y botones */}
+          <div className="d-flex justify-content-between mb-4 align-items-center">
+            <div className="d-flex align-items-center" style={{ flex: 1, minWidth: 0 }}>
+              <div className="input-group w-100">
+                <span className="input-group-text px-2">
+                  <i className="bi bi-search" />
+                </span>
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Buscar vehículo..."
+                  placeholder="Buscar vehículos..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
+                  style={{ minWidth: 0 }}
                 />
-                <button 
-                  className="btn btn-light"
-                  onClick={() => navigate("/manager/crearVehiculo")}
+              </div>
+              <div className="d-flex gap-2 ms-2">
+                <button
+                  className="btn btn-primary"
+                  style={{ minWidth: 140 }}
+                  onClick={() => {/* Lógica para buscar por ID */}}
                 >
-                  <i className="bi bi-plus-lg"></i> Nuevo
+                  Buscar por ID
+                </button>
+                <button
+                  className="btn btn-success"
+                  style={{ minWidth: 140 }}
+                  onClick={() => {/* Lógica para mostrar todos */}}
+                >
+                  Mostrar todos
+                </button>
+                <button
+                  className="btn btn-warning"
+                  style={{ minWidth: 140, width: "100%" }}
+                  onClick={() => setShowCreateModal(true)}
+                >
+                  Crear vehículo
                 </button>
               </div>
             </div>
           </div>
 
-          <div className="card-body p-4">
-            <div className="table-responsive">
-              <table className="table table-hover align-middle">
-                <thead className="table-light">
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Placa</th>
-                    <th scope="col">Marca/Modelo</th>
-                    <th scope="col">Tipo</th>
-                    <th scope="col">Capacidad</th>
-                    <th scope="col">Estado</th>
-                    <th scope="col">Último Mantenimiento</th>
-                    <th scope="col">Conductor</th>
-                    <th scope="col" className="text-end">Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredVehicles.length > 0 ? (
-                    filteredVehicles.map((vehicle) => (
-                      <tr key={vehicle.id}>
-                        <td>{vehicle.id}</td>
-                        <td>
-                          <span className="fw-semibold">{vehicle.placa}</span>
-                        </td>
-                        <td>
-                          <div className="fw-semibold">{vehicle.marca}</div>
-                          <div className="text-muted small">{vehicle.modelo}</div>
-                        </td>
-                        <td>{vehicle.tipo}</td>
-                        <td>{vehicle.capacidad}</td>
-                        <td>
-                          <span className={`badge ${getStatusBadge(vehicle.estado)}`}>
-                            {vehicle.estado}
-                          </span>
-                        </td>
-                        <td>{new Date(vehicle.ultimoMantenimiento).toLocaleDateString()}</td>
-                        <td>{vehicle.conductorAsignado}</td>
-                        <td className="text-end">
-                          <div className="d-flex gap-2 justify-content-end">
-                            <button 
-                              className="btn btn-sm btn-outline-primary"
-                              onClick={() => handleEdit(vehicle.id)}
+          <div className="custom-table-wrapper">
+            <table className="table custom-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Placa</th>
+                  <th>Marca</th>
+                  <th>Modelo</th>
+                  <th>Tipo</th>
+                  <th>Categoría</th>
+                  <th>Estado</th>
+                  <th>Último Mantenimiento</th>
+                  <th>Conductor</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredVehicles.length > 0 ? (
+                  filteredVehicles.map((vehicle) => (
+                    <tr key={vehicle.id}>
+                      <td>{vehicle.id}</td>
+                      <td>{vehicle.placa}</td>
+                      <td>{vehicle.marca}</td>
+                      <td>{vehicle.modelo}</td>
+                      <td>{vehicle.tipo}</td>
+                      <td>
+                        {/* Puedes ajustar la categoría según tu modelo */}
+                        <span className="badge bg-secondary badge-estado-uniforme">B1</span>
+                      </td>
+                      <td>
+                        <span className={`badge bg-${getStatusBadge(vehicle.estado)} badge-estado-uniforme`}>
+                          {vehicle.estado}
+                        </span>
+                      </td>
+                      <td>{new Date(vehicle.ultimoMantenimiento).toLocaleDateString()}</td>
+                      <td>{vehicle.conductorAsignado}</td>
+                      <td>
+                        <div className="d-flex gap-2 justify-content-center">
+                          <OverlayTrigger placement="top" overlay={<Tooltip>Editar</Tooltip>}>
+                            <button
+                              className="btn btn-sm btn-primary"
+                              onClick={() => {
+                                setEditVehicle(vehicle);
+                                setShowEditModal(true);
+                              }}
                             >
                               <i className="bi bi-pencil"></i>
                             </button>
-                            <button 
-                              className="btn btn-sm btn-outline-danger"
+                          </OverlayTrigger>
+                          <OverlayTrigger placement="top" overlay={<Tooltip>Eliminar</Tooltip>}>
+                            <button
+                              className="btn btn-sm btn-danger"
                               onClick={() => handleDeleteClick(vehicle.id)}
                             >
                               <i className="bi bi-trash"></i>
                             </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan={9} className="text-center py-4">
-                        <div className="text-muted">No se encontraron vehículos</div>
+                          </OverlayTrigger>
+                        </div>
                       </td>
                     </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={10} className="text-center py-4">
+                      <div className="text-muted">No se encontraron vehículos</div>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
 
       {/* Modal de Confirmación */}
-      <div className={`modal fade ${showDeleteModal ? 'show d-block' : ''}`} tabIndex={-1}>
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">Confirmar Eliminación</h5>
-              <button 
-                type="button" 
-                className="btn-close" 
-                onClick={() => setShowDeleteModal(false)}
-              ></button>
-            </div>
-            <div className="modal-body">
+      {showDeleteModal && (
+        <div className="crear-conductor-modal-bg">
+          <div className="crear-conductor-modal" style={{ maxWidth: 380 }}>
+            <h5 className="modal-title mb-3 text-danger">
+              <i className="bi bi-exclamation-triangle-fill me-2"></i>
+              Confirmar Eliminación
+            </h5>
+            <div className="mb-3">
               ¿Estás seguro que deseas eliminar este vehículo? Esta acción no se puede deshacer.
             </div>
             <div className="modal-footer">
-              <button 
-                type="button" 
-                className="btn btn-secondary" 
+              <button
+                type="button"
+                className="btn btn-secondary"
                 onClick={() => setShowDeleteModal(false)}
               >
                 Cancelar
               </button>
-              <button 
-                type="button" 
-                className="btn btn-danger" 
+              <button
+                type="button"
+                className="btn btn-danger"
                 onClick={confirmDelete}
               >
                 Eliminar
@@ -233,8 +258,158 @@ const VerListaVehiculos = () => {
             </div>
           </div>
         </div>
-      </div>
-    </>
+      )}
+
+      {/* Modal para crear vehículo */}
+      {showCreateModal && (
+        <div className="crear-conductor-modal-bg">
+          <div className="crear-conductor-modal">
+            <h5 className="modal-title">Crear Vehículo</h5>
+            <form>
+              <div className="crear-conductor-form">
+                <div className="mb-2">
+                  <label className="form-label">Placa</label>
+                  <input className="form-control" placeholder="Placa" />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Marca</label>
+                  <input className="form-control" placeholder="Marca" />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Modelo</label>
+                  <input className="form-control" placeholder="Modelo" />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Tipo</label>
+                  <input className="form-control" placeholder="Tipo" />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Categoría</label>
+                  <select className="form-select">
+                    <option>A1</option>
+                    <option>A2</option>
+                    <option>B1</option>
+                    <option>B2</option>
+                    <option>B3</option>
+                    <option>C1</option>
+                    <option>C2</option>
+                    <option>C3</option>
+                  </select>
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Estado</label>
+                  <select className="form-select">
+                    <option>Disponible</option>
+                    <option>En ruta</option>
+                    <option>En mantenimiento</option>
+                    <option>Inactivo</option>
+                  </select>
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Último mantenimiento</label>
+                  <input className="form-control" type="date" />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Conductor</label>
+                  <input className="form-control" placeholder="Conductor asignado" />
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => setShowCreateModal(false)}
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-success"
+                  onClick={() => setShowCreateModal(false)}
+                >
+                  Guardar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal para editar vehículo */}
+      {showEditModal && editVehicle && (
+        <div className="crear-conductor-modal-bg">
+          <div className="crear-conductor-modal">
+            <h5 className="modal-title">Editar Vehículo</h5>
+            <form>
+              <div className="crear-conductor-form">
+                <div className="mb-2">
+                  <label className="form-label">Placa</label>
+                  <input className="form-control" defaultValue={editVehicle.placa} />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Marca</label>
+                  <input className="form-control" defaultValue={editVehicle.marca} />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Modelo</label>
+                  <input className="form-control" defaultValue={editVehicle.modelo} />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Tipo</label>
+                  <input className="form-control" defaultValue={editVehicle.tipo} />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Categoría</label>
+                  <select className="form-select" defaultValue="B1">
+                    <option>A1</option>
+                    <option>A2</option>
+                    <option>B1</option>
+                    <option>B2</option>
+                    <option>B3</option>
+                    <option>C1</option>
+                    <option>C2</option>
+                    <option>C3</option>
+                  </select>
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Estado</label>
+                  <select className="form-select" defaultValue={editVehicle.estado}>
+                    <option>Disponible</option>
+                    <option>En ruta</option>
+                    <option>En mantenimiento</option>
+                    <option>Inactivo</option>
+                  </select>
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Último mantenimiento</label>
+                  <input className="form-control" type="date" defaultValue={editVehicle.ultimoMantenimiento} />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Conductor</label>
+                  <input className="form-control" defaultValue={editVehicle.conductorAsignado} />
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => setShowEditModal(false)}
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-success"
+                  onClick={() => setShowEditModal(false)}
+                >
+                  Guardar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 
