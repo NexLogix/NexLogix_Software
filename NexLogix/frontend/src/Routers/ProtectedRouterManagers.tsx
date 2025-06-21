@@ -46,6 +46,9 @@ import ChatConIngeniero from "../Views/pages/Soporte/ChatIngeniero";
 import ReporteAnomalias from "../Views/pages/Soporte/ReporteAnomalias";
 // REPORTES
 import VerReportes from "../Views/pages/Reportes/VerReportes";
+import CrearReporte from "../Views/pages/Reportes/CrearReporte";
+
+// FOOTER
 import EstamosUbicadosEn from "../Views/componets/Footers/EstamosUbicadoEn";
 import AcercaDe from "../Views/componets/Footers/AcercaDe";
 
@@ -115,6 +118,9 @@ const ProtectedRouteManagers = () => {
 
         {/*GESTION REPORTES*/}
         <Route path="verReportes" element={<VerReportes />} />
+        <Route path="crearReporte" element={<CrearReporte />} />
+
+        {/*FOOTER*/}
         <Route path="ubicacion" element={<EstamosUbicadosEn />} />
         <Route path="acerca_de" element={<AcercaDe />} />
 

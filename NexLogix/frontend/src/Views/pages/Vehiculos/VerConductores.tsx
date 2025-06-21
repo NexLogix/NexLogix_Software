@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
+import { Card, Table, Button, OverlayTrigger, Tooltip, Container } from "react-bootstrap";
+import { ExclamationTriangleFill, Search, EyeFill, PencilFill, TrashFill, PlusCircleFill, PeopleFill } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
-import NavBuscarUsuario from "../../componets/NavBars/NavBuscarUsuario";
+import "../../../Views/Styles/Profiles/VerConductoresStyle.css";
 
 interface Conductor {
   id: number;
@@ -23,7 +25,6 @@ const VerConductores = () => {
   const [newStatus, setNewStatus] = useState("");
   const navigate = useNavigate();
 
-  // Datos de ejemplo para 8 conductores
   useEffect(() => {
     const mockConductores: Conductor[] = [
       {
@@ -136,6 +137,14 @@ const VerConductores = () => {
     navigate(`/manager/editarConductor/${id}`);
   };
 
+  const handleView = (id: number) => {
+    navigate(`/manager/verConductor/${id}`);
+  };
+
+  const handleDelete = (id: number) => {
+    alert(`Eliminar conductor con id: ${id}`);
+  };
+
   const handleStatusChange = (driver: Conductor) => {
     setSelectedDriver(driver);
     setNewStatus(driver.estado);
@@ -152,124 +161,156 @@ const VerConductores = () => {
   };
 
   const getStatusBadge = (estado: string) => {
-    switch(estado) {
-      case "Disponible":
-        return "bg-success";
-      case "En ruta":
-        return "bg-primary";
-      case "Vacaciones":
-        return "bg-info";
-      case "Inactivo":
-        return "bg-danger";
-      case "En capacitación":
-        return "bg-warning";
-      default:
-        return "bg-secondary";
+    switch (estado) {
+      case "Disponible": return "success";
+      case "En ruta": return "primary";
+      case "Vacaciones": return "info";
+      case "Inactivo": return "danger";
+      case "En capacitación": return "warning";
+      default: return "secondary";
     }
   };
 
   const getLicenseBadge = (vigencia: string) => {
     const hoy = new Date();
     const fechaVigencia = new Date(vigencia);
-    return fechaVigencia > hoy ? "bg-success" : "bg-danger";
+    return fechaVigencia > hoy ? "success" : "danger";
   };
 
   return (
-    <>
-      <NavBuscarUsuario />
-      <div className="container-fluid px-4 py-5">
-        <div className="card border-0 shadow">
-          <div className="card-header bg-primary text-white p-4">
-            <div className="d-flex justify-content-between align-items-center">
-              <h2 className="mb-0">Gestión de Conductores</h2>
-              <div className="d-flex gap-2">
+    <Container fluid className="p-0 m-0">
+      {/* Header azul */}
+      <div className="header-azul mb-3">
+        <div className="d-flex align-items-center p-3">
+          <PeopleFill size={24} className="me-2" />
+          <h2 className="mb-0 text-white">Gestión de Conductores</h2>
+        </div>
+      </div>
+
+      <Card>
+        <Card.Body>
+          <div className="d-flex justify-content-between mb-4 align-items-center">
+            {/* Barra de búsqueda y botón Mostrar reportes */}
+            <div className="d-flex align-items-center" style={{ flex: 1, minWidth: 0 }}>
+              <div className="input-group w-100" /* elimina style={{ maxWidth: 500 }} */>
+                <span className="input-group-text px-2">
+                  <Search />
+                </span>
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Buscar conductor..."
+                  placeholder="Buscar reportes..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
+                  style={{ minWidth: 0 }}
                 />
-                <button 
-                  className="btn btn-light"
-                  onClick={() => navigate("/manager/crearConductor")}
+              </div>
+              <div className="d-flex gap-2 ms-2">
+                <Button
+                  variant="primary"
+                  style={{ minWidth: 140 }}
+                  onClick={() => {/* Lógica para buscar por ID */}}
                 >
-                  <i className="bi bi-plus-lg"></i> Nuevo
-                </button>
+                  Buscar por ID
+                </Button>
+                <Button
+                  variant="success"
+                  style={{ minWidth: 140 }}
+                  onClick={() => {/* Lógica para mostrar todos */}}
+                >
+                  Mostrar todos
+                </Button>
+                {/* <Link to="/manager/crearReporte" style={{ minWidth: 140, textDecoration: "none" }}> */}
+                  <Button
+                    variant="warning"
+                    style={{ minWidth: 140, width: "100%" }}
+                  >
+                    Crear reporte
+                  </Button>
+                {/* </Link> */}
               </div>
             </div>
           </div>
 
-          <div className="card-body p-4">
-            <div className="table-responsive">
-              <table className="table table-hover align-middle">
-                <thead className="table-light">
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Documento</th>
-                    <th scope="col">Licencia</th>
-                    <th scope="col">Tipo/Vigencia</th>
-                    <th scope="col">Estado</th>
-                    <th scope="col">Vehículo Asignado</th>
-                    <th scope="col">Contacto</th>
-                    <th scope="col" className="text-end">Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredDrivers.length > 0 ? (
-                    filteredDrivers.map((driver) => (
-                      <tr key={driver.id}>
-                        <td>{driver.id}</td>
-                        <td>
-                          <div className="fw-semibold">{driver.nombre}</div>
-                          <div className="text-muted small">{driver.email}</div>
-                        </td>
-                        <td>{driver.documento}</td>
-                        <td>{driver.licencia}</td>
-                        <td>
-                          <div>
-                            <span className="badge bg-secondary me-1">{driver.tipoLicencia}</span>
-                            <span className={`badge ${getLicenseBadge(driver.vigenciaLicencia)}`}>
-                              {new Date(driver.vigenciaLicencia).toLocaleDateString()}
-                            </span>
-                          </div>
-                        </td>
-                        <td>
-                          <span 
-                            className={`badge ${getStatusBadge(driver.estado)} pointer`}
-                            onClick={() => handleStatusChange(driver)}
-                          >
-                            {driver.estado}
-                          </span>
-                        </td>
-                        <td>{driver.vehiculoAsignado}</td>
-                        <td>{driver.telefono}</td>
-                        <td className="text-end">
-                          <div className="d-flex gap-2 justify-content-end">
-                            <button 
-                              className="btn btn-sm btn-outline-primary"
+          <div className="custom-table-wrapper">
+            <Table striped hover className="custom-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Nombre</th>
+                  <th>Documento</th>
+                  <th>Licencia</th>
+                  <th>Tipo/Vigencia</th>
+                  <th>Estado</th>
+                  <th>Vehículo Asignado</th>
+                  <th>Contacto</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredDrivers.length > 0 ? (
+                  filteredDrivers.map((driver) => (
+                    <tr key={driver.id}>
+                      <td>{driver.id}</td>
+                      <td>
+                        <div className="fw-semibold">{driver.nombre}</div>
+                        <div className="text-muted small">{driver.email}</div>
+                      </td>
+                      <td>{driver.documento}</td>
+                      <td>{driver.licencia}</td>
+                      <td>
+                        <span className="badge bg-secondary me-1">{driver.tipoLicencia}</span>
+                        <span className={`badge bg-${getLicenseBadge(driver.vigenciaLicencia)}`}>
+                          {new Date(driver.vigenciaLicencia).toLocaleDateString()}
+                        </span>
+                      </td>
+                      <td>
+                        <span
+                          className={`badge bg-${getStatusBadge(driver.estado)} pointer`}
+                          style={{ cursor: "pointer" }}
+                          onClick={() => handleStatusChange(driver)}
+                        >
+                          {driver.estado}
+                        </span>
+                      </td>
+                      <td>{driver.vehiculoAsignado}</td>
+                      <td>{driver.telefono}</td>
+                      <td>
+                        <div className="d-flex gap-2 justify-content-center">
+                          <OverlayTrigger placement="top" overlay={<Tooltip>Editar</Tooltip>}>
+                            <Button
+                              variant="primary"
+                              size="sm"
                               onClick={() => handleEdit(driver.id)}
                             >
-                              <i className="bi bi-pencil"></i> Editar
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan={9} className="text-center py-4">
-                        <div className="text-muted">No se encontraron conductores</div>
+                              <PencilFill />
+                            </Button>
+                          </OverlayTrigger>
+                          <OverlayTrigger placement="top" overlay={<Tooltip>Eliminar</Tooltip>}>
+                            <Button
+                              variant="danger"
+                              size="sm"
+                              onClick={() => handleDelete(driver.id)}
+                            >
+                              <TrashFill />
+                            </Button>
+                          </OverlayTrigger>
+                        </div>
                       </td>
                     </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={9} className="text-center py-4">
+                      <div className="text-muted">No se encontraron conductores</div>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </Table>
           </div>
-        </div>
-      </div>
+        </Card.Body>
+      </Card>
 
       {/* Modal para cambiar estado */}
       <div className={`modal fade ${showStatusModal ? 'show d-block' : ''}`} tabIndex={-1}>
@@ -277,9 +318,9 @@ const VerConductores = () => {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">Cambiar estado del conductor</h5>
-              <button 
-                type="button" 
-                className="btn-close" 
+              <button
+                type="button"
+                className="btn-close"
                 onClick={() => setShowStatusModal(false)}
               ></button>
             </div>
@@ -302,16 +343,16 @@ const VerConductores = () => {
               </div>
             </div>
             <div className="modal-footer">
-              <button 
-                type="button" 
-                className="btn btn-secondary" 
+              <button
+                type="button"
+                className="btn btn-secondary"
                 onClick={() => setShowStatusModal(false)}
               >
                 Cancelar
               </button>
-              <button 
-                type="button" 
-                className="btn btn-primary" 
+              <button
+                type="button"
+                className="btn btn-primary"
                 onClick={confirmStatusChange}
               >
                 Confirmar Cambio
@@ -320,7 +361,7 @@ const VerConductores = () => {
           </div>
         </div>
       </div>
-    </>
+    </Container>
   );
 };
 

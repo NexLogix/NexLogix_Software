@@ -1,11 +1,12 @@
 main {
- flex: 2; /* Empuja el footer hacia abajo */
+ flex: 2 0; /* Empuja el footer hacia abajo */
 }
-
 /* Footer */
 .footer {
- background-color: #161625;
- color: white;
+  margin: 0;
+  padding: 0.25rem 0 0.1rem 0; /* Espacio superior e inferior mínimo */
+  background-color: #161625;
+  color: white;
 }
 
 .footer a:hover, 
@@ -18,7 +19,6 @@ main {
   background: #23234a;
   border-radius: 14px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.12);
-  padding: 0.75rem 1rem;
   margin: 0.25rem 0.5rem;
   transition: transform 0.2s, box-shadow 0.2s;
   color: #fff;
@@ -42,7 +42,6 @@ main {
   font-size: 1rem;
   text-decoration: none;
   transition: color 0.2s;
-  padding: 0;
 }
 
 .footer .footer-link:hover {

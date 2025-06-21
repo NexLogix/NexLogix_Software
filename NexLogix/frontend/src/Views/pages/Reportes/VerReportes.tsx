@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Card, Table, Badge, Button, Container, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { ExclamationTriangleFill, Search, EyeFill, PencilFill, TrashFill, PlusCircleFill } from "react-bootstrap-icons";
+import { Link } from "react-router-dom";
 import "../../../Views/Styles/Reportes/ReportesStyle.css";
 
 interface Reporte {
@@ -155,19 +156,20 @@ const VerReportes = () => {
                   Buscar por ID
                 </Button>
                 <Button
-                  variant="secondary"
+                  variant="success"
                   style={{ minWidth: 140 }}
                   onClick={() => {/* Lógica para mostrar todos */}}
                 >
                   Mostrar todos
                 </Button>
-                <Button
-                  variant="success"
-                  style={{ minWidth: 140 }}
-                  onClick={() => {/* Lógica para crear reporte */}}
-                >
-                  Crear reporte
-                </Button>
+                <Link to="/manager/crearReporte" style={{ minWidth: 140, textDecoration: "none" }}>
+                  <Button
+                    variant="warning"
+                    style={{ minWidth: 140, width: "100%" }}
+                  >
+                    Crear reporte
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
@@ -215,16 +217,16 @@ const VerReportes = () => {
                         <div className="d-flex gap-2 justify-content-center">
                           <OverlayTrigger placement="top" overlay={<Tooltip>Editar</Tooltip>}>
                             <Button
-                              variant="outline-warning"
+                              variant="primary"
                               size="sm"
                               onClick={() => handleEdit(reporte.id)}
                             >
                               <PencilFill />
                             </Button>
                           </OverlayTrigger>
-                          <OverlayTrigger placement="bottom" overlay={<Tooltip>Eliminar</Tooltip>}>
+                          <OverlayTrigger placement="top" overlay={<Tooltip>Eliminar</Tooltip>}>
                             <Button
-                              variant="outline-danger"
+                              variant="danger"
                               size="sm"
                               onClick={() => handleDelete(reporte.id)}
                             >
