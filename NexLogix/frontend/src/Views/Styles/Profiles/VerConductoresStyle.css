@@ -96,3 +96,22 @@ html, body {
     width: 100%;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
+.edit-sm input,
+.edit-sm select {
+    font-size: 0.85rem;
+    padding: 2px 6px;
+    height: 28px;
+}
+.edit-sm {
+    font-size: 0.92rem;
+}
+
+
+.badge-estado-uniforme { 
+    min-width: 80px;         /* Cambia el ancho mínimo del badge */
+    display: inline-block;
+    text-align: center;
+    font-size: 0.70rem !important;   /* Cambia el tamaño de la letra aquí */
+    padding: 3px 0;
+    border-radius: 999px;     /* Hace todos los badges bien redondos */
+}

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Card, Table, Button, OverlayTrigger, Tooltip, Container } from "react-bootstrap";
-import { ExclamationTriangleFill, Search, EyeFill, PencilFill, TrashFill, PlusCircleFill, PeopleFill } from "react-bootstrap-icons";
+import { ExclamationTriangleFill, Search, EyeFill, PencilFill, TrashFill, PlusCircleFill, PeopleFill, SaveFill, XCircleFill } from "react-bootstrap-icons";
+import { FiCheckCircle, FiXCircle } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import "../../../Views/Styles/Profiles/VerConductoresStyle.css";
 
@@ -23,6 +24,8 @@ const VerConductores = () => {
   const [showStatusModal, setShowStatusModal] = useState(false);
   const [selectedDriver, setSelectedDriver] = useState<Conductor | null>(null);
   const [newStatus, setNewStatus] = useState("");
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editedDriver, setEditedDriver] = useState<Partial<Conductor>>({});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -134,7 +137,35 @@ const VerConductores = () => {
   );
 
   const handleEdit = (id: number) => {
-    navigate(`/manager/editarConductor/${id}`);
+    const driver = conductores.find((d) => d.id === id);
+    if (driver) {
+      setEditingId(id);
+      setEditedDriver({ ...driver });
+    }
+  };
+
+  const handleEditChange = (field: keyof Conductor, value: string) => {
+    setEditedDriver((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  const handleEditSave = () => {
+    if (editingId && editedDriver) {
+      setConductores((prev) =>
+        prev.map((driver) =>
+          driver.id === editingId ? { ...driver, ...editedDriver } : driver
+        )
+      );
+      setEditingId(null);
+      setEditedDriver({});
+    }
+  };
+
+  const handleEditCancel = () => {
+    setEditingId(null);
+    setEditedDriver({});
   };
 
   const handleView = (id: number) => {
@@ -238,9 +269,11 @@ const VerConductores = () => {
                 <tr>
                   <th>#</th>
                   <th>Nombre</th>
+                  <th>Email</th>
                   <th>Documento</th>
                   <th>Licencia</th>
-                  <th>Tipo/Vigencia</th>
+                  <th>Tipo Licencia</th>
+                  <th>Vigencia Licencia</th>
                   <th>Estado</th>
                   <th>Vehículo Asignado</th>
                   <th>Contacto</th>
@@ -252,56 +285,173 @@ const VerConductores = () => {
                   filteredDrivers.map((driver) => (
                     <tr key={driver.id}>
                       <td>{driver.id}</td>
-                      <td>
-                        <div className="fw-semibold">{driver.nombre}</div>
-                        <div className="text-muted small">{driver.email}</div>
-                      </td>
-                      <td>{driver.documento}</td>
-                      <td>{driver.licencia}</td>
-                      <td>
-                        <span className="badge bg-secondary me-1">{driver.tipoLicencia}</span>
-                        <span className={`badge bg-${getLicenseBadge(driver.vigenciaLicencia)}`}>
-                          {new Date(driver.vigenciaLicencia).toLocaleDateString()}
-                        </span>
-                      </td>
-                      <td>
-                        <span
-                          className={`badge bg-${getStatusBadge(driver.estado)} pointer`}
-                          style={{ cursor: "pointer" }}
-                          onClick={() => handleStatusChange(driver)}
-                        >
-                          {driver.estado}
-                        </span>
-                      </td>
-                      <td>{driver.vehiculoAsignado}</td>
-                      <td>{driver.telefono}</td>
-                      <td>
-                        <div className="d-flex gap-2 justify-content-center">
-                          <OverlayTrigger placement="top" overlay={<Tooltip>Editar</Tooltip>}>
-                            <Button
-                              variant="primary"
-                              size="sm"
-                              onClick={() => handleEdit(driver.id)}
+                      {editingId === driver.id ? (
+                        <>
+                          <td className="edit-sm">
+                            <input
+                              type="text"
+                              className="form-control edit-sm"
+                              value={editedDriver.nombre || ""}
+                              onChange={(e) => handleEditChange("nombre", e.target.value)}
+                              placeholder="Nombre"
+                            />
+                          </td>
+                          <td className="edit-sm">
+                            <input
+                              type="email"
+                              className="form-control edit-sm"
+                              value={editedDriver.email || ""}
+                              onChange={(e) => handleEditChange("email", e.target.value)}
+                              placeholder="Email"
+                            />
+                          </td>
+                          <td className="edit-sm">
+                            <input
+                              type="text"
+                              className="form-control edit-sm"
+                              value={editedDriver.documento || ""}
+                              onChange={(e) => handleEditChange("documento", e.target.value)}
+                              placeholder="Documento"
+                            />
+                          </td>
+                          <td className="edit-sm">
+                            <input
+                              type="text"
+                              className="form-control edit-sm"
+                              value={editedDriver.licencia || ""}
+                              onChange={(e) => handleEditChange("licencia", e.target.value)}
+                              placeholder="Licencia"
+                            />
+                          </td>
+                          <td className="edit-sm">
+                            <select
+                              className="form-select edit-sm"
+                              value={editedDriver.tipoLicencia || ""}
+                              onChange={(e) => handleEditChange("tipoLicencia", e.target.value)}
                             >
-                              <PencilFill />
-                            </Button>
-                          </OverlayTrigger>
-                          <OverlayTrigger placement="top" overlay={<Tooltip>Eliminar</Tooltip>}>
-                            <Button
-                              variant="danger"
-                              size="sm"
-                              onClick={() => handleDelete(driver.id)}
+                              <option value="B1">B1</option>
+                              <option value="B2">B2</option>
+                              <option value="C1">C1</option>
+                              <option value="C2">C2</option>
+                              <option value="C3">C3</option>
+                            </select>
+                          </td>
+                          <td className="edit-sm">
+                            <input
+                              type="date"
+                              className="form-control edit-sm"
+                              value={editedDriver.vigenciaLicencia || ""}
+                              onChange={(e) => handleEditChange("vigenciaLicencia", e.target.value)}
+                            />
+                          </td>
+                          <td className="edit-sm">
+                            <select
+                              className="form-select edit-sm"
+                              value={editedDriver.estado || ""}
+                              onChange={(e) => handleEditChange("estado", e.target.value)}
                             >
-                              <TrashFill />
-                            </Button>
-                          </OverlayTrigger>
-                        </div>
-                      </td>
+                              <option value="Disponible">Disponible</option>
+                              <option value="En ruta">En ruta</option>
+                              <option value="Vacaciones">Vacaciones</option>
+                              <option value="En capacitación">En capacitación</option>
+                              <option value="Inactivo">Inactivo</option>
+                            </select>
+                          </td>
+                          <td className="edit-sm">
+                            <input
+                              type="text"
+                              className="form-control edit-sm"
+                              value={editedDriver.vehiculoAsignado || ""}
+                              onChange={(e) => handleEditChange("vehiculoAsignado", e.target.value)}
+                              placeholder="Vehículo"
+                            />
+                          </td>
+                          <td className="edit-sm">
+                            <input
+                              type="text"
+                              className="form-control edit-sm"
+                              value={editedDriver.telefono || ""}
+                              onChange={(e) => handleEditChange("telefono", e.target.value)}
+                              placeholder="Contacto"
+                            />
+                          </td>
+                          <td className="edit-sm">
+                            <div className="d-flex gap-2 justify-content-center">
+                              <OverlayTrigger placement="top" overlay={<Tooltip>Guardar</Tooltip>}>
+                                <Button
+                                  variant="link"
+                                  size="sm"
+                                  className="p-0"
+                                  style={{ color: "#22bb33" }}
+                                  onClick={handleEditSave}
+                                >
+                                  <FiCheckCircle size={22} />
+                                </Button>
+                              </OverlayTrigger>
+                              <OverlayTrigger placement="top" overlay={<Tooltip>Cancelar</Tooltip>}>
+                                <Button
+                                  variant="link"
+                                  size="sm"
+                                  className="p-0"
+                                  style={{ color: "#e74c3c" }}
+                                  onClick={handleEditCancel}
+                                >
+                                  <FiXCircle size={22} />
+                                </Button>
+                              </OverlayTrigger>
+                            </div>
+                          </td>
+                        </>
+                      ) : (
+                        <>
+                          <td>{driver.nombre}</td>
+                          <td>{driver.email}</td>
+                          <td>{driver.documento}</td>
+                          <td>{driver.licencia}</td>
+                          <td>
+                            <span className="badge bg-secondary">{driver.tipoLicencia}</span>
+                          </td>
+                          <td>
+                            <span className={`badge bg-${getLicenseBadge(driver.vigenciaLicencia)}`}>
+                              {new Date(driver.vigenciaLicencia).toLocaleDateString()}
+                            </span>
+                          </td>
+                          <td>
+                            <span className={`badge bg-${getStatusBadge(driver.estado)} badge-estado-uniforme`}>
+                              {driver.estado}
+                            </span>
+                          </td>
+                          <td>{driver.vehiculoAsignado}</td>
+                          <td>{driver.telefono}</td>
+                          <td>
+                            <div className="d-flex gap-2 justify-content-center">
+                              <OverlayTrigger placement="top" overlay={<Tooltip>Editar</Tooltip>}>
+                                <Button
+                                  variant="primary"
+                                  size="sm"
+                                  onClick={() => handleEdit(driver.id)}
+                                >
+                                  <PencilFill />
+                                </Button>
+                              </OverlayTrigger>
+                              <OverlayTrigger placement="top" overlay={<Tooltip>Eliminar</Tooltip>}>
+                                <Button
+                                  variant="danger"
+                                  size="sm"
+                                  onClick={() => handleDelete(driver.id)}
+                                >
+                                  <TrashFill />
+                                </Button>
+                              </OverlayTrigger>
+                            </div>
+                          </td>
+                        </>
+                      )}
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={9} className="text-center py-4">
+                    <td colSpan={11} className="text-center py-4">
                       <div className="text-muted">No se encontraron conductores</div>
                     </td>
                   </tr>
