@@ -1,36 +1,166 @@
-/* Estilos para el contenedor principal */
-.areas_container {
-  height: 100%;
-  padding: 5px;
+html, body {
+    background-color: #161625;
+    margin: 0;
+    padding: 0;
+}
+.card {
+    background-color: #161625;
+    border: none;
+    margin-top: 0 !important;
+    box-shadow: none;
+    border-radius: 12px;
+}
+.card-header {
+    background: #232c42;
+    color: #ffffff;
+    margin-top: 0 !important;
+    border-bottom: none;
+    border-radius: 12px;
+    padding-top: 1rem;
+}
+.card-body {
+    background-color: #161625;
+}
+.custom-table-wrapper {
+    background-color: #232c42;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    margin-top: 1rem;
+    border: 1px solid #3a4a6a;
+}
+.table.custom-table {
+    margin-bottom: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+    color: #e5e5e5;
+    background-color: transparent;
+    table-layout: auto;
+    width: 100%;
+}
+.table.custom-table thead {
+    background-color: #2f3d5c;
+    color: #ffffff;
+}
+.table.custom-table thead th {
+    border-bottom: 2px solid #3a4a6a;
+    padding: 12px;
+    text-align: center;
+}
+.table.custom-table tbody td {
+    padding: 8px;
+    vertical-align: middle;
+    text-align: center;
+    background-color: #232c42;
+    border-top: 1px solid #3a4a6a;
+}
+.table.custom-table tbody tr:hover {
+    background-color: #2c3958;
+    transition: background-color 0.3s ease;
+}
+.table.custom-table thead th:first-child {
+    border-top-left-radius: 12px;
+}
+.table.custom-table thead th:last-child {
+    border-top-right-radius: 12px;
+}
+.table.custom-table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 12px;
+}
+.table.custom-table tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 12px;
+}
+.crud-btn-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 32px);
+    grid-template-rows: repeat(2, 32px);
+    gap: 8px;
+    justify-content: center;
+    align-content: center;
+}
+.crud-btn-grid .btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    font-size: 1.2rem;
+    border-radius: 8px;
+}
+.header-azul {
+    margin-top: 1rem;
+    background: #1677ff;
+    border-radius: 16px;
+    color: #fff;
+    width: 100%;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+.edit-sm input,
+.edit-sm select {
+    font-size: 0.85rem;
+    padding: 2px 6px;
+    height: 28px;
+}
+.edit-sm {
+    font-size: 0.92rem;
 }
 
-/* Estilos para el nav específico */
-.nav_areas {
-  background-color: #232c42;
-  color: #ffffff;
-  padding: 15px;
-  border-radius: 15px;
+
+.badge-estado-uniforme { 
+    min-width: 80px;         /* Cambia el ancho mínimo del badge */
+    display: inline-block;
+    text-align: center;
+    font-size: 0.70rem !important;   /* Cambia el tamaño de la letra aquí */
+    padding: 3px 0;
+    border-radius: 999px;     /* Hace todos los badges bien redondos */
 }
 
-.nav_areas .form-control {
-  background-color: #232c42;
-  border-color: #ffffff;
-  color: #ffffff;
+/* Modal flotante centrado */
+.crear-conductor-modal-bg {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-
-.nav_areas .form-control::placeholder {
-  color: #cccccc;
+.crear-conductor-modal {
+    background: #232c42;
+    border-radius: 16px;
+    padding: 24px 24px 16px 24px;
+    min-width: 340px;
+    max-width: 540px;
+    width: 100%;
+    color: #e5e5e5;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+    position: relative;
 }
-
-/*BOTON BUSCAR STYLE*/
-.nav_areas .btn-outline-primary {
-  color: #ffffff;
-  border-color: #86aaf9;
+.crear-conductor-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 18px;
 }
-
-.nav_areas .btn-outline-primary:hover {
-  background-color: #627bb2;
-  color: #ffffff;
+.crear-conductor-form .mb-2 {
+    margin-bottom: 0 !important;
 }
-
-
+.crear-conductor-modal .modal-title {
+    margin-bottom: 18px;
+}
+.crear-conductor-modal .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 18px;
+}
+@media (max-width: 600px) {
+    .crear-conductor-modal {
+        max-width: 98vw;
+        min-width: 0;
+        padding: 12px;
+    }
+    .crear-conductor-form {
+        grid-template-columns: 1fr;
+    }
+}

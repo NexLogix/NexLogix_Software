@@ -26,6 +26,13 @@ body {
     color: #fff !important; 
 }
 
+/* Mantener color de fondo en los botones de menú desplegable cuando están abiertos */
+.nav-link[aria-expanded="true"], 
+.nav-link.collapsed[aria-expanded="true"] {
+    background-color: #232c42 !important;
+    color: #fff !important;
+}
+
 /* Estilo especial para el botón de SALIR */
 .dropdown-item.text-danger {
     color: #dc3545 !important;
@@ -53,6 +60,71 @@ body {
     color: #ffffff !important;
 }
 
+/* Fondo rojo para los ítems del submenú cuando el menú está abierto */
+.dropdown-menu.show .dropdown-item,
+.nav .show > .dropdown-item {
+    background-color: #dc3543 !important;
+    color: #fff !important;
+}
+/* Estado oculto */
+.collapse {
+    margin-left: 0rem;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: 
+        margin-left 0.3s ease,
+        opacity 0.3s ease,
+        max-height 0.3s ease;
+}
+
+/* Clase que se aplica para animar el cierre */
+.collapse.collapsing-out {
+    margin-left: 0rem;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: 
+        margin-left 0.3s ease,
+        opacity 0.3s ease,
+        max-height 0.3s ease;
+}
+
+.collapse.show {
+    margin-left: 1rem;
+    opacity: 1;
+    max-height: 500px; /* Ajusta según el contenido */
+}
+
+
+
+/* Color al pasar el mouse por los botones del submenú */
+.collapse.show .nav-link:hover,
+.collapse.show .nav-link:focus {
+    background-color: #3d4e6b !important; /* Azul más claro al hacer hover */
+    color: #fff !important; /* Mantiene el texto blanco */
+}
+
+/* Color sostenido para el botón activo del submenú */
+.collapse.show .nav-link.active {
+    background-color: #445b85 !important; /* Azul diferente para el botón activo */
+    color: #fff !important; /* Mantiene el texto blanco */
+}
+
+/* Primer botón del submenú con borde redondeado arriba al hacer hover/focus */
+.collapse.show .nav-link:first-child:hover,
+.collapse.show .nav-link:first-child:focus {
+    border-top-left-radius: 12px !important; /* Redondea la esquina superior izquierda */
+    border-top-right-radius: 12px !important; /* Redondea la esquina superior derecha */
+}
+
+/* Último botón del submenú con borde redondeado abajo al hacer hover/focus */
+.collapse.show .nav-link:last-child:hover,
+.collapse.show .nav-link:last-child:focus {
+    border-bottom-left-radius: 12px !important; /* Redondea la esquina inferior izquierda */
+    border-bottom-right-radius: 12px !important; /* Redondea la esquina inferior derecha */
+}
+
 /* Sidebar o Barra lateral izquierda */
 .sidebar {
     background-color: #161625;
@@ -78,50 +150,6 @@ main {
     overflow: auto; /* Permite el desplazamiento si el contenido es más grande que la pantalla */
 }
 
-/* Sidebar Resizable */
-.sidebar-resizable {
-  width: 240px; /* valor inicial */
-  min-width: 0px; /* Permitir cerrar completamente */
-  background: transparent;
-  position: relative;
-  transition: width 0.2s;
-  overflow: hidden; /* Ocultar contenido al cerrar */
-}
-
-/* Manejador con ícono */
-.sidebar-resize-handle {
-  position: absolute;
-  top: 30vb;         /* Distancia desde arriba */
-  right: 0;
-  width: 24px;
-  height: 100px;      /* Altura del manejador */
-  cursor: col-resize;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-  background: transparent;
-  transition: background-color 0.2s ease;
-  border-radius: 8px;
-}
-
-.sidebar-resize-handle:hover {
-  background-color: #232c42; /* Suave indicador al pasar */
-}
-
-/* Ícono interno */
-.sidebar-resize-handle::before {
-  content: "⠿"; /* Puedes cambiar por otro ícono o usar SVG */
-  font-size: 16px;
-  color: #627bb2;
-  pointer-events: none;
-}
-.noselect {
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-}
 
 @media (max-width: 700px) {
   .sidebar-resizable {

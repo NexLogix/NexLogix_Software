@@ -24,14 +24,14 @@ const ManagerProfile = () => {
                         {/* Opción Gestión Áreas con submenú */}
                         <li className="nav-item">
                           <Link className="nav-link" data-bs-toggle="collapse" to="#AreasSubmenu" role="button" aria-expanded="false" aria-controls="AreasSubmenu">
-                            Gestion Areas
+                            Gestion Usuarios
                           </Link>
                           <div className="collapse" id="AreasSubmenu">
-                            <ul className="nav flex-column ms-3">
-                              <Link className="nav-link" to="/manager/verAreas">Ver Areas</Link>
-                              <Link className="nav-link" to="/manager/crearArea">Crear Area</Link>
-                              <Link className="nav-link" to="/manager/editarArea">Editar Area</Link>
-                              <Link className="nav-link" to="/manager/eliminarArea">Eliminar Area</Link>
+                            <ul className="nav flex-column">
+                              <Link className="nav-link" to="/manager/verAreas">Areas</Link>
+                              <Link className="nav-link" to="/manager/crearArea">Puestos</Link>
+                              <Link className="nav-link" to="/manager/editarArea">Reportes</Link>
+                              <Link className="nav-link" to="/manager/eliminarArea">Usuarios</Link>
                             </ul>
                           </div>
                         </li>
@@ -42,7 +42,7 @@ const ManagerProfile = () => {
                             Gestion Auditorias
                           </Link>
                           <div className="collapse" id="AuditoriasSubmenu">
-                            <ul className="nav flex-column ms-3">
+                            <ul className="nav flex-column">
                               <Link className="nav-link" to="/manager/verAuditorias">Lista de auditorías</Link>
                               <Link className="nav-link" to="/manager/editarAuditorias">Editar auditorías</Link>
                               <Link className="nav-link" to="/manager/eliminarAuditorias">Eliminar auditorías</Link>
@@ -57,7 +57,7 @@ const ManagerProfile = () => {
                             Gestion Puestos
                           </Link>
                           <div className="collapse" id="PuestosSubmenu">
-                            <ul className="nav flex-column ms-3">
+                            <ul className="nav flex-column">
                               <Link className="nav-link" to="/manager/verPuestos">Lista de puestos</Link>
                               <Link className="nav-link" to="/manager/crearPuesto">Crear puesto</Link>
                               <Link className="nav-link" to="/manager/editarPuesto">Editar puesto</Link>
@@ -72,7 +72,7 @@ const ManagerProfile = () => {
                             Gestion Ciudades
                           </Link>
                           <div className="collapse" id="CiudadesSubmenu">
-                            <ul className="nav flex-column ms-3">
+                            <ul className="nav flex-column">
                               <Link className="nav-link" to="/manager/verCiudades">Lista de ciudades</Link>
                               <Link className="nav-link" to="/manager/crearCiudad">Crear ciudad</Link>
                               <Link className="nav-link" to="/manager/editarCiudad">Editar ciudad</Link>
@@ -85,7 +85,7 @@ const ManagerProfile = () => {
                         <li className="nav-item position-relative ">
                             <Link className="nav-link" data-bs-toggle="collapse" to="#enviosSubmenu" role="button" aria-expanded="false" aria-controls="enviosSubmenu">Gestion Envíos</Link>
                             <div className="collapse" id="enviosSubmenu">
-                                  <ul className="nav flex-column ms-3">
+                                  <ul className="nav flex-column">
                                       <Link className="nav-link" to="/manager/verEnvios">Ver Envíos</Link>
                                       <Link className="nav-link" to="/manager/crearEnvios">Crear Envío</Link>
                                       <Link className="nav-link" to="/manager/editarEnvios">Editar Envío</Link>
@@ -98,7 +98,7 @@ const ManagerProfile = () => {
                         <li className="nav-item">
                           <Link className="nav-link" data-bs-toggle="collapse" to="#EmpleadosSubmenu" role="button" aria-expanded="false" aria-controls="EmpleadosSubmenu">Gestion Empleados</Link>
                               <div className="collapse" id="EmpleadosSubmenu">
-                                    <ul className="nav flex-column ms-3">
+                                    <ul className="nav flex-column">
                                       <Link className="nav-link" to="crearUsuarios">Crear usuarios</Link>
                                       <Link className="nav-link" to="/manager/verUsuarios">Lista general</Link>
                                       <Link className="nav-link" to="/manager/editarUsuarios">Editar usuario</Link>
@@ -112,7 +112,7 @@ const ManagerProfile = () => {
                         <li className="nav-item">
                               <Link className="nav-link" data-bs-toggle="collapse" to="#RutasSubmenu"  role="button" aria-expanded="false"  aria-controls="RutasSubmenu" >Gestion Rutas</Link>
                               <div className="collapse" id="RutasSubmenu">
-                                    <ul className="nav flex-column ms-3">
+                                    <ul className="nav flex-column">
                                       <Link className="nav-link" to="/manager/verListaRutas">Ver lista de rutas</Link>
                                       <Link className="nav-link" to="/manager/editarRutas">Editar rutas</Link>
                                       <Link className="nav-link" to="/manager/eliminarRutas">Eliminar rutas</Link>
@@ -125,7 +125,7 @@ const ManagerProfile = () => {
                           <li className="nav-item">
                             <Link className="nav-link" data-bs-toggle="collapse" to="#VehiculosSubmenu" role="button" aria-expanded="false" aria-controls="VehiculosSubmenu">Gestion Vehículos</Link>
                             <div className="collapse" id="VehiculosSubmenu">
-                                <ul className="nav flex-column ms-3">
+                                <ul className="nav flex-column">
                                   <Link className="nav-link" to="/manager/verListaVehiculos">Lista de vehículos</Link>
                                   <Link className="nav-link" to="/manager/verConductores">Conductores</Link>
                                 </ul>
@@ -152,7 +152,7 @@ const ManagerProfile = () => {
                         <li className="nav-item">
                             <Link className="nav-link" data-bs-toggle="collapse" to="#ReportesSubMenu" role="button" aria-expanded="false" aria-controls="ReportesSubMenu">Gestion Reportes</Link>
                                 <div className="collapse" id="ReportesSubMenu"> 
-                                      <ul className="nav flex-column ms-3">
+                                      <ul className="nav flex-column">
                                         <Link className="nav-link" to="/manager/verReportes">Reportes</Link>
                                       </ul>
                                 </div>
