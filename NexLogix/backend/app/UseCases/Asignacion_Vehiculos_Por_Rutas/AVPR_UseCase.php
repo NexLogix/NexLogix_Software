@@ -1,24 +1,23 @@
 <?php
-namespace App\UseCases\AsignacionRutas;
+namespace App\UseCases\Asignacion_Vehiculos_Por_Rutas;
 
 // IMPORTACIONES
-use App\Models\Interfaces\AsignacionRutas\IAsignacionRutasService;
-use App\Models\Interfaces\AsignacionRutas\IAsignacionRutasUseCase;
+use App\Services\Asignacion_Vehiculos_Por_Rutas\AVPR_Service;
 use Illuminate\Support\Facades\Validator;
 
-class AsignacionRutasUseCase implements IAsignacionRutasUseCase
+class AVPR_UseCase
 {
     // Propiedad protegida para almacenar la instancia del servicio de asignación de rutas
-    protected IAsignacionRutasService $Asignacion_Rutas_Service;
+    protected AVPR_Service $AVPRService;
 
     // Constructor que inyecta la dependencia del servicio de asignación de rutas
-    public function __construct(IAsignacionRutasService $Asignacion_Rutas_Service )
+    public function __construct(AVPR_Service $AVPRService )
     {
-        $this->Asignacion_Rutas_Service = $Asignacion_Rutas_Service;
+        $this->AVPRService = $AVPRService;
     }
 
     // Caso de uso para crear una nueva asignación de ruta
-    public function handleCreate_AR(array $data): array
+    public function handleCreate_AVPR(array $data): array
     {
         // Validación de los datos recibidos, asegurando que los ID existan en las tablas correspondientes
         $validator = Validator::make($data, [
@@ -37,11 +36,11 @@ class AsignacionRutasUseCase implements IAsignacionRutasUseCase
         }
 
         // Si todo es válido, delega la creación al servicio correspondiente
-        return $this->Asignacion_Rutas_Service->create_AR($data);
+        return $this->AVPRService->create_AVPR($data);
     }
 
     // Caso de uso para actualizar parcialmente una asignación de ruta existente
-    public function handleUpdate_AR(int $id, array $data)
+    public function handleUpdate_AVPR(int $id, array $data)
     {
         // Validación condicional para permitir la edición solo de los campos presentes
         $validator = Validator::make($data, [
@@ -60,6 +59,6 @@ class AsignacionRutasUseCase implements IAsignacionRutasUseCase
         }
 
         // Si pasa la validación, se llama al método de actualización del servicio
-        return $this->Asignacion_Rutas_Service->update_AR($id, $data);
+        return $this->AVPRService->update_AVPR($id, $data);
     }
 }

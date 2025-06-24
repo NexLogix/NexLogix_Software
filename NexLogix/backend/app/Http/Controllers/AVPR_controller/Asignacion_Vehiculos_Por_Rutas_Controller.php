@@ -1,29 +1,29 @@
 <?php
 
-namespace App\Http\Controllers\AsignacionRutas;
+namespace App\Http\Controllers\AVPR_controller;
 
 use App\Events\ResourceAction;
 use App\Http\Controllers\Controller;
-use App\Models\Interfaces\AsignacionRutas\IAsignacionRutasService;
-use App\Models\Interfaces\AsignacionRutas\IAsignacionRutasUseCase;
+use App\Services\Asignacion_Vehiculos_Por_Rutas\AVPR_Service;
+use App\UseCases\Asignacion_Vehiculos_Por_Rutas\AVPR_UseCase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AR_controller extends Controller
+class Asignacion_Vehiculos_Por_Rutas_Controller extends Controller
 {
-    protected IAsignacionRutasService $AR_Service;
-    protected IAsignacionRutasUseCase $AR_use_case;
+    protected AVPR_Service $AVPR_Service;
+    protected AVPR_UseCase $AVPR_use_case;
 
-    public function __construct(IAsignacionRutasService $AR_Service, IAsignacionRutasUseCase $AR_use_case)
+    public function __construct(AVPR_Service $AVPR_Service, AVPR_UseCase $AVPR_use_case)
     {
-        $this->AR_Service = $AR_Service;
-        $this->AR_use_case = $AR_use_case;
+        $this->AVPR_Service = $AVPR_Service;
+        $this->AVPR_use_case = $AVPR_use_case;
     }
 
     // GET GENERAL CONTROLLER
-    public function showAll_AR()
+    public function showAll_AVPR()
     {
-        $response = $this->AR_Service->getAll_AR();
+        $response = $this->AVPR_Service->getAll_AVPR();
         // Retorna la respuesta en formato JSON con el código de estado
         return response()->json($response, $response['status']);
     }
@@ -31,15 +31,15 @@ class AR_controller extends Controller
      // GET BY ID
     public function show_AR_ById(int $id)
     {
-        $response = $this->AR_Service->get_AR_ById($id);
+        $response = $this->AVPR_Service->get_AVPR_ById($id);
         // Retorna la respuesta en formato JSON con el código de estado
         return response()->json($response, $response['status']);
     }
 
     // POST CONTROLLER
-    public function create_AR(Request $request)
+    public function create_AVPR(Request $request)
     {
-        $response = $this->AR_use_case->handleCreate_AR($request->all());
+        $response = $this->AVPR_use_case->handleCreate_AVPR($request->all());
         if ($response['success']) {
             $userId = Auth::id(); // Obtiene el ID del usuario autenticado
             if ($userId) {
@@ -57,9 +57,9 @@ class AR_controller extends Controller
     }
 
     // PATCH CONTROLLER
-    public function update_AR(Request $request, int $id)
+    public function update_AVPR(Request $request, int $id)
     {
-        $response = $this->AR_use_case->handleUpdate_AR($id, $request->all());
+        $response = $this->AVPR_use_case->handleUpdate_AVPR($id, $request->all());
         if ($response['success']) {
             $userId = Auth::id(); // Obtiene el ID del usuario autenticado
             if ($userId) {
@@ -77,9 +77,9 @@ class AR_controller extends Controller
     }
 
     // DELETE CONTROLLER
-    public function delete_AR(int $id)
+    public function delete_AVPR(int $id)
     {
-        $response = $this->AR_Service->delete_AR($id);
+        $response = $this->AVPR_Service->delete_AVPR($id);
         if ($response['success']) {
             $userId = Auth::id(); // Obtiene el ID del usuario autenticado
             if ($userId) {

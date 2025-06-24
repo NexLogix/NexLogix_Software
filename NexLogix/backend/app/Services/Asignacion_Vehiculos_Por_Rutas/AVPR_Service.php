@@ -1,24 +1,23 @@
 <?php
-namespace App\Services\AsignacionRutas;
+namespace App\Services\Asignacion_Vehiculos_Por_Rutas;
 
 // IMPORTACIONES
-use App\Models\AsignacionRutas;
-use App\Models\Interfaces\AsignacionRutas\IAsignacionRutasService;
+use App\Models\Asignacion_Vehiculos_Por_Rutas;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 
-class AsignacionRutasService implements IAsignacionRutasService
+class AVPR_Service
 {
     // Servicio para obtener todas las asignaciones de rutas
-    public function getAll_AR()
+    public function getAll_AVPR()
     {
         try {
             // Obtiene todas las asignaciones con relaciones a vehículo y ruta
-            $A_R = AsignacionRutas::with('vehiculo', 'ruta')->get();
+            $AVPR = Asignacion_Vehiculos_Por_Rutas::with('vehiculo', 'ruta')->get();
 
             // Si no hay registros, devuelve un mensaje indicando que no existen datos
-            if ($A_R->isEmpty()) {
+            if ($AVPR->isEmpty()) {
                 return [
                     'success' => false,
                     'message' => 'No hay Asignacion de Rutases registradas',
@@ -30,7 +29,7 @@ class AsignacionRutasService implements IAsignacionRutasService
             return [
                 'success' => true,
                 'message' => 'Lista de Asignacion de Rutas:',
-                'data' => $A_R,
+                'data' => $AVPR,
                 'status' => 200
             ];
         } catch (Exception $e) {
@@ -44,16 +43,16 @@ class AsignacionRutasService implements IAsignacionRutasService
     }
 
     // Servicio para obtener una asignación de ruta por su ID
-    public function get_AR_ById(int $id): array
+    public function get_AVPR_ById(int $id): array
     {
         try {
             // Busca una asignación específica por su ID junto con sus relaciones
-            $A_R = AsignacionRutas::with('vehiculo', 'ruta')->findOrFail($id);
+            $AVPR = Asignacion_Vehiculos_Por_Rutas::with('vehiculo', 'ruta')->findOrFail($id);
 
             // Si la encuentra, retorna la información con estado 200
             return [
                 'success' => true,
-                'data' => $A_R,
+                'data' => $AVPR,
                 'message' => 'Asignacion de Rutas encontrada',
                 'status' => 200
             ];
@@ -75,16 +74,16 @@ class AsignacionRutasService implements IAsignacionRutasService
     }
 
     // Servicio para crear una nueva asignación de ruta
-    public function create_AR(array $data): array
+    public function create_AVPR(array $data): array
     {
         try {
             // Crea un nuevo registro en la base de datos con los datos proporcionados
-            $A_R = AsignacionRutas::create($data);
+            $AVPR = Asignacion_Vehiculos_Por_Rutas::create($data);
 
             // Retorna la nueva asignación con mensaje y estado 201 (creado)
             return [
                 'success' => true,
-                'data' => $A_R,
+                'data' => $AVPR,
                 'message' => 'Asignacion de Rutas creada exitosamente',
                 'status' => 201
             ];
@@ -106,11 +105,11 @@ class AsignacionRutasService implements IAsignacionRutasService
     }
 
     // Servicio para actualizar una asignación de ruta existente
-    public function update_AR(int $id, array $data)
+    public function update_AVPR(int $id, array $data)
     {
         try {
             // Busca la asignación por ID, lanza excepción si no existe
-            $A_R = AsignacionRutas::findOrFail($id);
+            $AVPR = Asignacion_Vehiculos_Por_Rutas::findOrFail($id);
 
             // Si no se recibe ningún dato, retorna error de solicitud
             if (empty($data)) {
@@ -122,13 +121,13 @@ class AsignacionRutasService implements IAsignacionRutasService
             }
 
             // Aplica los cambios al modelo y guarda
-            $A_R->update($data);
+            $AVPR->update($data);
 
             // Devuelve respuesta indicando que fue actualizado correctamente
             return [
                 'success' => true,
                 'message' => 'Asignacion de Rutas actualizada',
-                'data' => $A_R,
+                'data' => $AVPR,
                 'status' => 200
             ];
         } catch (ModelNotFoundException $e) {
@@ -149,14 +148,14 @@ class AsignacionRutasService implements IAsignacionRutasService
     }
 
     // Servicio para eliminar una asignación de ruta por su ID
-    public function delete_AR(int $id): array
+    public function delete_AVPR(int $id): array
     {
         try {
             // Busca la asignación por su ID y lanza excepción si no existe
-            $A_R = AsignacionRutas::findOrFail($id);
+            $AVPR = Asignacion_Vehiculos_Por_Rutas::findOrFail($id);
 
             // Elimina el registro de la base de datos
-            $A_R->delete();
+            $AVPR->delete();
 
             // Devuelve mensaje de éxito al eliminar
             return [
@@ -191,6 +190,5 @@ class AsignacionRutasService implements IAsignacionRutasService
 
 /*
     NOTA:
-    $A_R es asignacion rutas, solo usamos una abrebiacion como variable y ahorra tiempo en hacer codigo
-
+    $AVPR es asignacion rutas, solo usamos una abrebiacion como variable y ahorra tiempo en hacer codigo
 */

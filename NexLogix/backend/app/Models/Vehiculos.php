@@ -14,21 +14,23 @@ class Vehiculos extends Model
     protected $primaryKey = 'idVehiculo';
 
     protected $fillable = [
-        'marcaVehiculo', 'tipoVehiculo', 'placa',
+        'marcaVehiculo',
+        'placa',
+        'tipoVehiculo',
+        'capacidad',
+        'estadoVehiculo',
+        'ultimoMantenimiento',
     ];
 
     // Un vehiculo puede estar asignado a muchos usuarios
     public function users()
     {
         return $this->hasMany(User::class, 'vehiculo_id', 'idVehiculo');
-        // 'vehiculo_id' = foreign key en la tabla users
-        // 'idVehiculo' = local key en esta tabla
     }
 
     // Un vehiculo puede tener muchas asignaciones de rutas
     public function asignacionRutas()
     {
-        return $this->hasMany(AsignacionRutas::class, 'vehiculo_id', 'idVehiculo');
-        // 'vehiculo_id' = foreign key en AsignacionRutas
+        return $this->hasMany(Asignacion_Vehiculos_Por_Rutas::class, 'vehiculo_id', 'idVehiculo');
     }
 }

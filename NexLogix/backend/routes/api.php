@@ -332,24 +332,24 @@ Route::group([
 });
 
 //
-/// GESTION ASIGNACION DE RUTAS
+/// GESTION ASIGNACION VEHICULOS POR RUTAS
 //
 
-use App\Http\Controllers\AsignacionRutas\AR_controller;
+use App\Http\Controllers\AVPR_controller\Asignacion_Vehiculos_Por_Rutas_Controller;
 
 Route::group([
     'middleware' => ['api', 'auth:api'],
-    'prefix' => 'gestion_asignacion_rutas'
+    'prefix' => 'gestion_asignacion_vehiculos_por_rutas'
 ], function () {
-    Route::get('/', action: [AR_controller::class, 'showAll_AR'])
+    Route::get('/', action: [Asignacion_Vehiculos_Por_Rutas_Controller::class, 'showAll_AR'])
         ->middleware('role:2');
-    Route::get('/buscar_AR/{id}', [AR_controller::class, 'show_AR_ById'])
+    Route::get('/{id}', [Asignacion_Vehiculos_Por_Rutas_Controller::class, 'show_AR_ById'])
         ->middleware('role:2,3');
-    Route::post('/crear_AR', [AR_controller::class, 'create_AR'])
+    Route::post('/', [Asignacion_Vehiculos_Por_Rutas_Controller::class, 'create_AR'])
     ->middleware('role:2');
-    Route::patch('/editar_AR/{id}', [AR_controller::class, 'update_AR'])
+    Route::patch('/{id}', [Asignacion_Vehiculos_Por_Rutas_Controller::class, 'update_AR'])
         ->middleware('role:2');
-    Route::delete('/eliminar_AR/{id}', [AR_controller::class, 'delete_AR'])
+    Route::delete('/{id}', [Asignacion_Vehiculos_Por_Rutas_Controller::class, 'delete_AR'])
         ->middleware('role:2');
 });
 
@@ -374,3 +374,7 @@ Route::group([
     Route::delete('/{id}', [VehiculosController::class, 'deleteVehiculo'])
         ->middleware('role:2');
 });
+
+//
+/// CONDUCTORES
+//

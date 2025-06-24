@@ -31,7 +31,7 @@ class Rutas extends Model
 
     public function Asignacion_Rutas()
     {
-        return $this->hasMany(AsignacionRutas::class,
+        return $this->hasMany(Asignacion_Vehiculos_Por_Rutas::class,
             'idAsignacionRuta',
             'idAsignacionRuta',
         );
