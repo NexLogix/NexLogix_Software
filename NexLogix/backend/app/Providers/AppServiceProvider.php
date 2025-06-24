@@ -135,10 +135,6 @@ class AppServiceProvider extends ServiceProvider
         });
 
         // ASIGNACION RUTAS
-        $this->app->bind(IAsignacionRutasService::class, AsignacionRutasService::class);
-        $this->app->bind(IAsignacionRutasUseCase::class, function($app) {
-            return new AsignacionRutasUseCase($app->make(IAsignacionRutasService::class));
-        });
 
         // REPORTES
         $this->app->bind(IReportesService::class, ReportesService::class);
