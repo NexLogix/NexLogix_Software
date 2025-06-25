@@ -365,13 +365,13 @@ Route::group([
 ], function () {
     Route::get('/', [VehiculosController::class, 'showAllVehiculos'])
         ->middleware('role:2,3');
-    Route::get('/{id}', [VehiculosController::class, 'showVehiculoById'])
+    Route::get('/{value}', [VehiculosController::class, 'showVehiculoById'])
         ->middleware('role:2,3');
     Route::post('/', [VehiculosController::class, 'createVehiculo'])
         ->middleware('role:2');
-    Route::patch('/{id}', [VehiculosController::class, 'updateVehiculo'])
+    Route::patch('/{value}', [VehiculosController::class, 'updateVehiculo'])
         ->middleware('role:2');
-    Route::delete('/{id}', [VehiculosController::class, 'deleteVehiculo'])
+    Route::delete('/{value}', [VehiculosController::class, 'deleteVehiculo'])
         ->middleware('role:2');
 });
 

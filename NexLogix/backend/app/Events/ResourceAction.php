@@ -38,7 +38,7 @@ class ResourceAction
     */
 
 
-    public function __construct(int $userId, string $action, string $resourceType, ?int $resourceId = null, array $details = [])
+    public function __construct(int $userId, string $action, string $resourceType, ?string $resourceId = null, array $details = [])
     {
         $this->userId = $userId;
         $this->action = $action;

@@ -59,10 +59,10 @@ class AuditLogService implements IAuditLogService
         }
     }
 
-    public function updateAuditory(int $id, array $data): array
+    public function updateAuditory(int|string $idOrValue, array $data): array
     {
         try {
-            $auditoria = AuditLog::findOrFail($id);
+            $auditoria = AuditLog::findOrFail($idOrValue);
             if (empty($data)) {
                 return [
                     'success' => true,
@@ -83,7 +83,7 @@ class AuditLogService implements IAuditLogService
         } catch (ModelNotFoundException $e) {
             return [
                 'success' => false,
-                'message' => "Auditoría con ID $id no encontrada",
+                'message' => "Auditoría con ID $idOrValue no encontrada",
                 'status' => 404
             ];
         } catch (Exception $e) {
@@ -95,10 +95,10 @@ class AuditLogService implements IAuditLogService
         }
     }
 
-    public function deleteAuditory(int $id): array
+    public function deleteAuditory(int|string $value): array
     {
         try {
-            $auditoria = AuditLog::findOrFail($id);
+            $auditoria = AuditLog::findOrFail($value);
             $auditoria->delete();
             return [
                 'success' => true,
@@ -108,7 +108,7 @@ class AuditLogService implements IAuditLogService
         } catch (ModelNotFoundException $e) {
             return [
                 'success' => false,
-                'message' => "Auditoría con ID $id no encontrada",
+                'message' => "Auditoría con ID $value no encontrada",
                 'status' => 404
             ];
         } catch (Exception $e) {

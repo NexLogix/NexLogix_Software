@@ -3,7 +3,6 @@ namespace App\Models\Interfaces\Vehiculos;
 interface IVehiculoUseCase
 {
     public function handleCreateVehiculo(array $data): array;
-    public function handleUpdateVehiculo(int $id, array $data);
+    public function handleUpdateVehiculo(string $idOrPlaca, array $data);
 
 }
-

@@ -39,20 +39,22 @@ class VehiculoService implements IVehiculoService
 
 
     // SERVICE HTTP GET BY ID
-    public function getVehiculoById(int $id): array
+    public function getVehiculoById(string $value): array
     {
         try {
-            $Vehiculo = Vehiculos::findOrFail($id);
+            $Vehiculo = Vehiculos::where('idVehiculo',$value)
+                ->orWhere('placa', $value)
+                ->firstOrFail();
             return [
                 'success' => true,
-                'data' => $Vehiculo,
                 'message' => 'Vehiculo encontrado',
+                'data' => $Vehiculo,
                 'status' => 200
             ];
         } catch (ModelNotFoundException $e) {
             return [
                 'success' => false,
-                'message' => "Vehiculo con ID $id no encontrada",
+                'message' => "Vehiculo con ID $value no encontrada",
                 'status' => 404
             ];
         } catch (Exception $e) {
@@ -90,11 +92,13 @@ class VehiculoService implements IVehiculoService
         }
     }
 
-    // Put patch service
-    public function updateVehiculo(int $id, array $data): array
+    //patch service
+    public function updateVehiculo(string $value, array $data): array
     {
         try {
-            $vehiculo = Vehiculos::findOrFail($id);
+            $vehiculo = Vehiculos::where('idVehiculo', $value)
+                ->orWhere('placa', $value)
+                ->firstOrFail();
 
             if (empty($data)) {
                 return [
@@ -105,56 +109,57 @@ class VehiculoService implements IVehiculoService
             }
 
             $vehiculo->update($data);
+
             return [
                 'success' => true,
-                'message' => 'La Vehiculo ha sido actualizada',
+                'message' => 'Vehículo actualizado correctamente',
                 'data' => $vehiculo,
                 'status' => 200
             ];
         } catch (ModelNotFoundException $e) {
             return [
                 'success' => false,
-                'message' => "Vehiculoes con ID $id no encontrado",
+                'message' => "Vehículo con valor $value no encontrado",
                 'status' => 404
             ];
         } catch (Exception $e) {
             return [
                 'success' => false,
-                'message' => 'Error al actualizar la Vehiculo ' . $e->getMessage(),
+                'message' => 'Error al actualizar el vehículo: ' . $e->getMessage(),
                 'status' => 500
             ];
         }
     }
 
+
      // SERVICE HTTP DELETE
-    public function deleteVehiculo(int $id): array
+    public function deleteVehiculo(string $value): array
     {
         try {
-            $vehiculo = Vehiculos::findOrFail($id); // Busca
+            $vehiculo = Vehiculos::where('idVehiculo', $value)
+                ->orWhere('placa', $value)
+                ->firstOrFail();
+
             $vehiculo->delete();
+
             return [
                 'success' => true,
-                'message' => 'Vehiculo eliminado correctamente',
+                'message' => 'Vehículo eliminado correctamente',
                 'status' => 200
             ];
         } catch (ModelNotFoundException $e) {
             return [
                 'success' => false,
-                'message' => "Vehiculo con ID $id no encontrado",
+                'message' => "Vehículo con valor $value no encontrado",
                 'status' => 404
-            ];
-        } catch (QueryException $e) {
-            return [
-                'success' => false,
-                'message' => 'Error al eliminar el Vehiculo ' . $e->getMessage(),
-                'status' => 500
             ];
         } catch (Exception $e) {
             return [
                 'success' => false,
-                'message' => 'Error al eliminar el Vehiculo ' . $e->getMessage(),
+                'message' => 'Error al eliminar el vehículo: ' . $e->getMessage(),
                 'status' => 500
             ];
         }
     }
+
 }

@@ -20,7 +20,7 @@ class VehiculosUseCase implements IVehiculoUseCase
     {
         $validator = Validator::make($data, [
             'marcaVehiculo'       => 'required|string|max:155',
-            'placa'               => 'required|string|max:7|unique:vehiculos,placa',
+            'placa'               => 'required|string|max:6|unique:vehiculos,placa',
             'tipoVehiculo'        => [
                 'required',
                 Rule::in(['A1','A2','B1','B2','B3','C1','C2','C3']),
@@ -45,15 +45,15 @@ class VehiculosUseCase implements IVehiculoUseCase
     }
 
     // usecase Patch, editar informacion
-    public function handleUpdateVehiculo(int $id, array $data)
+    public function handleUpdateVehiculo(string $idOrPlaca, array $data)
     {
         $validator = Validator::make($data, [
             'marcaVehiculo'       => 'sometimes|string|max:155',
             'placa'               => [
                 'sometimes',
                 'string',
-                'max:7',
-                Rule::unique('vehiculos', 'placa')->ignore($id, 'idVehiculo'),
+                'max:6',
+                Rule::unique('vehiculos', 'placa')->ignore($idOrPlaca, 'idVehiculo'),
             ],
             'tipoVehiculo'        => [
                 'sometimes',
@@ -76,6 +76,6 @@ class VehiculosUseCase implements IVehiculoUseCase
             ];
         }
 
-        return $this->VehiculoService->updateVehiculo($id, $data);
+        return $this->VehiculoService->updateVehiculo($idOrPlaca, $data);
     }
 }

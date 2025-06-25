@@ -14,7 +14,7 @@ class AuditoriasUseCase implements IAudit_log_UseCase
         $this->audit_log_service = $audit_log_service;
     }
 
-    function handleUpdateAuditory(int $id, array $data): array
+    function handleUpdateAuditory(int|string $idOrValue, array $data): array
     {
         $validator = Validator::make($data, [
             "action"         => "sometimes|required|string|max:255",
@@ -34,6 +34,6 @@ class AuditoriasUseCase implements IAudit_log_UseCase
         }
 
         // Si pasa la validación, se delega al servicio para actualizar
-        return $this->audit_log_service->updateAuditory($id, $validator->validated());
+        return $this->audit_log_service->updateAuditory($idOrValue, $validator->validated());
     }
 }
