@@ -2,7 +2,7 @@
 .home_manager_container {
   background-color: #161625;
   min-height: 100vh;
-  padding: 32px 0;
+  padding: 0;
 }
 
 /* Tarjeta principal */
@@ -13,7 +13,7 @@
   box-shadow: 0 4px 16px rgba(34, 44, 66, 0.18);
   border: 1px solid #3a4a6a;
   overflow: hidden;
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 /* Cabecera de la tarjeta */

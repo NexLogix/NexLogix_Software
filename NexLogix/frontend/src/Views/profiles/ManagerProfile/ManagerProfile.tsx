@@ -19,7 +19,11 @@ const ManagerProfile = () => {
               <ul className="nav flex-column">
 
                 {/* Opción Inicio */}
-                <Link className="nav-link active" to="/manager">INICIO MANAGER</Link>
+                <li className="nav-item mb-1 mt-3">
+                  <Link className="btn btn-danger w-100 rounded-3" to="/manager">
+                    INICIO MANAGER
+                  </Link>
+                </li>
 
                 {/* Opción Gestión Áreas con submenú */}
                 <li className="nav-item">
@@ -54,7 +58,7 @@ const ManagerProfile = () => {
                 {/* Opción Ciudades con submenú */}
                 <li className="nav-item">
                   <Link className="nav-link" data-bs-toggle="collapse" to="#CiudadesSubmenu" role="button" aria-expanded="false" aria-controls="CiudadesSubmenu">
-                    Gestion Ciudades
+                    Gestión Ciudades
                   </Link>
                   <div className="collapse" id="CiudadesSubmenu">
                     <ul className="nav flex-column">
@@ -68,7 +72,7 @@ const ManagerProfile = () => {
 
                 {/* Opción Envíos con submenú */}
                 <li className="nav-item position-relative ">
-                  <Link className="nav-link" data-bs-toggle="collapse" to="#enviosSubmenu" role="button" aria-expanded="false" aria-controls="enviosSubmenu">Gestion Envíos</Link>
+                  <Link className="nav-link" data-bs-toggle="collapse" to="#enviosSubmenu" role="button" aria-expanded="false" aria-controls="enviosSubmenu">Gestión Envíos</Link>
                   <div className="collapse" id="enviosSubmenu">
                     <ul className="nav flex-column">
                       <Link className="nav-link" to="/manager/verEnvios">Ver Envíos</Link>
@@ -108,7 +112,7 @@ const ManagerProfile = () => {
                 {/* Opción Reportes */}
                 <li className="nav-item">
                     <ul className="nav flex-column">
-                      <Link className="nav-link" to="/manager/verReportes">Reportes</Link>
+                      <Link className="nav-link" to="/manager/verReportes">Gestión Reportes</Link>
                     </ul>
                 </li>
 

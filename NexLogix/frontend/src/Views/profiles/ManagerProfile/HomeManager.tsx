@@ -55,7 +55,7 @@ const HomeManager = () => {
 
   return (
     <div className="home_manager_container">
-      <div className="container">
+      <div className="container pt-0" style={{ paddingTop: 0, marginTop: 0 }}>
         {error && (
           <div className="alert alert-danger d-flex align-items-center mb-4 animate__animated animate__fadeIn" role="alert">
             <i className="bi bi-exclamation-triangle-fill me-2"></i>
