@@ -121,3 +121,19 @@ class VerificarAsignacionVehiculosConConductores
         return ($niveles[$lic] ?? 0) >= ($niveles[$veh] ?? PHP_INT_MAX);
     }
 }
+
+/*
+|--------------------------------------------------------------------------
+| Lógica de negocio para la asignación de conductores a vehículos
+|--------------------------------------------------------------------------
+|
+| Relación:
+| - Muchos a muchos entre conductores y vehículos mediante la tabla
+|   asignacion_conductor_por_vehiculos.
+|
+| Reglas de negocio pendientes::
+  | - Si un conductor en su estado heredado no es activo, el sistema automaticamente debe de poner el estado del conductor como no_disponible.
+  | - Si un vehiculo esta asignado mas de 3 veces en una asignacion, el sistema no debe permitir asignar mas conductores.
+  | - Si un conductor esta asignado mas de 3 veces en una asignacion, el sistema no debe permitir asignarlo a mas vehiculos.
+
+*/
