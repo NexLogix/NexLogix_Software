@@ -20,6 +20,40 @@ Route::group([
         ->middleware('auth:api');
 });
 
+
+
+//
+/// GESTION ASIGNACION DE CONDUCTORES POR VEHICULOS
+//
+
+use App\Http\Controllers\ACPVController\ACPVController;
+Route::group([
+    'middleware' => ['api', 'auth:api'],
+    'prefix' => 'gestion_asignacion_conductores_por_vehiculos'
+], function () {
+    Route::get('/', [ACPVController::class, 'showAll'])
+        ->middleware('role:2');
+    Route::get('/{id}', [ACPVController::class, 'showBySearching'])
+        ->middleware('role:2');
+    Route::post('/', [ACPVController::class, 'create'])
+        ->middleware('role:2');
+    /*Route::put('/{id}', [ACPVController::class, ''])
+        ->middleware('role:2');*/
+    Route::patch('/{id}', [ACPVController::class, 'update'])
+        ->middleware('role:2');
+    Route::delete('/{id}', [ACPVController::class, 'deleteConductor'])
+        ->middleware('role:2');
+});
+
+//
+/// GESTION ASIGNACION DE RUTAS POR CIUDADES
+//
+
+//
+/// GESTION ASIGNACION DE VEHICULOS POR RUTAS
+//
+
+
 //
 /*
     La razon por la cual en todas las rutas se pone auth:api, es para que esta ruta solo este funcionando si esta autenticada,

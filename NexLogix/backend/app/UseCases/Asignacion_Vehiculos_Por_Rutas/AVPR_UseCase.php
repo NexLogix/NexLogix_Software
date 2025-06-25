@@ -44,8 +44,8 @@ class AVPR_UseCase
     {
         // Validación condicional para permitir la edición solo de los campos presentes
         $validator = Validator::make($data, [
-            'idVehiculo' => 'sometimes|exists:vehiculos,idVehiculo',
-            'idRuta' => 'sometimes|exists:rutas,idRuta',
+            'idVehiculo'             => 'sometimes|exists:vehiculos,idVehiculo',
+            'idRuta'                 => 'sometimes|exists:rutas,idRuta',
         ]);
 
         // Si la validación falla, retorna los errores y un estado HTTP 422
