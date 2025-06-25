@@ -79,7 +79,7 @@ class VerificarAsignacionVehiculosConConductores
             if (! static::licenciaCompatible($conductor->tipoLicencia, $vehiculo->tipoVehiculo)) {
                 return [
                     'success' => false,
-                    'message' => "Tipo de licencia “{$conductor->tipoLicencia}” del conductor no compatible con el vehículo, ya que tiene licencia “{$vehiculo->tipoVehiculo}”",
+                    'message' => "La licencia “{$conductor->tipoLicencia}” del conductor no es compatible con el vehículo, ya que el vehiculo requiere una licencia “{$vehiculo->tipoVehiculo}”",
                     'status'  => 400,
                 ];
             }

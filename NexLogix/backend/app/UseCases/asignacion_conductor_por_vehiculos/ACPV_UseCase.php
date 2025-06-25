@@ -25,7 +25,6 @@ class ACPV_UseCase
 
         // 2) Validación de esquema
         $validator = Validator::make($data, [
-            'fecha_asignacion_vehiculo' => 'required|date_format:Y-m-d H:i:s',
             'fecha_entrega_vehiculo'    => 'nullable|date_format:Y-m-d H:i:s',
             'idConductor'               => 'required|integer|exists:conductores,idConductor',
             'idVehiculo'                => 'required|integer|exists:vehiculos,idVehiculo',

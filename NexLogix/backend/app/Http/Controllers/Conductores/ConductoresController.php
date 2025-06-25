@@ -189,7 +189,7 @@ class ConductoresController extends Controller
      *     )
      * )
      */
-    public function updateConductor(Request $request, $id)
+    /*public function updateConductor(Request $request, $id)
     {
         $result = $this->conductoresUseCase->handleUpdateConductor($id, $request->all());
         if ($result['success']) {
@@ -205,7 +205,7 @@ class ConductoresController extends Controller
             }
         }
         return response()->json($result, $result['status']);
-    }
+    }*/
 
     // PATCH METHOD
     /**

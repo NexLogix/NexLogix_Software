@@ -14,7 +14,7 @@ class Conductores_service
     public function getAll(): array
     {
         try {
-            $conductores = Conductores::with('usuario.roles')->get();
+            $conductores = Conductores::with('usuario.roles','usuario.estado')->get();
             if ($conductores->isEmpty()) {
                 return [
                     'success' => false,
@@ -32,7 +32,8 @@ class Conductores_service
                     'usuario' => $conductor->usuario ? [
                         'idUsuario' => $conductor->usuario->idusuarios,
                         'nombreCompleto' => $conductor->usuario->nombreCompleto,
-                        'email' => $conductor->usuario->email
+                        'email' => $conductor->usuario->email,
+                        'estadoUsuario' => $conductor->usuario->estado->estado ?? null,
                     ] : null
                 ];
             });

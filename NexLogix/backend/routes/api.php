@@ -41,7 +41,7 @@ Route::group([
         ->middleware('role:2');*/
     Route::patch('/{id}', [ACPVController::class, 'update'])
         ->middleware('role:2');
-    Route::delete('/{id}', [ACPVController::class, 'deleteConductor'])
+    Route::delete('/{id}', [ACPVController::class, 'delete'])
         ->middleware('role:2');
 });
 

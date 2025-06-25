@@ -33,4 +33,13 @@ class Vehiculos extends Model
     {
         return $this->hasMany(Asignacion_Vehiculos_Por_Rutas::class, 'vehiculo_id', 'idVehiculo');
     }
+
+    // Un vehiculo puede tener una asignación de conductor
+    public function asignacionConductor()
+    {
+        return $this->hasMany(Asignacion_conductor_por_vehiculos::class,
+        'idVehiculo',
+        'idVehiculo'
+        );
+    }
 }
