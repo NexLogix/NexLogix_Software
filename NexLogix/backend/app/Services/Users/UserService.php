@@ -19,7 +19,7 @@ class UserService implements IUserService
     public function getAllUsers():array
     {
         // Se obtiene la lista de todos los usuarios, incluyendo las relaciones con estado, roles y puestos
-        $user = User::with(['estado', 'roles', 'puestos'])->get();
+        $user = User::with(['estado', 'roles', 'puestos.areas'])->get();
 
         // Si no hay usuarios en la base de datos, se retorna error 404
         if(!$user) {
@@ -40,24 +40,51 @@ class UserService implements IUserService
     }
 
     // GET BY ID SERVICE
-    public function getUserById(int $id):array
+    public function getUserById(string $value): array
     {
-        // Busca un usuario específico por su ID y carga sus relaciones con estado, roles y puestos
-        $user = User::with(['estado', 'roles', 'puestos'])->findOrFail($id);
+        // Busca un usuario específico por su ID, N. de documento o email y carga sus relaciones con estado, roles y puestos
+        $user = User::with(['estado', 'roles', 'puestos.areas'])
+                    ->where('idusuarios', $value)
+                    ->orWhere('documentoIdentidad', $value)
+                    ->orWhere('email', $value)
+                    ->firstOrFail();
 
         // Si no se encuentra el usuario, devuelve 404
-        if(!$user){
+        if (!$user) {
             return [
                 'success' => false,
-                'message' => 'Puesto no encontrado',
+                'message' => 'Usuario no encontrado',
                 'status' => 404
             ];
         }
 
-        // Si existe, devuelve los datos del usuario
+        // Filtra la información relevante del usuario
+        $user_info = [
+            'idusuarios' => $user->idusuarios,
+            'documentoIdentidad' => $user->documentoIdentidad,
+            'nombreCompleto' => $user->nombreCompleto,
+            'email' => $user->email,
+            'numContacto' => $user->numContacto,
+            'direccionResidencia' => $user->direccionResidencia,
+            'fechaCreacion' => $user->fechaCreacion,
+            'estado' => $user->estado->estado ?? null,
+            'roles' => [
+                'nombreRole' => $user->roles->nombreRole,
+                'fechaAsignacionRole' => $user->roles->fechaAsignacionRole
+            ],
+            'puestos' => [
+                'nombrePuesto' => $user->puestos->nombrePuesto,
+                'fechaAsignacionPuesto' => $user->puestos->fechaAsignacionPuesto,
+                'areas' => [
+                    'nombreArea' => $user->puestos->areas->nombreArea
+                ]
+            ]
+        ];
+
+        // Devuelve los datos filtrados
         return [
             'success' => true,
-            'data' => $user,
+            'data' => $user_info,
             'status' => 200
         ];
     }
@@ -122,11 +149,15 @@ class UserService implements IUserService
     }
 
     // PATCH SERVICE
-    public function updateSpecificFields(int $id, array $data): array
+    public function updateSpecificFields(string $id, array $data): array
     {
-        // Busca el usuario por ID para aplicar cambios parciales
-        $user = User::findOrFail($id);
 
+        // Busca un usuario específico por su ID, N. de documento o email y carga sus relaciones con estado, roles y puestos
+        $user = User::with(['estado', 'roles', 'puestos.areas'])
+                    ->where('idusuarios', $id)
+                    ->orWhere('documentoIdentidad', $id)
+                    ->orWhere('email', $id)
+                    ->firstOrFail();
         // Si no se encuentra, se retorna error 404
         if (!$user) {
             return [
@@ -149,11 +180,15 @@ class UserService implements IUserService
     }
 
     // DELETE SERVICE
-    public function deleteUser(int $id): array
+    public function deleteUser(string $id): array
     {
-        // Busca al usuario por su ID
-        $user = User::find($id);
 
+        // Busca un usuario específico por su ID, N. de documento o email y carga sus relaciones con estado, roles y puestos
+        $user = User::with(['estado', 'roles', 'puestos.areas'])
+                    ->where('idusuarios', $id)
+                    ->orWhere('documentoIdentidad', $id)
+                    ->orWhere('email', $id)
+                    ->firstOrFail();
         // Si no lo encuentra, retorna error 404
         if (!$user) {
             return [

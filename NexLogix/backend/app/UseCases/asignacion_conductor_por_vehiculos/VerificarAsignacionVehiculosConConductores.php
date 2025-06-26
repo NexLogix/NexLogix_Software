@@ -8,20 +8,14 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class VerificarAsignacionVehiculosConConductores
 {
-    /**
-     * Verifica todos los requisitos para poder asignar un conductor a un vehículo.
-     *
-     * @param  array  $data  ['idConductor' => int, 'idVehiculo' => int]
-     * @return array        ['success' => bool, 'message' => string, 'status' => int]
-     */
     public static function verificarRequisitos(array $data): array
     {
         try {
             // 1) Datos mínimos
-            if (empty($data['idConductor']) || empty($data['idVehiculo'])) {
+            if (empty($data['idConductor']) && empty($data['idVehiculo'])) {
                 return [
                     'success' => false,
-                    'message' => 'Faltan datos requeridos: idConductor o idVehiculo',
+                    'message' => 'Faltan datos requeridos: idConductor y idVehiculo',
                     'status'  => 400,
                 ];
             }

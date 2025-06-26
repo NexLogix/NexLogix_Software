@@ -45,7 +45,7 @@ class ACPV_UseCase
     }
 
     // UPDATE
-    public function handleUpdateACPV(string $id, array $data): array
+    public function handleUpdateACPV(string $idOrValue, array $data): array
     {
         // 1) Reglas de negocio (usamos mismo verificador, pero pasamos id incluido)
         $requisito = VerificarAsignacionVehiculosConConductores::verificarRequisitos(
@@ -73,6 +73,6 @@ class ACPV_UseCase
         }
 
         // 3) Persistir cambios
-        return $this->service->update_ACPV($id, $validator->validated());
+        return $this->service->update_ACPV($idOrValue, $validator->validated());
     }
 }
