@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import FooterGeneralManager from "../../componets/Footers/FooterManager";
 import NavbarGeneral from "../../componets/NavBars/NavbarGeneral";
-import '../../../Views/Styles/Profiles/ProfilesGeneralStyle.css';
+import './../../Styles/Home/ProfilesGeneralStyle.css';
 
 const ManagerProfile = () => {
   return (
@@ -33,10 +33,10 @@ const ManagerProfile = () => {
                   <div className="collapse" id="AreasSubmenu">
                     <ul className="nav flex-column">
                       <Link className="nav-link" to="/manager/verAreas">Areas</Link>
-                      <Link className="nav-link" to="/manager/crearArea">Puestos</Link>
-                      <Link className="nav-link" to="/manager/editarArea">Reportes</Link>
-                      <Link className="nav-link" to="/manager/editarArea">Roles</Link>
-                      <Link className="nav-link" to="/manager/eliminarArea">Usuarios</Link>
+                      <Link className="nav-link" to="/manager/Puestos">Puestos</Link>
+                      <Link className="nav-link" to="/manager/Reportes">Reportes</Link>
+                      <Link className="nav-link" to="/manager/Roles">Roles</Link>
+                      <Link className="nav-link" to="/manager/Usuarios">Usuarios</Link>
                     </ul>
                   </div>
                 </li>

@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Button, Form, Alert, Card, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "react-bootstrap-icons";
-import "../../Styles/Reportes/CrearReporteStyle.css";
+import "../../Styles/NavBar/Reportes/CrearReporteStyle.css";
+import "../../Styles/NavBar/Reportes/ReportesStyle.css";
 
 const initialState = {
   tipo: "",

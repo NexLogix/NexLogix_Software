@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import "../../../Views/Styles/Profiles/ListaVehiculos.css";
+import "../../../Views/Styles/NavBar/Logistica/ListaVehiculos.css";
+import "../../../Views/Styles/NavBar/Logistica/VerConductoresStyle.css";
 
 interface Vehiculo {
   id: number;

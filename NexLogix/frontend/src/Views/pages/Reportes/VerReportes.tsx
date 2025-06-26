@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Card, Table, Badge, Button, Container, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { ExclamationTriangleFill, Search, PencilFill, TrashFill, PlusCircleFill } from "react-bootstrap-icons";
-import "../../../Views/Styles/Reportes/ReportesStyle.css";
+import "../../Styles/NavBar/Reportes/CrearReporteStyle.css";
+import "../../Styles/NavBar/Reportes/ReportesStyle.css";
 
 interface Reporte {
   id: number;

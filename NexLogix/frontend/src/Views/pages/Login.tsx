@@ -1,5 +1,5 @@
 import { useAuthLoginController } from "../../Controllers/Auth/AuthController"; // Importa el hook personalizado useAuthLoginController para manejar la lógica de autenticación
-import "../Styles/generalStyleLogin.css"; // Importa el archivo CSS personalizado para estilos específicos del componente Login
+import "../Styles/Login/generalStyleLogin.css"; // Importa el archivo CSS personalizado para estilos específicos del componente Login
 
 const Login = () => { // Define el componente funcional Login para la página de inicio de sesión
   const { // Desestructura las propiedades y funciones retornadas por useAuthLoginController

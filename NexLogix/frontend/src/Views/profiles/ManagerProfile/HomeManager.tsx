@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { UserProfileController } from '../../../Controllers/Users/UserController';
 import { UserProfile } from '../../../models/Interfaces/UserProfile';
 import axios from 'axios';
-import './../../Styles/Profiles/HomeStyle.css';
+import './../../Styles/Home/HomeStyle.css';
 
 const HomeManager = () => {
   const [profile, setProfile] = useState<UserProfile | null>(null);

@@ -1,64 +1,67 @@
 import React, { useEffect, useState } from 'react';
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import './../../Styles/Areas/AreasStyle.css';
-import './../../Styles/TablesStyle.css'
-import './../../Styles/Profiles/ListaVehiculos.css'; // Asegúrate de tener los estilos de modales y tablas
+import './../../Styles/NavBar/Administracion/GeneralStyle.css';
+import './../../Styles/Home/TablesStyle.css'
+import './../../Styles/NavBar/Logistica/ListaVehiculos.css';
 
-// Mock de datos para ejemplo visual
-interface Area {
-  idArea: number;
-  nombreArea: string;
-  descripcionArea: string;
+// Nueva interfaz para Puesto
+interface Puesto {
+  idPuesto: number;
+  nombrePuesto: string;
+  fechaAsignacionPuesto: string;
+  descripcionPuesto: string;
+  area: string;
 }
 
-const mockAreas: Area[] = [
-  { idArea: 1, nombreArea: "Logística", descripcionArea: "Área de logística y distribución" },
-  { idArea: 2, nombreArea: "Recursos Humanos", descripcionArea: "Gestión de personal" },
-  { idArea: 3, nombreArea: "Finanzas", descripcionArea: "Control financiero y contable" },
+// Mock de datos para ejemplo visual
+const mockPuestos: Puesto[] = [
+  { idPuesto: 1, nombrePuesto: "Supervisor", fechaAsignacionPuesto: "2024-01-15", descripcionPuesto: "Supervisa operaciones", area: "Logística" },
+  { idPuesto: 2, nombrePuesto: "Analista RH", fechaAsignacionPuesto: "2023-11-10", descripcionPuesto: "Gestión de personal", area: "Recursos Humanos" },
+  { idPuesto: 3, nombrePuesto: "Contador", fechaAsignacionPuesto: "2022-08-01", descripcionPuesto: "Control contable", area: "Finanzas" },
 ];
 
-const VerAreas: React.FC = () => {
-  // Estado de áreas y búsqueda
-  const [areas, setAreas] = useState<Area[]>([]);
+const Puestos: React.FC = () => {
+  // Estado de puestos y búsqueda
+  const [puestos, setPuestos] = useState<Puesto[]>([]);
   const [searchId, setSearchId] = useState("");
-  const [filteredAreas, setFilteredAreas] = useState<Area[]>([]);
+  const [filteredPuestos, setFilteredPuestos] = useState<Puesto[]>([]);
   // Estados para modales
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [editArea, setEditArea] = useState<Area | null>(null);
+  const [editPuesto, setEditPuesto] = useState<Puesto | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [selectedArea, setSelectedArea] = useState<Area | null>(null);
+  const [selectedPuesto, setSelectedPuesto] = useState<Puesto | null>(null);
 
   // Cargar datos simulados
   useEffect(() => {
-    setAreas(mockAreas);
-    setFilteredAreas(mockAreas);
+    setPuestos(mockPuestos);
+    setFilteredPuestos(mockPuestos);
   }, []);
 
   // Buscar por ID
   const handleSearch = () => {
     if (searchId.trim() === "") {
-      setFilteredAreas(areas);
+      setFilteredPuestos(puestos);
     } else {
-      setFilteredAreas(areas.filter(area => area.idArea.toString() === searchId.trim()));
+      setFilteredPuestos(puestos.filter(p => p.idPuesto.toString() === searchId.trim()));
     }
   };
 
   // Mostrar todos
   const resetSearch = () => {
     setSearchId("");
-    setFilteredAreas(areas);
+    setFilteredPuestos(puestos);
   };
 
   // Abrir modal de editar
-  const handleEdit = (area: Area) => {
-    setEditArea(area);
+  const handleEdit = (puesto: Puesto) => {
+    setEditPuesto(puesto);
     setShowEditModal(true);
   };
 
   // Abrir modal de eliminar
-  const handleDelete = (area: Area) => {
-    setSelectedArea(area);
+  const handleDelete = (puesto: Puesto) => {
+    setSelectedPuesto(puesto);
     setShowDeleteModal(true);
   };
 
@@ -68,12 +71,11 @@ const VerAreas: React.FC = () => {
         {/* Barra de búsqueda y botones */}
         <div className="header-azul mb-3">
           <div className="d-flex align-items-center p-3">
-            <i className="bi bi-diagram-3-fill me-2" style={{ fontSize: 24 }} />
-            <h2 className="mb-0 text-white">Gestión de Áreas</h2>
+            <i className="bi bi-person-badge-fill me-2" style={{ fontSize: 24 }} />
+            <h2 className="mb-0 text-white">Gestión de Puestos</h2>
           </div>
         </div>
         {/* Barra de búsqueda con 3 botones */}
-        {/* --- CAMBIO: Barra de búsqueda igual a VerListaVehiculos --- */}
         <div className="card">
           <div className="card-body">
             <div className="d-flex justify-content-between mb-4 align-items-center">
@@ -85,14 +87,13 @@ const VerAreas: React.FC = () => {
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Buscar área por ID..."
+                    placeholder="Buscar puesto por ID..."
                     value={searchId}
                     onChange={e => setSearchId(e.target.value)}
                     style={{ minWidth: 0 }}
                   />
                 </div>
                 <div className="d-flex gap-2 ms-2">
-                  {/* --- CAMBIO: Botón Buscar por ID --- */}
                   <button
                     className="btn btn-primary"
                     style={{ minWidth: 140 }}
@@ -100,7 +101,6 @@ const VerAreas: React.FC = () => {
                   >
                     Buscar por ID
                   </button>
-                  {/* --- CAMBIO: Botón Mostrar todos --- */}
                   <button
                     className="btn btn-success"
                     style={{ minWidth: 140 }}
@@ -108,43 +108,45 @@ const VerAreas: React.FC = () => {
                   >
                     Mostrar todos
                   </button>
-                  {/* --- CAMBIO: Botón Crear área --- */}
                   <button
                     className="btn btn-warning"
                     style={{ minWidth: 140, width: "100%" }}
                     onClick={() => setShowCreateModal(true)}
                   >
-                    Crear área
+                    Crear puesto
                   </button>
                 </div>
               </div>
             </div>
 
-            {/* --- CAMBIO: Tabla con columna de acciones --- */}
+            {/* Tabla de puestos */}
             <div className="custom-table-wrapper">
               <table className="table custom-table">
                 <thead>
                   <tr>
-                    <th>ID</th>
-                    <th>Nombre del Área</th>
+                    <th>ID Puesto</th>
+                    <th>Nombre del Puesto</th>
+                    <th>Fecha Asignación</th>
                     <th>Descripción</th>
-                    <th>Acciones</th> {/* --- CAMBIO: Columna de acciones --- */}
+                    <th>Área</th>
+                    <th>Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredAreas.length > 0 ? (
-                    filteredAreas.map((area) => (
-                      <tr key={area.idArea}>
-                        <td>{area.idArea}</td>
-                        <td>{area.nombreArea}</td>
-                        <td>{area.descripcionArea}</td>
+                  {filteredPuestos.length > 0 ? (
+                    filteredPuestos.map((puesto) => (
+                      <tr key={puesto.idPuesto}>
+                        <td>{puesto.idPuesto}</td>
+                        <td>{puesto.nombrePuesto}</td>
+                        <td>{puesto.fechaAsignacionPuesto}</td>
+                        <td>{puesto.descripcionPuesto}</td>
+                        <td>{puesto.area}</td>
                         <td>
-                          {/* --- CAMBIO: Botones de editar y eliminar con tooltip y modal --- */}
                           <div className="d-flex gap-2 justify-content-center">
                             <OverlayTrigger placement="top" overlay={<Tooltip>Editar</Tooltip>}>
                               <button
                                 className="btn btn-sm btn-primary"
-                                onClick={() => handleEdit(area)}
+                                onClick={() => handleEdit(puesto)}
                               >
                                 <i className="bi bi-pencil"></i>
                               </button>
@@ -152,7 +154,7 @@ const VerAreas: React.FC = () => {
                             <OverlayTrigger placement="top" overlay={<Tooltip>Eliminar</Tooltip>}>
                               <button
                                 className="btn btn-sm btn-danger"
-                                onClick={() => handleDelete(area)}
+                                onClick={() => handleDelete(puesto)}
                               >
                                 <i className="bi bi-trash"></i>
                               </button>
@@ -163,8 +165,8 @@ const VerAreas: React.FC = () => {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan={4} className="text-center py-4">
-                        <div className="text-muted">No se encontraron áreas</div>
+                      <td colSpan={6} className="text-center py-4">
+                        <div className="text-muted">No se encontraron puestos</div>
                       </td>
                     </tr>
                   )}
@@ -174,21 +176,29 @@ const VerAreas: React.FC = () => {
           </div>
         </div>
 
-        {/* --- CAMBIO: Modal para crear área --- */}
+        {/* Modal para crear puesto */}
         {showCreateModal && (
           <div className="crear-conductor-modal-bg">
             <div className="crear-conductor-modal">
-              <h5 className="modal-title">Crear Área</h5>
+              <h5 className="modal-title">Crear Puesto</h5>
               <form>
                 <div className="crear-conductor-form">
                   <div className="mb-2">
-                    <label className="form-label">Nombre del Área</label>
-                    <input className="form-control" placeholder="Nombre del Área" />
+                    <label className="form-label">Nombre del Puesto</label>
+                    <input className="form-control" placeholder="Nombre del Puesto" />
+                  </div>
+                  <div className="mb-2">
+                    <label className="form-label">Fecha Asignación</label>
+                    <input className="form-control" type="date" />
                   </div>
                   <div className="mb-2">
                     <label className="form-label">Descripción</label>
                     <input className="form-control" placeholder="Descripción" />
                   </div>
+                  <div className="mb-2">
+                    <label className="form-label">Área</label>
+                    <input className="form-control" placeholder="Área" />
+                  </div>
                 </div>
                 <div className="modal-footer">
                   <button
@@ -211,20 +221,28 @@ const VerAreas: React.FC = () => {
           </div>
         )}
 
-        {/* --- CAMBIO: Modal para editar área --- */}
-        {showEditModal && editArea && (
+        {/* Modal para editar puesto */}
+        {showEditModal && editPuesto && (
           <div className="crear-conductor-modal-bg">
             <div className="crear-conductor-modal">
-              <h5 className="modal-title">Editar Área</h5>
+              <h5 className="modal-title">Editar Puesto</h5>
               <form>
                 <div className="crear-conductor-form">
                   <div className="mb-2">
-                    <label className="form-label">Nombre del Área</label>
-                    <input className="form-control" defaultValue={editArea.nombreArea} />
+                    <label className="form-label">Nombre del Puesto</label>
+                    <input className="form-control" defaultValue={editPuesto.nombrePuesto} />
+                  </div>
+                  <div className="mb-2">
+                    <label className="form-label">Fecha Asignación</label>
+                    <input className="form-control" type="date" defaultValue={editPuesto.fechaAsignacionPuesto} />
                   </div>
                   <div className="mb-2">
                     <label className="form-label">Descripción</label>
-                    <input className="form-control" defaultValue={editArea.descripcionArea} />
+                    <input className="form-control" defaultValue={editPuesto.descripcionPuesto} />
+                  </div>
+                  <div className="mb-2">
+                    <label className="form-label">Área</label>
+                    <input className="form-control" defaultValue={editPuesto.area} />
                   </div>
                 </div>
                 <div className="modal-footer">
@@ -248,8 +266,8 @@ const VerAreas: React.FC = () => {
           </div>
         )}
 
-        {/* --- CAMBIO: Modal para eliminar área --- */}
-        {showDeleteModal && selectedArea && (
+        {/* Modal para eliminar puesto */}
+        {showDeleteModal && selectedPuesto && (
           <div className="crear-conductor-modal-bg">
             <div className="crear-conductor-modal" style={{ maxWidth: 380 }}>
               <h5 className="modal-title mb-3 text-danger">
@@ -257,7 +275,7 @@ const VerAreas: React.FC = () => {
                 Confirmar Eliminación
               </h5>
               <div className="mb-3">
-                ¿Estás seguro que deseas eliminar esta área? Esta acción no se puede deshacer.
+                ¿Estás seguro que deseas eliminar este puesto? Esta acción no se puede deshacer.
               </div>
               <div className="modal-footer">
                 <button
@@ -283,4 +301,4 @@ const VerAreas: React.FC = () => {
   );
 };
 
-export default VerAreas;
+export default Puestos;

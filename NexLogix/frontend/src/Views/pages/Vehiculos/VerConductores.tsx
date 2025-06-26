@@ -3,7 +3,8 @@ import { Card, Table, Button, OverlayTrigger, Tooltip, Container } from "react-b
 import { ExclamationTriangleFill, Search, EyeFill, PencilFill, TrashFill, PlusCircleFill, PeopleFill, SaveFill, XCircleFill } from "react-bootstrap-icons";
 import { FiCheckCircle, FiXCircle } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import "../../../Views/Styles/Profiles/VerConductoresStyle.css";
+import "../../../Views/Styles/NavBar/Logistica/VerConductoresStyle.css";
+import "../../../Views/Styles/NavBar/Logistica/ListaVehiculos.css";
 
 interface Conductor {
   id: number;
