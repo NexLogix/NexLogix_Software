@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
+import { Card, Table, Button, OverlayTrigger, Tooltip, Container } from "react-bootstrap";
+import { ExclamationTriangleFill, Search, EyeFill, PencilFill, TrashFill, PlusCircleFill, PeopleFill, SaveFill, XCircleFill } from "react-bootstrap-icons";
+import { FiCheckCircle, FiXCircle } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import NavBuscarUsuario from "../../componets/NavBars/NavBuscarUsuario";
+import "../../../Views/Styles/NavBar/Logistica/VerConductoresStyle.css";
+import "../../../Views/Styles/NavBar/Logistica/ListaVehiculos.css";
 
 interface Conductor {
   id: number;
@@ -19,11 +23,16 @@ const VerConductores = () => {
   const [conductores, setConductores] = useState<Conductor[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showStatusModal, setShowStatusModal] = useState(false);
-  const [selectedDriver, setSelectedDriver] = useState<Conductor | null>(null);
   const [newStatus, setNewStatus] = useState("");
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editedDriver, setEditedDriver] = useState<Partial<Conductor>>({});
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editDriver, setEditDriver] = useState<Conductor | null>(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedDriver, setSelectedDriver] = useState<Conductor | null>(null);
   const navigate = useNavigate();
 
-  // Datos de ejemplo para 8 conductores
   useEffect(() => {
     const mockConductores: Conductor[] = [
       {
@@ -133,7 +142,43 @@ const VerConductores = () => {
   );
 
   const handleEdit = (id: number) => {
-    navigate(`/manager/editarConductor/${id}`);
+    const driver = conductores.find((d) => d.id === id);
+    if (driver) {
+      setEditingId(id);
+      setEditedDriver({ ...driver });
+    }
+  };
+
+  const handleEditChange = (field: keyof Conductor, value: string) => {
+    setEditedDriver((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  const handleEditSave = () => {
+    if (editingId && editedDriver) {
+      setConductores((prev) =>
+        prev.map((driver) =>
+          driver.id === editingId ? { ...driver, ...editedDriver } : driver
+        )
+      );
+      setEditingId(null);
+      setEditedDriver({});
+    }
+  };
+
+  const handleEditCancel = () => {
+    setEditingId(null);
+    setEditedDriver({});
+  };
+
+  const handleView = (id: number) => {
+    navigate(`/manager/verConductor/${id}`);
+  };
+
+  const handleDelete = (id: number) => {
+    alert(`Eliminar conductor con id: ${id}`);
   };
 
   const handleStatusChange = (driver: Conductor) => {
@@ -152,124 +197,282 @@ const VerConductores = () => {
   };
 
   const getStatusBadge = (estado: string) => {
-    switch(estado) {
-      case "Disponible":
-        return "bg-success";
-      case "En ruta":
-        return "bg-primary";
-      case "Vacaciones":
-        return "bg-info";
-      case "Inactivo":
-        return "bg-danger";
-      case "En capacitación":
-        return "bg-warning";
-      default:
-        return "bg-secondary";
+    switch (estado) {
+      case "Disponible": return "success";
+      case "En ruta": return "primary";
+      case "Vacaciones": return "info";
+      case "Inactivo": return "danger";
+      case "En capacitación": return "warning";
+      default: return "secondary";
     }
   };
 
   const getLicenseBadge = (vigencia: string) => {
     const hoy = new Date();
     const fechaVigencia = new Date(vigencia);
-    return fechaVigencia > hoy ? "bg-success" : "bg-danger";
+    return fechaVigencia > hoy ? "success" : "danger";
   };
 
   return (
-    <>
-      <NavBuscarUsuario />
-      <div className="container-fluid px-4 py-5">
-        <div className="card border-0 shadow">
-          <div className="card-header bg-primary text-white p-4">
-            <div className="d-flex justify-content-between align-items-center">
-              <h2 className="mb-0">Gestión de Conductores</h2>
-              <div className="d-flex gap-2">
+    <Container fluid className="p-0 m-0">
+      {/* Header azul */}
+      <div className="header-azul mb-3">
+        <div className="d-flex align-items-center p-3">
+          <PeopleFill size={24} className="me-2" />
+          <h2 className="mb-0 text-white">Gestión de Conductores</h2>
+        </div>
+      </div>
+
+      <Card>
+        <Card.Body>
+          <div className="d-flex justify-content-between mb-4 align-items-center">
+            {/* Barra de búsqueda y botón Mostrar reportes */}
+            <div className="d-flex align-items-center" style={{ flex: 1, minWidth: 0 }}>
+              <div className="input-group w-100" /* elimina style={{ maxWidth: 500 }} */>
+                <span className="input-group-text px-2">
+                  <Search />
+                </span>
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Buscar conductor..."
+                  placeholder="Buscar reportes..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
+                  style={{ minWidth: 0 }}
                 />
-                <button 
-                  className="btn btn-light"
-                  onClick={() => navigate("/manager/crearConductor")}
+              </div>
+              <div className="d-flex gap-2 ms-2">
+                <Button
+                  variant="primary"
+                  style={{ minWidth: 140 }}
+                  onClick={() => {/* Lógica para buscar por ID */}}
                 >
-                  <i className="bi bi-plus-lg"></i> Nuevo
-                </button>
+                  Buscar por ID
+                </Button>
+                <Button
+                  variant="success"
+                  style={{ minWidth: 140 }}
+                  onClick={() => {/* Lógica para mostrar todos */}}
+                >
+                  Mostrar todos
+                </Button>
+                {/* <Link to="/manager/crearConductor" style={{ minWidth: 140, textDecoration: "none" }}> */}
+                  <Button
+                    variant="warning"
+                    style={{ minWidth: 140, width: "100%" }}
+                    onClick={() => setShowCreateModal(true)}
+                  >
+                    Crear conductor
+                  </Button>
+                {/* </Link> */}
               </div>
             </div>
           </div>
 
-          <div className="card-body p-4">
-            <div className="table-responsive">
-              <table className="table table-hover align-middle">
-                <thead className="table-light">
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Documento</th>
-                    <th scope="col">Licencia</th>
-                    <th scope="col">Tipo/Vigencia</th>
-                    <th scope="col">Estado</th>
-                    <th scope="col">Vehículo Asignado</th>
-                    <th scope="col">Contacto</th>
-                    <th scope="col" className="text-end">Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredDrivers.length > 0 ? (
-                    filteredDrivers.map((driver) => (
-                      <tr key={driver.id}>
-                        <td>{driver.id}</td>
-                        <td>
-                          <div className="fw-semibold">{driver.nombre}</div>
-                          <div className="text-muted small">{driver.email}</div>
-                        </td>
-                        <td>{driver.documento}</td>
-                        <td>{driver.licencia}</td>
-                        <td>
-                          <div>
-                            <span className="badge bg-secondary me-1">{driver.tipoLicencia}</span>
-                            <span className={`badge ${getLicenseBadge(driver.vigenciaLicencia)}`}>
+          <div className="custom-table-wrapper">
+            <Table striped hover className="custom-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Nombre</th>
+                  <th>Email</th>
+                  <th>Documento</th>
+                  <th>Licencia</th>
+                  <th>Tipo Licencia</th>
+                  <th>Vigencia Licencia</th>
+                  <th>Estado</th>
+                  <th>Vehículo Asignado</th>
+                  <th>Contacto</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredDrivers.length > 0 ? (
+                  filteredDrivers.map((driver) => (
+                    <tr key={driver.id}>
+                      <td>{driver.id}</td>
+                      {editingId === driver.id ? (
+                        <>
+                          <td className="edit-sm">
+                            <input
+                              type="text"
+                              className="form-control edit-sm"
+                              value={editedDriver.nombre || ""}
+                              onChange={(e) => handleEditChange("nombre", e.target.value)}
+                              placeholder="Nombre"
+                            />
+                          </td>
+                          <td className="edit-sm">
+                            <input
+                              type="email"
+                              className="form-control edit-sm"
+                              value={editedDriver.email || ""}
+                              onChange={(e) => handleEditChange("email", e.target.value)}
+                              placeholder="Email"
+                            />
+                          </td>
+                          <td className="edit-sm">
+                            <input
+                              type="text"
+                              className="form-control edit-sm"
+                              value={editedDriver.documento || ""}
+                              onChange={(e) => handleEditChange("documento", e.target.value)}
+                              placeholder="Documento"
+                            />
+                          </td>
+                          <td className="edit-sm">
+                            <input
+                              type="text"
+                              className="form-control edit-sm"
+                              value={editedDriver.licencia || ""}
+                              onChange={(e) => handleEditChange("licencia", e.target.value)}
+                              placeholder="Licencia"
+                            />
+                          </td>
+                          <td className="edit-sm">
+                            <select
+                              className="form-select edit-sm"
+                              value={editedDriver.tipoLicencia || ""}
+                              onChange={(e) => handleEditChange("tipoLicencia", e.target.value)}
+                            >
+                              <option value="B1">B1</option>
+                              <option value="B2">B2</option>
+                              <option value="C1">C1</option>
+                              <option value="C2">C2</option>
+                              <option value="C3">C3</option>
+                            </select>
+                          </td>
+                          <td className="edit-sm">
+                            <input
+                              type="date"
+                              className="form-control edit-sm"
+                              value={editedDriver.vigenciaLicencia || ""}
+                              onChange={(e) => handleEditChange("vigenciaLicencia", e.target.value)}
+                            />
+                          </td>
+                          <td className="edit-sm">
+                            <select
+                              className="form-select edit-sm"
+                              value={editedDriver.estado || ""}
+                              onChange={(e) => handleEditChange("estado", e.target.value)}
+                            >
+                              <option value="Disponible">Disponible</option>
+                              <option value="En ruta">En ruta</option>
+                              <option value="Vacaciones">Vacaciones</option>
+                              <option value="En capacitación">En capacitación</option>
+                              <option value="Inactivo">Inactivo</option>
+                            </select>
+                          </td>
+                          <td className="edit-sm">
+                            <input
+                              type="text"
+                              className="form-control edit-sm"
+                              value={editedDriver.vehiculoAsignado || ""}
+                              onChange={(e) => handleEditChange("vehiculoAsignado", e.target.value)}
+                              placeholder="Vehículo"
+                            />
+                          </td>
+                          <td className="edit-sm">
+                            <input
+                              type="text"
+                              className="form-control edit-sm"
+                              value={editedDriver.telefono || ""}
+                              onChange={(e) => handleEditChange("telefono", e.target.value)}
+                              placeholder="Contacto"
+                            />
+                          </td>
+                          <td className="edit-sm">
+                            <div className="d-flex gap-2 justify-content-center">
+                              <OverlayTrigger placement="top" overlay={<Tooltip>Guardar</Tooltip>}>
+                                <Button
+                                  variant="link"
+                                  size="sm"
+                                  className="p-0"
+                                  style={{ color: "#22bb33" }}
+                                  onClick={handleEditSave}
+                                >
+                                  <FiCheckCircle size={22} />
+                                </Button>
+                              </OverlayTrigger>
+                              <OverlayTrigger placement="top" overlay={<Tooltip>Cancelar</Tooltip>}>
+                                <Button
+                                  variant="link"
+                                  size="sm"
+                                  className="p-0"
+                                  style={{ color: "#e74c3c" }}
+                                  onClick={handleEditCancel}
+                                >
+                                  <FiXCircle size={22} />
+                                </Button>
+                              </OverlayTrigger>
+                            </div>
+                          </td>
+                        </>
+                      ) : (
+                        <>
+                          <td>{driver.nombre}</td>
+                          <td>{driver.email}</td>
+                          <td>{driver.documento}</td>
+                          <td>{driver.licencia}</td>
+                          <td>
+                            <span className="badge bg-secondary">{driver.tipoLicencia}</span>
+                          </td>
+                          <td>
+                            <span className={`badge bg-${getLicenseBadge(driver.vigenciaLicencia)}`}>
                               {new Date(driver.vigenciaLicencia).toLocaleDateString()}
                             </span>
-                          </div>
-                        </td>
-                        <td>
-                          <span 
-                            className={`badge ${getStatusBadge(driver.estado)} pointer`}
-                            onClick={() => handleStatusChange(driver)}
-                          >
-                            {driver.estado}
-                          </span>
-                        </td>
-                        <td>{driver.vehiculoAsignado}</td>
-                        <td>{driver.telefono}</td>
-                        <td className="text-end">
-                          <div className="d-flex gap-2 justify-content-end">
-                            <button 
-                              className="btn btn-sm btn-outline-primary"
-                              onClick={() => handleEdit(driver.id)}
-                            >
-                              <i className="bi bi-pencil"></i> Editar
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan={9} className="text-center py-4">
-                        <div className="text-muted">No se encontraron conductores</div>
-                      </td>
+                          </td>
+                          <td>
+                            <span className={`badge bg-${getStatusBadge(driver.estado)} badge-estado-uniforme`}>
+                              {driver.estado}
+                            </span>
+                          </td>
+                          <td>{driver.vehiculoAsignado}</td>
+                          <td>{driver.telefono}</td>
+                          <td>
+                            <div className="d-flex gap-2 justify-content-center">
+                              <OverlayTrigger placement="top" overlay={<Tooltip>Editar</Tooltip>}>
+                                <Button
+                                  variant="primary"
+                                  size="sm"
+                                  onClick={() => {
+                                    setEditDriver(driver);
+                                    setShowEditModal(true);
+                                  }}
+                                >
+                                  <PencilFill />
+                                </Button>
+                              </OverlayTrigger>
+                              <OverlayTrigger placement="top" overlay={<Tooltip>Eliminar</Tooltip>}>
+                                <Button
+                                  variant="danger"
+                                  size="sm"
+                                  onClick={() => {
+                                    setSelectedDriver(driver);
+                                    setShowDeleteModal(true);
+                                  }}
+                                >
+                                  <TrashFill />
+                                </Button>
+                              </OverlayTrigger>
+                            </div>
+                          </td>
+                        </>
+                      )}
                     </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={11} className="text-center py-4">
+                      <div className="text-muted">No se encontraron conductores</div>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </Table>
           </div>
-        </div>
-      </div>
+        </Card.Body>
+      </Card>
 
       {/* Modal para cambiar estado */}
       <div className={`modal fade ${showStatusModal ? 'show d-block' : ''}`} tabIndex={-1}>
@@ -277,9 +480,9 @@ const VerConductores = () => {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">Cambiar estado del conductor</h5>
-              <button 
-                type="button" 
-                className="btn-close" 
+              <button
+                type="button"
+                className="btn-close"
                 onClick={() => setShowStatusModal(false)}
               ></button>
             </div>
@@ -302,16 +505,16 @@ const VerConductores = () => {
               </div>
             </div>
             <div className="modal-footer">
-              <button 
-                type="button" 
-                className="btn btn-secondary" 
+              <button
+                type="button"
+                className="btn btn-secondary"
                 onClick={() => setShowStatusModal(false)}
               >
                 Cancelar
               </button>
-              <button 
-                type="button" 
-                className="btn btn-primary" 
+              <button
+                type="button"
+                className="btn btn-primary"
                 onClick={confirmStatusChange}
               >
                 Confirmar Cambio
@@ -320,7 +523,167 @@ const VerConductores = () => {
           </div>
         </div>
       </div>
-    </>
+
+      {/* Modal para crear conductor */}
+      {showCreateModal && (
+        <div className="crear-conductor-modal-bg">
+          <div className="crear-conductor-modal">
+            <h5 className="modal-title">Crear Conductor</h5>
+            <form>
+              <div className="crear-conductor-form">
+                <div className="mb-2">
+                  <label className="form-label">Nombre completo</label>
+                  <input className="form-control" placeholder="Nombre" />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Email</label>
+                  <input className="form-control" placeholder="Email" type="email" />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Documento</label>
+                  <input className="form-control" placeholder="Documento" />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Numero de licencia</label>
+                  <input className="form-control" placeholder="Licencia" />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Tipo de licencia</label>
+                  <select className="form-select">
+                    <option>A1</option>
+                    <option>A2</option>
+                    <option>B1</option>
+                    <option>B2</option>
+                    <option>B3</option>
+                    <option>C1</option>
+                    <option>C2</option>
+                    <option>C3</option>
+                  </select>
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Fecha de vencimiento de licencia</label>
+                  <input className="form-control" type="date" />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Estado</label>
+                  <select className="form-select">
+                    <option>Disponible</option>
+                    <option>En ruta</option>
+                    <option>Vacaciones</option>
+                    <option>En capacitación</option>
+                    <option>Inactivo</option>
+                  </select>
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Vehículo Asignado</label>
+                  <input className="form-control" placeholder="Vehículo" />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Contacto</label>
+                  <input className="form-control" placeholder="Teléfono" />
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => setShowCreateModal(false)}
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-success"
+                  onClick={() => setShowCreateModal(false)}
+                >
+                  Guardar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal para editar conductor */}
+      {showEditModal && editDriver && (
+        <div className="crear-conductor-modal-bg">
+          <div className="crear-conductor-modal">
+            <h5 className="modal-title">Editar Conductor</h5>
+            <form>
+              <div className="crear-conductor-form">
+                <div className="mb-2">
+                  <label className="form-label">Nombre completo</label>
+                  <input className="form-control" defaultValue={editDriver.nombre} />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Email</label>
+                  <input className="form-control" defaultValue={editDriver.email} type="email" />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Documento</label>
+                  <input className="form-control" defaultValue={editDriver.documento} />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Numero de licencia</label>
+                  <input className="form-control" defaultValue={editDriver.licencia} />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Tipo de licencia</label>
+                  <select className="form-select" defaultValue={editDriver.tipoLicencia}>
+                    <option>A1</option>
+                    <option>A2</option>
+                    <option>B1</option>
+                    <option>B2</option>
+                    <option>B3</option>
+                    <option>C1</option>
+                    <option>C2</option>
+                    <option>C3</option>
+                  </select>
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Fecha de vencimiento de licencia</label>
+                  <input className="form-control" type="date" defaultValue={editDriver.vigenciaLicencia} />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Estado</label>
+                  <select className="form-select" defaultValue={editDriver.estado}>
+                    <option>Disponible</option>
+                    <option>En ruta</option>
+                    <option>Vacaciones</option>
+                    <option>En capacitación</option>
+                    <option>Inactivo</option>
+                  </select>
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Vehículo Asignado</label>
+                  <input className="form-control" defaultValue={editDriver.vehiculoAsignado} />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Contacto</label>
+                  <input className="form-control" defaultValue={editDriver.telefono} />
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => setShowEditModal(false)}
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-success"
+                  onClick={() => setShowEditModal(false)}
+                >
+                  Guardar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </Container>
   );
 };
 

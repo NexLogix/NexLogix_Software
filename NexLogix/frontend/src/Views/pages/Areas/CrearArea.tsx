@@ -1,6 +1,6 @@
 import React from 'react';
 import { useCreateAreaController } from '../../../Controllers/Areas/AreasController';
-import './../../Styles/Areas/AreasStyle.css';
+import './../../Styles/NavBar/Administracion/GeneralStyle.css';
 
 const CrearArea: React.FC = () => {
   const { state, handleInputChange, handleCreateSubmit } = useCreateAreaController();

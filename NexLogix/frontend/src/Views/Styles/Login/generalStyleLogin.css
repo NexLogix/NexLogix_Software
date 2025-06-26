@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Alumni+Sans+SC:ital,wght@0,400..900;1,100..200&display=swap'); 
+
+/* Contenedor de fondo animado para la pantalla de login */
+.bg_login {
+  position: absolute; /* Ocupa toda la pantalla desde la raíz */
+  top: 0;
+  left: 0;
+  min-height: 100vh;
+  width: 100%;
+  display: flex; /* Centrado horizontal y vertical */
+  justify-content: center;
+  align-items: center;
+  background-color: #161625; /* Fondo estático principal */
+  font-family: 'Poppins', sans-serif;
+  overflow: hidden; /* Oculta desbordes del gradiente animado */
+}
+
+/* Gradiente animado de fondo sutil */
+.bg_login::before {
+  content: "";
+  position: absolute;
+  inset: 0; /* Ocupa todo el contenedor */
+  background: repeating-linear-gradient(
+    135deg,
+    #161625 0px,
+    #161625 18px,
+    #232c42 24px,
+    #232c42 15px,
+    #161625 55px,
+    #161625 50px
+  );
+  background-size: 200% 200%; /* Permite una animación más amplia */
+  animation: barrido-diagonal 50s linear infinite; /* Movimiento suave del fondo */
+  opacity: 0.5; /* Hace el patrón visualmente sutil */
+  z-index: 0; /* Se posiciona detrás del contenido */
+}
+
+.login_caja {
+  position: relative;
+  overflow: hidden;
+  border-radius: 15px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 450px;
+  background-color: #232c423d; /* Aqui se establece un fondo semitransparente de la caja login */
+  text-align: center;
+  z-index: 1;
+
+  /* Simula el borde difuminado */
+  box-shadow:
+    0 0 5px #232c42  /* Difuminado exterior */
+    0 0 4px #232c42 inset; /* Difuminado interior */
+    border: 1px solid #232c42; /* Borde sutil real */
+}
+
+.login_caja > * {
+  position: relative;
+  z-index: 1; /* Asegura que los elementos internos estén visibles sobre la animación */
+}
+
+@keyframes barrido-diagonal {
+  from {
+    background-position: 0% 0%;
+  }
+  to {
+    background-position: 100% 100%; /* Dirección del movimiento del gradiente */
+  }
+}
+
+
+/* Estilos del título y marca */
+.login_caja h1 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #232c42;
+  margin-bottom: 1.5rem;
+}
+
+.login_caja h2 {
+  font-family: 'Alumni Sans SC', sans-serif;
+  letter-spacing: 0.1rem;
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 200;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+/* Estilos de los inputs */
+.login_caja .form-control {
+  font-size: 1rem;
+  padding: 0.75rem;
+  border: 1px solid #3a4566;
+  border-radius: 1.0rem;
+  background: #ffffff;
+  color: #232c42;
+}
+
+.login_caja .input-group-text {
+  border-radius: 1.0rem 0 0 1.0rem;
+  border: 1px solid #3a4566;
+  background-color: #232c42;
+  color: #232c42;
+}
+
+/* Botón de inicio de sesión */
+.login_caja .btn-primary {
+  font-family: "Alumni Sans SC", sans-serif;
+  background: #161625;
+  color: #86aaf9;
+  border: none;
+  font-size: 1.4rem;
+  font-weight: 600;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid #86aaf9;
+}
+
+/* Efecto hover en botón */
+.login_caja .btn-primary:hover {
+  background: #86aaf9;
+  color: #161625;
+  border-radius: 0.5rem;
+  border: 1px solid #86aaf9;
+}
+
+/* Estilos para el toast de error */
+.login_caja .toast {
+  max-width: 300px;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  background: #232c42;
+  color: #232c42;
+}
