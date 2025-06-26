@@ -147,13 +147,13 @@ Route::group([
         ->middleware('role:2'); // Manager y Empleado
     Route::get('/{id}', [AreasController::class, 'showByID'])
         ->middleware('role:2'); // Manager y Empleado
-    Route::post('/crear_area', [AreasController::class, 'createArea'])
+    Route::post('/', [AreasController::class, 'createArea'])
         ->middleware('role:2'); // Solo Manager
-    Route::put('/editar_area/{id}', [AreasController::class, 'updateArea'])
+    Route::put('/{id}', [AreasController::class, 'updateArea'])
         ->middleware('role:2'); // Solo Manager
-    Route::patch('/actualizar_campos_especificos_area/{id}', [AreasController::class, 'updatePartialArea'])
+    Route::patch('/{id}', [AreasController::class, 'updatePartialArea'])
         ->middleware('role:2'); // Solo Manager
-    Route::delete('/eliminar_area/{id}', [AreasController::class, 'deleteArea'])
+    Route::delete('/{id}', [AreasController::class, 'deleteArea'])
         ->middleware('role:2'); // Solo Manager
 });
 
@@ -168,15 +168,15 @@ Route::group([
 ], function () {
     Route::get('/', [PuestosController::class, 'showAll'])
         ->middleware('role:2,3'); // Manager y Empleado
-    Route::get('/buscar_puesto/{id}', [PuestosController::class, 'showByID'])
+    Route::get('/{id}', [PuestosController::class, 'showByID'])
         ->middleware('role:2,3'); // Manager y Empleado
-    Route::post('/crear_puesto', [PuestosController::class, 'createPuesto'])
+    Route::post('/', [PuestosController::class, 'createPuesto'])
         ->middleware('role:2'); // Solo Manager
-    Route::put('/editar_puesto/{id}', [PuestosController::class, 'updatePuesto'])
+    Route::put('/{id}', [PuestosController::class, 'updatePuesto'])
         ->middleware('role:2'); // Solo Manager
-    Route::patch('/actualizar_campos_especificos_puesto/{id}', [PuestosController::class, 'updatePartialPuesto'])
+    Route::patch('/{id}', [PuestosController::class, 'updatePartialPuesto'])
         ->middleware('role:2'); // Solo Manager
-    Route::delete('/eliminar_puesto/{id}', [PuestosController::class, 'deletePuesto'])
+    Route::delete('/{id}', [PuestosController::class, 'deletePuesto'])
         ->middleware('role:2'); // Solo Manager
 });
 
