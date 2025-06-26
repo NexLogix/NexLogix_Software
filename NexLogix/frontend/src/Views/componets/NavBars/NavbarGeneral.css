@@ -1,0 +1,20 @@
+ul.dropdown-menu .dropdown-item.custom-bg {
+  background-color: #161625 !important;
+  color: #fff !important;
+  transition: background 0.2s;
+}
+ul.dropdown-menu .dropdown-item.custom-bg:hover,
+ul.dropdown-menu .dropdown-item.custom-bg:focus {
+  background-color: #232c42 !important;
+  color: #fff !important;
+}
+ul.dropdown-menu .dropdown-item.custom-logout {
+  background-color: #161625 !important;
+  color: #ff4d4f !important; /* Rojo para el texto */
+  transition: background 0.2s, color 0.2s;
+}
+ul.dropdown-menu .dropdown-item.custom-logout:hover,
+ul.dropdown-menu .dropdown-item.custom-logout:focus {
+  background-color: #ff4d4f !important; /* Fondo rojo al pasar mouse */
+  color: #fff !important; /* Texto blanco */
+}
