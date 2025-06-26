@@ -1,5 +1,5 @@
-// src/components/NavbarGeneral.tsx
 import { useLogoutController } from "../../../Controllers/Users/UserController";
+import logo from "../../../assets/logo.png"; // Se corrigió la ruta para importar el logo PNG correctamente
 
 const NavbarGeneral = () => {
     // Llamada del controller logout
@@ -16,8 +16,30 @@ const NavbarGeneral = () => {
     };
 
     return (
-        <nav className="navbar navbar-expand-lg navbar-dark shadow-lg">
-            <a className="navbar-brand p-3 mr-7" href="#">NexLogix</a>
+        <nav
+            className="navbar navbar-expand-lg navbar-dark shadow-lg"
+            style={{ height: 60, minHeight: 60, maxHeight: 60 }} // Altura fija del navbar
+        >
+            <div
+                className="navbar-brand p-5 mr-7 d-flex align-items-center"
+                style={{
+                    height: 60,
+                    overflow: "hidden",
+                    marginLeft: "20px"
+                }}
+            >
+                <img
+                    src={logo}
+                    alt="Logo NexLogix"
+                    style={{
+                        width: 80,
+                        height: 80,
+                        marginRight: 0,
+                        objectFit: "contain",
+                        display: "block"
+                    }}
+                />
+            </div>
             <button
                 className="navbar-toggler"
                 type="button"

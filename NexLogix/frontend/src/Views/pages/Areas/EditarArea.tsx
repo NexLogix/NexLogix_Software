@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAreasController, useCreateAreaController } from '../../../Controllers/Areas/AreasController';
-import './../../Styles/Areas/AreasStyle.css';
+import './../../Styles/NavBar/Administracion/GeneralStyle.css';
 
 
 const EditarAreas: React.FC = () => {

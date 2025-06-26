@@ -5,10 +5,16 @@ import ManagerProfile from "../Views/profiles/ManagerProfile/ManagerProfile";
 import HomeManager from "../Views/profiles/ManagerProfile/HomeManager";
 
 // AREAS
-import VerAreas from '../Views/pages/Areas/VerAreas';
-import EditarAreas from "../Views/pages/Areas/EditarArea";
-import CrearArea from "../Views/pages/Areas/CrearArea";
-import EliminarArea from "../Views/pages/Areas/EliminarArea";
+// import EditarAreas from "../Views/pages/Areas/EditarArea";
+// import CrearArea from "../Views/pages/Areas/CrearArea";
+// import EliminarArea from "../Views/pages/Areas/EliminarArea";
+
+// ADMINISTRACION
+import Puestos from "../Views/pages/Administracion/Puestos";
+import VerAreas from '../Views/pages/Administracion/VerAreas';
+import Reportes from "../Views/pages/Administracion/Reportes";
+import Roles from "../Views/pages/Administracion/Roles";
+import Usuarios from "../Views/pages/Administracion/Usuarios";
 
 // PUESTOS
 import VerPuestos from "../Views/pages/Puestos/VerPuestos";
@@ -46,6 +52,9 @@ import ChatConIngeniero from "../Views/pages/Soporte/ChatIngeniero";
 import ReporteAnomalias from "../Views/pages/Soporte/ReporteAnomalias";
 // REPORTES
 import VerReportes from "../Views/pages/Reportes/VerReportes";
+import CrearReporte from "../Views/pages/Reportes/CrearReporte";
+
+// FOOTER
 import EstamosUbicadosEn from "../Views/componets/Footers/EstamosUbicadoEn";
 import AcercaDe from "../Views/componets/Footers/AcercaDe";
 
@@ -62,10 +71,18 @@ const ProtectedRouteManagers = () => {
         <Route index element={<HomeManager />} />
 
         {/*GESTION AREAS*/} 
-        <Route path="verAreas" element={<VerAreas />} />
+        {/* <Route path="verAreas" element={<VerAreas />} />
         <Route path="crearArea" element={<CrearArea />} />
         <Route path="editarArea" element={<EditarAreas />} />
-        <Route path="eliminarArea" element={<EliminarArea />} />
+        <Route path="eliminarArea" element={<EliminarArea />} /> */}
+
+        {/*GESTION ADMINISTRACION*/}
+        <Route path="verAreas" element={<VerAreas />} />
+        <Route path="puestos" element={<Puestos />} />
+        <Route path="reportes" element={<Reportes />} />
+        <Route path="roles" element={<Roles />} />
+        <Route path="usuarios" element={<Usuarios />} />
+
 
         {/*GESTION AUDITORIAS*/}
         <Route path="verAuditorias" element={<VerAuditorias />} />
@@ -115,6 +132,9 @@ const ProtectedRouteManagers = () => {
 
         {/*GESTION REPORTES*/}
         <Route path="verReportes" element={<VerReportes />} />
+        <Route path="crearReporte" element={<CrearReporte />} />
+
+        {/*FOOTER*/}
         <Route path="ubicacion" element={<EstamosUbicadosEn />} />
         <Route path="acerca_de" element={<AcercaDe />} />
 

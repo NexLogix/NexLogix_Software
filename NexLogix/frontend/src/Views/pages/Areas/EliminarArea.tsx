@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useAreasController } from '../../../Controllers/Areas/AreasController';
-import './../../Styles/Areas/AreasStyle.css';
+import './../../Styles/NavBar/Administracion/GeneralStyle.css';
 
 
 const EliminarArea: React.FC = () => {

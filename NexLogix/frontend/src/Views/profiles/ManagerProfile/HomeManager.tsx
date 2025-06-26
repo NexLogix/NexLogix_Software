@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { UserProfileController } from '../../../Controllers/Users/UserController';
 import { UserProfile } from '../../../models/Interfaces/UserProfile';
 import axios from 'axios';
-import './../../Styles/Profiles/HomeStyle.css';
+import './../../Styles/Home/HomeStyle.css';
 
 const HomeManager = () => {
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -44,10 +44,10 @@ const HomeManager = () => {
     return (
       <div className="loading-container">
         <div className="text-center">
-          <div className="spinner-border text-primary" role="status">
+          <div className="spinner-border text-primary mb-4" style={{ width: 60, height: 60 }} role="status">
             <span className="visually-hidden">Cargando...</span>
           </div>
-          <p className="mt-3 text-muted">Cargando perfil...</p>
+          <div className="loading-message">Cargando perfil...</div>
         </div>
       </div>
     );
@@ -55,7 +55,7 @@ const HomeManager = () => {
 
   return (
     <div className="home_manager_container">
-      <div className="container">
+      <div className="container pt-0" style={{ paddingTop: 0, marginTop: 0 }}>
         {error && (
           <div className="alert alert-danger d-flex align-items-center mb-4 animate__animated animate__fadeIn" role="alert">
             <i className="bi bi-exclamation-triangle-fill me-2"></i>
@@ -65,8 +65,8 @@ const HomeManager = () => {
         {profile ? (
           <div className=" border-0 animate__animated animate__fadeInUp">
 
-            <div className="card-header text-white text-center py-4">
-              <h1 className="mb-0 display-5 fw-bold">
+            <div className="card-header rounded-lg text-white text-center py-4 ">
+              <h1 className="mb-0 display-4 fw-bold">
                 Bienvenid@ a <span className="text-warning">NEXLOGIX</span>
               </h1>
               <p className="mt-2 text-light">Tu solución integral para logística</p>
