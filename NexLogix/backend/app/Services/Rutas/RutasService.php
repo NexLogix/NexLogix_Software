@@ -16,7 +16,6 @@ class RutasService implements IRutasService
         try {
             // Obtiene todas las rutas junto con su Ruta relacionada
             $rutas = Rutas::all();
-
             // Si no hay rutas registradas, retorna una respuesta indicando vacío
             if ($rutas->isEmpty()) {
                 return [
@@ -45,16 +44,17 @@ class RutasService implements IRutasService
     }
 
     // Método para obtener una ruta específica por ID
-    function getRutaByID(int $id): array
+    function getRutaByID(string $value): array
     {
         try {
             // Busca una ruta por ID, incluyendo la Ruta relacionada
-            $ruta = Rutas::find($id);
-
+            $rutaFound = Rutas::where('idRuta',$value)
+                ->orWhere('nombreRuta', $value)
+                ->firstOrFail();
             // Si se encuentra, devuelve éxito con los datos
             return [
                 'success' => true,
-                'data' => $ruta,
+                'data' => $rutaFound,
                 'message' => 'Ruta encontrada',
                 'status' => 200
             ];
@@ -63,7 +63,7 @@ class RutasService implements IRutasService
         } catch (ModelNotFoundException $e) {
             return [
                 'success' => false,
-                'message' => "Ruta con ID $id no encontrada",
+                'message' => "Ruta con ID $value no encontrada",
                 'status' => 404
             ];
 
@@ -103,12 +103,13 @@ class RutasService implements IRutasService
     }
 
     // Método para actualizar una ruta existente por ID
-    function updateRuta(array $data, int $id): array
+    function updateRuta(string $value, array $data): array
     {
         try {
             // Busca la ruta por ID
-            $ruta = Rutas::findOrFail($id);
-
+            $rutaFound = Rutas::where('idRuta',$value)
+                ->orWhere('nombreRuta', $value)
+                ->firstOrFail();
             // Verifica si el array de datos está vacío
             if (empty($data)) {
                 return [
@@ -119,13 +120,13 @@ class RutasService implements IRutasService
             }
 
             // Actualiza los campos que fueron enviados
-            $ruta->update($data);
+            $rutaFound->update($data);
 
             // Retorna éxito con el objeto actualizado
             return [
                 'success' => true,
                 'message' => 'La Ruta ha sido actualizada',
-                'data' => $ruta,
+                'data' => $rutaFound,
                 'status' => 200
             ];
 
@@ -133,7 +134,7 @@ class RutasService implements IRutasService
         } catch (ModelNotFoundException $e) {
             return [
                 'success' => false,
-                'message' => "Ruta con ID $id no encontrado",
+                'message' => "Ruta con ID $value no encontrado",
                 'status' => 404
             ];
 
@@ -148,14 +149,15 @@ class RutasService implements IRutasService
     }
 
     // Método para eliminar una ruta por ID
-    function deleteRuta(int $id): array
+    function deleteRuta(string $value): array
     {
         try {
             // Busca la ruta por ID
-            $ruta = Rutas::findOrFail($id);
-
+            $rutaFound = Rutas::where('idRuta',$value)
+                ->orWhere('nombreRuta', $value)
+                ->firstOrFail();
             // Elimina la ruta
-            $ruta->delete();
+            $rutaFound->delete();
 
             // Retorna éxito
             return [
@@ -168,7 +170,7 @@ class RutasService implements IRutasService
         } catch (ModelNotFoundException $e) {
             return [
                 'success' => false,
-                'message' => "Ruta con ID $id no encontrada",
+                'message' => "Ruta con ID $value no encontrada",
                 'status' => 404
             ];
 

@@ -54,6 +54,8 @@ Route::group([
 //
 
 
+
+
 //
 /*
     La razon por la cual en todas las rutas se pone auth:api, es para que esta ruta solo este funcionando si esta autenticada,
@@ -61,6 +63,7 @@ Route::group([
     funciones y permisos por el role.
 */
 //
+
 //----------------------------------------------------------------------------------------------------------------------------------------
 
 //
@@ -289,15 +292,15 @@ Route::group([
 ], function () {
     Route::get('/', action: [ControllerCiudades::class, 'showAllCiudades'])
         ->middleware('role:2');
-    Route::get('/buscar_ciudad/{id}', [ControllerCiudades::class, 'showCiudadById'])
+    Route::get('/{id}', [ControllerCiudades::class, 'showCiudadById'])
         ->middleware('role:2');
-    Route::post('/crear_ciudad', [ControllerCiudades::class, 'createCiudad'])
+    Route::post('/', [ControllerCiudades::class, 'createCiudad'])
     ->middleware('role:2,3');
-    Route::put('/editar_ciudad/{id}', [ControllerCiudades::class, 'updateCiudad'])
+    Route::put('/{id}', [ControllerCiudades::class, 'updateCiudad'])
         ->middleware('role:2');
-    Route::patch('/editar_parcial_ciudad/{id}', [ControllerCiudades::class, 'updateSpecificSection'])
+    Route::patch('/{id}', [ControllerCiudades::class, 'updateSpecificSection'])
         ->middleware('role:2');
-    Route::delete('/eliminar_ciudad/{id}', [ControllerCiudades::class, 'deleteCiudades'])
+    Route::delete('/{id}', [ControllerCiudades::class, 'deleteCiudades'])
         ->middleware('role:2');
 });
 

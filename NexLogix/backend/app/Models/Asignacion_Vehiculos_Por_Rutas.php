@@ -16,7 +16,7 @@ class Asignacion_Vehiculos_Por_Rutas extends Model
     protected $primaryKey = 'idAsignacionVehiculoRuta';
 
     protected $fillable = [
-        'idVehiculo', 'idRuta',
+        'fechaAsignacionInicio', 'fechaAsignacionFinalizacion', 'idVehiculo', 'idRuta',
     ];
 
     // Cada asignación pertenece a un vehículo

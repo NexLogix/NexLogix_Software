@@ -29,13 +29,15 @@ class RutasUseCase implements IRutasUseCase
         // Se valida que las horas estén en formato Y-m-d H:i:s
         // Se valida que el id de ciudad exista en la tabla 'ciudades' bajo la columna 'idCiudad'
         $validator = Validator::make($data, [
-            "nombreRuta"        => "required|string|max:255|unique:rutas,nombreRuta",
-            "fechaSalida"       => "required|date",
-            "estadoTrayecto"    => [
-                "required",
+            "nombreRuta"       => "required|string|max:255|unique:rutas,nombreRuta",
+            "horaInicioRuta"   => "required|date_format:Y-m-d H:i:s",
+            "descripcion"      => "required|string",
+
+            "estadoRuta"    => [
+                "nullable",
                 Rule::in(['EN_BODEGA','EN_RUTA','EN_RECOGIDA','EN_ENTREGA','EN_DEVOLUCIONES']),
             ],
-            "novedades" => "required|string",
+            "novedades" => "nullable|string",
         ]);
 
         // Si la validación falla, se retorna un array con los errores
@@ -54,17 +56,17 @@ class RutasUseCase implements IRutasUseCase
 
     // Método para manejar la actualización de una ruta existente
     // Los campos son opcionales ('sometimes'), pero si vienen deben cumplir con su formato
-    function handleUpdateRuta(array $data, int $id): array
+    function handleUpdateRuta(string $value, array $data): array
     {
         // Validaciones condicionales: si el campo viene, se valida su tipo y formato
         $validator = Validator::make($data, [
             "nombreRuta" => [
                 'sometimes', 'string', 'max:255',
-                    Rule::unique('rutas', 'nombreRuta')->ignore($id, 'idRuta')
+                    Rule::unique('rutas', 'nombreRuta')->ignore($value, 'idRuta')
                 ],
-            "fechaSalida"        => "sometimes|date",
-            "fechaLlegada"       => "sometimes|date",
-            "estadoTrayecto"     => [
+            "horaInicioRuta"        => "sometimes|date_format:Y-m-d H:i:s",
+            "horaFinalizacionRuta"       => "sometimes|date_format:Y-m-d H:i:s",
+            "estadoRuta"     => [
                 "sometimes",
                 Rule::in(['EN_BODEGA','EN_RUTA','EN_RECOGIDA','EN_ENTREGA','EN_DEVOLUCIONES']),
             ],
@@ -82,6 +84,6 @@ class RutasUseCase implements IRutasUseCase
         }
 
         // Si la validación es correcta, se llama al servicio para actualizar la ruta
-        return $this->rutas_service->updateRuta($data, $id);
+        return $this->rutas_service->updateRuta($value, $data);
     }
 }

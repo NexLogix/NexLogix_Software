@@ -22,14 +22,15 @@ class Rutas extends Model
     // Se especifican los campos que pueden ser asignados de forma masiva
     protected $fillable = [
         'nombreRuta',
-        'fechaSalida',
-        'fechaLlegada',
-        'estadoTrayecto',
+        'horaInicioRuta',
+        'horaFinalizacionRuta',
+        'descripcion',
+        'estadoRuta',
         'novedades',
         'fechaCreacionRuta',
     ];
 
-    public function Asignacion_Rutas()
+    public function Asignacion_Vehiculos_Por_Rutas()
     {
         return $this->hasMany(Asignacion_Vehiculos_Por_Rutas::class,
             'idAsignacionRuta',
