@@ -3,39 +3,41 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import './../../Styles/NavBar/Administracion/GeneralStyle.css';
 import './../../Styles/Home/TablesStyle.css'
 import './../../Styles/NavBar/Logistica/ListaVehiculos.css';
-
-// Nueva interfaz para Puesto
-interface Puesto {
-  idPuesto: number;
-  nombrePuesto: string;
-  fechaAsignacionPuesto: string;
-  descripcionPuesto: string;
-  area: string;
-}
-
-// Mock de datos para ejemplo visual
-const mockPuestos: Puesto[] = [
-  { idPuesto: 1, nombrePuesto: "Supervisor", fechaAsignacionPuesto: "2024-01-15", descripcionPuesto: "Supervisa operaciones", area: "Logística" },
-  { idPuesto: 2, nombrePuesto: "Analista RH", fechaAsignacionPuesto: "2023-11-10", descripcionPuesto: "Gestión de personal", area: "Recursos Humanos" },
-  { idPuesto: 3, nombrePuesto: "Contador", fechaAsignacionPuesto: "2022-08-01", descripcionPuesto: "Control contable", area: "Finanzas" },
-];
+import { IPuesto } from '../../../models/Interfaces/IPuestos';
+import { IArea } from '../../../models/Interfaces/IPuestos';
+import { fetchPuestos, createPuesto, updatePartialPuesto, deletePuesto, fetchAreas } from '../../../services/Puestos/PuestosService';
 
 const Puestos: React.FC = () => {
-  // Estado de puestos y búsqueda
-  const [puestos, setPuestos] = useState<Puesto[]>([]);
+  const [puestos, setPuestos] = useState<IPuesto[]>([]);
   const [searchId, setSearchId] = useState("");
-  const [filteredPuestos, setFilteredPuestos] = useState<Puesto[]>([]);
-  // Estados para modales
+  const [filteredPuestos, setFilteredPuestos] = useState<IPuesto[]>([]);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [editPuesto, setEditPuesto] = useState<Puesto | null>(null);
+  const [editPuesto, setEditPuesto] = useState<IPuesto | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [selectedPuesto, setSelectedPuesto] = useState<Puesto | null>(null);
+  const [selectedPuesto, setSelectedPuesto] = useState<IPuesto | null>(null);
+  const [areas, setAreas] = useState<IArea[]>([]);
 
-  // Cargar datos simulados
+  // Formularios
+  const [formNombre, setFormNombre] = useState('');
+  const [formDescripcion, setFormDescripcion] = useState('');
+  const [formIdArea, setFormIdArea] = useState<number>(0);
+
+  // Cargar puestos reales
   useEffect(() => {
-    setPuestos(mockPuestos);
-    setFilteredPuestos(mockPuestos);
+    fetchPuestos().then(res => {
+      if (res.success) {
+        setPuestos(res.data);
+        setFilteredPuestos(res.data);
+      }
+    });
+  }, []);
+
+  // Cargar áreas reales
+  useEffect(() => {
+    fetchAreas().then(res => {
+      if (res.success) setAreas(res.data);
+    });
   }, []);
 
   // Buscar por ID
@@ -43,7 +45,7 @@ const Puestos: React.FC = () => {
     if (searchId.trim() === "") {
       setFilteredPuestos(puestos);
     } else {
-      setFilteredPuestos(puestos.filter(p => p.idPuesto.toString() === searchId.trim()));
+      setFilteredPuestos(puestos.filter(p => p.idPuestos.toString() === searchId.trim()));
     }
   };
 
@@ -53,16 +55,71 @@ const Puestos: React.FC = () => {
     setFilteredPuestos(puestos);
   };
 
-  // Abrir modal de editar
-  const handleEdit = (puesto: Puesto) => {
-    setEditPuesto(puesto);
-    setShowEditModal(true);
+  // Crear puesto
+  const handleCreate = async () => {
+    try {
+      const res = await createPuesto({ nombrePuesto: formNombre, descripcionPuesto: formDescripcion, idArea: formIdArea });
+      if (res.success && res.data) {
+        const newPuestos = [...puestos, res.data];
+        setPuestos(newPuestos);
+        setFilteredPuestos(newPuestos);
+        setShowCreateModal(false);
+        setFormNombre('');
+        setFormDescripcion('');
+        setFormIdArea(0);
+        await fetchPuestos(); // Recargar puestos para asegurarnos de que se muestra el nuevo
+      }
+    } catch (error) {
+      console.error('Error al crear puesto:', error);
+    }
   };
 
-  // Abrir modal de eliminar
-  const handleDelete = (puesto: Puesto) => {
+  // Editar puesto
+  const handleEdit = (puesto: IPuesto) => {
+    setEditPuesto(puesto);
+    setFormNombre(puesto.nombrePuesto);
+    setFormDescripcion(puesto.descripcionPuesto || '');
+    setFormIdArea(puesto.idArea);
+    setShowEditModal(true);
+    
+  };
+
+  const handleUpdate = async () => {
+    if (!editPuesto) return;
+    try {
+      const res = await updatePartialPuesto(editPuesto.idPuestos, { nombrePuesto: formNombre, descripcionPuesto: formDescripcion, idArea: formIdArea });
+      if (res.success && res.data) {
+        const updated = puestos.map(p => p.idPuestos === editPuesto.idPuestos ? res.data : p);
+        setPuestos(updated);
+        setFilteredPuestos(updated);
+        setShowEditModal(false);
+        setEditPuesto(null);
+        await fetchPuestos(); // Recargar puestos para asegurarnos de que se muestra el nuevo
+
+      }
+    } catch (error) {
+      console.error('Error al editar puesto:', error);
+    }
+  };
+
+  // Eliminar puesto
+  const handleDelete = (puesto: IPuesto) => {
     setSelectedPuesto(puesto);
     setShowDeleteModal(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!selectedPuesto) return;
+    try {
+      await deletePuesto(selectedPuesto.idPuestos);
+      const updated = puestos.filter(p => p.idPuestos !== selectedPuesto.idPuestos);
+      setPuestos(updated);
+      setFilteredPuestos(updated);
+      setShowDeleteModal(false);
+      setSelectedPuesto(null);
+    } catch (error) {
+      console.error('Error al eliminar puesto:', error);
+    }
   };
 
   return (
@@ -135,12 +192,12 @@ const Puestos: React.FC = () => {
                 <tbody>
                   {filteredPuestos.length > 0 ? (
                     filteredPuestos.map((puesto) => (
-                      <tr key={puesto.idPuesto}>
-                        <td>{puesto.idPuesto}</td>
+                      <tr key={puesto.idPuestos}>
+                        <td>{puesto.idPuestos}</td>
                         <td>{puesto.nombrePuesto}</td>
                         <td>{puesto.fechaAsignacionPuesto}</td>
                         <td>{puesto.descripcionPuesto}</td>
-                        <td>{puesto.area}</td>
+                        <td>{puesto.areas ? puesto.areas.nombreArea : ''}</td>
                         <td>
                           <div className="d-flex gap-2 justify-content-center">
                             <OverlayTrigger placement="top" overlay={<Tooltip>Editar</Tooltip>}>
@@ -185,7 +242,7 @@ const Puestos: React.FC = () => {
                 <div className="crear-conductor-form">
                   <div className="mb-2">
                     <label className="form-label">Nombre del Puesto</label>
-                    <input className="form-control" placeholder="Nombre del Puesto" />
+                    <input className="form-control" placeholder="Nombre del Puesto" value={formNombre} onChange={e => setFormNombre(e.target.value)} />
                   </div>
                   <div className="mb-2">
                     <label className="form-label">Fecha Asignación</label>
@@ -193,11 +250,23 @@ const Puestos: React.FC = () => {
                   </div>
                   <div className="mb-2">
                     <label className="form-label">Descripción</label>
-                    <input className="form-control" placeholder="Descripción" />
+                    <input className="form-control" placeholder="Descripción" value={formDescripcion} onChange={e => setFormDescripcion(e.target.value)} />
                   </div>
                   <div className="mb-2">
                     <label className="form-label">Área</label>
-                    <input className="form-control" placeholder="Área" />
+                    <select
+                      className="form-control"
+                      value={formIdArea}
+                      onChange={e => setFormIdArea(Number(e.target.value))}
+                      required
+                    >
+                      <option value="">Seleccione un área</option>
+                      {areas.map(area => (
+                        <option key={area.idArea} value={area.idArea}>
+                          {area.nombreArea}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </div>
                 <div className="modal-footer">
@@ -211,7 +280,7 @@ const Puestos: React.FC = () => {
                   <button
                     type="button"
                     className="btn btn-success"
-                    onClick={() => setShowCreateModal(false)}
+                    onClick={handleCreate}
                   >
                     Guardar
                   </button>
@@ -230,7 +299,7 @@ const Puestos: React.FC = () => {
                 <div className="crear-conductor-form">
                   <div className="mb-2">
                     <label className="form-label">Nombre del Puesto</label>
-                    <input className="form-control" defaultValue={editPuesto.nombrePuesto} />
+                    <input className="form-control" value={formNombre} onChange={e => setFormNombre(e.target.value)} />
                   </div>
                   <div className="mb-2">
                     <label className="form-label">Fecha Asignación</label>
@@ -238,11 +307,23 @@ const Puestos: React.FC = () => {
                   </div>
                   <div className="mb-2">
                     <label className="form-label">Descripción</label>
-                    <input className="form-control" defaultValue={editPuesto.descripcionPuesto} />
+                    <input className="form-control" value={formDescripcion} onChange={e => setFormDescripcion(e.target.value)} />
                   </div>
                   <div className="mb-2">
                     <label className="form-label">Área</label>
-                    <input className="form-control" defaultValue={editPuesto.area} />
+                    <select
+                      className="form-control"
+                      value={formIdArea}
+                      onChange={e => setFormIdArea(Number(e.target.value))}
+                      required
+                    >
+                      <option value="">Seleccione un área</option>
+                      {areas.map(area => (
+                        <option key={area.idArea} value={area.idArea}>
+                          {area.nombreArea}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </div>
                 <div className="modal-footer">
@@ -256,7 +337,7 @@ const Puestos: React.FC = () => {
                   <button
                     type="button"
                     className="btn btn-success"
-                    onClick={() => setShowEditModal(false)}
+                    onClick={handleUpdate}
                   >
                     Guardar
                   </button>
@@ -288,7 +369,7 @@ const Puestos: React.FC = () => {
                 <button
                   type="button"
                   className="btn btn-danger"
-                  onClick={() => setShowDeleteModal(false)}
+                  onClick={confirmDelete}
                 >
                   Eliminar
                 </button>

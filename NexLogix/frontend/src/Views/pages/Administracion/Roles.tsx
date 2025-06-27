@@ -4,47 +4,37 @@ import './../../Styles/NavBar/Administracion/GeneralStyle.css';
 import './../../Styles/Home/TablesStyle.css'
 import './../../Styles/NavBar/Logistica/ListaVehiculos.css';
 import '../../Styles/Home/TablesStyle.css'
-
-// Nueva interfaz para Rol
-interface Rol {
-  idRol: number;
-  nombreRol: string;
-  descripcionRol: string;
-  fechaAsignacionRol: string;
-}
-
-// Mock de datos para ejemplo visual
-const mockRoles: Rol[] = [
-  { idRol: 1, nombreRol: "Administrador", descripcionRol: "Acceso total al sistema", fechaAsignacionRol: "2024-01-10" },
-  { idRol: 2, nombreRol: "Manager", descripcionRol: "Gestión de equipos y recursos", fechaAsignacionRol: "2024-02-20" },
-  { idRol: 3, nombreRol: "Empleado", descripcionRol: "Acceso a funciones básicas", fechaAsignacionRol: "2024-03-15" },
-  { idRol: 4, nombreRol: "Conductor", descripcionRol: "Gestión de rutas y entregas", fechaAsignacionRol: "2024-04-05" },
-];
+import { useRolesController } from "../../../Controllers/Roles/RolesController";
+import { IRol } from "../../../models/Interfaces/IRoles";
 
 const Roles: React.FC = () => {
-  // Estado de roles y búsqueda
-  const [roles, setRoles] = useState<Rol[]>([]);
+  const { roles, setRoles, cargarRoles, useCase } = useRolesController();
   const [searchId, setSearchId] = useState("");
-  const [filteredRoles, setFilteredRoles] = useState<Rol[]>([]);
-  // Estados para modales
+  const [filteredRoles, setFilteredRoles] = useState<IRol[]>([]);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [editRol, setEditRol] = useState<Rol | null>(null);
+  const [editRol, setEditRol] = useState<IRol | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [selectedRol, setSelectedRol] = useState<Rol | null>(null);
+  const [selectedRol, setSelectedRol] = useState<IRol | null>(null);
 
-  // Cargar datos simulados
+  // Formularios controlados
+  const [formNombre, setFormNombre] = useState('');
+  const [formDescripcion, setFormDescripcion] = useState('');
+
   useEffect(() => {
-    setRoles(mockRoles);
-    setFilteredRoles(mockRoles);
+    cargarRoles();
   }, []);
+
+  useEffect(() => {
+    setFilteredRoles(roles);
+  }, [roles]);
 
   // Buscar por ID
   const handleSearch = () => {
     if (searchId.trim() === "") {
       setFilteredRoles(roles);
     } else {
-      setFilteredRoles(roles.filter(r => r.idRol.toString() === searchId.trim()));
+      setFilteredRoles(roles.filter(r => r.idRole.toString() === searchId.trim()));
     }
   };
 
@@ -54,16 +44,58 @@ const Roles: React.FC = () => {
     setFilteredRoles(roles);
   };
 
+  // Crear rol
+  const handleCreate = async () => {
+    const data = {
+      nombreRole: formNombre,
+      descripcionRole: formDescripcion
+    };
+    const res = await useCase.create(data);
+    if (res.success && res.data) {
+      setShowCreateModal(false);
+      setFormNombre('');
+      setFormDescripcion('');
+      await cargarRoles(); // <-- recarga la lista completa
+    }
+  };
+
   // Abrir modal de editar
-  const handleEdit = (rol: Rol) => {
+  const handleEdit = (rol: IRol) => {
     setEditRol(rol);
+    setFormNombre(rol.nombreRole);
+    setFormDescripcion(rol.descripcionRole);
     setShowEditModal(true);
   };
 
-  // Abrir modal de eliminar
-  const handleDelete = (rol: Rol) => {
+  // Actualizar rol
+  const handleUpdate = async () => {
+    if (!editRol) return;
+    const data = {
+      nombreRole: formNombre,
+      descripcionRole: formDescripcion
+    };
+    const res = await useCase.update(editRol.idRole, data);
+    if (res.success && res.data) {
+      setShowEditModal(false);
+      setEditRol(null);
+      await cargarRoles(); // <-- recarga la lista completa
+    }
+  };
+
+  // Eliminar rol
+  const handleDelete = (rol: IRol) => {
     setSelectedRol(rol);
     setShowDeleteModal(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!selectedRol) return;
+    const res = await useCase.delete(selectedRol.idRole);
+    if (res.success) {
+      setRoles(roles.filter(r => r.idRole !== selectedRol.idRole));
+      setShowDeleteModal(false);
+      setSelectedRol(null);
+    }
   };
 
   return (
@@ -128,18 +160,18 @@ const Roles: React.FC = () => {
                     <th>ID Rol</th>
                     <th>Nombre del Rol</th>
                     <th>Descripción</th>
-                    <th>Fecha de Asignación</th>
+                    <th>Fecha creacion Rol</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredRoles.length > 0 ? (
                     filteredRoles.map((rol) => (
-                      <tr key={rol.idRol}>
-                        <td>{rol.idRol}</td>
-                        <td>{rol.nombreRol}</td>
-                        <td>{rol.descripcionRol}</td>
-                        <td>{rol.fechaAsignacionRol}</td>
+                      <tr key={rol.idRole}>
+                        <td>{rol.idRole}</td>
+                        <td>{rol.nombreRole}</td>
+                        <td>{rol.descripcionRole}</td>
+                        <td>{rol.fechaAsignacionRole}</td>
                         <td>
                           <div className="d-flex gap-2 justify-content-center">
                             <OverlayTrigger placement="top" overlay={<Tooltip>Editar</Tooltip>}>
@@ -178,27 +210,30 @@ const Roles: React.FC = () => {
         {/* Modal para crear rol */}
         {showCreateModal && (
           <div className="crear-conductor-modal-bg">
-            <div className="crear-conductor-modal">
+            <div className="crear-conductor-modal" style={{ maxWidth: 600, width: "100%" }}>
               <h5 className="modal-title">Crear Rol</h5>
               <form>
                 <div className="crear-conductor-form">
-                  <div className="mb-2">
+                  <div className="mb-3">
                     <label className="form-label">Nombre del Rol</label>
-                    <select className="form-control">
-                      <option value="">Selecciona un rol...</option>
-                      <option value="Administrador">Administrador</option>
-                      <option value="Manager">Manager</option>
-                      <option value="Empleado">Empleado</option>
-                      <option value="Conductor">Conductor</option>
-                    </select>
+                    <input
+                      className="form-control form-control-lg"
+                      type="text"
+                      placeholder="Nombre del Rol"
+                      value={formNombre}
+                      onChange={e => setFormNombre(e.target.value)}
+                      required
+                    />
                   </div>
-                  <div className="mb-2">
+                  <div className="mb-3">
                     <label className="form-label">Descripción</label>
-                    <input className="form-control" placeholder="Descripción" />
-                  </div>
-                  <div className="mb-2">
-                    <label className="form-label">Fecha de Asignación</label>
-                    <input className="form-control" type="date" />
+                    <textarea
+                      className="form-control form-control-lg"
+                      style={{ minHeight: 100 }}
+                      placeholder="Descripción"
+                      value={formDescripcion}
+                      onChange={e => setFormDescripcion(e.target.value)}
+                    />
                   </div>
                 </div>
                 <div className="modal-footer">
@@ -212,7 +247,7 @@ const Roles: React.FC = () => {
                   <button
                     type="button"
                     className="btn btn-success"
-                    onClick={() => setShowCreateModal(false)}
+                    onClick={handleCreate}
                   >
                     Guardar
                   </button>
@@ -225,13 +260,18 @@ const Roles: React.FC = () => {
         {/* Modal para editar rol */}
         {showEditModal && editRol && (
           <div className="crear-conductor-modal-bg">
-            <div className="crear-conductor-modal">
+            <div className="crear-conductor-modal" style={{ maxWidth: 600, width: "100%" }}>
               <h5 className="modal-title">Editar Rol</h5>
               <form>
                 <div className="crear-conductor-form">
-                  <div className="mb-2">
+                  <div className="mb-3">
                     <label className="form-label">Nombre del Rol</label>
-                    <select className="form-control" defaultValue={editRol.nombreRol}>
+                    <select
+                      className="form-control form-control-lg"
+                      value={formNombre}
+                      onChange={e => setFormNombre(e.target.value)}
+                      required
+                    >
                       <option value="">Selecciona un rol...</option>
                       <option value="Administrador">Administrador</option>
                       <option value="Manager">Manager</option>
@@ -239,13 +279,14 @@ const Roles: React.FC = () => {
                       <option value="Conductor">Conductor</option>
                     </select>
                   </div>
-                  <div className="mb-2">
+                  <div className="mb-3">
                     <label className="form-label">Descripción</label>
-                    <input className="form-control" defaultValue={editRol.descripcionRol} />
-                  </div>
-                  <div className="mb-2">
-                    <label className="form-label">Fecha de Asignación</label>
-                    <input className="form-control" type="date" defaultValue={editRol.fechaAsignacionRol} />
+                    <textarea
+                      className="form-control form-control-lg"
+                      style={{ minHeight: 100 }}
+                      value={formDescripcion}
+                      onChange={e => setFormDescripcion(e.target.value)}
+                    />
                   </div>
                 </div>
                 <div className="modal-footer">
@@ -259,7 +300,7 @@ const Roles: React.FC = () => {
                   <button
                     type="button"
                     className="btn btn-success"
-                    onClick={() => setShowEditModal(false)}
+                    onClick={handleUpdate}
                   >
                     Guardar
                   </button>
@@ -291,7 +332,7 @@ const Roles: React.FC = () => {
                 <button
                   type="button"
                   className="btn btn-danger"
-                  onClick={() => setShowDeleteModal(false)}
+                  onClick={confirmDelete}
                 >
                   Eliminar
                 </button>

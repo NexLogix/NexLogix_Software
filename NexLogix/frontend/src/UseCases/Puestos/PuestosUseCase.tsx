@@ -1,5 +1,5 @@
 // Importa las funciones del servicio para crear, editar y actualizar parcialmente puestos
-import { createPuesto, updatePuesto, updatePartialPuesto } from '../../services/Puestos/PuestosService';
+import { createPuesto, updatePartialPuesto } from '../../services/Puestos/PuestosService';
 // Importa las interfaces necesarias para tipar los datos de los puestos
 import { IPuesto, IPuesto_ApiResponse } from '../../models/Interfaces/IPuestos';
 
@@ -74,7 +74,7 @@ export class PuestosUseCase {
 
     try {
       // Llama al servicio para editar el puesto
-      const response = await updatePuesto(id, data);
+      const response = await this.executeUpdatePartialPuesto(id, data);
       // Log para depuración: muestra la respuesta recibida
       console.log('PuestosUseCase: Respuesta de updatePuesto:', response);
       return response; // Devuelve la respuesta del servicio
@@ -124,7 +124,7 @@ export class PuestosUseCase {
 
     try {
       // Llama al servicio para editar parcialmente el puesto
-      const response = await updatePartialPuesto(id, cleanedData);
+      const response = await updatePartialPuesto(id, data);
       // Log para depuración: muestra la respuesta recibida
       console.log('PuestosUseCase: Respuesta de updatePartialPuesto:', response);
       return response; // Devuelve la respuesta del servicio

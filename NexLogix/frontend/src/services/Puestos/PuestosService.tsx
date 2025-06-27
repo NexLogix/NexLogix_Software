@@ -48,7 +48,7 @@ export const fetchAreas = async (): Promise<IPuesto_ApiResponse<IArea[]>> => {
   }
 };
 
-// Define la función fetchPuestos para obtener todos los puestos desde la API
+// GET: Obtener todos los puestos
 export const fetchPuestos = async (): Promise<IPuesto_ApiResponse<IPuesto[]>> => {
   // Obtiene el token de autenticación desde localStorage
   const token = localStorage.getItem('token');
@@ -90,7 +90,7 @@ export const fetchPuestos = async (): Promise<IPuesto_ApiResponse<IPuesto[]>> =>
   }
 };
 
-// Define la función fetchPuestoById para obtener un puesto específico por ID desde la API
+// GET: Obtener un puesto por ID
 export const fetchPuestoById = async (id: number): Promise<IPuesto_ApiResponse<IPuesto>> => {
     // Obtiene el token de autenticación desde localStorage
     const token = localStorage.getItem('token');
@@ -103,9 +103,9 @@ export const fetchPuestoById = async (id: number): Promise<IPuesto_ApiResponse<I
 
     try {
         // Log para depuración: muestra la URL a la que se enviará la solicitud
-        console.log('fetchPuestoById: Enviando solicitud a', `${BASE_URL}/gestion_puestos/buscar_puesto/${id}`);
+        console.log('fetchPuestoById: Enviando solicitud a', `${BASE_URL}/gestion_puestos/${id}`);
         // Realiza una solicitud GET para obtener el puesto por ID
-        const response: AxiosResponse<IPuesto_ApiResponse<IPuesto>> = await axios.get(`${BASE_URL}/gestion_puestos/buscar_puesto/${id}`, {
+        const response: AxiosResponse<IPuesto_ApiResponse<IPuesto>> = await axios.get(`${BASE_URL}/gestion_puestos/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         // Log para depuración: muestra la respuesta recibida
@@ -135,7 +135,7 @@ export const fetchPuestoById = async (id: number): Promise<IPuesto_ApiResponse<I
     }
 };
 
-// Define la función createPuesto para crear un nuevo puesto mediante la API
+// POST: Crear un puesto
 export const createPuesto = async (data: { nombrePuesto: string; descripcionPuesto?: string; idArea: number }): Promise<IPuesto_ApiResponse<IPuesto>> => {
   // Obtiene el token de autenticación desde localStorage
   const token = localStorage.getItem('token');
@@ -146,9 +146,9 @@ export const createPuesto = async (data: { nombrePuesto: string; descripcionPues
   }
   try {
     // Log para depuración: muestra la URL y los datos enviados
-    console.log('createPuesto: Enviando solicitud a', `${BASE_URL}/gestion_puestos/crear_puesto`, 'con datos:', data);
+    console.log('createPuesto: Enviando solicitud a', `${BASE_URL}/gestion_puestos`, 'con datos:', data);
     // Realiza una solicitud POST para crear un puesto
-    const response: AxiosResponse<IPuesto_ApiResponse<IPuesto>> = await axios.post(`${BASE_URL}/gestion_puestos/crear_puesto`, data, {
+    const response: AxiosResponse<IPuesto_ApiResponse<IPuesto>> = await axios.post(`${BASE_URL}/gestion_puestos`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
@@ -176,48 +176,7 @@ export const createPuesto = async (data: { nombrePuesto: string; descripcionPues
   }
 };
 
-// Define la función updatePuesto para editar completamente un puesto mediante la API
-export const updatePuesto = async (id: number, data: { nombrePuesto: string; descripcionPuesto?: string; idArea: number }): Promise<IPuesto_ApiResponse<IPuesto>> => {
-  // Obtiene el token de autenticación desde localStorage
-  const token = localStorage.getItem('token');
-  // Verifica si el token existe, lanza un error si no está presente
-  if (!token) {
-    console.error('updatePuesto: No se encontró token en localStorage');
-    throw new Error('No autenticado');
-  }
-  try {
-    // Log para depuración: muestra la URL y los datos enviados
-    console.log('updatePuesto: Enviando solicitud a', `${BASE_URL}/gestion_puestos/editar_puesto/${id}`, 'con datos:', data);
-    // Realiza una solicitud PUT para editar un puesto
-    const response: AxiosResponse<IPuesto_ApiResponse<IPuesto>> = await axios.put(`${BASE_URL}/gestion_puestos/editar_puesto/${id}`, data, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-    });
-    // Log para depuración: muestra la respuesta recibida
-    console.log('updatePuesto: Respuesta recibida:', JSON.stringify(response.data, null, 2));
-    return response.data; // Devuelve los datos de la respuesta
-  } catch (error) {
-    // Maneja errores específicos de Axios
-    if (axios.isAxiosError(error)) {
-      const status = error.response?.status ?? 500; // Obtiene el código de estado o usa 500 por defecto
-      const message = error.response?.data?.message ?? 'Error al editar el puesto'; // Mensaje de error
-      const errors = error.response?.data?.errors ?? {}; // Errores de validación
-      // Construye un mensaje de error detallado si hay errores de validación
-      const errorMessage = Object.values(errors).length > 0 
-        ? `${message}: ${Object.values(errors).join(', ')}`
-        : message;
-      console.error(`updatePuesto: Error ${status}: ${errorMessage}`, error.response?.data);
-      throw new Error(`Error ${status}: ${errorMessage}`);
-    }
-    // Maneja errores desconocidos
-    console.error('updatePuesto: Error desconocido:', error);
-    throw new Error('Error desconocido al editar el puesto');
-  }
-};
-
-// Define la función updatePartialPuesto para editar parcialmente un puesto mediante la API
+// PATCH: Editar parcialmente un puesto
 export const updatePartialPuesto = async (id: number, data: Partial<{ nombrePuesto: string; descripcionPuesto: string; idArea: number }>): Promise<IPuesto_ApiResponse<IPuesto>> => {
   // Obtiene el token de autenticación desde localStorage
   const token = localStorage.getItem('token');
@@ -228,9 +187,9 @@ export const updatePartialPuesto = async (id: number, data: Partial<{ nombrePues
   }
   try {
     // Log para depuración: muestra la URL y los datos enviados
-    console.log('updatePartialPuesto: Enviando solicitud a', `${BASE_URL}/gestion_puestos/actualizar_campos_especificos_puesto/${id}`, 'con datos:', data);
+    console.log('updatePartialPuesto: Enviando solicitud a', `${BASE_URL}/gestion_puestos/${id}`, 'con datos:', data);
     // Realiza una solicitud PATCH para editar parcialmente un puesto
-    const response: AxiosResponse<IPuesto_ApiResponse<IPuesto>> = await axios.patch(`${BASE_URL}/gestion_puestos/actualizar_campos_especificos_puesto/${id}`, data, {
+    const response: AxiosResponse<IPuesto_ApiResponse<IPuesto>> = await axios.patch(`${BASE_URL}/gestion_puestos/${id}`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
@@ -258,7 +217,7 @@ export const updatePartialPuesto = async (id: number, data: Partial<{ nombrePues
   }
 };
 
-// Define la función deletePuesto para eliminar un puesto mediante la API
+// DELETE: Eliminar un puesto
 export const deletePuesto = async (id: number): Promise<IPuesto_ApiResponse<null>> => {
   // Obtiene el token de autenticación desde localStorage
   const token = localStorage.getItem('token');
@@ -269,9 +228,9 @@ export const deletePuesto = async (id: number): Promise<IPuesto_ApiResponse<null
   }
   try {
     // Log para depuración: muestra la URL a la que se enviará la solicitud
-    console.log('deletePuesto: Enviando solicitud a', `${BASE_URL}/gestion_puestos/eliminar_puesto/${id}`);
+    console.log('deletePuesto: Enviando solicitud a', `${BASE_URL}/gestion_puestos/${id}`);
     // Realiza una solicitud DELETE para eliminar un puesto
-    const response: AxiosResponse<IPuesto_ApiResponse<null>> = await axios.delete(`${BASE_URL}/gestion_puestos/eliminar_puesto/${id}`, {
+    const response: AxiosResponse<IPuesto_ApiResponse<null>> = await axios.delete(`${BASE_URL}/gestion_puestos/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     // Log para depuración: muestra la respuesta recibida

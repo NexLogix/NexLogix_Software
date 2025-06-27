@@ -4,44 +4,44 @@ import './../../Styles/NavBar/Administracion/GeneralStyle.css';
 import './../../Styles/Home/TablesStyle.css'
 import './../../Styles/NavBar/Logistica/ListaVehiculos.css';
 import '../../Styles/Home/TablesStyle.css'
-
-// Mock de datos para ejemplo visual
-interface Area {
-  idArea: number;
-  nombreArea: string;
-  descripcionArea: string;
-}
-
-const mockAreas: Area[] = [
-  { idArea: 1, nombreArea: "Logística", descripcionArea: "Área de logística y distribución" },
-  { idArea: 2, nombreArea: "Recursos Humanos", descripcionArea: "Gestión de personal" },
-  { idArea: 3, nombreArea: "Finanzas", descripcionArea: "Control financiero y contable" },
-];
+import { IArea } from '../../../models/Interfaces/IAreas';
+import { fetchAreas, fetchAreaById, createArea, updateArea, deleteArea } from '../../../services/Areas/AreasService';
 
 const VerAreas: React.FC = () => {
-  // Estado de áreas y búsqueda
-  const [areas, setAreas] = useState<Area[]>([]);
+  const [areas, setAreas] = useState<IArea[]>([]);
   const [searchId, setSearchId] = useState("");
-  const [filteredAreas, setFilteredAreas] = useState<Area[]>([]);
-  // Estados para modales
+  const [filteredAreas, setFilteredAreas] = useState<IArea[]>([]);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [editArea, setEditArea] = useState<Area | null>(null);
+  const [editArea, setEditArea] = useState<IArea | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [selectedArea, setSelectedArea] = useState<Area | null>(null);
+  const [selectedArea, setSelectedArea] = useState<IArea | null>(null);
 
-  // Cargar datos simulados
+  // Formularios
+  const [formNombre, setFormNombre] = useState('');
+  const [formDescripcion, setFormDescripcion] = useState('');
+
+  // Cargar áreas reales
   useEffect(() => {
-    setAreas(mockAreas);
-    setFilteredAreas(mockAreas);
+    fetchAreas().then(res => {
+      if (res.success) {
+        setAreas(res.data);
+        setFilteredAreas(res.data);
+      }
+    });
   }, []);
 
-  // Buscar por ID
-  const handleSearch = () => {
+  // Buscar por ID usando API
+  const handleSearch = async () => {
     if (searchId.trim() === "") {
       setFilteredAreas(areas);
     } else {
-      setFilteredAreas(areas.filter(area => area.idArea.toString() === searchId.trim()));
+      try {
+        const res = await fetchAreaById(Number(searchId));
+        setFilteredAreas(res.success && res.data ? [res.data] : []);
+      } catch {
+        setFilteredAreas([]);
+      }
     }
   };
 
@@ -51,16 +51,65 @@ const VerAreas: React.FC = () => {
     setFilteredAreas(areas);
   };
 
-  // Abrir modal de editar
-  const handleEdit = (area: Area) => {
+  // Crear área
+  const handleCreate = async () => {
+    try {
+      const res = await createArea({ nombreArea: formNombre, descripcionArea: formDescripcion });
+      if (res.success && res.data) {
+        const newAreas = [...areas, res.data];
+        setAreas(newAreas);
+        setFilteredAreas(newAreas);
+        setShowCreateModal(false);
+        setFormNombre('');
+        setFormDescripcion('');
+      }
+    } catch (error) {
+      console.error('Error al crear área:', error);
+    }
+  };
+
+  // Editar área
+  const handleEdit = (area: IArea) => {
     setEditArea(area);
+    setFormNombre(area.nombreArea);
+    setFormDescripcion(area.descripcionArea);
     setShowEditModal(true);
   };
 
-  // Abrir modal de eliminar
-  const handleDelete = (area: Area) => {
+  const handleUpdate = async () => {
+    if (!editArea) return;
+    try {
+      const res = await updateArea(editArea.idArea, { nombreArea: formNombre, descripcionArea: formDescripcion });
+      if (res.success && res.data) {
+        const updated = areas.map(a => a.idArea === editArea.idArea ? res.data : a);
+        setAreas(updated);
+        setFilteredAreas(updated);
+        setShowEditModal(false);
+        setEditArea(null);
+      }
+    } catch (error) {
+      console.error('Error al crear área:', error);
+    }
+  };
+
+  // Eliminar área
+  const handleDelete = (area: IArea) => {
     setSelectedArea(area);
     setShowDeleteModal(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!selectedArea) return;
+    try {
+      await deleteArea(selectedArea.idArea);
+      const updated = areas.filter(a => a.idArea !== selectedArea.idArea);
+      setAreas(updated);
+      setFilteredAreas(updated);
+      setShowDeleteModal(false);
+      setSelectedArea(null);
+    } catch (error) {
+      console.error('Error al crear área:', error);
+    }
   };
 
   return (
@@ -73,8 +122,6 @@ const VerAreas: React.FC = () => {
             <h2 className="mb-0 text-white">Gestión de Áreas</h2>
           </div>
         </div>
-        {/* Barra de búsqueda con 3 botones */}
-        {/* --- CAMBIO: Barra de búsqueda igual a VerListaVehiculos --- */}
         <div className="card">
           <div className="card-body">
             <div className="d-flex justify-content-between mb-4 align-items-center">
@@ -93,35 +140,18 @@ const VerAreas: React.FC = () => {
                   />
                 </div>
                 <div className="d-flex gap-2 ms-2">
-                  {/* --- CAMBIO: Botón Buscar por ID --- */}
-                  <button
-                    className="btn btn-primary"
-                    style={{ minWidth: 140 }}
-                    onClick={handleSearch}
-                  >
+                  <button className="btn btn-primary" style={{ minWidth: 140 }} onClick={handleSearch}>
                     Buscar por ID
                   </button>
-                  {/* --- CAMBIO: Botón Mostrar todos --- */}
-                  <button
-                    className="btn btn-success"
-                    style={{ minWidth: 140 }}
-                    onClick={resetSearch}
-                  >
+                  <button className="btn btn-success" style={{ minWidth: 140 }} onClick={resetSearch}>
                     Mostrar todos
                   </button>
-                  {/* --- CAMBIO: Botón Crear área --- */}
-                  <button
-                    className="btn btn-warning"
-                    style={{ minWidth: 140, width: "100%" }}
-                    onClick={() => setShowCreateModal(true)}
-                  >
+                  <button className="btn btn-warning" style={{ minWidth: 140, width: "100%" }} onClick={() => setShowCreateModal(true)}>
                     Crear área
                   </button>
                 </div>
               </div>
             </div>
-
-            {/* --- CAMBIO: Tabla con columna de acciones --- */}
             <div className="custom-table-wrapper">
               <table className="table custom-table">
                 <thead>
@@ -129,7 +159,7 @@ const VerAreas: React.FC = () => {
                     <th>ID</th>
                     <th>Nombre del Área</th>
                     <th>Descripción</th>
-                    <th>Acciones</th> {/* --- CAMBIO: Columna de acciones --- */}
+                    <th>Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -140,21 +170,14 @@ const VerAreas: React.FC = () => {
                         <td>{area.nombreArea}</td>
                         <td>{area.descripcionArea}</td>
                         <td>
-                          {/* --- CAMBIO: Botones de editar y eliminar con tooltip y modal --- */}
                           <div className="d-flex gap-2 justify-content-center">
                             <OverlayTrigger placement="top" overlay={<Tooltip>Editar</Tooltip>}>
-                              <button
-                                className="btn btn-sm btn-primary"
-                                onClick={() => handleEdit(area)}
-                              >
+                              <button className="btn btn-sm btn-primary" onClick={() => handleEdit(area)}>
                                 <i className="bi bi-pencil"></i>
                               </button>
                             </OverlayTrigger>
                             <OverlayTrigger placement="top" overlay={<Tooltip>Eliminar</Tooltip>}>
-                              <button
-                                className="btn btn-sm btn-danger"
-                                onClick={() => handleDelete(area)}
-                              >
+                              <button className="btn btn-sm btn-danger" onClick={() => handleDelete(area)}>
                                 <i className="bi bi-trash"></i>
                               </button>
                             </OverlayTrigger>
@@ -175,35 +198,39 @@ const VerAreas: React.FC = () => {
           </div>
         </div>
 
-        {/* --- CAMBIO: Modal para crear área --- */}
+        {/* Modal para crear área */}
         {showCreateModal && (
           <div className="crear-conductor-modal-bg">
             <div className="crear-conductor-modal">
               <h5 className="modal-title">Crear Área</h5>
-              <form>
+              <form onSubmit={e => { e.preventDefault(); handleCreate(); }}>
                 <div className="crear-conductor-form">
                   <div className="mb-2">
                     <label className="form-label">Nombre del Área</label>
-                    <input className="form-control" placeholder="Nombre del Área" />
+                    <input
+                      className="form-control"
+                      placeholder="Nombre del Área"
+                      value={formNombre}
+                      onChange={e => setFormNombre(e.target.value)}
+                      required
+                    />
                   </div>
                   <div className="mb-2">
                     <label className="form-label">Descripción</label>
-                    <input className="form-control" placeholder="Descripción" />
+                    <input
+                      className="form-control"
+                      placeholder="Descripción"
+                      value={formDescripcion}
+                      onChange={e => setFormDescripcion(e.target.value)}
+                      required
+                    />
                   </div>
                 </div>
                 <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={() => setShowCreateModal(false)}
-                  >
+                  <button type="button" className="btn btn-secondary" onClick={() => setShowCreateModal(false)}>
                     Cancelar
                   </button>
-                  <button
-                    type="button"
-                    className="btn btn-success"
-                    onClick={() => setShowCreateModal(false)}
-                  >
+                  <button type="submit" className="btn btn-success">
                     Guardar
                   </button>
                 </div>
@@ -212,35 +239,37 @@ const VerAreas: React.FC = () => {
           </div>
         )}
 
-        {/* --- CAMBIO: Modal para editar área --- */}
+        {/* Modal para editar área */}
         {showEditModal && editArea && (
           <div className="crear-conductor-modal-bg">
             <div className="crear-conductor-modal">
               <h5 className="modal-title">Editar Área</h5>
-              <form>
+              <form onSubmit={e => { e.preventDefault(); handleUpdate(); }}>
                 <div className="crear-conductor-form">
                   <div className="mb-2">
                     <label className="form-label">Nombre del Área</label>
-                    <input className="form-control" defaultValue={editArea.nombreArea} />
+                    <input
+                      className="form-control"
+                      value={formNombre}
+                      onChange={e => setFormNombre(e.target.value)}
+                      required
+                    />
                   </div>
                   <div className="mb-2">
                     <label className="form-label">Descripción</label>
-                    <input className="form-control" defaultValue={editArea.descripcionArea} />
+                    <input
+                      className="form-control"
+                      value={formDescripcion}
+                      onChange={e => setFormDescripcion(e.target.value)}
+                      required
+                    />
                   </div>
                 </div>
                 <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={() => setShowEditModal(false)}
-                  >
+                  <button type="button" className="btn btn-secondary" onClick={() => setShowEditModal(false)}>
                     Cancelar
                   </button>
-                  <button
-                    type="button"
-                    className="btn btn-success"
-                    onClick={() => setShowEditModal(false)}
-                  >
+                  <button type="submit" className="btn btn-success">
                     Guardar
                   </button>
                 </div>
@@ -249,7 +278,7 @@ const VerAreas: React.FC = () => {
           </div>
         )}
 
-        {/* --- CAMBIO: Modal para eliminar área --- */}
+        {/* Modal para eliminar área */}
         {showDeleteModal && selectedArea && (
           <div className="crear-conductor-modal-bg">
             <div className="crear-conductor-modal" style={{ maxWidth: 380 }}>
@@ -261,18 +290,10 @@ const VerAreas: React.FC = () => {
                 ¿Estás seguro que deseas eliminar esta área? Esta acción no se puede deshacer.
               </div>
               <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={() => setShowDeleteModal(false)}
-                >
+                <button type="button" className="btn btn-secondary" onClick={() => setShowDeleteModal(false)}>
                   Cancelar
                 </button>
-                <button
-                  type="button"
-                  className="btn btn-danger"
-                  onClick={() => setShowDeleteModal(false)}
-                >
+                <button type="button" className="btn btn-danger" onClick={confirmDelete}>
                   Eliminar
                 </button>
               </div>

@@ -4,42 +4,31 @@ import './../../Styles/NavBar/Administracion/GeneralStyle.css';
 import './../../Styles/Home/TablesStyle.css'
 import './../../Styles/NavBar/Logistica/ListaVehiculos.css';
 import '../../Styles/Home/TablesStyle.css'
-
-// Nueva interfaz para Reporte
-interface Reporte {
-  idReporte: number;
-  tipoReporte: string;
-  descripcion: string;
-  fechaCreacion: string;
-  usuarios: string;
-}
-
-// Mock de datos para ejemplo visual
-const mockReportes: Reporte[] = [
-  { idReporte: 1, tipoReporte: "Incidente", descripcion: "Reporte de incidente en almacén", fechaCreacion: "2024-06-01", usuarios: "Juan Pérez" },
-  { idReporte: 2, tipoReporte: "Entrega", descripcion: "Entrega fuera de horario", fechaCreacion: "2024-06-10", usuarios: "Ana López" },
-  { idReporte: 3, tipoReporte: "Inventario", descripcion: "Descuadre de inventario", fechaCreacion: "2024-06-15", usuarios: "Carlos Ruiz" },
-];
+import { useReportesController } from '../../../Controllers/Reportes/ReportesController';
+import { IReporte } from '../../../models/Interfaces/IReportes';
 
 const Reportes: React.FC = () => {
-  // Estado de reportes y búsqueda
-  const [reportes, setReportes] = useState<Reporte[]>([]);
+  const { reportes, setReportes, cargarReportes, useCase } = useReportesController();
   const [searchId, setSearchId] = useState("");
-  const [filteredReportes, setFilteredReportes] = useState<Reporte[]>([]);
-  // Estados para modales
+  const [filteredReportes, setFilteredReportes] = useState<IReporte[]>([]);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [editReporte, setEditReporte] = useState<Reporte | null>(null);
+  const [editReporte, setEditReporte] = useState<IReporte | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [selectedReporte, setSelectedReporte] = useState<Reporte | null>(null);
+  const [selectedReporte, setSelectedReporte] = useState<IReporte | null>(null);
 
-  // Cargar datos simulados
+  // Formularios controlados
+  const [formTipo, setFormTipo] = useState('');
+  const [formDescripcion, setFormDescripcion] = useState('');
+
   useEffect(() => {
-    setReportes(mockReportes);
-    setFilteredReportes(mockReportes);
+    cargarReportes();
   }, []);
 
-  // Buscar por ID
+  useEffect(() => {
+    setFilteredReportes(reportes);
+  }, [reportes]);
+
   const handleSearch = () => {
     if (searchId.trim() === "") {
       setFilteredReportes(reportes);
@@ -48,22 +37,66 @@ const Reportes: React.FC = () => {
     }
   };
 
-  // Mostrar todos
   const resetSearch = () => {
     setSearchId("");
     setFilteredReportes(reportes);
   };
 
-  // Abrir modal de editar
-  const handleEdit = (reporte: Reporte) => {
+  // Crear reporte
+  const handleCreate = async () => {
+    const data = {
+      tipoReporte: formTipo,
+      descripcion: formDescripcion
+    };
+    const res = await useCase.create(data);
+    if (res.success && res.data) {
+      setReportes([...reportes, res.data]);
+      setShowCreateModal(false);
+      setFormTipo('');
+      setFormDescripcion('');
+      await cargarReportes(); // Recargar la lista completa
+    }
+  };
+
+  // Editar reporte
+  const handleEdit = (reporte: IReporte) => {
     setEditReporte(reporte);
+    setFormTipo(reporte.tipoReporte);
+    setFormDescripcion(reporte.descripcion);
     setShowEditModal(true);
   };
 
-  // Abrir modal de eliminar
-  const handleDelete = (reporte: Reporte) => {
+  const handleUpdate = async () => {
+    if (!editReporte) return;
+    const data = {
+      tipoReporte: formTipo,
+      descripcion: formDescripcion
+      // NO incluyas fechaCreacion aquí
+    };
+    const res = await useCase.update(editReporte.idReporte, data);
+    if (res.success && res.data) {
+      setReportes(reportes.map(r => r.idReporte === editReporte.idReporte ? res.data : r));
+      setShowEditModal(false);
+      setEditReporte(null);
+      await cargarReportes(); // Recargar la lista completa
+
+    }
+  };
+
+  // Eliminar reporte
+  const handleDelete = (reporte: IReporte) => {
     setSelectedReporte(reporte);
     setShowDeleteModal(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!selectedReporte) return;
+    const res = await useCase.delete(selectedReporte.idReporte);
+    if (res.success) {
+      setReportes(reportes.filter(r => r.idReporte !== selectedReporte.idReporte));
+      setShowDeleteModal(false);
+      setSelectedReporte(null);
+    }
   };
 
   return (
@@ -95,25 +128,13 @@ const Reportes: React.FC = () => {
                   />
                 </div>
                 <div className="d-flex gap-2 ms-2">
-                  <button
-                    className="btn btn-primary"
-                    style={{ minWidth: 140 }}
-                    onClick={handleSearch}
-                  >
+                  <button className="btn btn-primary" style={{ minWidth: 140 }} onClick={handleSearch}>
                     Buscar por ID
                   </button>
-                  <button
-                    className="btn btn-success"
-                    style={{ minWidth: 140 }}
-                    onClick={resetSearch}
-                  >
+                  <button className="btn btn-success" style={{ minWidth: 140 }} onClick={resetSearch}>
                     Mostrar todos
                   </button>
-                  <button
-                    className="btn btn-warning"
-                    style={{ minWidth: 140, width: "100%" }}
-                    onClick={() => setShowCreateModal(true)}
-                  >
+                  <button className="btn btn-warning" style={{ minWidth: 140, width: "100%" }} onClick={() => setShowCreateModal(true)}>
                     Crear reporte
                   </button>
                 </div>
@@ -129,7 +150,7 @@ const Reportes: React.FC = () => {
                     <th>Tipo de Reporte</th>
                     <th>Descripción</th>
                     <th>Fecha de Creación</th>
-                    <th>Usuarios</th>
+                    <th>Usuario</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
@@ -141,22 +162,16 @@ const Reportes: React.FC = () => {
                         <td>{reporte.tipoReporte}</td>
                         <td>{reporte.descripcion}</td>
                         <td>{reporte.fechaCreacion}</td>
-                        <td>{reporte.usuarios}</td>
+                        <td>{reporte.users ? reporte.users.nombreCompleto : ''}</td>
                         <td>
                           <div className="d-flex gap-2 justify-content-center">
                             <OverlayTrigger placement="top" overlay={<Tooltip>Editar</Tooltip>}>
-                              <button
-                                className="btn btn-sm btn-primary"
-                                onClick={() => handleEdit(reporte)}
-                              >
+                              <button className="btn btn-sm btn-primary" onClick={() => handleEdit(reporte)}>
                                 <i className="bi bi-pencil"></i>
                               </button>
                             </OverlayTrigger>
                             <OverlayTrigger placement="top" overlay={<Tooltip>Eliminar</Tooltip>}>
-                              <button
-                                className="btn btn-sm btn-danger"
-                                onClick={() => handleDelete(reporte)}
-                              >
+                              <button className="btn btn-sm btn-danger" onClick={() => handleDelete(reporte)}>
                                 <i className="bi bi-trash"></i>
                               </button>
                             </OverlayTrigger>
@@ -182,38 +197,22 @@ const Reportes: React.FC = () => {
           <div className="crear-conductor-modal-bg">
             <div className="crear-conductor-modal">
               <h5 className="modal-title">Crear Reporte</h5>
-              <form>
+              <form onSubmit={e => { e.preventDefault(); handleCreate(); }}>
                 <div className="crear-conductor-form">
                   <div className="mb-2">
                     <label className="form-label">Tipo de Reporte</label>
-                    <input className="form-control" placeholder="Tipo de Reporte" />
+                    <input className="form-control" value={formTipo} onChange={e => setFormTipo(e.target.value)} required />
                   </div>
                   <div className="mb-2">
                     <label className="form-label">Descripción</label>
-                    <input className="form-control" placeholder="Descripción" />
-                  </div>
-                  <div className="mb-2">
-                    <label className="form-label">Fecha de Creación</label>
-                    <input className="form-control" type="date" />
-                  </div>
-                  <div className="mb-2">
-                    <label className="form-label">Usuarios</label>
-                    <input className="form-control" placeholder="Usuarios" />
+                    <input className="form-control" value={formDescripcion} onChange={e => setFormDescripcion(e.target.value)} required />
                   </div>
                 </div>
                 <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={() => setShowCreateModal(false)}
-                  >
+                  <button type="button" className="btn btn-secondary" onClick={() => setShowCreateModal(false)}>
                     Cancelar
                   </button>
-                  <button
-                    type="button"
-                    className="btn btn-success"
-                    onClick={() => setShowCreateModal(false)}
-                  >
+                  <button type="submit" className="btn btn-success">
                     Guardar
                   </button>
                 </div>
@@ -227,38 +226,23 @@ const Reportes: React.FC = () => {
           <div className="crear-conductor-modal-bg">
             <div className="crear-conductor-modal">
               <h5 className="modal-title">Editar Reporte</h5>
-              <form>
+              <form onSubmit={e => { e.preventDefault(); handleUpdate(); }}>
                 <div className="crear-conductor-form">
                   <div className="mb-2">
                     <label className="form-label">Tipo de Reporte</label>
-                    <input className="form-control" defaultValue={editReporte.tipoReporte} />
+                    <input className="form-control" value={formTipo} onChange={e => setFormTipo(e.target.value)} required />
                   </div>
                   <div className="mb-2">
                     <label className="form-label">Descripción</label>
-                    <input className="form-control" defaultValue={editReporte.descripcion} />
+                    <input className="form-control" value={formDescripcion} onChange={e => setFormDescripcion(e.target.value)} required />
                   </div>
-                  <div className="mb-2">
-                    <label className="form-label">Fecha de Creación</label>
-                    <input className="form-control" type="date" defaultValue={editReporte.fechaCreacion} />
-                  </div>
-                  <div className="mb-2">
-                    <label className="form-label">Usuarios</label>
-                    <input className="form-control" defaultValue={editReporte.usuarios} />
-                  </div>
+                  
                 </div>
                 <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={() => setShowEditModal(false)}
-                  >
+                  <button type="button" className="btn btn-secondary" onClick={() => setShowEditModal(false)}>
                     Cancelar
                   </button>
-                  <button
-                    type="button"
-                    className="btn btn-success"
-                    onClick={() => setShowEditModal(false)}
-                  >
+                  <button type="submit" className="btn btn-success">
                     Guardar
                   </button>
                 </div>
@@ -279,18 +263,10 @@ const Reportes: React.FC = () => {
                 ¿Estás seguro que deseas eliminar este reporte? Esta acción no se puede deshacer.
               </div>
               <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={() => setShowDeleteModal(false)}
-                >
+                <button type="button" className="btn btn-secondary" onClick={() => setShowDeleteModal(false)}>
                   Cancelar
                 </button>
-                <button
-                  type="button"
-                  className="btn btn-danger"
-                  onClick={() => setShowDeleteModal(false)}
-                >
+                <button type="button" className="btn btn-danger" onClick={confirmDelete}>
                   Eliminar
                 </button>
               </div>
