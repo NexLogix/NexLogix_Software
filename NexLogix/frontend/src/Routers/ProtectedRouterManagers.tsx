@@ -14,13 +14,8 @@ import Puestos from "../Views/pages/Administracion/Puestos";
 import VerAreas from '../Views/pages/Administracion/VerAreas';
 import Reportes from "../Views/pages/Administracion/Reportes";
 import Roles from "../Views/pages/Administracion/Roles";
-import Usuarios from "../Views/pages/Administracion/Usuarios";
+import GestionUsuarios from "../Views/pages/Administracion/GestionUsuarios";
 
-// PUESTOS
-import VerPuestos from "../Views/pages/Puestos/VerPuestos";
-import CrearPuesto from "../Views/pages/Puestos/CrearPuesto";
-import EditarPuestos from "../Views/pages/Puestos/EditarPuestos";
-import EliminarPuesto from "../Views/pages/Puestos/EliminarPuesto";
 
 // CIUDADES
 import VerCiudades from "../Views/pages/Ciudades/VerCiudades";
@@ -33,12 +28,6 @@ import VerEnvios from "../Views/pages/Envios/VerEnvios";
 import CrearEnvios from "../Views/pages/Envios/CrearEnvios";
 import EditarEnvios from "../Views/pages/Envios/EditarEnvios";
 import EliminarEnvios from "../Views/pages/Envios/EliminarEnvios";
-// EMPLEADOS
-import CrearUsuario from "../Views/pages/Users/CrearUsuarios";
-import VerUsuarios from "../Views/pages/Users/VerUsuarios";
-import EditarUsuarios from "../Views/pages/Users/EditarUsuarios";
-import DesactivarUsuario from "../Views/pages/Users/DesactivarUsuarios";
-import EliminarUsuarios from "../Views/pages/Users/EliminarUsuarios";
 // RUTAS
 import VerListaRutas from "../Views/pages/Rutas/VerListaRutas";
 import EditarRutas from "../Views/pages/Rutas/EditarRutas";
@@ -81,20 +70,13 @@ const ProtectedRouteManagers = () => {
         <Route path="puestos" element={<Puestos />} />
         <Route path="reportes" element={<Reportes />} />
         <Route path="roles" element={<Roles />} />
-        <Route path="usuarios" element={<Usuarios />} />
+        <Route path="gestionUsuarios" element={<GestionUsuarios />} />
 
 
         {/*GESTION AUDITORIAS*/}
         <Route path="verAuditorias" element={<VerAuditorias />} />
         <Route path="editarAuditorias" element={<EditarAuditorias />} />
         <Route path="eliminarAuditorias" element={<EliminarAuditorias />} />
-
-
-        {/*GESTIÓN PUESTOS */}
-        <Route path="verPuestos" element={<VerPuestos />} />
-        <Route path="crearPuesto" element={<CrearPuesto />} />
-        <Route path="editarPuesto" element={<EditarPuestos />} />
-        <Route path="eliminarPuesto" element={<EliminarPuesto />} />
 
         {/*GESTION CIUDADES*/}
         <Route path="crearCiudad" element={<CrearCiudad />} />
@@ -108,13 +90,6 @@ const ProtectedRouteManagers = () => {
         <Route path="crearEnvios" element={<CrearEnvios />} />
         <Route path="editarEnvios" element={<EditarEnvios />} />
         <Route path="eliminarEnvio" element={<EliminarEnvios />} />
-
-        {/*GESTION USUARIOS*/}
-        <Route path="crearUsuarios" element={<CrearUsuario />} />
-        <Route path="verUsuarios" element={<VerUsuarios />} />
-        <Route path="editarUsuarios" element={<EditarUsuarios />} />
-        <Route path="desactivarUsuario" element={<DesactivarUsuario />} />
-        <Route path="eliminarUsuarios" element={<EliminarUsuarios />} />
 
         {/*GESTION RUTAS*/}
         <Route path="verListaRutas" element={<VerListaRutas />} />

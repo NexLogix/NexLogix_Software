@@ -5,7 +5,10 @@ export default function UnauthorizedRoute() { // Define el componente funcional 
   const navigate = useNavigate(); // Obtiene la función de navegación
 
   useEffect(() => { // Define un efecto para redirigir automáticamente
-    // Opcional: redireccionar automáticamente después de unos segundos
+    // Limpia cualquier token/rol residual
+    localStorage.removeItem("token");
+    localStorage.removeItem("userRole");
+    // Redirecciona después de unos segundos
     const timeout = setTimeout(() => { // Configura un temporizador de 5 segundos
       navigate("/"); // Navega a la página de inicio
     }, 8000); // 8000ms de espera

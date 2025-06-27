@@ -9,6 +9,7 @@
 namespace App\Services\Users;
 
 use App\Models\Interfaces\Users\IUserService; // Se importa la interfaz que obliga a implementar los métodos definidos
+use App\Models\Roles;
 use App\Models\User; // Se importa el modelo User, que representa la tabla 'users' en la base de datos
 use Tymon\JWTAuth\Facades\JWTAuth; // Librería JWT para generar el token de autenticación tras crear un usuario
 
@@ -57,34 +58,10 @@ class UserService implements IUserService
                 'status' => 404
             ];
         }
-
-        // Filtra la información relevante del usuario
-        $user_info = [
-            'idusuarios' => $user->idusuarios,
-            'documentoIdentidad' => $user->documentoIdentidad,
-            'nombreCompleto' => $user->nombreCompleto,
-            'email' => $user->email,
-            'numContacto' => $user->numContacto,
-            'direccionResidencia' => $user->direccionResidencia,
-            'fechaCreacion' => $user->fechaCreacion,
-            'estado' => $user->estado->estado ?? null,
-            'roles' => [
-                'nombreRole' => $user->roles->nombreRole,
-                'fechaAsignacionRole' => $user->roles->fechaAsignacionRole
-            ],
-            'puestos' => [
-                'nombrePuesto' => $user->puestos->nombrePuesto,
-                'fechaAsignacionPuesto' => $user->puestos->fechaAsignacionPuesto,
-                'areas' => [
-                    'nombreArea' => $user->puestos->areas->nombreArea
-                ]
-            ]
-        ];
-
         // Devuelve los datos filtrados
         return [
             'success' => true,
-            'data' => $user_info,
+            'data' => $user,
             'status' => 200
         ];
     }

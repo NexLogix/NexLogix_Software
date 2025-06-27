@@ -65,6 +65,13 @@ const PrivateRoute: FC<PrivateRouteProps> = ({ children, allowedRoles }) => { //
     return <Navigate to="/unauthorized" replace />; /* Redirige a la página de no autorizado */
   }
 
+  // Si no hay token, rol o el token es inválido, redirige a /unauthorized
+  if (!token || !isAuthenticated || !role || role === "null" || role === "undefined") {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userRole");
+    return <Navigate to="/unauthorized" state={{ from: location }} replace />;
+  }
+
   console.log("[PrivateRoute] Acceso permitido a la ruta"); // Log para depuración
   return <>{children}</>; /* Renderiza el contenido protegido */
 };

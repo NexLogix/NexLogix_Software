@@ -36,7 +36,7 @@ const ManagerProfile = () => {
                       <Link className="nav-link" to="/manager/Puestos">Puestos</Link>
                       <Link className="nav-link" to="/manager/Reportes">Reportes</Link>
                       <Link className="nav-link" to="/manager/Roles">Roles</Link>
-                      <Link className="nav-link" to="/manager/Usuarios">Usuarios</Link>
+                      <Link className="nav-link" to="/manager/gestionUsuarios">Usuarios</Link>
                     </ul>
                   </div>
                 </li>
