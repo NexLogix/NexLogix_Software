@@ -58,6 +58,10 @@ class UserService implements IUserService
                 'status' => 404
             ];
         }
+
+        // Filtra la información relevante del usuario
+
+
         // Devuelve los datos filtrados
         return [
             'success' => true,

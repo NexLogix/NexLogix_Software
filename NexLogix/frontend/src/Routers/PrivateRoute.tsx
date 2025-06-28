@@ -1,5 +1,5 @@
 import { FC, ReactNode, useEffect, useState } from "react"; // Importa tipos y hooks de React
-import { Navigate, useLocation } from "react-router-dom"; // Importa componentes de react-router-dom para redirección y ubicación
+import { Navigate } from "react-router-dom"; // Importa componentes de react-router-dom para redirección y ubicación
 import { useAuth } from "../services/Auth/AuthService"; // Importa el hook useAuth para manejar autenticación
 
 interface PrivateRouteProps { // Define la interfaz para las props del componente PrivateRoute
@@ -9,7 +9,6 @@ interface PrivateRouteProps { // Define la interfaz para las props del component
 
 const PrivateRoute: FC<PrivateRouteProps> = ({ children, allowedRoles }) => { // Define el componente funcional PrivateRoute
   const { token, role, isAuthenticated } = useAuth(); // Obtiene el token, rol y estado de autenticación desde useAuth
-  const location = useLocation(); // Obtiene la ubicación actual (URL) para redirecciones
   const [isChecking, setIsChecking] = useState(true); // Estado para controlar el proceso de verificación de autenticación
 
   useEffect(() => { // Define un efecto para manejar la bandera authRedirect
@@ -50,7 +49,9 @@ const PrivateRoute: FC<PrivateRouteProps> = ({ children, allowedRoles }) => { //
   // SECCION ACCESO DENEGADO 1
   if (!token || !isAuthenticated) { // Si no hay token o no está autenticado
     console.log("[PrivateRoute] Redirigiendo a /login: no autenticado"); // Log para depuración
-    return <Navigate to="/unauthorized" state={{ from: location }} replace />; /* Redirige al login con la ubicación actual */
+    localStorage.removeItem("token"); // Limpia el token en caso de que exista
+    localStorage.removeItem("userRole"); // Limpia el rol de usuario en caso de que exista
+    return <Navigate to="/unauthorized" replace />; /* Redirige al login con la ubicación actual */
   }
 
   // SECCION ACCESO DENEGADO 2
@@ -65,13 +66,7 @@ const PrivateRoute: FC<PrivateRouteProps> = ({ children, allowedRoles }) => { //
     return <Navigate to="/unauthorized" replace />; /* Redirige a la página de no autorizado */
   }
 
-  // Si no hay token, rol o el token es inválido, redirige a /unauthorized
-  if (!token || !isAuthenticated || !role || role === "null" || role === "undefined") {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userRole");
-    return <Navigate to="/unauthorized" state={{ from: location }} replace />;
-  }
-
+  
   console.log("[PrivateRoute] Acceso permitido a la ruta"); // Log para depuración
   return <>{children}</>; /* Renderiza el contenido protegido */
 };

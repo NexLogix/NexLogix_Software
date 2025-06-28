@@ -1,28 +1,26 @@
-import { useNavigate } from "react-router-dom"; // Importa el hook useNavigate para navegación programática
-import { useEffect } from "react"; // Importa el hook useEffect para efectos secundarios
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
-export default function UnauthorizedRoute() { // Define el componente funcional para la página de acceso no autorizado
-  const navigate = useNavigate(); // Obtiene la función de navegación
+export default function UnauthorizedRoute() {
+  const navigate = useNavigate();
 
-  useEffect(() => { // Define un efecto para redirigir automáticamente
-    // Limpia cualquier token/rol residual
+  useEffect(() => {
     localStorage.removeItem("token");
     localStorage.removeItem("userRole");
-    // Redirecciona después de unos segundos
-    const timeout = setTimeout(() => { // Configura un temporizador de 5 segundos
-      navigate("/"); // Navega a la página de inicio
-    }, 8000); // 8000ms de espera
-    return () => clearTimeout(timeout); // Limpia el temporizador al desmontar
-  }, [navigate]); // Dependencia: navigate
+    const timeout = setTimeout(() => {
+      navigate("/"); // Redirige a login
+    }, 3000); // 3 segundos
+    return () => clearTimeout(timeout);
+  }, [navigate]);
 
   return (
-    <div className="container text-center mt-5 bg-"> {/* Contenedor principal con estilos Bootstrap */}
-      <h1 className="display-4 text-danger">403 - No Autorizado</h1> {/* Título de error */}
-      <p className="lead"> {/* Mensaje principal */}
+    <div className="container text-center mt-5">
+      <h1 className="display-4 text-danger">403 - No Autorizado</h1>
+      <p className="lead">
         Lo sentimos, no tienes permisos para acceder a esta página.
       </p>
-      <p>Serás redirigido al inicio en unos segundos...</p> {/* Mensaje de redirección */}
-      <button className="btn btn-primary mt-3" onClick={() => navigate("/")}> {/* Botón para navegar manualmente */}
+      <p>Serás redirigido al inicio en unos segundos...</p>
+      <button className="btn btn-primary mt-3" onClick={() => navigate("/")}>
         Ir al Inicio
       </button>
     </div>

@@ -41,31 +41,17 @@ export const useUsuariosController = () => {
         setIsLoading(true);
         setErrorMessage('');
 
-        try {
-            const [rolesResponse, puestosResponse, estadosResponse] = await Promise.all([
-                gestionUsuariosUseCase.getRoles(),
-                gestionUsuariosUseCase.getPuestos(),
-                gestionUsuariosUseCase.getEstados()
-            ]);
+        const [rolesResponse, puestosResponse, estadosResponse] = await Promise.all([
+            gestionUsuariosUseCase.getRoles(),
+            gestionUsuariosUseCase.getPuestos(),
+            gestionUsuariosUseCase.getEstados()
+        ]);
 
-            if (rolesResponse.success) {
-                console.log('Roles cargados:', rolesResponse.data);
-                setRoles(rolesResponse.data);
-            }
-            if (puestosResponse.success) {
-                console.log('Puestos cargados:', puestosResponse.data);
-                setPuestos(puestosResponse.data);
-            }
-            if (estadosResponse.success) {
-                console.log('Estados cargados:', estadosResponse.data);
-                setEstados(estadosResponse.data);
-            }
-        } catch (error) {
-            console.error('Error al cargar catálogos:', error);
-            setErrorMessage('Error al cargar los catálogos');
-        } finally {
-            setIsLoading(false);
-        }
+        if (rolesResponse.success) setRoles(rolesResponse.data);
+        if (puestosResponse.success) setPuestos(puestosResponse.data);
+        if (estadosResponse.success) setEstados(estadosResponse.data);
+
+        setIsLoading(false);
     };
 
     // Buscar usuario
@@ -135,19 +121,9 @@ export const useUsuariosController = () => {
 
     // Cargar datos iniciales
     useEffect(() => {
-        const inicializarDatos = async () => {
-            await cargarCatalogos(); // Cargamos primero los catálogos
-            await cargarUsuarios();  // Luego cargamos los usuarios
-        };
-        inicializarDatos();
+        cargarUsuarios();
+        cargarCatalogos();
     }, []);
-
-    // Asegurarnos que los catálogos estén cargados antes de mostrar modales
-    const prepararCrearUsuario = async () => {
-        if (roles.length === 0 || puestos.length === 0 || estados.length === 0) {
-            await cargarCatalogos();
-        }
-    };
 
     return {
         // Estados
@@ -157,15 +133,13 @@ export const useUsuariosController = () => {
         estados,
         isLoading,
         errorMessage,
-        setErrorMessage, // Añadimos el setter aquí
+        setErrorMessage, // <-- AGREGA ESTA LÍNEA
 
         // Métodos
         cargarUsuarios,
         buscarUsuario,
         crearUsuario,
         actualizarUsuario,
-        eliminarUsuario,
-        cargarCatalogos,
-        prepararCrearUsuario
+        eliminarUsuario
     };
 };

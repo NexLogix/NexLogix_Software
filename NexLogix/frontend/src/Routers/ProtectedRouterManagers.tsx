@@ -39,9 +39,6 @@ import VerConductores from "../Views/pages/Vehiculos/VerConductores";
 import ChatBot from "../Views/pages/Soporte/ChatBot";
 import ChatConIngeniero from "../Views/pages/Soporte/ChatIngeniero";
 import ReporteAnomalias from "../Views/pages/Soporte/ReporteAnomalias";
-// REPORTES
-import VerReportes from "../Views/pages/Reportes/VerReportes";
-import CrearReporte from "../Views/pages/Reportes/CrearReporte";
 
 // FOOTER
 import EstamosUbicadosEn from "../Views/componets/Footers/EstamosUbicadoEn";
@@ -104,10 +101,6 @@ const ProtectedRouteManagers = () => {
         <Route path="chatBot" element={<ChatBot />} />
         <Route path="chatIngeniero" element={<ChatConIngeniero />} />
         <Route path="reporteAnomalias" element={<ReporteAnomalias />} />
-
-        {/*GESTION REPORTES*/}
-        <Route path="verReportes" element={<VerReportes />} />
-        <Route path="crearReporte" element={<CrearReporte />} />
 
         {/*FOOTER*/}
         <Route path="ubicacion" element={<EstamosUbicadosEn />} />

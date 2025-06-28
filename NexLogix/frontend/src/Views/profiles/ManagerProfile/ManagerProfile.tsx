@@ -107,15 +107,6 @@ const ManagerProfile = () => {
                                 </div>
                           </li> 
                         */}
-
-
-                {/* Opción Reportes */}
-                <li className="nav-item">
-                    <ul className="nav flex-column">
-                      <Link className="nav-link" to="/manager/verReportes">Gestión Reportes</Link>
-                    </ul>
-                </li>
-
               </ul>
             </div>
           </nav>

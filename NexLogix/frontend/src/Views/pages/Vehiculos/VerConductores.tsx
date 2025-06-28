@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Card, Table, Button, OverlayTrigger, Tooltip, Container } from "react-bootstrap";
-import { ExclamationTriangleFill, Search, EyeFill, PencilFill, TrashFill, PlusCircleFill, PeopleFill, SaveFill, XCircleFill } from "react-bootstrap-icons";
+import { Search, PencilFill, TrashFill, PeopleFill,  } from "react-bootstrap-icons";
 import { FiCheckCircle, FiXCircle } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import "../../../Views/Styles/NavBar/Logistica/VerConductoresStyle.css";
