@@ -20,7 +20,7 @@ const ManagerProfile = () => {
 
                 {/* Opción Inicio */}
                 <li className="nav-item mb-1 mt-3">
-                  <Link className="btn btn-danger w-100 rounded-3" to="/manager">
+                  <Link className="btn btn w-100 rounded-3" to="/manager">
                     INICIO MANAGER
                   </Link>
                 </li>
