@@ -4,7 +4,6 @@ import HomeEmpleado from "../Views/profiles/EmpleadoProfile/HomeEmpleado";
 import VerEnvios from "../Views/pages/Envios/VerEnvios";
 import CrearEnvios from "../Views/pages/Envios/CrearEnvios";
 import VerListaRutas from "../Views/pages/Rutas/VerListaRutas";
-import VerReportes from "../Views/pages/Reportes/VerReportes";
 import EstamosUbicadosEn from "../Views/componets/Footers/EstamosUbicadoEn";
 import AcercaDe from "../Views/componets/Footers/AcercaDe";
 // importa más páginas si tienes...

@@ -29,7 +29,6 @@ const VerConductores = () => {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [editDriver, setEditDriver] = useState<Conductor | null>(null);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedDriver, setSelectedDriver] = useState<Conductor | null>(null);
   const navigate = useNavigate();
 
