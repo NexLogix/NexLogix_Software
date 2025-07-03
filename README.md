@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/NexLogix/NexLogix_Software/cosasfront/NexLogix/frontend/src/assets/logo.png" alt="NexLogix Logo" width="280" height="280" />
+  <img src="https://raw.githubusercontent.com/NexLogix/NexLogix_Software/master/NexLogix/frontend/src/assets/logo.png" alt="NexLogix Logo" width="280" height="280" />
 </div>
 
 <h1 align="center">NexLogix Software</h1>
