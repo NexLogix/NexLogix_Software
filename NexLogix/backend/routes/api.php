@@ -49,6 +49,23 @@ Route::group([
 /// GESTION ASIGNACION DE RUTAS POR CIUDADES
 //
 
+use App\Http\Controllers\Asignacion_Rutas_Por_Ciudades\ARPCController;
+
+Route::group([
+    'middleware' => ['api', 'auth:api'],
+    'prefix' => 'gestion_asignacion_rutas_por_ciudades'
+], function () {
+    Route::get('/', [ARPCController::class, 'showAll'])
+        ->middleware('role:2,3');
+    Route::get('/{id}', [ARPCController::class, 'showByID'])
+        ->middleware('role:2,3');
+    Route::post('/', [ARPCController::class, 'createARPC'])
+        ->middleware('role:2');
+    Route::patch('/{id}', [ARPCController::class, 'updatePartialARPC'])
+        ->middleware('role:2');
+    Route::delete('/{id}', [ARPCController::class, 'deleteARPC'])
+        ->middleware('role:2');
+});
 //
 /// GESTION ASIGNACION DE VEHICULOS POR RUTAS
 //
