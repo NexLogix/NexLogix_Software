@@ -101,12 +101,14 @@ class ConductoresController extends Controller
      */
 
     // asi se busca en la siguiente api: http://127.0.0.1:8000/api/gestion_conductores/buscar_para_crear_o_actualizar?search=sofi777@gmail.com
+    /*
     public function searchConductorForCreateOrUpdate(Request $request)
     {
         $search = $request->query('search');
         $response = $this->conductoresService->searchConductorForCreateOrUpdate($search);
         return response()->json($response, $response['status']);
-    }
+    }*/
+
 
     // POST METHOD
     /**

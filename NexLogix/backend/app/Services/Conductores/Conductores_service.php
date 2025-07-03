@@ -22,25 +22,10 @@ class Conductores_service
                     'status' => 404
                 ];
             }
-            $info_conductor = $conductores->map(function ($conductor) {
-                return [
-                    'idConductor' => $conductor->idConductor,
-                    'licencia' => $conductor->licencia,
-                    'tipoLicencia' => $conductor->tipoLicencia,
-                    'vigenciaLicencia' => $conductor->vigenciaLicencia,
-                    'estado' => $conductor->estado,
-                    'usuario' => $conductor->usuario ? [
-                        'idUsuario' => $conductor->usuario->idusuarios,
-                        'nombreCompleto' => $conductor->usuario->nombreCompleto,
-                        'email' => $conductor->usuario->email,
-                        'estadoUsuario' => $conductor->usuario->estado->estado ?? null,
-                    ] : null
-                ];
-            });
             return [
                 'success' => true,
                 'title' => 'Lista de los conductores',
-                'data' => $info_conductor,
+                'data' => $conductores,
                 'message' => 'Conductores obtenidos exitosamente',
                 'status' => 200
             ];
@@ -57,37 +42,23 @@ class Conductores_service
     public function getConductorById(string $value): array // $value puede ser ID, documento de identidad o email que se recibe de las APIS o de la DB
     {
         try {
-            $conductor = Conductores::with('usuario.roles')
+            $conductor_found = Conductores::with('usuario.roles')
                 ->where('idConductor', $value) // Busca por ID del conductor
                 //Si no viene id buscamos por documento de identidad o email del usuario
                 ->orWhereHas('usuario', function ($query) use ($value) {
                     $query
-                        // IF
+                        // Se busca por documento de identidad, email o licencia del conductor
                         ->where('documentoIdentidad', $value)
-                        // OR
-                        ->orWhere('email', $value);
+                        ->orWhere('email', $value)
+                        ->orWhere('licencia', $value);
                 })
                 ->firstOrFail();
 
-            $info_conductor = [
-                'idConductor' => $conductor->idConductor,
-                'licencia' => $conductor->licencia,
-                'tipoLicencia' => $conductor->tipoLicencia,
-                'vigenciaLicencia' => $conductor->vigenciaLicencia,
-                'estado' => $conductor->estado,
-                'usuario' => [
-                    'documentoIdentidad' => $conductor->usuario->documentoIdentidad ?? null,
-                    'nombreCompleto'     => $conductor->usuario->nombreCompleto ?? null,
-                    'email'              => $conductor->usuario->email ?? null,
-                    'numContacto'        => $conductor->usuario->numContacto ?? null,
-                    'nombreRole'         => $conductor->usuario->roles->nombreRole ?? null,
-                ]
-            ];
 
             return [
                 'success' => true,
                 'title' => 'Información del conductor',
-                'data' => $info_conductor,
+                'data' => $conductor_found,
                 'message' => 'Conductor encontrado',
                 'status' => 200
             ];
@@ -107,7 +78,7 @@ class Conductores_service
         }
     }
 
-    // GET SEARCHING FOR CREATE NEW CONDUCTOR OR UPDATE CONDUCTOR
+    /*// GET SEARCHING FOR CREATE NEW CONDUCTOR OR UPDATE CONDUCTOR
     public function searchConductorForCreateOrUpdate(?string $search = null): array
     {
         try {
@@ -142,7 +113,7 @@ class Conductores_service
                 'status' => 500
             ];
         }
-    }
+    }*/
 
 
     // POST SERVICE
@@ -171,22 +142,32 @@ class Conductores_service
         }
     }
 
-    // PUT SERVICE
-    public function updateConductor(int $id, array $data): array
+    // PATCH SERVICE
+    public function updateConductor(string $value, array $data): array
     {
         try {
-            $conductor = Conductores::findOrFail($id);
-            $conductor->update($data);
+            $conductor_found = Conductores::with('usuario.roles')
+                ->where('idConductor', $value)
+                ->orWhereHas('usuario', function ($query) use ($value) {
+                    $query
+                        ->where('documentoIdentidad', $value)
+                        ->orWhere('email', $value)
+                        ->orWhere('licencia', $value);
+                })
+                ->firstOrFail();
+
+            $conductor_found->update($data);
+
             return [
                 'success' => true,
-                'data' => $conductor,
+                'data' => $conductor_found,
                 'message' => 'Conductor actualizado correctamente',
                 'status' => 200
             ];
         } catch (ModelNotFoundException $e) {
             return [
                 'success' => false,
-                'message' => "Conductor con ID $id no encontrado",
+                'message' => "Conductor con valor $value no encontrado",
                 'status' => 404
             ];
         } catch (QueryException $e) {
@@ -205,11 +186,21 @@ class Conductores_service
     }
 
     // DELETE SERVICE
-    public function deleteConductor(int $id): array
+    public function deleteConductor(string $value): array
     {
         try {
-            $conductor = Conductores::findOrFail($id);
-            $conductor->delete();
+            $conductor_found = Conductores::with('usuario.roles')
+                ->where('idConductor', $value)
+                ->orWhereHas('usuario', function ($query) use ($value) {
+                    $query
+                        ->where('documentoIdentidad', $value)
+                        ->orWhere('email', $value)
+                        ->orWhere('licencia', $value);
+                })
+                ->firstOrFail();
+
+            $conductor_found->delete();
+
             return [
                 'success' => true,
                 'message' => 'Conductor eliminado correctamente',
@@ -218,7 +209,7 @@ class Conductores_service
         } catch (ModelNotFoundException $e) {
             return [
                 'success' => false,
-                'message' => "Conductor con ID $id no encontrado",
+                'message' => "Conductor con valor $value no encontrado",
                 'status' => 404
             ];
         } catch (QueryException $e) {

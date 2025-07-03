@@ -156,7 +156,7 @@ $this->app->bind(IUserService::class, UserService::class);
 - Las que no tienen X estan siendo actualizadas o se estan probando su funcionalidad acorde al sistema.
 
 - [] Gestión Asignacion Rutas Por Ciudades
-- [] Gestión Asignacion Rutas Por Vehiculos - In process
+- [] Gestión Asignacion Rutas Por Vehiculos
 - [x] Gestión Asignacion Conductores por Vehiculos
 - [x] Gestión Areas
 - [x] Gestión Audit Logs
