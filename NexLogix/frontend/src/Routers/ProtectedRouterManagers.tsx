@@ -18,29 +18,24 @@ import GestionUsuarios from "../Views/pages/Administracion/GestionUsuarios";
 
 
 // CIUDADES
-import Ciudades from "../Views/pages/Ciudades/Ciudades";
+import Ciudades from "../Views/pages/GestionLogistica/Ciudades";
 
 // ENVIOS
-import VerEnvios from "../Views/pages/Envios/VerEnvios";
-import CrearEnvios from "../Views/pages/Envios/CrearEnvios";
-import EditarEnvios from "../Views/pages/Envios/EditarEnvios";
-import EliminarEnvios from "../Views/pages/Envios/EliminarEnvios";
+import Envios from "../Views/pages/GestionLogistica/Envios";
 // RUTAS
-import VerListaRutas from "../Views/pages/Rutas/VerListaRutas";
-import EditarRutas from "../Views/pages/Rutas/EditarRutas";
-import EliminarRutas from "../Views/pages/Rutas/EliminarRutas";
-// VEHICULOS
-import VerListaVehiculos from "../Views/pages/Vehiculos/VerListaVehiculos";
-import VerConductores from "../Views/pages/Vehiculos/VerConductores";
+import Rutas from "../Views/pages/GestionLogistica/Rutas";
 
+// VEHICULOS
+import GestionVehiculos from "../Views/pages/GestionLogistica/GestionVehiculos";
+
+// CONDUCTORES
+import Conductores from "../Views/pages/GestionLogistica/Conductores";
 // FOOTER
 import EstamosUbicadosEn from "../Views/componets/Footers/EstamosUbicadoEn";
 import AcercaDe from "../Views/componets/Footers/AcercaDe";
 
 // AUDITORIAS
-import VerAuditorias from "../Views/pages/Auditorias/VerAuditoria";
-import EditarAuditorias from "../Views/pages/Auditorias/EditarAuditoria";
-import EliminarAuditorias from "../Views/pages/Auditorias/EliminarAuditoria";
+import Auditorias from "../Views/pages/Auditorias/Auditorias";
 // desde aqui se hacen las rutas como es una ruta privada....
 
 const ProtectedRouteManagers = () => {
@@ -64,29 +59,22 @@ const ProtectedRouteManagers = () => {
 
 
         {/*GESTION AUDITORIAS*/}
-        <Route path="verAuditorias" element={<VerAuditorias />} />
-        <Route path="editarAuditorias" element={<EditarAuditorias />} />
-        <Route path="eliminarAuditorias" element={<EliminarAuditorias />} />
-
+        <Route path="auditorias" element={<Auditorias />} />
         {/*GESTION CIUDADES*/}
         <Route path="ciudades" element={<Ciudades />} />
 
         {/*GESTION ENVIOS*/}
-        <Route path="verEnvios" element={<VerEnvios />} />
-        <Route path="crearEnvios" element={<CrearEnvios />} />
-        <Route path="editarEnvios" element={<EditarEnvios />} />
-        <Route path="eliminarEnvio" element={<EliminarEnvios />} />
+        <Route path="envios" element={<Envios />} />
+        
 
         {/*GESTION RUTAS*/}
-        <Route path="verListaRutas" element={<VerListaRutas />} />
-        <Route path="editarRutas" element={<EditarRutas />} />
-        <Route path="eliminarRutas" element={<EliminarRutas />} />
-
+        <Route path="rutas" element={<Rutas />} />
         {/*GESTION VEHICULOS*/}
-        <Route path="verListaVehiculos" element={<VerListaVehiculos />} />
-        <Route path="verConductores" element={<VerConductores />} />
+        <Route path="vehiculos" element={<GestionVehiculos />} />
+        {/*GESTION CONDUCTORES*/}
+        <Route path="conductores" element={<Conductores />} />
 
-      
+        {/*HOME MANAGER*/}
 
         {/*FOOTER*/}
         <Route path="ubicacion" element={<EstamosUbicadosEn />} />

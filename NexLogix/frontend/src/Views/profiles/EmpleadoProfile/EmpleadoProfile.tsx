@@ -25,8 +25,7 @@ const EmpleadoProfile = () => {
                        <Link className="nav-link" data-bs-toggle="collapse" to="#enviosSubmenu" role="button" aria-expanded="false" aria-controls="enviosSubmenu">Envíos</Link>
                        <div className="collapse" id="enviosSubmenu">
                              <ul className="nav flex-column ms-3">
-                                 <Link className="nav-link" to="/empleado/verEnvios">Ver Envíos</Link>
-                                 <Link className="nav-link" to="/empleado/crearEnvios">Crear Envío</Link>
+                                 <Link className="nav-link" to="/empleado/envios">Ver Envíos</Link>
                              </ul>
                        </div>
                    </li>
@@ -36,7 +35,7 @@ const EmpleadoProfile = () => {
                          <Link className="nav-link" data-bs-toggle="collapse" to="#RutasSubmenu"  role="button" aria-expanded="false"  aria-controls="RutasSubmenu" >Rutas</Link>
                          <div className="collapse" id="RutasSubmenu">
                                <ul className="nav flex-column ms-3">
-                                 <Link className="nav-link" to="/empleado/verListaRutas">Ver lista de rutas</Link>
+                                 <Link className="nav-link" to="/empleado/rutas">Ver lista de rutas</Link>
                                </ul>
                          </div>
                    </li>
@@ -46,7 +45,7 @@ const EmpleadoProfile = () => {
                        <Link className="nav-link" data-bs-toggle="collapse" to="#ReportesSubMenu" role="button" aria-expanded="false" aria-controls="ReportesSubMenu">Reportes</Link>
                            <div className="collapse" id="ReportesSubMenu"> 
                                  <ul className="nav flex-column ms-3">
-                                   <Link className="nav-link" to="/empleado/verReportes">Ver reportes</Link>
+                                   <Link className="nav-link" to="/empleado/reportes">Ver reportes</Link>
                                  </ul>
                            </div>
                    </li>

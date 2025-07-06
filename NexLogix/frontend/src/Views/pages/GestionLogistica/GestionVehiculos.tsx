@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import "../../../Views/Styles/NavBar/Logistica/ListaVehiculos.css";
-import "../../../Views/Styles/NavBar/Logistica/VerConductoresStyle.css";
+// import "../../../Views/Styles/NavBar/ManagerProfile/ListaVehiculos.css";
+// import "../../../Views/Styles/NavBar/ManagerProfile/Conductores.css";
 
 interface Vehiculo {
   id: number;
@@ -16,7 +16,15 @@ interface Vehiculo {
   conductorAsignado: string;
 }
 
-const VerListaVehiculos = () => {
+const conductores = [
+  { nombre: "Juan Pérez", telefono: "3001234567", licencia: "C1" },
+  { nombre: "Carlos Gómez", telefono: "3012345678", licencia: "B2" },
+  { nombre: "María Rodríguez", telefono: "3023456789", licencia: "C2" },
+  { nombre: "Ana Gómez", telefono: "3034567890", licencia: "B1" },
+  { nombre: "Pedro Sánchez", telefono: "3045678901", licencia: "C3" }
+];
+
+const GestionVehiculos = () => {
   const [vehiculos, setVehiculos] = useState<Vehiculo[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -24,7 +32,14 @@ const VerListaVehiculos = () => {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [editVehicle, setEditVehicle] = useState<Vehiculo | null>(null);
-  const navigate = useNavigate();
+
+  // Estados para asignar conductor
+  const [showAssignDriverModal, setShowAssignDriverModal] = useState(false);
+  const [selectedVehicleForDriver, setSelectedVehicleForDriver] = useState<Vehiculo | null>(null);
+  const [conductorSearch, setConductorSearch] = useState("");
+  const [selectedConductor, setSelectedConductor] = useState<typeof conductores[0] | null>(null);
+
+  // const navigate = useNavigate();
 
   useEffect(() => {
     const fetchVehiculos = async () => {
@@ -76,9 +91,9 @@ const VerListaVehiculos = () => {
     )
   );
 
-  const handleEdit = (id: number) => {
-    navigate(`/manager/editarVehiculo/${id}`);
-  };
+  // const handleEdit = (id: number) => {
+  //   navigate(`/manager/editarVehiculo/${id}`);
+  // };
 
   const handleDeleteClick = (id: number) => {
     setSelectedVehicle(id);
@@ -160,7 +175,7 @@ const VerListaVehiculos = () => {
             <table className="table custom-table">
               <thead>
                 <tr>
-                  <th>#</th>
+                  {/* <th>#</th> */}
                   <th>Placa</th>
                   <th>Marca</th>
                   <th>Modelo</th>
@@ -176,13 +191,12 @@ const VerListaVehiculos = () => {
                 {filteredVehicles.length > 0 ? (
                   filteredVehicles.map((vehicle) => (
                     <tr key={vehicle.id}>
-                      <td>{vehicle.id}</td>
+                      {/* <td>{vehicle.id}</td> */}
                       <td>{vehicle.placa}</td>
                       <td>{vehicle.marca}</td>
                       <td>{vehicle.modelo}</td>
                       <td>{vehicle.tipo}</td>
                       <td>
-                        {/* Puedes ajustar la categoría según tu modelo */}
                         <span className="badge bg-secondary badge-estado-uniforme">B1</span>
                       </td>
                       <td>
@@ -213,13 +227,26 @@ const VerListaVehiculos = () => {
                               <i className="bi bi-trash"></i>
                             </button>
                           </OverlayTrigger>
+                          <OverlayTrigger placement="top" overlay={<Tooltip>Asignar conductor</Tooltip>}>
+                            <button
+                              className="btn btn-sm btn-info"
+                              onClick={() => {
+                                setSelectedVehicleForDriver(vehicle);
+                                setShowAssignDriverModal(true);
+                                setConductorSearch("");
+                                setSelectedConductor(null);
+                              }}
+                            >
+                              <i className="bi bi-person-plus"></i>
+                            </button>
+                          </OverlayTrigger>
                         </div>
                       </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={10} className="text-center py-4">
+                    <td colSpan={9} className="text-center py-4">
                       <div className="text-muted">No se encontraron vehículos</div>
                     </td>
                   </tr>
@@ -410,8 +437,82 @@ const VerListaVehiculos = () => {
           </div>
         </div>
       )}
+
+      {/* Modal para asignar conductor */}
+      {showAssignDriverModal && selectedVehicleForDriver && (
+        <div className="crear-conductor-modal-bg">
+          <div className="crear-conductor-modal" style={{ maxWidth: 400 }}>
+            <h5 className="modal-title mb-2">Asignar Conductor</h5>
+            <div className="mb-2">
+              <b>Vehículo:</b> {selectedVehicleForDriver.placa} - {selectedVehicleForDriver.marca}
+            </div>
+            <div className="mb-2">
+              <label className="form-label">Buscar conductor</label>
+              <input
+                className="form-control"
+                placeholder="Buscar por nombre..."
+                value={conductorSearch}
+                onChange={e => {
+                  setConductorSearch(e.target.value);
+                  setSelectedConductor(null);
+                }}
+              />
+              <div className="list-group mt-1" style={{ maxHeight: 120, overflowY: "auto" }}>
+                {conductorSearch &&
+                  conductores
+                    .filter(c =>
+                      c.nombre.toLowerCase().includes(conductorSearch.toLowerCase())
+                    )
+                    .map(c => (
+                      <button
+                        type="button"
+                        key={c.nombre}
+                        className={`list-group-item list-group-item-action${selectedConductor?.nombre === c.nombre ? " active" : ""}`}
+                        onClick={() => setSelectedConductor(c)}
+                      >
+                        {c.nombre}
+                      </button>
+                    ))}
+              </div>
+            </div>
+            {selectedConductor && (
+              <div className="alert alert-info py-2 px-2">
+                <div><b>Nombre:</b> {selectedConductor.nombre}</div>
+                <div><b>Teléfono:</b> {selectedConductor.telefono}</div>
+                <div><b>Licencia:</b> {selectedConductor.licencia}</div>
+              </div>
+            )}
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => setShowAssignDriverModal(false)}
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                className="btn btn-success"
+                disabled={!selectedConductor}
+                onClick={() => {
+                  if (selectedConductor && selectedVehicleForDriver) {
+                    setVehiculos(vehiculos.map(v =>
+                      v.id === selectedVehicleForDriver.id
+                        ? { ...v, conductorAsignado: selectedConductor.nombre }
+                        : v
+                    ));
+                  }
+                  setShowAssignDriverModal(false);
+                }}
+              >
+                Asignar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-export default VerListaVehiculos;
+export default GestionVehiculos;

@@ -41,7 +41,7 @@ class CiudadesService implements ICiudadesService
     {
         try {
             $ciudad = Ciudades::where('idCiudad',$value)
-                ->orWhere('nombreCiudad', $value)
+                ->orWhere('nombreCiudad', 'like',  "%{$value}%")
                 ->firstOrFail();
             return [
                 'success' => true,

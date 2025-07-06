@@ -48,44 +48,21 @@ const ManagerProfile = () => {
                   </Link>
                   <div className="collapse" id="AuditoriasSubmenu">
                     <ul className="nav flex-column">
-                      <Link className="nav-link" to="/manager/verAuditorias">Lista de auditorías</Link>
-                      <Link className="nav-link" to="/manager/editarAuditorias">Editar auditorías</Link>
-                      <Link className="nav-link" to="/manager/eliminarAuditorias">Eliminar auditorías</Link>
+                      <Link className="nav-link" to="/manager/auditorias">Lista de auditorías</Link>
                     </ul>
                   </div>
                 </li>
-
-                {/* Opción Ciudades con submenú */}
-                <li className="nav-item">
-                  <Link className="nav-link" data-bs-toggle="collapse" to="#CiudadesSubmenu" role="button" aria-expanded="false" aria-controls="CiudadesSubmenu">
-                    Gestión Ciudades
-                  </Link>
-                  <div className="collapse" id="CiudadesSubmenu">
-                    <ul className="nav flex-column">
-                      <Link className="nav-link" to="/manager/ciudades">Lista de ciudades</Link>
-                    </ul>
-                  </div>
-                </li>
-
-                {/* Opción Envíos con submenú */}
-                <li className="nav-item position-relative ">
-                  <Link className="nav-link" data-bs-toggle="collapse" to="#enviosSubmenu" role="button" aria-expanded="false" aria-controls="enviosSubmenu">Gestión Envíos</Link>
-                  <div className="collapse" id="enviosSubmenu">
-                    <ul className="nav flex-column">
-                      <Link className="nav-link" to="/manager/verEnvios">Ver Envíos</Link>
-                      <Link className="nav-link" to="/manager/crearEnvios">Crear Envío</Link>
-                      <Link className="nav-link" to="/manager/editarEnvios">Editar Envío</Link>
-                      <Link className="nav-link" to="/manager/eliminarEnvio">Eliminar Envío</Link>
-                    </ul>
-                  </div>
-                </li>
-
+                {/* Opción Gestion Logistica con submenú */}
                 <li className="nav-item">
                   <Link className="nav-link" data-bs-toggle="collapse" to="#VehiculosSubmenu" role="button" aria-expanded="false" aria-controls="VehiculosSubmenu">Gestión Logística</Link>
                   <div className="collapse" id="VehiculosSubmenu">
                     <ul className="nav flex-column">
-                      <Link className="nav-link" to="/manager/verListaVehiculos">Lista de vehículos</Link>
-                      <Link className="nav-link" to="/manager/verConductores">Conductores</Link>
+                      <Link className="nav-link" to="/manager/vehiculos">Lista de vehículos</Link>
+                      <Link className="nav-link" to="/manager/conductores">Conductores</Link>
+                      <Link className="nav-link" to="/manager/rutas">Rutas</Link>
+                      <Link className="nav-link" to="/manager/envios">Gestion Envíos</Link>
+                      <Link className="nav-link" to="/manager/ciudades">Lista de ciudades</Link>
+
                     </ul>
                   </div>
                 </li>

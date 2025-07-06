@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { Card, Table, Button, OverlayTrigger, Tooltip, Container } from "react-bootstrap";
-import { Search, PencilFill, TrashFill, PeopleFill,  } from "react-bootstrap-icons";
+import { Search, PencilFill, TrashFill, PeopleFill } from "react-bootstrap-icons";
 import { FiCheckCircle, FiXCircle } from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
-import "../../../Views/Styles/NavBar/Logistica/VerConductoresStyle.css";
-import "../../../Views/Styles/NavBar/Logistica/ListaVehiculos.css";
+// import { useNavigate } from "react-router-dom";
+//import "../../../Views/Styles/NavBar/ManagerProfile/Conductores.css";
+//import "../../../Views/Styles/NavBar/ManagerProfile/ListaVehiculos.css";
 
 interface Conductor {
   id: number;
@@ -19,7 +19,7 @@ interface Conductor {
   email: string;
 }
 
-const VerConductores = () => {
+const Conductores = () => {
   const [conductores, setConductores] = useState<Conductor[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showStatusModal, setShowStatusModal] = useState(false);
@@ -29,8 +29,11 @@ const VerConductores = () => {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [editDriver, setEditDriver] = useState<Conductor | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedDriver, setSelectedDriver] = useState<Conductor | null>(null);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   useEffect(() => {
     const mockConductores: Conductor[] = [
@@ -140,13 +143,7 @@ const VerConductores = () => {
     )
   );
 
-  const handleEdit = (id: number) => {
-    const driver = conductores.find((d) => d.id === id);
-    if (driver) {
-      setEditingId(id);
-      setEditedDriver({ ...driver });
-    }
-  };
+
 
   const handleEditChange = (field: keyof Conductor, value: string) => {
     setEditedDriver((prev) => ({
@@ -172,19 +169,11 @@ const VerConductores = () => {
     setEditedDriver({});
   };
 
-  const handleView = (id: number) => {
-    navigate(`/manager/verConductor/${id}`);
-  };
 
-  const handleDelete = (id: number) => {
-    alert(`Eliminar conductor con id: ${id}`);
-  };
 
-  const handleStatusChange = (driver: Conductor) => {
-    setSelectedDriver(driver);
-    setNewStatus(driver.estado);
-    setShowStatusModal(true);
-  };
+
+
+
 
   const confirmStatusChange = () => {
     if (selectedDriver && newStatus) {
@@ -195,6 +184,18 @@ const VerConductores = () => {
     }
   };
 
+
+
+
+
+  // Helper to get badge color for license validity
+  const getLicenseBadge = (vigencia: string) => {
+    const hoy = new Date();
+    const fechaVigencia = new Date(vigencia);
+    return fechaVigencia > hoy ? "success" : "danger";
+  };
+
+  // Helper to get badge color for driver status
   const getStatusBadge = (estado: string) => {
     switch (estado) {
       case "Disponible": return "success";
@@ -204,12 +205,6 @@ const VerConductores = () => {
       case "En capacitación": return "warning";
       default: return "secondary";
     }
-  };
-
-  const getLicenseBadge = (vigencia: string) => {
-    const hoy = new Date();
-    const fechaVigencia = new Date(vigencia);
-    return fechaVigencia > hoy ? "success" : "danger";
   };
 
   return (
@@ -272,16 +267,15 @@ const VerConductores = () => {
             <Table striped hover className="custom-table">
               <thead>
                 <tr>
-                  <th>#</th>
+                  <th>Documento</th>
                   <th>Nombre</th>
                   <th>Email</th>
-                  <th>Documento</th>
+                  <th>Contacto</th>
                   <th>Licencia</th>
                   <th>Tipo Licencia</th>
                   <th>Vigencia Licencia</th>
-                  <th>Estado</th>
+                  <th>Estado de conductor</th>
                   <th>Vehículo Asignado</th>
-                  <th>Contacto</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
@@ -289,9 +283,17 @@ const VerConductores = () => {
                 {filteredDrivers.length > 0 ? (
                   filteredDrivers.map((driver) => (
                     <tr key={driver.id}>
-                      <td>{driver.id}</td>
                       {editingId === driver.id ? (
                         <>
+                          <td className="edit-sm">
+                            <input
+                              type="text"
+                              className="form-control edit-sm"
+                              value={editedDriver.documento || ""}
+                              onChange={(e) => handleEditChange("documento", e.target.value)}
+                              placeholder="Documento"
+                            />
+                          </td>
                           <td className="edit-sm">
                             <input
                               type="text"
@@ -314,9 +316,9 @@ const VerConductores = () => {
                             <input
                               type="text"
                               className="form-control edit-sm"
-                              value={editedDriver.documento || ""}
-                              onChange={(e) => handleEditChange("documento", e.target.value)}
-                              placeholder="Documento"
+                              value={editedDriver.telefono || ""}
+                              onChange={(e) => handleEditChange("telefono", e.target.value)}
+                              placeholder="Contacto"
                             />
                           </td>
                           <td className="edit-sm">
@@ -372,15 +374,6 @@ const VerConductores = () => {
                             />
                           </td>
                           <td className="edit-sm">
-                            <input
-                              type="text"
-                              className="form-control edit-sm"
-                              value={editedDriver.telefono || ""}
-                              onChange={(e) => handleEditChange("telefono", e.target.value)}
-                              placeholder="Contacto"
-                            />
-                          </td>
-                          <td className="edit-sm">
                             <div className="d-flex gap-2 justify-content-center">
                               <OverlayTrigger placement="top" overlay={<Tooltip>Guardar</Tooltip>}>
                                 <Button
@@ -409,25 +402,25 @@ const VerConductores = () => {
                         </>
                       ) : (
                         <>
+                          <td>{driver.documento}</td>
                           <td>{driver.nombre}</td>
                           <td>{driver.email}</td>
-                          <td>{driver.documento}</td>
+                          <td>{driver.telefono}</td>
                           <td>{driver.licencia}</td>
                           <td>
                             <span className="badge bg-secondary">{driver.tipoLicencia}</span>
                           </td>
                           <td>
                             <span className={`badge bg-${getLicenseBadge(driver.vigenciaLicencia)}`}>
-                              {new Date(driver.vigenciaLicencia).toLocaleDateString()}
+                              {driver.vigenciaLicencia ? new Date(driver.vigenciaLicencia).toLocaleDateString() : ""}
                             </span>
                           </td>
                           <td>
                             <span className={`badge bg-${getStatusBadge(driver.estado)} badge-estado-uniforme`}>
-                              {driver.estado}
+                              {driver.estado || ""}
                             </span>
                           </td>
                           <td>{driver.vehiculoAsignado}</td>
-                          <td>{driver.telefono}</td>
                           <td>
                             <div className="d-flex gap-2 justify-content-center">
                               <OverlayTrigger placement="top" overlay={<Tooltip>Editar</Tooltip>}>
@@ -462,7 +455,7 @@ const VerConductores = () => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={11} className="text-center py-4">
+                    <td colSpan={10} className="text-center py-4">
                       <div className="text-muted">No se encontraron conductores</div>
                     </td>
                   </tr>
@@ -574,10 +567,6 @@ const VerConductores = () => {
                   </select>
                 </div>
                 <div className="mb-2">
-                  <label className="form-label">Vehículo Asignado</label>
-                  <input className="form-control" placeholder="Vehículo" />
-                </div>
-                <div className="mb-2">
                   <label className="form-label">Contacto</label>
                   <input className="form-control" placeholder="Teléfono" />
                 </div>
@@ -686,4 +675,4 @@ const VerConductores = () => {
   );
 };
 
-export default VerConductores;
+export default Conductores;
