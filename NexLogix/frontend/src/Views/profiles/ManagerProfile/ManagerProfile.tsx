@@ -27,10 +27,10 @@ const ManagerProfile = () => {
 
                 {/* Opción Gestión Áreas con submenú */}
                 <li className="nav-item">
-                  <Link className="nav-link" data-bs-toggle="collapse" to="#AreasSubmenu" role="button" aria-expanded="false" aria-controls="AreasSubmenu">
+                  <Link className="nav-link" data-bs-toggle="collapse" to="#administracion" role="button" aria-expanded="false" aria-controls="administracion">
                     Adminstración
                   </Link>
-                  <div className="collapse" id="AreasSubmenu">
+                  <div className="collapse" id="administracion">
                     <ul className="nav flex-column">
                       <Link className="nav-link" to="/manager/verAreas">Areas</Link>
                       <Link className="nav-link" to="/manager/Puestos">Puestos</Link>
@@ -62,10 +62,7 @@ const ManagerProfile = () => {
                   </Link>
                   <div className="collapse" id="CiudadesSubmenu">
                     <ul className="nav flex-column">
-                      <Link className="nav-link" to="/manager/verCiudades">Lista de ciudades</Link>
-                      <Link className="nav-link" to="/manager/crearCiudad">Crear ciudad</Link>
-                      <Link className="nav-link" to="/manager/editarCiudad">Editar ciudad</Link>
-                      <Link className="nav-link" to="/manager/eliminarCiudad">Eliminar ciudad</Link>
+                      <Link className="nav-link" to="/manager/ciudades">Lista de ciudades</Link>
                     </ul>
                   </div>
                 </li>
@@ -93,20 +90,6 @@ const ManagerProfile = () => {
                   </div>
                 </li>
 
-
-                {/* 
-                        // AREA DE BOTONES SOPORTE TECNICO
-                          <li className="nav-item">
-                            <Link className="nav-link" data-bs-toggle="collapse" to="#SoporteTecnicoSubMenu" role="button" aria-expanded="false" aria-controls="SoporteTecnicoSubMenu">Soporte Técnico</Link>
-                                <div className="collapse" id="SoporteTecnicoSubMenu">
-                                      <ul className="nav flex-column ms-3">
-                                        <Link className="nav-link" to="/manager/chatBot">Chatbot soporte</Link>
-                                        <Link className="nav-link" to="/manager/chatIngeniero">Abrir chat con Ingeniero</Link>
-                                        <Link className="nav-link" to="/manager/reporteAnomalias">Reportar anomalías</Link>
-                                      </ul>
-                                </div>
-                          </li> 
-                        */}
               </ul>
             </div>
           </nav>

@@ -29,7 +29,7 @@ class ControllerCiudades extends Controller
     }
 
      // GET BY ID
-    public function showCiudadById(int $id)
+    public function showCiudadById(string $id)
     {
         $response = $this->ciudades_service->getCiudadById($id);
         // Retorna la respuesta en formato JSON con el código de estado
@@ -57,7 +57,7 @@ class ControllerCiudades extends Controller
     }
 
     // PUT CONTROLLER
-    public function updateCiudad(Request $request, int $id)
+    public function updateCiudad(Request $request, string $id)
     {
         $response = $this->ciudades_use_case->handleUpdateCiudad($id, $request->all());
         if ($response['success']) {
@@ -77,7 +77,7 @@ class ControllerCiudades extends Controller
     }
 
     // PATCH CONTROLLER
-    public function updateSpecificSection(Request $request, int $id)
+    public function updateSpecificSection(Request $request, string $id)
     {
         $response = $this->ciudades_use_case->handleUpdateSpecificSectionC($id, $request->all());
         if ($response['success']) {
@@ -97,7 +97,7 @@ class ControllerCiudades extends Controller
     }
 
     // DELETE CONTROLLER
-    public function deleteCiudades(int $id)
+    public function deleteCiudades(string $id)
     {
         $response = $this->ciudades_service->deleteCiudad($id);
         if ($response['success']) {

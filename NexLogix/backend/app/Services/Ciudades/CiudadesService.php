@@ -37,10 +37,12 @@ class CiudadesService implements ICiudadesService
     }
 
     // GET BY ID
-    public function getCiudadById(int $id): array
+    public function getCiudadById(string $value): array
     {
         try {
-            $ciudad = Ciudades::findOrFail($id);
+            $ciudad = Ciudades::where('idCiudad',$value)
+                ->orWhere('nombreCiudad', $value)
+                ->firstOrFail();
             return [
                 'success' => true,
                 'data' => $ciudad,
@@ -50,7 +52,7 @@ class CiudadesService implements ICiudadesService
         } catch (ModelNotFoundException $e) {
             return [
                 'success' => false,
-                'message' => "Ciudad con ID $id no encontrada",
+                'message' => "Ciudad con ID $value no encontrada",
                 'status' => 404
             ];
         } catch (Exception $e) {
@@ -90,10 +92,10 @@ class CiudadesService implements ICiudadesService
 
     //PUT
 
-    public function updateCiudad(int $id, array $data)
+    public function updateCiudad(string $value, array $data)
     {
         try {
-            $ciudad = Ciudades::findOrFail($id);
+            $ciudad = Ciudades::findOrFail($value);
 
             if (empty($data)) {
                 return [
@@ -113,7 +115,7 @@ class CiudadesService implements ICiudadesService
         } catch (ModelNotFoundException $e) {
             return [
                 'success' => false,
-                'message' => "Ciudades con ID $id no encontrado",
+                'message' => "Ciudades con ID $value no encontrado",
                 'status' => 404
             ];
         } catch (Exception $e) {
@@ -125,10 +127,10 @@ class CiudadesService implements ICiudadesService
         }
     }
     // PATCH
-    public function updateSpecificSectionCiudad(int $id, array $data): array
+    public function updateSpecificSectionCiudad(string $value, array $data): array
     {
         try {
-            $ciudad = Ciudades::findOrFail($id);
+            $ciudad = Ciudades::findOrFail($value);
 
             if (empty($data)) {
                 return [
@@ -148,7 +150,7 @@ class CiudadesService implements ICiudadesService
         } catch (ModelNotFoundException $e) {
             return [
                 'success' => false,
-                'message' => "Ciudades con ID $id no encontrado",
+                'message' => "Ciudades con ID $value no encontrado",
                 'status' => 404
             ];
         } catch (Exception $e) {
@@ -161,10 +163,10 @@ class CiudadesService implements ICiudadesService
     }
 
     // DELETE
-    public function deleteCiudad(int $id): array
+    public function deleteCiudad(string $value): array
     {
         try {
-            $ciudad = Ciudades::findOrFail($id); // Busca
+            $ciudad = Ciudades::findOrFail($value); // Busca
             $ciudad->delete();
             return [
                 'success' => true,
@@ -174,7 +176,7 @@ class CiudadesService implements ICiudadesService
         } catch (ModelNotFoundException $e) {
             return [
                 'success' => false,
-                'message' => "Ciudad con ID $id no encontrado",
+                'message' => "Ciudad con ID $value no encontrado",
                 'status' => 404
             ];
         } catch (QueryException $e) {

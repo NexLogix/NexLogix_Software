@@ -18,10 +18,7 @@ import GestionUsuarios from "../Views/pages/Administracion/GestionUsuarios";
 
 
 // CIUDADES
-import VerCiudades from "../Views/pages/Ciudades/VerCiudades";
-import CrearCiudad from "../Views/pages/Ciudades/CrearCiudad";
-import EditarCiudad from "../Views/pages/Ciudades/EditarCuidad";
-import EliminarCiudad from "../Views/pages/Ciudades/EliminarCiudad";
+import Ciudades from "../Views/pages/Ciudades/Ciudades";
 
 // ENVIOS
 import VerEnvios from "../Views/pages/Envios/VerEnvios";
@@ -35,10 +32,6 @@ import EliminarRutas from "../Views/pages/Rutas/EliminarRutas";
 // VEHICULOS
 import VerListaVehiculos from "../Views/pages/Vehiculos/VerListaVehiculos";
 import VerConductores from "../Views/pages/Vehiculos/VerConductores";
-// SOPORTE TECNICO
-import ChatBot from "../Views/pages/Soporte/ChatBot";
-import ChatConIngeniero from "../Views/pages/Soporte/ChatIngeniero";
-import ReporteAnomalias from "../Views/pages/Soporte/ReporteAnomalias";
 
 // FOOTER
 import EstamosUbicadosEn from "../Views/componets/Footers/EstamosUbicadoEn";
@@ -76,11 +69,7 @@ const ProtectedRouteManagers = () => {
         <Route path="eliminarAuditorias" element={<EliminarAuditorias />} />
 
         {/*GESTION CIUDADES*/}
-        <Route path="crearCiudad" element={<CrearCiudad />} />
-        <Route path="verCiudades" element={<VerCiudades />} />
-        <Route path="editarCiudad" element={<EditarCiudad />} />
-        <Route path="eliminarCiudad" element={<EliminarCiudad />} />
-
+        <Route path="ciudades" element={<Ciudades />} />
 
         {/*GESTION ENVIOS*/}
         <Route path="verEnvios" element={<VerEnvios />} />
@@ -97,10 +86,7 @@ const ProtectedRouteManagers = () => {
         <Route path="verListaVehiculos" element={<VerListaVehiculos />} />
         <Route path="verConductores" element={<VerConductores />} />
 
-        {/*SPORTE TECNICO*/}
-        <Route path="chatBot" element={<ChatBot />} />
-        <Route path="chatIngeniero" element={<ChatConIngeniero />} />
-        <Route path="reporteAnomalias" element={<ReporteAnomalias />} />
+      
 
         {/*FOOTER*/}
         <Route path="ubicacion" element={<EstamosUbicadosEn />} />

@@ -10,7 +10,7 @@ interface CiudadesState {
   searchId: string;
 }
 
-interface CreateCiudadState {
+export interface CreateCiudadState {
   formData: { nombreCiudad: string; costoPor_Ciudad: number };
   errors: Record<string, string>;
   loading: boolean;
@@ -53,11 +53,11 @@ export const useCiudadesController = () => {
     }
   }, []);
 
-  const searchCiudadById = useCallback(async (idCiudad: number) => {
+  const searchCiudadById = useCallback(async (idOrName: string | number) => {
     try {
-      console.log('useCiudadesController: Buscando ciudad con ID:', idCiudad);
+      console.log('useCiudadesController: Buscando ciudad con ID o nombre:', idOrName);
       setState((prev) => ({ ...prev, loading: true, error: '' }));
-      const response = await fetchCiudadById(idCiudad);
+      const response = await fetchCiudadById(idOrName);
       if (response.success) {
         setState((prev) => ({
           ...prev,
@@ -72,7 +72,7 @@ export const useCiudadesController = () => {
           error: 'No se encontró la ciudad',
           loading: false,
         }));
-        console.log('useCiudadesController: Ciudad no encontrada para ID:', idCiudad);
+        console.log('useCiudadesController: Ciudad no encontrada para:', idOrName);
       }
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Error desconocido al buscar la ciudad';
@@ -124,13 +124,12 @@ export const useCiudadesController = () => {
   };
 
   const handleSearch = () => {
-    const idCiudad = parseInt(state.searchId, 10);
-    if (!isNaN(idCiudad)) {
-      searchCiudadById(idCiudad);
-    } else {
-      setState((prev) => ({ ...prev, error: 'Ingrese un ID válido' }));
-      console.log('useCiudadesController: Error - ID inválido:', state.searchId);
+    const searchValue = state.searchId.trim();
+    if (searchValue.length === 0) {
+      setState((prev) => ({ ...prev, error: 'Ingrese un valor para buscar' }));
+      return;
     }
+    searchCiudadById(searchValue);
   };
 
   const resetSearch = () => {
@@ -261,5 +260,5 @@ export const useCreateCiudadController = () => {
     }
   };
 
-  return { state, handleInputChange, handleCreateSubmit, handleUpdateSubmit };
+  return { state, handleInputChange, handleCreateSubmit, handleUpdateSubmit, setState };
 };

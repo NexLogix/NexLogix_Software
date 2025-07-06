@@ -42,8 +42,8 @@ class VehiculoService implements IVehiculoService
     public function getVehiculoById(string $value): array
     {
         try {
-            $Vehiculo = Vehiculos::where('idVehiculo',$value)
-                ->orWhere('placa', $value)
+            $Vehiculo = Vehiculos::where('idVehiculo', $value)
+                ->orWhere('placa', 'like', "%{$value}%")
                 ->firstOrFail();
             return [
                 'success' => true,
