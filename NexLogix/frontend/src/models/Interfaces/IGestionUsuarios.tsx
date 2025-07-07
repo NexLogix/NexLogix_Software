@@ -18,59 +18,34 @@ export interface IRol {
     idRole: number;
     nombreRole: string;
     descripcionRole: string;
-    fechaAsignacionRole: string;
 }
 
 export interface IEstado {
-    idestado: number;
-    estado: string;
+    idEstado: number;
+    nombreEstado: string;
+    descripcionEstado: string;
 }
 
 // Interfaz principal para Usuario que coincide exactamente con el backend
 export interface IUsuario {
-    idusuarios: number;
-    documentoIdentidad: string;
-    nombreCompleto: string;
+    idUsuario: number;
+    documento: string;
+    nombre: string;
     email: string;
-    numContacto: string;
-    direccionResidencia: string;
-    fechaCreacion: string;
+    telefono: string;
     idRole: number;
-    idestado: number;
-    idPuestos: number;
-    estado: IEstado;
-    roles: IRol;
-    puestos: IPuesto;
+    idPuesto: number;
+    idEstado: number;
+    rol?: IRol;
+    puesto?: IPuesto;
+    estado?: IEstado;
 }
 
-// DTO para crear usuario (exactamente lo que pide el backend)
-export interface ICreateUsuarioDTO {
-    documentoIdentidad: string;
-    nombreCompleto: string;
-    email: string;
-    numContacto: string;
-    direccionResidencia: string;
-    contrasena: string;
-    idestado: number;
-    idRole: number;
-    idPuestos: number;
-}
-
-// DTO para actualizar usuario (todos los campos opcionales excepto IDs)
-export interface IUpdateUsuarioDTO {
-    documentoIdentidad?: string;
-    nombreCompleto?: string;
-    email?: string;
-    numContacto?: string;
-    direccionResidencia?: string;
-    idestado: number;
-    idRole: number;
-    idPuestos: number;
-}
-
-// Interfaz para las respuestas del API
-export interface IApiResponse<T> {
+// Respuesta de la API para operaciones de usuarios
+export interface IUsuarioApiResponse {
     success: boolean;
-    message: string;
-    data: T;
+    title?: string;
+    message?: string;
+    data: IUsuario[] | IUsuario;
+    status: number;
 }

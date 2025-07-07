@@ -1,43 +1,45 @@
 import {
   getConductores,
-  createConductor,
-  updateConductor,
   deleteConductor,
   getUsuarios,
-  createUsuario,
-  getRoles,
-  getEstados,
-  getPuestos
 } from "../services/ConductoresService";
 import { IConductor } from "../models/Interfaces/IConductor";
-import { IUsuario } from "../models/Interfaces/IGestionUsuarios";
+import { ConductoresUseCase } from "../UseCases/ConductoresUseCase";
+import { IUsuariosApiResponse } from "../services/ConductoresService";
+
+const conductoresUseCase = new ConductoresUseCase();
 
 export const ConductoresController = {
+  // GET: directo al service
   getAllConductores: async () => {
     return await getConductores();
   },
+
+  // POST: usa el UseCase
   createConductor: async (data: Partial<IConductor>) => {
-    return await createConductor(data);
+    return await conductoresUseCase.create(data);
   },
+
+  // PATCH: usa el UseCase
   updateConductor: async (id: number, data: Partial<IConductor>) => {
-    return await updateConductor(id, data);
+    return await conductoresUseCase.update(id, data);
   },
-  deleteConductor: async (id: number) => {
-    return await deleteConductor(id);
+
+  // DELETE: directo al service
+  deleteConductor: async (id: number): Promise<boolean> => {
+    if (!id) {
+      throw new Error('El ID del conductor es requerido');
+    }
+    try {
+      return await deleteConductor(id);
+    } catch (error) {
+      console.error('Error en el controlador al eliminar conductor:', error);
+      throw error;
+    }
   },
-  getAllUsuarios: async () => {
+
+  // Métodos auxiliares que van directo al service
+  getAllUsuarios: async (): Promise<IUsuariosApiResponse> => {
     return await getUsuarios();
   },
-  createUsuario: async (data: Partial<IUsuario>) => {
-    return await createUsuario(data);
-  },
-  getAllRoles: async () => {
-    return await getRoles();
-  },
-  getAllEstados: async () => {
-    return await getEstados();
-  },
-  getAllPuestos: async () => {
-    return await getPuestos();
-  }
 };
