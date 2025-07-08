@@ -4,6 +4,14 @@ import { VehiculosController } from "../../../Controllers/VehiculosController";
 import { IVehiculo } from "../../../models/Interfaces/IVehiculo";
 import { IConductor } from "../../../models/Interfaces/IConductor";
 
+interface ApiError {
+  response?: {
+    data?: {
+      message?: string;
+    };
+  };
+}
+
 // Extendemos IVehiculo para incluir los campos adicionales que necesitamos en la UI
 interface VehiculoUI extends Omit<IVehiculo, 'idVehiculo' | 'marcaVehiculo' | 'tipoVehiculo' | 'estadoVehiculo'> {
   id: number; // renombramos idVehiculo a id
@@ -37,6 +45,10 @@ const GestionVehiculos = () => {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [editVehicle, setEditVehicle] = useState<VehiculoUI | null>(null);
+  
+  // Estados para carga y notificaciones
+  const [isLoading, setIsLoading] = useState(false);
+  const [notification, setNotification] = useState<{ type: 'success' | 'error', message: string } | null>(null);
 
   // Estados para asignar conductor
   const [showAssignDriverModal, setShowAssignDriverModal] = useState(false);
@@ -92,18 +104,33 @@ const GestionVehiculos = () => {
 
   const confirmDelete = async () => {
     if (selectedVehicle) {
+      setIsLoading(true);
       try {
         await VehiculosController.deleteVehiculo(selectedVehicle.toString());
-        setVehiculos(vehiculos.filter(vehicle => vehicle.id !== selectedVehicle));
+        setNotification({ type: 'success', message: 'Vehículo eliminado con éxito' });
         setShowDeleteModal(false);
+        // Recargar la lista después de eliminar
+        const data = await VehiculosController.getAllVehiculos();
+        const asignaciones = await VehiculosController.getAsignacionesConductores();
+        const vehiculosConConductores = data.map(v => {
+          const asignacion = asignaciones.find(a => a.vehiculo.placa === v.placa);
+          return toVehiculoUI(v, asignacion ? asignacion.conductor.usuario.nombreCompleto : undefined);
+        });
+        setVehiculos(vehiculosConConductores);
       } catch (error) {
-        console.error('Error al eliminar el vehículo:', error);
-        // Aquí deberías mostrar un mensaje de error al usuario
+        const apiError = error as ApiError;
+        setNotification({ 
+          type: 'error', 
+          message: apiError.response?.data?.message || 'Error al eliminar el vehículo'
+        });
+      } finally {
+        setIsLoading(false);
       }
     }
   };
 
   const handleCreateVehiculo = async (formData: FormData) => {
+    setIsLoading(true);
     try {
       const newVehiculo = {
         placa: formData.placa,
@@ -114,17 +141,31 @@ const GestionVehiculos = () => {
         ultimoMantenimiento: formData.ultimoMantenimiento
       };
       
-      const created = await VehiculosController.createVehiculo(newVehiculo);
-      const displayVehiculo = toVehiculoUI(created);
-      setVehiculos([...vehiculos, displayVehiculo]);
+      await VehiculosController.createVehiculo(newVehiculo);
+      setNotification({ type: 'success', message: 'Vehículo creado con éxito' });
       setShowCreateModal(false);
+
+      // Recargar la lista después de crear
+      const data = await VehiculosController.getAllVehiculos();
+      const asignaciones = await VehiculosController.getAsignacionesConductores();
+      const vehiculosConConductores = data.map(v => {
+        const asignacion = asignaciones.find(a => a.vehiculo.placa === v.placa);
+        return toVehiculoUI(v, asignacion ? asignacion.conductor.usuario.nombreCompleto : undefined);
+      });
+      setVehiculos(vehiculosConConductores);
     } catch (error) {
-      console.error('Error al crear el vehículo:', error);
-      // Aquí deberías mostrar un mensaje de error al usuario
+      const apiError = error as ApiError;
+      setNotification({ 
+        type: 'error', 
+        message: apiError.response?.data?.message || 'Error al crear el vehículo' 
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleEditVehiculo = async (id: string, formData: FormData) => {
+    setIsLoading(true);
     try {
       const updatedVehiculo = {
         placa: formData.placa,
@@ -135,50 +176,89 @@ const GestionVehiculos = () => {
         ultimoMantenimiento: formData.ultimoMantenimiento
       };
       
-      const updated = await VehiculosController.updateVehiculo(id, updatedVehiculo);
-      const displayVehiculo = toVehiculoUI(updated);
-      setVehiculos(vehiculos.map(v => v.id === displayVehiculo.id ? displayVehiculo : v));
+      await VehiculosController.updateVehiculo(id, updatedVehiculo);
+      setNotification({ type: 'success', message: 'Vehículo actualizado con éxito' });
       setShowEditModal(false);
+
+      // Recargar la lista después de actualizar
+      const data = await VehiculosController.getAllVehiculos();
+      const asignaciones = await VehiculosController.getAsignacionesConductores();
+      const vehiculosConConductores = data.map(v => {
+        const asignacion = asignaciones.find(a => a.vehiculo.placa === v.placa);
+        return toVehiculoUI(v, asignacion ? asignacion.conductor.usuario.nombreCompleto : undefined);
+      });
+      setVehiculos(vehiculosConConductores);
     } catch (error) {
-      console.error('Error al actualizar el vehículo:', error);
-      // Aquí deberías mostrar un mensaje de error al usuario
+      const apiError = error as ApiError;
+      setNotification({ 
+        type: 'error', 
+        message: apiError.response?.data?.message || 'Error al actualizar el vehículo' 
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleAssignDriver = async (vehiculoId: number, conductorId: number) => {
+    setIsLoading(true);
     try {
-      const asignacion = await VehiculosController.createAsignacion({
+      await VehiculosController.createAsignacion({
         idConductor: conductorId,
         idVehiculo: vehiculoId
       });
       
-      // Actualizar la lista de vehículos para mostrar el nuevo conductor asignado
-      setVehiculos(vehiculos.map(v => 
-        v.id === vehiculoId ? {
-          ...v,
-          conductorAsignado: asignacion.conductor.usuario.nombreCompleto
-        } : v
-      ));
-      
+      setNotification({ type: 'success', message: 'Conductor asignado con éxito' });
       setShowAssignDriverModal(false);
+
+      // Recargar la lista después de asignar
+      const data = await VehiculosController.getAllVehiculos();
+      const asignaciones = await VehiculosController.getAsignacionesConductores();
+      const vehiculosConConductores = data.map(v => {
+        const asignacion = asignaciones.find(a => a.vehiculo.placa === v.placa);
+        return toVehiculoUI(v, asignacion ? asignacion.conductor.usuario.nombreCompleto : undefined);
+      });
+      setVehiculos(vehiculosConConductores);
     } catch (error) {
-      console.error('Error al asignar el conductor:', error);
-      // Aquí deberías mostrar un mensaje de error al usuario
+      const apiError = error as ApiError;
+      setNotification({ 
+        type: 'error', 
+        message: apiError.response?.data?.message || 'Error al asignar el conductor' 
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const getStatusBadge = (estado: string) => {
-    switch (estado) {
-      case "Disponible": return "success";
-      case "En ruta": return "primary";
-      case "En mantenimiento": return "warning";
-      case "Inactivo": return "danger";
+    switch (estado.toLowerCase()) {
+      case "disponible": return "success";
+      case "asignado": return "info";
+      case "en_ruta": return "primary";
+      case "mantenimiento": return "warning";
+      case "fuera_de_servicio": return "danger";
       default: return "secondary";
     }
   };
 
   return (
     <div className="container-fluid p-0 m-0">
+      {/* Notificación */}
+      {notification && (
+        <div className={`alert alert-${notification.type === 'success' ? 'success' : 'danger'} alert-dismissible fade show m-3`} role="alert">
+          {notification.message}
+          <button type="button" className="btn-close" onClick={() => setNotification(null)} aria-label="Close"></button>
+        </div>
+      )}
+
+      {/* Indicador de carga */}
+      {isLoading && (
+        <div className="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-white bg-opacity-75" style={{ zIndex: 1050 }}>
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Cargando...</span>
+          </div>
+        </div>
+      )}
+
       {/* Header azul */}
       <div className="header-azul mb-3">
         <div className="d-flex align-items-center p-3">
@@ -358,33 +438,65 @@ const GestionVehiculos = () => {
               <div className="crear-conductor-form">
                 <div className="mb-2">
                   <label className="form-label">Placa</label>
-                  <input name="placa" className="form-control" placeholder="Placa" />
+                  <input 
+                    name="placa" 
+                    className="form-control" 
+                    placeholder="Ej: ABC123" 
+                    maxLength={6}
+                    required
+                    pattern="[A-Za-z0-9]{6}"
+                    title="La placa debe tener exactamente 6 caracteres alfanuméricos"
+                  />
                 </div>
                 <div className="mb-2">
                   <label className="form-label">Marca</label>
-                  <input name="marca" className="form-control" placeholder="Marca" />
+                  <input 
+                    name="marca" 
+                    className="form-control" 
+                    placeholder="Ej: Toyota, Chevrolet" 
+                    maxLength={155}
+                    required
+                  />
                 </div>
                 <div className="mb-2">
                   <label className="form-label">Tipo</label>
-                  <input name="tipo" className="form-control" placeholder="Tipo" />
+                  <select name="tipo" className="form-select" required>
+                    <option value="">Seleccionar tipo...</option>
+                    <option value="A1">A1</option>
+                    <option value="A2">A2</option>
+                    <option value="B1">B1</option>
+                    <option value="B2">B2</option>
+                    <option value="B3">B3</option>
+                    <option value="C1">C1</option>
+                    <option value="C2">C2</option>
+                    <option value="C3">C3</option>
+                  </select>
+                </div>
+
+                <div className="mb-2">
+                  <label className="form-label">Capacidad</label>
+                  <input 
+                    name="capacidad" 
+                    className="form-control" 
+                    placeholder="Ej: 2 toneladas, 15 pasajeros" 
+                    maxLength={200}
+                    required
+                  />
                 </div>
                 
                 <div className="mb-2">
                   <label className="form-label">Estado</label>
                   <select name="estado" className="form-select">
                     <option value="disponible">Disponible</option>
+                    <option value="asignado">Asignado</option>
                     <option value="en_ruta">En ruta</option>
                     <option value="mantenimiento">En mantenimiento</option>
-                    <option value="fuera_de_servicio">Inactivo</option>
+                    <option value="fuera_de_servicio">Fuera de servicio</option>
                   </select>
                 </div>
                 <div className="mb-2">
                   <label className="form-label">Último mantenimiento</label>
                   <input name="ultimoMantenimiento" className="form-control" type="date" />
-                </div>
-                <div className="mb-2">
-                  <label className="form-label">Conductor</label>
-                  <input className="form-control" placeholder="Conductor asignado" />
                 </div>
               </div>
               <div className="modal-footer">
@@ -432,33 +544,65 @@ const GestionVehiculos = () => {
               <div className="crear-conductor-form">
                 <div className="mb-2">
                   <label className="form-label">Placa</label>
-                  <input name="placa" className="form-control" defaultValue={editVehicle.placa} />
+                  <input 
+                    name="placa" 
+                    className="form-control" 
+                    defaultValue={editVehicle.placa}
+                    maxLength={6}
+                    required
+                    pattern="[A-Za-z0-9]{6}"
+                    title="La placa debe tener exactamente 6 caracteres alfanuméricos"
+                  />
                 </div>
                 <div className="mb-2">
                   <label className="form-label">Marca</label>
-                  <input name="marca" className="form-control" defaultValue={editVehicle.marca} />
+                  <input 
+                    name="marca" 
+                    className="form-control" 
+                    defaultValue={editVehicle.marca}
+                    maxLength={155}
+                    required
+                  />
                 </div>
                 <div className="mb-2">
                   <label className="form-label">Tipo</label>
-                  <input name="tipo" className="form-control" defaultValue={editVehicle.tipo} />
+                  <select name="tipo" className="form-select" defaultValue={editVehicle.tipo} required>
+                    <option value="">Seleccionar tipo...</option>
+                    <option value="A1">A1</option>
+                    <option value="A2">A2</option>
+                    <option value="B1">B1</option>
+                    <option value="B2">B2</option>
+                    <option value="B3">B3</option>
+                    <option value="C1">C1</option>
+                    <option value="C2">C2</option>
+                    <option value="C3">C3</option>
+                  </select>
+                </div>
+
+                <div className="mb-2">
+                  <label className="form-label">Capacidad</label>
+                  <input 
+                    name="capacidad" 
+                    className="form-control" 
+                    defaultValue={editVehicle.capacidad}
+                    maxLength={200}
+                    required
+                  />
                 </div>
 
                 <div className="mb-2">
                   <label className="form-label">Estado</label>
                   <select name="estado" className="form-select" defaultValue={editVehicle.estado}>
                     <option value="disponible">Disponible</option>
+                    <option value="asignado">Asignado</option>
                     <option value="en_ruta">En ruta</option>
                     <option value="mantenimiento">En mantenimiento</option>
-                    <option value="fuera_de_servicio">Inactivo</option>
+                    <option value="fuera_de_servicio">Fuera de servicio</option>
                   </select>
                 </div>
                 <div className="mb-2">
                   <label className="form-label">Último mantenimiento</label>
-                  <input className="form-control" type="date" defaultValue={editVehicle.ultimoMantenimiento} />
-                </div>
-                <div className="mb-2">
-                  <label className="form-label">Conductor</label>
-                  <input className="form-control" defaultValue={editVehicle.conductorAsignado} />
+                  <input name="ultimoMantenimiento" className="form-control" type="date" defaultValue={editVehicle.ultimoMantenimiento} />
                 </div>
               </div>
               <div className="modal-footer">
