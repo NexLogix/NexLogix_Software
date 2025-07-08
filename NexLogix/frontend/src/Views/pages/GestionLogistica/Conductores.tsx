@@ -1,14 +1,26 @@
-import { useState, useEffect } from "react";
-import { Button, Modal, Form } from "react-bootstrap";
-import { PencilFill, TrashFill } from "react-bootstrap-icons";
-import { ConductoresController } from "../../../Controllers/ConductoresController";
-import { IConductor } from "../../../models/Interfaces/IConductor";
-import { IUsuario } from "../../../models/Interfaces/IGestionUsuarios";
+import React, { useState, useEffect } from 'react';
+import { Button, Modal, Form } from 'react-bootstrap';
+import { toast } from 'react-toastify';
+import { ConductoresController } from '../../../Controllers/ConductoresController';
+import {
+  IConductor,
+  IConductorCreate,
+  IUsuarioCreate,
+  TipoLicencia
+} from '../../../models/Interfaces/IConductor';
 
+// Tipos de licencia válidos
+const tiposLicencia = ["A1", "A2", "B1", "B2", "B3", "C1", "C2", "C3"] as const;
+
+interface INewConductor extends Omit<IUsuarioCreate, 'idRole' | 'idestado' | 'idPuestos'> {
+  // Campos adicionales para conductor
+  licencia: string;
+  tipoLicencia: TipoLicencia | "";
+  vigenciaLicencia: string;
+}
 
 const Conductores = () => {
   const [conductores, setConductores] = useState<IConductor[]>([]);
-  const [empleados, setEmpleados] = useState<IUsuario[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -19,38 +31,23 @@ const Conductores = () => {
   const [error, setError] = useState<string | null>(null);
 
   // Initialize new driver state with proper nested structure
-  const emptyDriver: IConductor = {
-    idConductor: 0,
+  const emptyDriver: INewConductor = {
+    documentoIdentidad: "",
+    nombreCompleto: "",
+    email: "",
+    numContacto: "",
+    direccionResidencia: "",
+    contrasena: "",
     licencia: "",
     tipoLicencia: "",
-    vigenciaLicencia: "",
-    estado: "disponible",
-    idUsuario: 0,
-    usuario: {
-      idUsuario: 0,
-      documento: "",
-      nombre: "",
-      email: "",
-      telefono: "",
-      estado: { idEstado: 1, nombreEstado: "Activo", descripcionEstado: "Usuario activo" },
-      idRole: 3, // Role ID for drivers
-      idPuesto: 0,
-      idEstado: 1
-    }
+    vigenciaLicencia: ""
   };
 
-  const [newDriver, setNewDriver] = useState<IConductor>(emptyDriver);
+  const [newDriver, setNewDriver] = useState<INewConductor>(emptyDriver);
 
   useEffect(() => {
     fetchConductores();
   }, []);
-
-  // Cargar empleados cuando se abre el modal
-  useEffect(() => {
-    if (showCreateModal) {
-      fetchEmpleados();
-    }
-  }, [showCreateModal]);
 
   const fetchConductores = async () => {
     setLoading(true);
@@ -85,39 +82,7 @@ const Conductores = () => {
     }
   };
 
-  const fetchEmpleados = async () => {
-    try {
-      const response = await ConductoresController.getAllUsuarios();
-      console.log('Respuesta empleados:', response);
-      
-      if (response.success && Array.isArray(response.data)) {
-        const empleadosMapped: IUsuario[] = response.data.map(emp => ({
-          idUsuario: emp.idusuarios,
-          documento: emp.documentoIdentidad,
-          nombre: emp.nombreCompleto,
-          email: emp.email,
-          telefono: emp.numContacto,
-          estado: { 
-            idEstado: emp.idestado,
-            nombreEstado: "Activo",
-            descripcionEstado: "Usuario activo"
-          },
-          idRole: emp.idRole,
-          idPuesto: emp.idPuestos,
-          idEstado: emp.idestado
-        }));
 
-        console.log('Empleados mapeados:', empleadosMapped);
-        setEmpleados(empleadosMapped);
-      } else {
-        console.error('Error: La respuesta no contiene datos válidos');
-        setEmpleados([]);
-      }
-    } catch (err) {
-      console.error('Error al cargar empleados:', err);
-      setEmpleados([]);
-    }
-  };
 
   // Función de filtrado
   const filteredConductores = conductores.filter(conductor => {
@@ -125,56 +90,48 @@ const Conductores = () => {
     
     const searchLower = searchTerm.toLowerCase();
     return (
-      conductor.usuario.documento?.toLowerCase().includes(searchLower) ||
-      conductor.usuario.nombre?.toLowerCase().includes(searchLower) ||
+      conductor.usuario.documentoIdentidad?.toLowerCase().includes(searchLower) ||
+      conductor.usuario.nombreCompleto?.toLowerCase().includes(searchLower) ||
       conductor.usuario.email?.toLowerCase().includes(searchLower) ||
-      conductor.usuario.telefono?.toLowerCase().includes(searchLower) ||
+      conductor.usuario.numContacto?.toLowerCase().includes(searchLower) ||
       conductor.licencia?.toLowerCase().includes(searchLower) ||
       conductor.estado?.toLowerCase().includes(searchLower)
     );
   });
 
-  const handleCreateDriver = async () => {
+  const handleCreateDriver = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setLoading(true);
     setError(null);
+
     try {
-      // Validate required fields
-      if (!newDriver.usuario?.idUsuario) {
-        throw new Error('Debe seleccionar un empleado');
-      }
-      if (!newDriver.licencia) {
-        throw new Error('Debe ingresar el número de licencia');
-      }
-      if (!newDriver.tipoLicencia) {
-        throw new Error('Debe seleccionar el tipo de licencia');
-      }
-      if (!newDriver.vigenciaLicencia) {
-        throw new Error('Debe ingresar la fecha de vigencia de la licencia');
+      // Validar el tipo de licencia
+      if (!tiposLicencia.includes(newDriver.tipoLicencia as TipoLicencia)) {
+        throw new Error('Tipo de licencia inválido');
       }
 
-      // Prepare the data
-      const conductorData = {
-        licencia: newDriver.licencia,
-        tipoLicencia: newDriver.tipoLicencia,
-        vigenciaLicencia: newDriver.vigenciaLicencia,
-        estado: 'disponible',
-        idUsuario: newDriver.usuario.idUsuario
+      // Primero crear el usuario con los campos requeridos
+      const userPayload = {
+        ...newDriver,
+        idRole: 13, // Role conductor
+        idestado: 1, // Estado activo
+        idPuestos: 2 // Puesto conductor
       };
 
-      console.log('Datos del conductor a crear:', conductorData);
+      const response = await ConductoresController.createConductorWithUser({
+        ...userPayload,
+        licencia: newDriver.licencia,
+        tipoLicencia: newDriver.tipoLicencia as TipoLicencia,
+        vigenciaLicencia: newDriver.vigenciaLicencia
+      });
 
-      await ConductoresController.createConductor(conductorData);
-      await fetchConductores();
+      setConductores(prev => [...prev, response]);
       setShowCreateModal(false);
       setNewDriver(emptyDriver);
+      toast.success('Conductor creado exitosamente');
     } catch (err) {
-      console.error('Error en handleCreateDriver:', err);
-      // Mostrar el mensaje de error en el modal
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError('Error al crear conductor');
-      }
+      setError(err instanceof Error ? err.message : 'Error al crear conductor');
+      toast.error('Error al crear conductor');
     } finally {
       setLoading(false);
     }
@@ -191,43 +148,30 @@ const Conductores = () => {
       if (!editDriver.licencia) {
         throw new Error('El número de licencia es requerido');
       }
-      if (!editDriver.tipoLicencia) {
-        throw new Error('El tipo de licencia es requerido');
+      if (!tiposLicencia.includes(editDriver.tipoLicencia as TipoLicencia)) {
+        throw new Error('El tipo de licencia es inválido');
       }
       if (!editDriver.vigenciaLicencia) {
         throw new Error('La fecha de vigencia de la licencia es requerida');
       }
 
       // Preparar datos para actualizar
-      const conductorData = {
+      const conductorData: Partial<IConductorCreate> = {
         licencia: editDriver.licencia,
-        tipoLicencia: editDriver.tipoLicencia,
+        tipoLicencia: editDriver.tipoLicencia as TipoLicencia,
         vigenciaLicencia: editDriver.vigenciaLicencia,
-        estado: editDriver.estado || 'disponible',
-        idUsuario: editDriver.usuario.idUsuario,
-        usuario: {
-          ...editDriver.usuario,
-          // Asegurarse de que estos campos estén presentes
-          documento: editDriver.usuario.documento,
-          nombre: editDriver.usuario.nombre,
-          email: editDriver.usuario.email,
-          telefono: editDriver.usuario.telefono
-        }
+        estado: editDriver.estado || 'disponible'
       };
 
-      console.log('Datos a actualizar:', conductorData);
-      
       await ConductoresController.updateConductor(editDriver.idConductor, conductorData);
       await fetchConductores(); // Recargar la lista
       setShowEditModal(false);
+      toast.success('Conductor actualizado exitosamente');
     } catch (err) {
-      if (err instanceof Error) {
-        console.error('Error al actualizar:', err.message);
-        setError(err.message);
-      } else {
-        console.error('Error desconocido al actualizar:', err);
-        setError('Error al actualizar conductor');
-      }
+      const errorMessage = err instanceof Error ? err.message : 'Error al actualizar conductor';
+      console.error('Error al actualizar:', errorMessage);
+      setError(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -265,45 +209,36 @@ const Conductores = () => {
     }
   };
 
-  const handleDriverChange = (
-    field: keyof Omit<IConductor, 'usuario'> | keyof IUsuario,
-    value: string,
-    isUserField: boolean = false
-  ) => {
-    if (showEditModal && editDriver) {
-      setEditDriver(prev => {
-        if (!prev) return prev;
-        if (isUserField) {
-          return {
-            ...prev,
-            usuario: {
-              ...prev.usuario,
-              [field]: value
-            }
-          };
-        }
+  // Handler para el modal de creación
+  const handleDriverChange = (e: React.ChangeEvent<HTMLElement>) => {
+    const target = e.target as HTMLInputElement | HTMLSelectElement;
+    const { name, value } = target;
+    setNewDriver(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  // Handler para el modal de edición
+  const handleEditDriverChange = (field: string, value: string, isUserField: boolean = false) => {
+    if (!editDriver) return;
+    
+    setEditDriver(prev => {
+      if (!prev) return prev;
+      if (isUserField) {
         return {
           ...prev,
-          [field]: value
+          usuario: {
+            ...prev.usuario,
+            [field]: value
+          }
         };
-      });
-    } else {
-      setNewDriver(prev => {
-        if (isUserField) {
-          return {
-            ...prev,
-            usuario: {
-              ...prev.usuario,
-              [field]: value
-            }
-          };
-        }
-        return {
-          ...prev,
-          [field]: value
-        };
-      });
-    }
+      }
+      return {
+        ...prev,
+        [field]: value
+      };
+    });
   };
 
   // Helper to get badge color for license validity
@@ -364,38 +299,42 @@ const Conductores = () => {
             <th>Tipo</th>
             <th>Vigencia</th>
             <th>Estado</th>
-            <th>Vehículo</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
           {filteredConductores.map((conductor) => (
             <tr key={conductor.idConductor}>
-              <td>{conductor.usuario?.documento || '-'}</td>
-              <td>{conductor.usuario?.nombre || '-'}</td>
-              <td>{conductor.usuario?.email || '-'}</td>
-              <td>{conductor.usuario?.telefono || '-'}</td>
-              <td>{conductor.licencia || '-'}</td>
-              <td>{conductor.tipoLicencia || '-'}</td>
-              <td>{conductor.vigenciaLicencia ? getLicenseBadge(conductor.vigenciaLicencia) : '-'}</td>
-              <td>{getStatusBadge(conductor.estado || '')}</td>
-              <td>{conductor.vehiculoAsignado || 'No asignado'}</td>
+              <td>{conductor.usuario.documentoIdentidad}</td>
+              <td>{conductor.usuario.nombreCompleto}</td>
+              <td>{conductor.usuario.email}</td>
+              <td>{conductor.usuario.numContacto}</td>
+              <td>{conductor.licencia}</td>
+              <td>{conductor.tipoLicencia}</td>
+              <td>{getLicenseBadge(conductor.vigenciaLicencia)}</td>
+              <td>{getStatusBadge(conductor.estado)}</td>
               <td>
-                <button
-                  className="btn btn-sm btn-primary me-2"
-                  onClick={() => setEditDriver(conductor)}
+                <Button
+                  variant="primary"
+                  size="sm"
+                  className="me-2"
+                  onClick={() => {
+                    setEditDriver(conductor);
+                    setShowEditModal(true);
+                  }}
                 >
-                  <PencilFill />
-                </button>
-                <button
-                  className="btn btn-sm btn-danger"
+                  <i className="bi bi-pencil"></i>
+                </Button>
+                <Button
+                  variant="danger"
+                  size="sm"
                   onClick={() => {
                     setSelectedDriver(conductor);
                     setShowDeleteModal(true);
                   }}
                 >
-                  <TrashFill />
-                </button>
+                  <i className="bi bi-trash"></i>
+                </Button>
               </td>
             </tr>
           ))}
@@ -405,214 +344,284 @@ const Conductores = () => {
   );
 
   return (
-    <div className="areas_container">
-      <div className="container mt-4">
-        {/* Header */}
-        <div className="header-azul mb-3">
-          <div className="d-flex align-items-center p-3">
+    <div className="container mx-auto px-4 py-8">
+      {/* Header */}
+      <div className="header-azul mb-3">
+        <div className="d-flex justify-content-between align-items-center p-3">
+          <div className="d-flex align-items-center">
             <i className="bi bi-truck me-2" style={{ fontSize: 24 }} />
-            <h2 className="mb-0 text-white">Gestión de Conductores</h2>
-          </div>
-        </div>
-
-        {/* Barra de búsqueda y botones */}
-        <div className="card">
-          <div className="card-body">
-            <div className="d-flex justify-content-between mb-4 align-items-center">
-              <div className="d-flex align-items-center" style={{ flex: 1, minWidth: 0 }}>
-                <div className="input-group w-100">
-                  <span className="input-group-text px-2">
-                    <i className="bi bi-search" />
-                  </span>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Buscar por documento, nombre o email..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    style={{ minWidth: 0 }}
-                  />
-                </div>
-                <div className="d-flex gap-2 ms-2">
-                  <button 
-                    className="btn btn-primary" 
-                    style={{ minWidth: 140 }} 
-                    onClick={() => fetchConductores()}
-                    disabled={loading}
-                  >
-                    Mostrar todos
-                  </button>
-                  <button 
-                    className="btn btn-warning" 
-                    style={{ minWidth: 140 }} 
-                    onClick={() => setShowCreateModal(true)}
-                    disabled={loading}
-                  >
-                    Agregar Conductor
-                  </button>
-                </div>
-              </div>
-            </div>
-
-          {error && <div className="alert alert-danger">{error}</div>}
-          
-          {loading ? (
-            <div className="text-center">Cargando...</div>
-          ) : (
-            renderTable()
-          )}
+            <h2 className="m-0">Gestión de Conductores</h2>
           </div>
         </div>
       </div>
 
-      {/* Create Modal */}
-      <Modal show={showCreateModal} onHide={() => setShowCreateModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Agregar Nuevo Conductor</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
+      {/* Barra de búsqueda y botones */}
+      <div className="card">
+        <div className="card-body">
+          <div className="d-flex justify-content-between mb-4 align-items-center">
+            <div className="d-flex align-items-center" style={{ flex: 1, minWidth: 0 }}>
+              <div className="input-group w-100">
+                <span className="input-group-text px-2">
+                  <i className="bi bi-search" />
+                </span>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Buscar por documento, nombre o email..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  style={{ minWidth: 0 }}
+                />
+              </div>
+              <div className="d-flex gap-2 ms-2">
+                <button 
+                  className="btn btn-primary" 
+                  style={{ minWidth: 140 }} 
+                  onClick={() => {
+                    if (searchTerm.trim() === '') {
+                      fetchConductores();
+                    } else {
+                      const filtered = conductores.filter(conductor => {
+                        const searchLower = searchTerm.toLowerCase();
+                        return (
+                          conductor.usuario.documentoIdentidad?.toLowerCase().includes(searchLower) ||
+                          conductor.usuario.nombreCompleto?.toLowerCase().includes(searchLower) ||
+                          conductor.usuario.email?.toLowerCase().includes(searchLower)
+                        );
+                      });
+                      setConductores(filtered);
+                    }
+                  }}
+                  disabled={loading}
+                >
+                  Buscar
+                </button>
+                <button 
+                  className="btn btn-success" 
+                  style={{ minWidth: 140 }} 
+                  onClick={() => {
+                    setSearchTerm('');
+                    fetchConductores();
+                  }}
+                  disabled={loading}
+                >
+                  Mostrar todos
+                </button>
+                <button 
+                  className="btn btn-warning" 
+                  style={{ minWidth: 140, width: "100%" }} 
+                  onClick={() => {
+                    setNewDriver(emptyDriver);
+                    setShowCreateModal(true);
+                  }}
+                  disabled={loading}
+                >
+                  Crear conductor
+                </button>
+              </div>
+            </div>
+          </div>
+
           {error && (
-            <div className="alert alert-danger" role="alert">
+            <div className="alert alert-danger alert-dismissible fade show" role="alert">
+              <i className="bi bi-exclamation-triangle-fill me-2"></i>
               {error}
+              <button 
+                type="button" 
+                className="btn-close" 
+                onClick={() => setError(null)} 
+                aria-label="Close"
+              />
             </div>
           )}
-          <Form>
+        </div>
+      </div>
+
+      {/* Tabla de conductores */}
+      {loading ? (
+        <div className="text-center">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Cargando...</span>
+          </div>
+        </div>
+      ) : error ? (
+        <div className="alert alert-danger">{error}</div>
+      ) : (
+        renderTable()
+      )}
+
+      {/* Modal de Creación */}
+      <Modal show={showCreateModal} onHide={() => setShowCreateModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Crear Nuevo Conductor</Modal.Title>
+        </Modal.Header>
+        <Form onSubmit={handleCreateDriver}>
+          <Modal.Body>
             <Form.Group className="mb-3">
-              <Form.Label>Seleccionar Empleado</Form.Label>
-              <Form.Select
-                onChange={(e) => {
-                  const selectedId = Number(e.target.value);
-                  console.log('ID seleccionado:', selectedId);
-                  const empleado = empleados.find(emp => emp.idUsuario === selectedId);
-                  console.log('Empleado encontrado:', empleado);
-                  if (empleado) {
-                    setNewDriver(prev => ({
-                      ...prev,
-                      idUsuario: empleado.idUsuario,
-                      usuario: empleado
-                    }));
-                  }
-                }}
-                value={newDriver.idUsuario || ''}
-              >
-                <option value="">Seleccione un empleado</option>
-                {empleados.map(empleado => {
-                  console.log('Renderizando opción para:', empleado);
-                  return (
-                    <option 
-                      key={`empleado-${empleado.idUsuario}`} 
-                      value={empleado.idUsuario}
-                    >
-                      {empleado.nombre} - {empleado.documento}
-                    </option>
-                  );
-                })}
-              </Form.Select>
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Licencia</Form.Label>
+              <Form.Label>Documento de Identidad</Form.Label>
               <Form.Control
                 type="text"
+                name="documentoIdentidad"
+                value={newDriver.documentoIdentidad}
+                onChange={handleDriverChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Nombre Completo</Form.Label>
+              <Form.Control
+                type="text"
+                name="nombreCompleto"
+                value={newDriver.nombreCompleto}
+                onChange={handleDriverChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type="email"
+                name="email"
+                value={newDriver.email}
+                onChange={handleDriverChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Teléfono</Form.Label>
+              <Form.Control
+                type="tel"
+                name="numContacto"
+                value={newDriver.numContacto}
+                onChange={handleDriverChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Dirección</Form.Label>
+              <Form.Control
+                type="text"
+                name="direccionResidencia"
+                value={newDriver.direccionResidencia}
+                onChange={handleDriverChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Contraseña</Form.Label>
+              <Form.Control
+                type="password"
+                name="contrasena"
+                value={newDriver.contrasena}
+                onChange={handleDriverChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Número de Licencia</Form.Label>
+              <Form.Control
+                type="text"
+                name="licencia"
                 value={newDriver.licencia}
-                onChange={(e) => handleDriverChange("licencia", e.target.value)}
+                onChange={handleDriverChange}
+                required
               />
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Tipo de Licencia</Form.Label>
-              <Form.Control
-                type="text"
+              <Form.Select
+                name="tipoLicencia"
                 value={newDriver.tipoLicencia}
-                onChange={(e) => handleDriverChange("tipoLicencia", e.target.value)}
-              />
+                onChange={handleDriverChange}
+                required
+              >
+                <option value="">Seleccione tipo...</option>
+                {tiposLicencia.map((tipo) => (
+                  <option key={tipo} value={tipo}>
+                    {tipo}
+                  </option>
+                ))}
+              </Form.Select>
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Vigencia de Licencia</Form.Label>
               <Form.Control
                 type="date"
+                name="vigenciaLicencia"
                 value={newDriver.vigenciaLicencia}
-                onChange={(e) => handleDriverChange("vigenciaLicencia", e.target.value)}
+                onChange={handleDriverChange}
+                required
               />
             </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowCreateModal(false)}>
-            Cancelar
-          </Button>
-          <Button variant="primary" onClick={handleCreateDriver}>
-            Guardar
-          </Button>
-        </Modal.Footer>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShowCreateModal(false)}>
+              Cancelar
+            </Button>
+            <Button type="submit" variant="primary" disabled={loading}>
+              {loading ? (
+                <>
+                  <span className="spinner-border spinner-border-sm me-2" />
+                  Creando...
+                </>
+              ) : (
+                'Crear Conductor'
+              )}
+            </Button>
+          </Modal.Footer>
+        </Form>
       </Modal>
 
-      {/* Edit Modal */}
+      {/* Modal de Edición */}
       <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Editar Conductor</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {error && (
-            <div className="alert alert-danger" role="alert">
-              {error}
-            </div>
-          )}
           {editDriver && (
             <Form>
               <Form.Group className="mb-3">
-                <Form.Label>Documento</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={editDriver.usuario.documento}
-                  onChange={(e) => handleDriverChange("documento", e.target.value, true)}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Nombre</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={editDriver.usuario.nombre}
-                  onChange={(e) => handleDriverChange("nombre", e.target.value, true)}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Email</Form.Label>
-                <Form.Control
-                  type="email"
-                  value={editDriver.usuario.email}
-                  onChange={(e) => handleDriverChange("email", e.target.value, true)}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Teléfono</Form.Label>
-                <Form.Control
-                  type="tel"
-                  value={editDriver.usuario.telefono}
-                  onChange={(e) => handleDriverChange("telefono", e.target.value, true)}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Licencia</Form.Label>
+                <Form.Label>Número de Licencia</Form.Label>
                 <Form.Control
                   type="text"
                   value={editDriver.licencia}
-                  onChange={(e) => handleDriverChange("licencia", e.target.value)}
+                  onChange={(e) => handleEditDriverChange('licencia', e.target.value)}
+                  required
                 />
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>Tipo de Licencia</Form.Label>
-                <Form.Control
-                  type="text"
+                <Form.Select
                   value={editDriver.tipoLicencia}
-                  onChange={(e) => handleDriverChange("tipoLicencia", e.target.value)}
-                />
+                  onChange={(e) => handleEditDriverChange('tipoLicencia', e.target.value)}
+                  required
+                >
+                  {tiposLicencia.map((tipo) => (
+                    <option key={tipo} value={tipo}>
+                      {tipo}
+                    </option>
+                  ))}
+                </Form.Select>
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>Vigencia de Licencia</Form.Label>
                 <Form.Control
                   type="date"
                   value={editDriver.vigenciaLicencia}
-                  onChange={(e) => handleDriverChange("vigenciaLicencia", e.target.value)}
+                  onChange={(e) => handleEditDriverChange('vigenciaLicencia', e.target.value)}
+                  required
                 />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Estado</Form.Label>
+                <Form.Select
+                  value={editDriver.estado}
+                  onChange={(e) => handleEditDriverChange('estado', e.target.value)}
+                >
+                  <option value="disponible">Disponible</option>
+                  <option value="en ruta">En Ruta</option>
+                  <option value="inactivo">Inactivo</option>
+                </Form.Select>
               </Form.Group>
             </Form>
           )}
@@ -621,13 +630,24 @@ const Conductores = () => {
           <Button variant="secondary" onClick={() => setShowEditModal(false)}>
             Cancelar
           </Button>
-          <Button variant="primary" onClick={handleUpdateDriver}>
-            Guardar Cambios
+          <Button
+            variant="primary"
+            onClick={handleUpdateDriver}
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <span className="spinner-border spinner-border-sm me-2" />
+                Actualizando...
+              </>
+            ) : (
+              'Guardar Cambios'
+            )}
           </Button>
         </Modal.Footer>
       </Modal>
 
-      {/* Delete Modal */}
+      {/* Modal de Eliminación */}
       <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Confirmar Eliminación</Modal.Title>
@@ -635,7 +655,8 @@ const Conductores = () => {
         <Modal.Body>
           {selectedDriver && (
             <p>
-              ¿Está seguro que desea eliminar al conductor {selectedDriver.usuario.nombre}?
+              ¿Está seguro que desea eliminar al conductor{' '}
+              <strong>{selectedDriver.usuario.nombreCompleto}</strong>?
               Esta acción no se puede deshacer.
             </p>
           )}
@@ -644,8 +665,19 @@ const Conductores = () => {
           <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
             Cancelar
           </Button>
-          <Button variant="danger" onClick={handleDeleteDriver}>
-            Eliminar
+          <Button
+            variant="danger"
+            onClick={handleDeleteDriver}
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <span className="spinner-border spinner-border-sm me-2" />
+                Eliminando...
+              </>
+            ) : (
+              'Eliminar'
+            )}
           </Button>
         </Modal.Footer>
       </Modal>

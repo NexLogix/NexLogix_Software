@@ -4,112 +4,92 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 // import "../../../Views/Styles/NavBar/ManagerProfile/ListaVehiculos.css";
 // import "../../../Views/Styles/NavBar/ManagerProfile/Conductores.css";
 
-import { VehiculosController } from '../../../Controllers/Vehiculos/VehiculosController';
-import { IVehiculo, IAsignacionVehiculo } from '../../../models/Interfaces/IVehiculo';
+interface Vehiculo {
+  id: number;
+  placa: string;
+  marca: string;
+  modelo: string;
+  tipo: string;
+  capacidad: string;
+  estado: string;
+  ultimoMantenimiento: string;
+  conductorAsignado: string;
+}
+
+const conductores = [
+  { nombre: "Juan Pérez", telefono: "3001234567", licencia: "C1" },
+  { nombre: "Carlos Gómez", telefono: "3012345678", licencia: "B2" },
+  { nombre: "María Rodríguez", telefono: "3023456789", licencia: "C2" },
+  { nombre: "Ana Gómez", telefono: "3034567890", licencia: "B1" },
+  { nombre: "Pedro Sánchez", telefono: "3045678901", licencia: "C3" }
+];
 
 const GestionVehiculos = () => {
-  const [vehiculos, setVehiculos] = useState<IVehiculo[]>([]);
+  const [vehiculos, setVehiculos] = useState<Vehiculo[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedVehicle, setSelectedVehicle] = useState<number | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [editVehicle, setEditVehicle] = useState<IVehiculo | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [editVehicle, setEditVehicle] = useState<Vehiculo | null>(null);
 
   // Estados para asignar conductor
   const [showAssignDriverModal, setShowAssignDriverModal] = useState(false);
-  const [selectedVehicleForDriver, setSelectedVehicleForDriver] = useState<IVehiculo | null>(null);
+  const [selectedVehicleForDriver, setSelectedVehicleForDriver] = useState<Vehiculo | null>(null);
   const [conductorSearch, setConductorSearch] = useState("");
-  const [asignaciones, setAsignaciones] = useState<IAsignacionVehiculo[]>([]);
-  const [selectedConductor, setSelectedConductor] = useState<IAsignacionVehiculo["conductor"] | null>(null);
+  const [selectedConductor, setSelectedConductor] = useState<typeof conductores[0] | null>(null);
 
   // const navigate = useNavigate();
 
   useEffect(() => {
     const fetchVehiculos = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const vehiculosData = await VehiculosController.getAllVehiculos();
-        const asignacionesData = await VehiculosController.getAsignacionesConductores();
-
-        // Combinar vehículos con sus conductores asignados
-        const vehiculosConConductor = vehiculosData.map(vehiculo => {
-          const asignacion = asignacionesData.find(a => a.vehiculo.placa === vehiculo.placa);
-          return {
-            ...vehiculo,
-            conductorAsignado: asignacion ? asignacion.conductor.usuario.nombreCompleto : undefined
-          };
-        });
-
-        setVehiculos(vehiculosConConductor);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Error al cargar los vehículos');
-      } finally {
-        setLoading(false);
-      }
+      setTimeout(() => {
+        const data: Vehiculo[] = [
+          {
+            id: 1,
+            placa: "ABC123",
+            marca: "Toyota",
+            modelo: "Hilux",
+            tipo: "Camioneta",
+            capacidad: "1 Tonelada",
+            estado: "Disponible",
+            ultimoMantenimiento: "2023-05-15",
+            conductorAsignado: "Juan Pérez"
+          },
+          {
+            id: 2,
+            placa: "XYZ789",
+            marca: "Mercedes-Benz",
+            modelo: "Sprinter",
+            tipo: "Furgón",
+            capacidad: "3 Toneladas",
+            estado: "En mantenimiento",
+            ultimoMantenimiento: "2023-04-20",
+            conductorAsignado: "Carlos Gómez"
+          },
+          {
+            id: 3,
+            placa: "DEF456",
+            marca: "Ford",
+            modelo: "F-150",
+            tipo: "Camión",
+            capacidad: "2.5 Toneladas",
+            estado: "En ruta",
+            ultimoMantenimiento: "2023-06-01",
+            conductorAsignado: "María Rodríguez"
+          }
+        ];
+        setVehiculos(data);
+      }, 500);
     };
     fetchVehiculos();
   }, []);
 
-  const handleSearchById = async () => {
-    if (!searchTerm) return;
-    
-    try {
-      setLoading(true);
-      setError(null);
-      const vehiculo = await VehiculosController.getVehiculoById(searchTerm);
-      if (vehiculo) {
-        setVehiculos([vehiculo]);
-      }
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "No se encontró el vehículo con el ID especificado";
-      setError(message);
-      console.error('Error al buscar vehículo:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleShowAll = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const vehiculosData = await VehiculosController.getAllVehiculos();
-      const asignacionesData = await VehiculosController.getAsignacionesConductores();
-      
-      const vehiculosConConductor = vehiculosData.map(vehiculo => {
-        const asignacion = asignacionesData.find(a => a.vehiculo.placa === vehiculo.placa);
-        return {
-          ...vehiculo,
-          conductorAsignado: asignacion ? asignacion.conductor.usuario.nombreCompleto : undefined
-        };
-      });
-
-      setVehiculos(vehiculosConConductor);
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Error al cargar los vehículos";
-      setError(message);
-      console.error('Error al cargar vehículos:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const filteredVehicles = vehiculos.filter(vehicle => {
-    if (!searchTerm) return true;
-    
-    const searchLower = searchTerm.toLowerCase();
-    return (
-      vehicle.placa.toLowerCase().includes(searchLower) ||
-      vehicle.marcaVehiculo.toLowerCase().includes(searchLower) ||
-      vehicle.tipoVehiculo.toLowerCase().includes(searchLower) ||
-      vehicle.capacidad.toLowerCase().includes(searchLower) ||
-      vehicle.estadoVehiculo.toLowerCase().includes(searchLower)
-    );
-  });
+  const filteredVehicles = vehiculos.filter(vehicle =>
+    Object.values(vehicle).some(value =>
+      value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  );
 
   // const handleEdit = (id: number) => {
   //   navigate(`/manager/editarVehiculo/${id}`);
@@ -122,17 +102,17 @@ const GestionVehiculos = () => {
 
   const confirmDelete = () => {
     if (selectedVehicle) {
-      setVehiculos(vehiculos.filter(vehicle => vehicle.idVehiculo !== selectedVehicle));
+      setVehiculos(vehiculos.filter(vehicle => vehicle.id !== selectedVehicle));
       setShowDeleteModal(false);
     }
   };
 
   const getStatusBadge = (estado: string) => {
-    switch (estado.toLowerCase()) {
-      case "disponible": return "success";
-      case "en_ruta": return "primary";
-      case "mantenimiento": return "warning";
-      case "fuera_de_servicio": return "danger";
+    switch (estado) {
+      case "Disponible": return "success";
+      case "En ruta": return "primary";
+      case "En mantenimiento": return "warning";
+      case "Inactivo": return "danger";
       default: return "secondary";
     }
   };
@@ -146,21 +126,6 @@ const GestionVehiculos = () => {
           <h2 className="mb-0 text-white">Gestión de Vehículos</h2>
         </div>
       </div>
-
-      {loading && (
-        <div className="text-center my-3">
-          <div className="spinner-border text-primary" role="status">
-            <span className="visually-hidden">Cargando...</span>
-          </div>
-        </div>
-      )}
-
-      {error && (
-        <div className="alert alert-danger mx-3" role="alert">
-          <i className="bi bi-exclamation-triangle-fill me-2"></i>
-          {error}
-        </div>
-      )}
 
       <div className="card">
         <div className="card-body">
@@ -184,16 +149,14 @@ const GestionVehiculos = () => {
                 <button
                   className="btn btn-primary"
                   style={{ minWidth: 140 }}
-                  onClick={handleSearchById}
-                  disabled={!searchTerm || loading}
+                  onClick={() => {/* Lógica para buscar por ID */}}
                 >
                   Buscar por ID
                 </button>
                 <button
                   className="btn btn-success"
                   style={{ minWidth: 140 }}
-                  onClick={handleShowAll}
-                  disabled={loading}
+                  onClick={() => {/* Lógica para mostrar todos */}}
                 >
                   Mostrar todos
                 </button>
@@ -227,21 +190,22 @@ const GestionVehiculos = () => {
               <tbody>
                 {filteredVehicles.length > 0 ? (
                   filteredVehicles.map((vehicle) => (
-                    <tr key={vehicle.idVehiculo}>
+                    <tr key={vehicle.id}>
+                      {/* <td>{vehicle.id}</td> */}
                       <td>{vehicle.placa}</td>
-                      <td>{vehicle.marcaVehiculo}</td>
-                      <td>{vehicle.tipoVehiculo}</td>
-                      <td>{vehicle.capacidad}</td>
+                      <td>{vehicle.marca}</td>
+                      <td>{vehicle.modelo}</td>
+                      <td>{vehicle.tipo}</td>
                       <td>
-                        <span className="badge bg-secondary badge-estado-uniforme">{vehicle.tipoVehiculo}</span>
+                        <span className="badge bg-secondary badge-estado-uniforme">B1</span>
                       </td>
                       <td>
-                        <span className={`badge bg-${getStatusBadge(vehicle.estadoVehiculo)} badge-estado-uniforme`}>
-                          {vehicle.estadoVehiculo}
+                        <span className={`badge bg-${getStatusBadge(vehicle.estado)} badge-estado-uniforme`}>
+                          {vehicle.estado}
                         </span>
                       </td>
                       <td>{new Date(vehicle.ultimoMantenimiento).toLocaleDateString()}</td>
-                      <td>{asignaciones.find(a => a.vehiculo.placa === vehicle.placa)?.conductor.usuario.nombreCompleto || 'Sin asignar'}</td>
+                      <td>{vehicle.conductorAsignado}</td>
                       <td>
                         <div className="d-flex gap-2 justify-content-center">
                           <OverlayTrigger placement="top" overlay={<Tooltip>Editar</Tooltip>}>
@@ -258,7 +222,7 @@ const GestionVehiculos = () => {
                           <OverlayTrigger placement="top" overlay={<Tooltip>Eliminar</Tooltip>}>
                             <button
                               className="btn btn-sm btn-danger"
-                              onClick={() => handleDeleteClick(vehicle.idVehiculo)}
+                              onClick={() => handleDeleteClick(vehicle.id)}
                             >
                               <i className="bi bi-trash"></i>
                             </button>
@@ -412,38 +376,45 @@ const GestionVehiculos = () => {
                 </div>
                 <div className="mb-2">
                   <label className="form-label">Marca</label>
-                  <input className="form-control" defaultValue={editVehicle.marcaVehiculo} />
+                  <input className="form-control" defaultValue={editVehicle.marca} />
                 </div>
                 <div className="mb-2">
-                  <label className="form-label">Tipo de Vehículo</label>
-                  <select className="form-select" defaultValue={editVehicle.tipoVehiculo}>
-                    <option value="A1">A1</option>
-                    <option value="A2">A2</option>
-                    <option value="B1">B1</option>
-                    <option value="B2">B2</option>
-                    <option value="B3">B3</option>
-                    <option value="C1">C1</option>
-                    <option value="C2">C2</option>
-                    <option value="C3">C3</option>
+                  <label className="form-label">Modelo</label>
+                  <input className="form-control" defaultValue={editVehicle.modelo} />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Tipo</label>
+                  <input className="form-control" defaultValue={editVehicle.tipo} />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Categoría</label>
+                  <select className="form-select" defaultValue="B1">
+                    <option>A1</option>
+                    <option>A2</option>
+                    <option>B1</option>
+                    <option>B2</option>
+                    <option>B3</option>
+                    <option>C1</option>
+                    <option>C2</option>
+                    <option>C3</option>
                   </select>
                 </div>
                 <div className="mb-2">
-                  <label className="form-label">Capacidad</label>
-                  <input className="form-control" defaultValue={editVehicle.capacidad} />
-                </div>
-                <div className="mb-2">
                   <label className="form-label">Estado</label>
-                  <select className="form-select" defaultValue={editVehicle.estadoVehiculo}>
-                    <option value="disponible">Disponible</option>
-                    <option value="asignado">Asignado</option>
-                    <option value="en_ruta">En ruta</option>
-                    <option value="mantenimiento">En mantenimiento</option>
-                    <option value="fuera_de_servicio">Fuera de servicio</option>
+                  <select className="form-select" defaultValue={editVehicle.estado}>
+                    <option>Disponible</option>
+                    <option>En ruta</option>
+                    <option>En mantenimiento</option>
+                    <option>Inactivo</option>
                   </select>
                 </div>
                 <div className="mb-2">
                   <label className="form-label">Último mantenimiento</label>
                   <input className="form-control" type="date" defaultValue={editVehicle.ultimoMantenimiento} />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">Conductor</label>
+                  <input className="form-control" defaultValue={editVehicle.conductorAsignado} />
                 </div>
               </div>
               <div className="modal-footer">
@@ -457,61 +428,9 @@ const GestionVehiculos = () => {
                 <button
                   type="button"
                   className="btn btn-success"
-                  onClick={async () => {
-                    if (!editVehicle) return;
-                    
-                    try {
-                      setLoading(true);
-                      setError(null);
-                      
-                      const formElements = document.querySelector('.crear-conductor-form')?.getElementsByTagName('input');
-                      const selectElements = document.querySelector('.crear-conductor-form')?.getElementsByTagName('select');
-                      
-                      if (!formElements || !selectElements) return;
-                      
-                      const updatedVehiculo: Partial<IVehiculo> = {
-                        placa: formElements[0].value,
-                        marcaVehiculo: formElements[1].value,
-                        tipoVehiculo: selectElements[0].value as IVehiculo['tipoVehiculo'],
-                        capacidad: formElements[2].value,
-                        estadoVehiculo: selectElements[1].value as IVehiculo['estadoVehiculo'],
-                        ultimoMantenimiento: formElements[3].value,
-                      };
-
-                      await VehiculosController.updateVehiculo(
-                        editVehicle.idVehiculo.toString(),
-                        updatedVehiculo
-                      );
-
-                      // Actualizar la lista de vehículos
-                      const vehiculosData = await VehiculosController.getAllVehiculos();
-                      const asignacionesData = await VehiculosController.getAsignacionesConductores();
-                      
-                      const vehiculosConConductor = vehiculosData.map(vehiculo => {
-                        const asignacion = asignacionesData.find(a => a.vehiculo.placa === vehiculo.placa);
-                        return {
-                          ...vehiculo,
-                          conductorAsignado: asignacion ? asignacion.conductor.usuario.nombreCompleto : undefined
-                        };
-                      });
-
-                      setVehiculos(vehiculosConConductor);
-                      setShowEditModal(false);
-                    } catch (err) {
-                      setError('Error al actualizar el vehículo');
-                      console.error('Error:', err);
-                    } finally {
-                      setLoading(false);
-                    }
-                  }}
-                  disabled={loading}
+                  onClick={() => setShowEditModal(false)}
                 >
-                  {loading ? (
-                    <>
-                      <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                      Guardando...
-                    </>
-                  ) : 'Guardar'}
+                  Guardar
                 </button>
               </div>
             </form>
@@ -525,7 +444,7 @@ const GestionVehiculos = () => {
           <div className="crear-conductor-modal" style={{ maxWidth: 400 }}>
             <h5 className="modal-title mb-2">Asignar Conductor</h5>
             <div className="mb-2">
-              <b>Vehículo:</b> {selectedVehicleForDriver.placa} - {selectedVehicleForDriver.marcaVehiculo}
+              <b>Vehículo:</b> {selectedVehicleForDriver.placa} - {selectedVehicleForDriver.marca}
             </div>
             <div className="mb-2">
               <label className="form-label">Buscar conductor</label>
@@ -540,28 +459,27 @@ const GestionVehiculos = () => {
               />
               <div className="list-group mt-1" style={{ maxHeight: 120, overflowY: "auto" }}>
                 {conductorSearch &&
-                  asignaciones
-                    .filter(a =>
-                      a.conductor.usuario.nombreCompleto.toLowerCase().includes(conductorSearch.toLowerCase())
+                  conductores
+                    .filter(c =>
+                      c.nombre.toLowerCase().includes(conductorSearch.toLowerCase())
                     )
-                    .map(a => (
+                    .map(c => (
                       <button
                         type="button"
-                        key={a.conductor.licencia}
-                        className={`list-group-item list-group-item-action${selectedConductor?.licencia === a.conductor.licencia ? " active" : ""}`}
-                        onClick={() => setSelectedConductor(a.conductor)}
+                        key={c.nombre}
+                        className={`list-group-item list-group-item-action${selectedConductor?.nombre === c.nombre ? " active" : ""}`}
+                        onClick={() => setSelectedConductor(c)}
                       >
-                        {a.conductor.usuario.nombreCompleto}
+                        {c.nombre}
                       </button>
                     ))}
               </div>
             </div>
             {selectedConductor && (
               <div className="alert alert-info py-2 px-2">
-                <div><b>Nombre:</b> {selectedConductor.usuario.nombreCompleto}</div>
-                <div><b>Documento:</b> {selectedConductor.usuario.documentoIdentidad}</div>
-                <div><b>Licencia:</b> {selectedConductor.licencia} (Tipo: {selectedConductor.tipoLicencia})</div>
-                <div><b>Estado:</b> {selectedConductor.estado}</div>
+                <div><b>Nombre:</b> {selectedConductor.nombre}</div>
+                <div><b>Teléfono:</b> {selectedConductor.telefono}</div>
+                <div><b>Licencia:</b> {selectedConductor.licencia}</div>
               </div>
             )}
             <div className="modal-footer">
@@ -575,49 +493,16 @@ const GestionVehiculos = () => {
               <button
                 type="button"
                 className="btn btn-success"
-                disabled={!selectedConductor || loading}
+                disabled={!selectedConductor}
                 onClick={() => {
-                  const asignarConductor = async () => {
-                    if (selectedConductor && selectedVehicleForDriver) {
-                      try {
-                        setLoading(true);
-                        setError(null);
-                        
-                        await VehiculosController.createAsignacion({
-                          idConductor: Number(selectedConductor.usuario.documentoIdentidad),
-                          idVehiculo: selectedVehicleForDriver.idVehiculo
-                        });
-
-                        // Actualizar las asignaciones
-                        const nuevasAsignaciones = await VehiculosController.getAsignacionesConductores();
-                        setAsignaciones(nuevasAsignaciones);
-
-                        // Actualizar el estado del vehículo
-                        await VehiculosController.updateVehiculo(
-                          selectedVehicleForDriver.idVehiculo.toString(),
-                          { estadoVehiculo: 'asignado' }
-                        );
-                        
-                        // Actualizar la lista de vehículos
-                        setVehiculos(vehiculos.map(v =>
-                          v.idVehiculo === selectedVehicleForDriver.idVehiculo
-                            ? { ...v, estadoVehiculo: 'asignado' }
-                            : v
-                        ));
-
-                        setShowAssignDriverModal(false);
-                      } catch (err) {
-                        const errorMessage = err instanceof Error ? err.message : 'Error al asignar conductor al vehículo';
-                        setError(errorMessage);
-                        console.error('Error:', err);
-                      } finally {
-                        setLoading(false);
-                      }
-                    }
-                    setShowAssignDriverModal(false);
-                  };
-                  
-                  asignarConductor();
+                  if (selectedConductor && selectedVehicleForDriver) {
+                    setVehiculos(vehiculos.map(v =>
+                      v.id === selectedVehicleForDriver.id
+                        ? { ...v, conductorAsignado: selectedConductor.nombre }
+                        : v
+                    ));
+                  }
+                  setShowAssignDriverModal(false);
                 }}
               >
                 Asignar

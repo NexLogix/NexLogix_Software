@@ -1,7 +1,15 @@
 import axios from "axios";
 
+// Crear instancia de axios con configuración base
+export const axiosInstance = axios.create({
+    baseURL: 'http://127.0.0.1:8000/api',
+    headers: {
+        'Content-Type': 'application/json',
+    }
+});
+
 // Interceptor para agregar el token a cada request
-axios.interceptors.request.use(
+axiosInstance.interceptors.request.use(
   config => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -12,7 +20,7 @@ axios.interceptors.request.use(
   error => Promise.reject(error)
 );
 
-axios.interceptors.response.use(
+axiosInstance.interceptors.response.use(
   response => response,
   error => {
     if (error.response && error.response.status === 401) {
