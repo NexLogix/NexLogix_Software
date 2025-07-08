@@ -15,6 +15,27 @@ export interface IVehiculoApiResponse {
     status: number;
 }
 
+export interface IConductor {
+    idConductor: number;
+    licencia: string;
+    tipoLicencia: string;
+    vigenciaLicencia: string;
+    estado: string;
+    idUsuario: number;
+    usuario: {
+        idusuarios: number;
+        documentoIdentidad: string;
+        nombreCompleto: string;
+        email: string;
+        numContacto: string;
+        direccionResidencia: string;
+        estado: {
+            idestado: number;
+            estado: string;
+        }
+    }
+}
+
 export interface IAsignacionVehiculo {
     idAsignacion: number;
     fecha_asignacion_vehiculo: string;
@@ -34,4 +55,11 @@ export interface IAsignacionVehiculo {
         placa: string;
         marca: string;
     }
+}
+
+export interface IAsignacionVehiculoApiResponse {
+    success: boolean;
+    message: string;
+    data: IAsignacionVehiculo[];
+    status: number;
 }

@@ -78,6 +78,52 @@ class Conductores_service
         }
     }
 
+    public function getActiveConductores(?string $value = null): array
+    {
+        try {
+            $query = Conductores::with('usuario.roles')
+                ->whereIn('estado', ['disponible', 'en_ruta']);
+
+            // Solo aplica filtros si viene un valor de búsqueda
+            if ($value) {
+                $query->where(function ($query) use ($value) {
+                    $query->where('idConductor', $value)
+                        ->orWhere('licencia', 'like', "%{$value}%")
+                        ->orWhereHas('usuario', function ($q) use ($value) {
+                            $q->where('documentoIdentidad', 'like', "%{$value}%")
+                                ->orWhere('email', 'like', "%{$value}%")
+                                ->orWhere('nombreCompleto', 'like', "%{$value}%");
+                        });
+                });
+            }
+
+            $conductores = $query->get();
+
+            if ($conductores->isEmpty()) {
+                return [
+                    'success' => false,
+                    'message' => 'No se encontraron conductores activos',
+                    'status' => 404
+                ];
+            }
+
+            return [
+                'success' => true,
+                'title' => 'Lista de conductores activos',
+                'data' => $conductores,
+                'message' => 'Conductores activos obtenidos exitosamente',
+                'status' => 200
+            ];
+
+        } catch (Exception $e) {
+            return [
+                'success' => false,
+                'message' => 'Error al obtener conductores activos: ' . $e->getMessage(),
+                'status' => 500
+            ];
+        }
+    }
+
     /*// GET SEARCHING FOR CREATE NEW CONDUCTOR OR UPDATE CONDUCTOR
     public function searchConductorForCreateOrUpdate(?string $search = null): array
     {

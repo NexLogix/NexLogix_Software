@@ -108,7 +108,11 @@ class ConductoresController extends Controller
         $response = $this->conductoresService->searchConductorForCreateOrUpdate($search);
         return response()->json($response, $response['status']);
     }*/
-
+    public function getActiveConductores()
+    {
+        $response = $this->conductoresService->getActiveConductores();
+        return response()->json($response, $response['status']);
+    }
 
     // POST METHOD
     /**

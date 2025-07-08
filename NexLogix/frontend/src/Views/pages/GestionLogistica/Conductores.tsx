@@ -117,17 +117,17 @@ const Conductores = () => {
         idPuestos: 2 // Puesto conductor
       };
 
-      const response = await ConductoresController.createConductorWithUser({
+      await ConductoresController.createConductorWithUser({
         ...userPayload,
         licencia: newDriver.licencia,
         tipoLicencia: newDriver.tipoLicencia as TipoLicencia,
         vigenciaLicencia: newDriver.vigenciaLicencia
       });
 
-      setConductores(prev => [...prev, response]);
       setShowCreateModal(false);
       setNewDriver(emptyDriver);
       toast.success('Conductor creado exitosamente');
+      await fetchConductores(); // Recargar la lista completa
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error al crear conductor');
       toast.error('Error al crear conductor');
@@ -173,9 +173,9 @@ const Conductores = () => {
       console.log('Datos a enviar:', conductorData);
 
       await ConductoresController.updateConductor(editDriver.idConductor, conductorData);
-      await fetchConductores(); // Recargar la lista
       setShowEditModal(false);
       toast.success('Conductor actualizado exitosamente');
+      await fetchConductores(); // Recargar la lista completa
     } catch (err) {
       console.error('Error completo:', err);
       let errorMessage = 'Error al actualizar conductor';
@@ -210,8 +210,9 @@ const Conductores = () => {
       
       if (result) {
         console.log('Conductor eliminado exitosamente');
-        await fetchConductores(); // Recargar la lista
         setShowDeleteModal(false);
+        toast.success('Conductor eliminado exitosamente');
+        await fetchConductores(); // Recargar la lista completa
       } else {
         throw new Error('No se pudo eliminar el conductor');
       }

@@ -439,10 +439,9 @@ Route::group([
     'prefix' => 'gestion_conductores'
 ], function () {
     Route::get('/', [ConductoresController::class, 'showAll'])
-        ->middleware('role:2,3');
-    // asi se busca en la siguiente api: http://127.0.0.1:8000/api/gestion_conductores/buscar_para_crear_o_actualizar?search=sofi777@gmail.com
-    Route::get('/buscar_para_crear_o_actualizar', [ConductoresController::class, 'searchConductorForCreateOrUpdate'])
-        ->middleware('role:2,3');
+        ->middleware('role:2');
+    Route::get('/filtro_conductores_activos', [ConductoresController::class, 'getActiveConductores'])
+        ->middleware('role:2');
     Route::get('/{id}', [ConductoresController::class, 'showByID'])
         ->middleware('role:2,3');
     Route::post('/', [ConductoresController::class, 'createConductor'])
