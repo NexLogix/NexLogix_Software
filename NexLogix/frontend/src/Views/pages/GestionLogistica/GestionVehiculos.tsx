@@ -13,8 +13,8 @@ interface VehiculoUI extends Omit<IVehiculo, 'idVehiculo' | 'marcaVehiculo' | 't
   conductorAsignado: string;
 }
 
-interface FormData extends Omit<VehiculoUI, 'id' | 'conductorAsignado' | 'tipo'> {
-  categoria: string; // este campo mapea a tipo/tipoVehiculo
+interface FormData extends Omit<VehiculoUI, 'id' | 'conductorAsignado'> {
+  tipo: string;
 }
 
 // Función para convertir IVehiculo a VehiculoUI
@@ -71,7 +71,6 @@ const GestionVehiculos = () => {
     const searchableFields = [
       vehicle.placa,
       vehicle.marca,
-      vehicle.marca,
       vehicle.tipo,
       vehicle.capacidad,
       vehicle.estado,
@@ -109,7 +108,7 @@ const GestionVehiculos = () => {
       const newVehiculo = {
         placa: formData.placa,
         marcaVehiculo: formData.marca,
-        tipoVehiculo: formData.categoria as IVehiculo['tipoVehiculo'],
+        tipoVehiculo: formData.tipo as IVehiculo['tipoVehiculo'],
         capacidad: formData.capacidad,
         estadoVehiculo: formData.estado.toLowerCase() as IVehiculo['estadoVehiculo'],
         ultimoMantenimiento: formData.ultimoMantenimiento
@@ -130,7 +129,7 @@ const GestionVehiculos = () => {
       const updatedVehiculo = {
         placa: formData.placa,
         marcaVehiculo: formData.marca,
-        tipoVehiculo: formData.categoria as IVehiculo['tipoVehiculo'],
+        tipoVehiculo: formData.tipo as IVehiculo['tipoVehiculo'],
         capacidad: formData.capacidad,
         estadoVehiculo: formData.estado.toLowerCase() as IVehiculo['estadoVehiculo'],
         ultimoMantenimiento: formData.ultimoMantenimiento
@@ -238,9 +237,8 @@ const GestionVehiculos = () => {
                 <tr>
                   {/* <th>#</th> */}
                   <th>Placa</th>
-                  <th>Marca</th>
-                  <th>Tipo</th>
-                  <th>Categoría</th>
+                  <th>Marca Vehiculo</th>
+                  <th>Tipo Vehiculo</th>
                   <th>Estado</th>
                   <th>Último Mantenimiento</th>
                   <th>Conductor</th>
@@ -255,9 +253,7 @@ const GestionVehiculos = () => {
                       <td>{vehicle.placa}</td>
                       <td>{vehicle.marca}</td>
                       <td>{vehicle.tipo}</td>
-                      <td>
-                        <span className="badge bg-secondary badge-estado-uniforme">B1</span>
-                      </td>
+
                       <td>
                         <span className={`badge bg-${getStatusBadge(vehicle.estado)} badge-estado-uniforme`}>
                           {vehicle.estado}
@@ -372,19 +368,7 @@ const GestionVehiculos = () => {
                   <label className="form-label">Tipo</label>
                   <input name="tipo" className="form-control" placeholder="Tipo" />
                 </div>
-                <div className="mb-2">
-                  <label className="form-label">Categoría</label>
-                  <select name="categoria" className="form-select">
-                    <option>A1</option>
-                    <option>A2</option>
-                    <option>B1</option>
-                    <option>B2</option>
-                    <option>B3</option>
-                    <option>C1</option>
-                    <option>C2</option>
-                    <option>C3</option>
-                  </select>
-                </div>
+                
                 <div className="mb-2">
                   <label className="form-label">Estado</label>
                   <select name="estado" className="form-select">
@@ -422,7 +406,7 @@ const GestionVehiculos = () => {
                       const formData: FormData = {
                         placa: (formElements.namedItem('placa') as HTMLInputElement)?.value || '',
                         marca: (formElements.namedItem('marca') as HTMLInputElement)?.value || '',
-                        categoria: (formElements.namedItem('categoria') as HTMLSelectElement)?.value || '',
+                        tipo: (formElements.namedItem('tipo') as HTMLInputElement)?.value || '',
                         capacidad: (formElements.namedItem('capacidad') as HTMLInputElement)?.value || '',
                         estado: (formElements.namedItem('estado') as HTMLSelectElement)?.value || '',
                         ultimoMantenimiento: (formElements.namedItem('ultimoMantenimiento') as HTMLInputElement)?.value || ''
@@ -458,19 +442,7 @@ const GestionVehiculos = () => {
                   <label className="form-label">Tipo</label>
                   <input name="tipo" className="form-control" defaultValue={editVehicle.tipo} />
                 </div>
-                <div className="mb-2">
-                  <label className="form-label">Categoría</label>
-                  <select className="form-select" defaultValue="B1">
-                    <option>A1</option>
-                    <option>A2</option>
-                    <option>B1</option>
-                    <option>B2</option>
-                    <option>B3</option>
-                    <option>C1</option>
-                    <option>C2</option>
-                    <option>C3</option>
-                  </select>
-                </div>
+
                 <div className="mb-2">
                   <label className="form-label">Estado</label>
                   <select name="estado" className="form-select" defaultValue={editVehicle.estado}>
@@ -508,7 +480,7 @@ const GestionVehiculos = () => {
                       const editFormData: FormData = {
                         placa: formData.get('placa')?.toString() || '',
                         marca: formData.get('marca')?.toString() || '',
-                        categoria: formData.get('categoria')?.toString() || '',
+                        tipo: formData.get('tipo')?.toString() || '',
                         capacidad: formData.get('capacidad')?.toString() || '',
                         estado: formData.get('estado')?.toString() || '',
                         ultimoMantenimiento: formData.get('ultimoMantenimiento')?.toString() || ''
