@@ -4,7 +4,6 @@ import { toast } from 'react-toastify';
 import { ConductoresController } from '../../../Controllers/ConductoresController';
 import {
   IConductor,
-  IConductorCreate,
   IUsuarioCreate,
   TipoLicencia
 } from '../../../models/Interfaces/IConductor';
@@ -156,19 +155,38 @@ const Conductores = () => {
       }
 
       // Preparar datos para actualizar
-      const conductorData: Partial<IConductorCreate> = {
-        licencia: editDriver.licencia,
+      const conductorData: Partial<{
+        licencia: string;
+        tipoLicencia: TipoLicencia;
+        vigenciaLicencia: string;
+        estado: string;
+        idUsuario: number;
+      }> = {
+        licencia: editDriver.licencia.trim(),
         tipoLicencia: editDriver.tipoLicencia as TipoLicencia,
         vigenciaLicencia: editDriver.vigenciaLicencia,
-        estado: editDriver.estado || 'disponible'
+        estado: editDriver.estado || 'disponible',
+        idUsuario: editDriver.usuario.idusuarios
       };
+
+      // Log para debug
+      console.log('Datos a enviar:', conductorData);
 
       await ConductoresController.updateConductor(editDriver.idConductor, conductorData);
       await fetchConductores(); // Recargar la lista
       setShowEditModal(false);
       toast.success('Conductor actualizado exitosamente');
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Error al actualizar conductor';
+      console.error('Error completo:', err);
+      let errorMessage = 'Error al actualizar conductor';
+      
+      if (err instanceof Error) {
+        errorMessage = err.message;
+      } else if (typeof err === 'object' && err !== null && 'response' in err) {
+        const axiosError = err as { response?: { data?: { message?: string } } };
+        errorMessage = axiosError.response?.data?.message || errorMessage;
+      }
+      
       console.error('Error al actualizar:', errorMessage);
       setError(errorMessage);
       toast.error(errorMessage);
@@ -262,14 +280,14 @@ const Conductores = () => {
   };
 
   // Tipos de estado posibles
-  type DriverStatus = 'disponible' | 'en ruta' | 'inactivo';
+  type DriverStatus = 'disponible' | 'en_ruta' | 'no_disponible';
   
   // Helper to get badge color for driver status
   const getStatusBadge = (estado: string) => {
     const statusClasses: Record<DriverStatus | 'default', string> = {
       'disponible': 'bg-success',
-      'en ruta': 'bg-primary',
-      'inactivo': 'bg-secondary',
+      'en_ruta': 'bg-primary',
+      'no_disponible': 'bg-secondary',
       'default': 'bg-warning'
     };
     
@@ -619,8 +637,8 @@ const Conductores = () => {
                   onChange={(e) => handleEditDriverChange('estado', e.target.value)}
                 >
                   <option value="disponible">Disponible</option>
-                  <option value="en ruta">En Ruta</option>
-                  <option value="inactivo">Inactivo</option>
+                  <option value="en_ruta">En Ruta</option>
+                  <option value="no_disponible">No Disponible</option>
                 </Form.Select>
               </Form.Group>
             </Form>
