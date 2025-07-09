@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom"; // Importa componentes de react-router-dom para manejar la navegación
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom"; // Importa componentes de react-router-dom para manejar la navegación
+import { useEffect } from 'react';
 
 // PÁGINAS PÚBLICAS
 import Login from "../Views/pages/Login"; // Importa el componente de la página de inicio de sesión
@@ -11,14 +12,19 @@ import PrivateRoute from "./PrivateRoute"; // Importa el componente que protege 
 import ProtectedRouteEmpleados from "./ProtectedRouterEmpleados"; // Importa el componente de rutas protegidas para el rol Empleado
 import ProtectedRouteManagers from "./ProtectedRouterManagers"; // Importa el componente de rutas protegidas para el rol Manager
 
-// DEFINE EL COMPONENTE FUNCIONAL DE AppRouter PARA CONFIGURAR LAS RUTAS PRINCIPALES
-const AppRouter = () => {
-  return (
-    <>
-      {/*Envuelve la aplicación en BrowserRouter para habilitar la navegación basada en la URL */} 
-      <BrowserRouter> 
+// Componente interno que tiene acceso al contexto de navegación
+const RouterContent = () => {
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    // Importamos setNavigate de forma dinámica para evitar problemas de circular dependency
+    import('../services/axiosConfig').then(({ setNavigate }) => {
+      setNavigate(navigate);
+    });
+  }, [navigate]);
 
-          <Routes> {/* Define un contenedor para todas las rutas de la aplicación */}
+  return (
+    <Routes> {/* Define un contenedor para todas las rutas de la aplicación */}
 
                 {/* RUTAS PÚBLICAS */}
                 <Route path="/" index element={<Login />} /> {/* Ruta pública para la página de login, marcada como ruta raíz */}
@@ -52,10 +58,16 @@ const AppRouter = () => {
                     }
                 />
               </Routes>
-      </BrowserRouter>
-    </>
   );
-  
+};
+
+// DEFINE EL COMPONENTE FUNCIONAL DE AppRouter PARA CONFIGURAR LAS RUTAS PRINCIPALES
+const AppRouter = () => {
+  return (
+    <BrowserRouter>
+      <RouterContent />
+    </BrowserRouter>
+  );
 };
 
 export default AppRouter; // Exporta AppRouter como componente predeterminado
