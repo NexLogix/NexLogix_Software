@@ -32,17 +32,11 @@ class Rutas extends Model
 
     public function Asignacion_Vehiculos_Por_Rutas()
     {
-        return $this->hasMany(Asignacion_Vehiculos_Por_Rutas::class,
-            'idAsignacionRuta',
-            'idAsignacionRuta',
-        );
+        return $this->hasMany(Asignacion_Vehiculos_Por_Rutas::class, 'idRuta', 'idRuta');
     }
 
     public function Asignacion_Rutas_Por_Ciudades()
     {
-        return $this->hasMany(Asignacion_Rutas_Por_Ciudades::class,
-            'idAsignacionRuta',
-            'idAsignacionRuta',
-        );
+        return $this->hasMany(Asignacion_Rutas_Por_Ciudades::class, 'idRuta', 'idRuta');
     }
 }

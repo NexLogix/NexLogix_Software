@@ -1,6 +1,5 @@
 <?php
-
-namespace App\Http\Controllers\AVPR_controller;
+namespace App\Http\Controllers\AVPRcontroller;
 
 use App\Events\ResourceAction;
 use App\Http\Controllers\Controller;
@@ -9,7 +8,7 @@ use App\UseCases\Asignacion_Vehiculos_Por_Rutas\AVPR_UseCase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class Asignacion_Vehiculos_Por_Rutas_Controller extends Controller
+class AsignacionVehiculosPorRutasController extends Controller
 {
     protected AVPR_Service $AVPR_Service;
     protected AVPR_UseCase $AVPR_use_case;

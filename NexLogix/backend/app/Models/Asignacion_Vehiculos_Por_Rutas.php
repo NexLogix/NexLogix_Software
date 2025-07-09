@@ -20,13 +20,13 @@ class Asignacion_Vehiculos_Por_Rutas extends Model
     ];
 
     // Cada asignación pertenece a un vehículo
-    public function vehiculo()
+    public function vehiculoAsignado()
     {
         return $this->belongsTo(Vehiculos::class, 'idVehiculo', 'idVehiculo');
     }
 
     // Cada asignación pertenece a una ruta
-    public function ruta()
+    public function rutaAsignada()
     {
         return $this->belongsTo(Rutas::class, 'idRuta', 'idRuta');
     }

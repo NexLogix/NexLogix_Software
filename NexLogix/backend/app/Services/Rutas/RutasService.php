@@ -14,9 +14,12 @@ class RutasService implements IRutasService
     function getAllRutas()
     {
         try {
-            // Obtiene todas las rutas junto con su Ruta relacionada
-            $rutas = Rutas::all();
-            // Si no hay rutas registradas, retorna una respuesta indicando vacío
+            // Carga las relaciones y sus relaciones anidadas
+            $rutas = Rutas::with([
+                'Asignacion_Vehiculos_Por_Rutas.vehiculoAsignado',
+                'Asignacion_Rutas_Por_Ciudades.ciudad'  // Carga la relación ciudad dentro de ARPC
+            ])->get();
+
             if ($rutas->isEmpty()) {
                 return [
                     'success' => false,
@@ -25,7 +28,6 @@ class RutasService implements IRutasService
                 ];
             }
 
-            // Si existen rutas, retorna la lista con éxito
             return [
                 'success' => true,
                 'message' => 'Lista de Rutas:',
@@ -47,10 +49,15 @@ class RutasService implements IRutasService
     function getRutaByID(string $value): array
     {
         try {
-            // Busca una ruta por ID, incluyendo la Ruta relacionada
-            $rutaFound = Rutas::where('idRuta',$value)
-                ->orWhere('nombreRuta', $value)
-                ->firstOrFail();
+            // Busca una ruta por ID, incluyendo las mismas relaciones que getAllRutas
+            $rutaFound = Rutas::with([
+                'Asignacion_Vehiculos_Por_Rutas.vehiculoAsignado',
+                'Asignacion_Rutas_Por_Ciudades.ciudad'
+            ])
+            ->where('idRuta', $value)
+            ->orWhere('nombreRuta', $value)
+            ->firstOrFail();
+
             // Si se encuentra, devuelve éxito con los datos
             return [
                 'success' => true,

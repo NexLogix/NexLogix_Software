@@ -11,7 +11,7 @@ class ARPC_Service
     public function getAll(): array
     {
         try {
-            $ARPC = Asignacion_Rutas_Por_Ciudades::all();
+            $ARPC = Asignacion_Rutas_Por_Ciudades::with(['ciudad', 'ruta'])->get(); // Nombres actualizados
             if ($ARPC->isEmpty()) {
                 return [
                     'success' => false,
@@ -38,7 +38,9 @@ class ARPC_Service
     public function getById(string $value): array
     {
         try {
-            $ARPC = Asignacion_Rutas_Por_Ciudades::where('idasignacion_rutas_por_ciudades', $value)->firstOrFail();
+            $ARPC = Asignacion_Rutas_Por_Ciudades::with(['ciudad', 'ruta'])
+                ->where('idasignacion_rutas_por_ciudades', $value)
+                ->firstOrFail();
             return [
                 'success' => true,
                 'message' => 'Asignación de Rutas por Ciudades encontrada',

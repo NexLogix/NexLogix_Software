@@ -14,7 +14,7 @@ class AVPR_Service
     {
         try {
             // Obtiene todas las asignaciones con relaciones a vehículo y ruta
-            $AVPR = Asignacion_Vehiculos_Por_Rutas::with('vehiculo', 'ruta')->get();
+            $AVPR = Asignacion_Vehiculos_Por_Rutas::with('vehiculoAsignado', 'rutaAsignada')->get();
 
             // Si no hay registros, devuelve un mensaje indicando que no existen datos
             if ($AVPR->isEmpty()) {

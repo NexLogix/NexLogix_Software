@@ -16,16 +16,17 @@ class Asignacion_Rutas_Por_Ciudades extends Model
 
     // Se especifican los campos que pueden ser asignados de forma masiva
     protected $fillable = [
-        'idRuta','idCiudad',
+        'idRuta',
+        'idCiudad',
     ];
 
-    public function ciudades()
+    public function ciudad() // Cambié el nombre a singular
     {
-        return $this->belongsTo(Ciudades::class);
+        return $this->belongsTo(Ciudades::class, 'idCiudad', 'idCiudad'); // Especificar las claves
     }
 
-    public function rutas()
+    public function ruta() // Cambié el nombre a singular
     {
-        return $this->belongsTo(Rutas::class);
+        return $this->belongsTo(Rutas::class, 'idRuta', 'idRuta'); // Especificar las claves
     }
 }

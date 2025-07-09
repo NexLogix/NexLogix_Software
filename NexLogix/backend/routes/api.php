@@ -70,6 +70,23 @@ Route::group([
 /// GESTION ASIGNACION DE VEHICULOS POR RUTAS
 //
 
+use App\Http\Controllers\AVPRcontroller\AsignacionVehiculosPorRutasController;
+
+Route::group([
+    'middleware' => ['api', 'auth:api'],
+    'prefix' => 'gestion_asignacion_vehiculos_por_rutas' // Cambiar el prefix
+], function () {
+    Route::get('/', [AsignacionVehiculosPorRutasController::class, 'showAll_AVPR'])
+        ->middleware('role:2');
+    Route::get('/{id}', [AsignacionVehiculosPorRutasController::class, 'show_AR_ById'])
+        ->middleware('role:2');
+    Route::post('/', [AsignacionVehiculosPorRutasController::class, 'create_AVPR'])
+        ->middleware('role:2');
+    Route::patch('/{id}', [AsignacionVehiculosPorRutasController::class, 'update_AVPR'])
+        ->middleware('role:2');
+    Route::delete('/{id}', [AsignacionVehiculosPorRutasController::class, 'delete_AVPR'])
+        ->middleware('role:2');
+});
 
 
 
@@ -385,27 +402,6 @@ Route::group([
         ->middleware('role:2');
 });
 
-//
-/// GESTION ASIGNACION VEHICULOS POR RUTAS
-//
-
-use App\Http\Controllers\AVPR_controller\Asignacion_Vehiculos_Por_Rutas_Controller;
-
-Route::group([
-    'middleware' => ['api', 'auth:api'],
-    'prefix' => 'gestion_asignacion_vehiculos_por_rutas'
-], function () {
-    Route::get('/', action: [Asignacion_Vehiculos_Por_Rutas_Controller::class, 'showAll_AR'])
-        ->middleware('role:2');
-    Route::get('/{id}', [Asignacion_Vehiculos_Por_Rutas_Controller::class, 'show_AR_ById'])
-        ->middleware('role:2,3');
-    Route::post('/', [Asignacion_Vehiculos_Por_Rutas_Controller::class, 'create_AR'])
-    ->middleware('role:2');
-    Route::patch('/{id}', [Asignacion_Vehiculos_Por_Rutas_Controller::class, 'update_AR'])
-        ->middleware('role:2');
-    Route::delete('/{id}', [Asignacion_Vehiculos_Por_Rutas_Controller::class, 'delete_AR'])
-        ->middleware('role:2');
-});
 
 //
 /// VEHICULOS
