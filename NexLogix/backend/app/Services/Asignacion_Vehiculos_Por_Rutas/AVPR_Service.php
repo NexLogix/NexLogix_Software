@@ -47,7 +47,7 @@ class AVPR_Service
     {
         try {
             // Busca una asignación específica por su ID junto con sus relaciones
-            $AVPR = Asignacion_Vehiculos_Por_Rutas::with('vehiculo', 'ruta')->findOrFail($id);
+            $AVPR = Asignacion_Vehiculos_Por_Rutas::with(['vehiculoAsignado', 'rutaAsignada'])->findOrFail($id);
 
             // Si la encuentra, retorna la información con estado 200
             return [
@@ -57,14 +57,12 @@ class AVPR_Service
                 'status' => 200
             ];
         } catch (ModelNotFoundException $e) {
-            // Si no encuentra el ID, retorna mensaje de no encontrado
             return [
                 'success' => false,
                 'message' => "Asignacion de Ruta con ID $id no encontrada",
                 'status' => 404
             ];
         } catch (Exception $e) {
-            // Captura cualquier otro error y lo retorna con mensaje y código 500
             return [
                 'success' => false,
                 'message' => 'Error al obtener la Asignacion de Rutas ' . $e->getMessage(),
