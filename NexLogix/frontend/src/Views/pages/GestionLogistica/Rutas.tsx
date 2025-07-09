@@ -390,29 +390,36 @@ const Rutas = () => {
 
       {/* Modal de Vehículos */}
       {showVehicleModal && selectedRuta && (
-        <div className="modal-backdrop">
-          <div className="modal-dialog modal-lg">
+        <div className="crear-conductor-modal-bg">
+          <div className="crear-conductor-modal">
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">Gestión de Vehículos - {selectedRuta.nombreRuta}</h5>
                 <button type="button" className="btn-close" onClick={() => setShowVehicleModal(false)} />
               </div>
-              <div className="modal-body">
+              <div className="modal-body p-4">
+                <h6 className="text-primary mb-3">Vehículo Actual</h6>
                 {selectedRuta.asignacion__vehiculos__por__rutas.map(asig => (
-                  <div key={asig.idAsignacionVehiculoRuta} className="card mb-2">
+                  <div key={asig.idAsignacionVehiculoRuta} className="card border-0 shadow-sm mb-4">
                     <div className="card-body">
                       <div className="d-flex justify-content-between align-items-center">
                         <div>
-                          <h6>{asig.vehiculo_asignado.placa}</h6>
-                          <p className="mb-0">
-                            {asig.vehiculo_asignado.marcaVehiculo} - {asig.vehiculo_asignado.tipoVehiculo}
+                          <h5 className="mb-2 text-white">
+                            <i className="bi bi-truck me-2"></i>
+                            {asig.vehiculo_asignado.placa}
+                          </h5>
+                          <p className="mb-0 text-white opacity-75">
+                            <strong>Marca:</strong> {asig.vehiculo_asignado.marcaVehiculo}
+                            <br />
+                            <strong>Tipo:</strong> {asig.vehiculo_asignado.tipoVehiculo}
                           </p>
                         </div>
                         <button
-                          className="btn btn-danger btn-sm"
+                          className="btn btn-outline-danger btn-sm rounded-pill"
                           onClick={() => handleRemoveVehicle(asig.idAsignacionVehiculoRuta)}
+                          title="Remover vehículo"
                         >
-                          <i className="bi bi-trash" />
+                          <i className="bi bi-trash me-1" /> Remover
                         </button>
                       </div>
                     </div>
@@ -469,29 +476,46 @@ const Rutas = () => {
 
       {/* Modal de Ciudades */}
       {showCityModal && selectedRuta && (
-        <div className="modal-backdrop">
-          <div className="modal-dialog modal-lg">
+        <div className="crear-conductor-modal-bg">
+          <div className="crear-conductor-modal">
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">Gestión de Ciudades - {selectedRuta.nombreRuta}</h5>
                 <button type="button" className="btn-close" onClick={() => setShowCityModal(false)} />
               </div>
-              <div className="modal-body">
-                <div className="mb-3">
-                  <h6>Ciudades Asignadas</h6>
-                  <div className="d-flex flex-wrap gap-2">
-                    {selectedRuta.asignacion__rutas__por__ciudades.map(asig => (
-                      <div key={asig.idasignacion_rutas_por_ciudades} className="badge bg-secondary p-2">
-                        {asig.ciudad.nombreCiudad}
-                        <button
-                          className="btn btn-link btn-sm text-white p-0 ms-2"
-                          onClick={() => handleRemoveCity(asig.idasignacion_rutas_por_ciudades)}
+              <div className="modal-body p-4">
+                <div className="mb-4">
+                  <h6 className="fw-bold mb-3">
+                    <i className="bi bi-geo-alt me-2"></i>
+                    Ciudades Asignadas
+                  </h6>
+                  {selectedRuta.asignacion__rutas__por__ciudades.length > 0 ? (
+                    <div className="d-flex flex-wrap gap-2">
+                      {selectedRuta.asignacion__rutas__por__ciudades.map(asig => (
+                        <div 
+                          key={asig.idasignacion_rutas_por_ciudades} 
+                          className="badge bg-primary bg-opacity-10 p-2 px-3 d-flex align-items-center"
+                          style={{ fontSize: '0.9rem', color: '#0057B2' }}
                         >
-                          <i className="bi bi-x" />
-                        </button>
-                      </div>
-                    ))}
-                  </div>
+                          <i className="bi bi-building me-2"></i>
+                          {asig.ciudad.nombreCiudad}
+                          <button
+                            className="btn btn-link p-0 ms-2 d-flex align-items-center"
+                            style={{ color: '#DC3545' }}
+                            onClick={() => handleRemoveCity(asig.idasignacion_rutas_por_ciudades)}
+                            title="Eliminar ciudad"
+                          >
+                            <i className="bi bi-x-circle-fill" style={{ fontSize: '0.9rem' }} />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="alert alert-info py-2">
+                      <i className="bi bi-info-circle me-2"></i>
+                      No hay ciudades asignadas a esta ruta
+                    </div>
+                  )}
                 </div>
 
                 {availableCities.length > 0 && (
@@ -503,23 +527,36 @@ const Rutas = () => {
                       Number(new FormData(form).get('ciudad'))
                     );
                   }}>
-                    <div className="mb-3">
-                      <label className="form-label">Agregar Ciudad</label>
-                      <select name="ciudad" className="form-select" required>
-                        <option value="">Seleccione una ciudad...</option>
-                        {availableCities
-                          .filter(c => !selectedRuta.asignacion__rutas__por__ciudades
-                            .some(asig => asig.idCiudad === c.idCiudad))
-                          .map(c => (
-                            <option key={c.idCiudad} value={c.idCiudad}>
-                              {c.nombreCiudad}
-                            </option>
-                          ))}
-                      </select>
+                    <div className="card border-0 bg-light">
+                      <div className="card-body">
+                        <h6 className="fw-bold mb-3 text-white">
+                          <i className="bi bi-plus-circle me-2"></i>
+                          Agregar Nueva Ciudad
+                        </h6>
+                        <div className="mb-3">
+                          <select 
+                            name="ciudad" 
+                            className="form-select form-select-lg" 
+                            required
+                            style={{ fontSize: '0.9rem' }}
+                          >
+                            <option value="">Seleccione una ciudad...</option>
+                            {availableCities
+                              .filter(c => !selectedRuta.asignacion__rutas__por__ciudades
+                                .some(asig => asig.idCiudad === c.idCiudad))
+                              .map(c => (
+                                <option key={c.idCiudad} value={c.idCiudad}>
+                                  {c.nombreCiudad}
+                                </option>
+                              ))}
+                          </select>
+                        </div>
+                        <button type="submit" className="btn btn-primary w-100">
+                          <i className="bi bi-plus-lg me-2"></i>
+                          Agregar Ciudad
+                        </button>
+                      </div>
                     </div>
-                    <button type="submit" className="btn btn-primary">
-                      Agregar Ciudad
-                    </button>
                   </form>
                 )}
               </div>
@@ -530,8 +567,8 @@ const Rutas = () => {
 
       {/* Modal de Crear/Editar */}
       {(showCreateModal || (showEditModal && editRuta)) && (
-        <div className="modal-backdrop">
-          <div className="modal-dialog">
+        <div className="crear-conductor-modal-bg">
+          <div className="crear-conductor-modal">
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">
