@@ -2,11 +2,16 @@ import axios from "axios";
 import { NavigateFunction } from 'react-router-dom';
 
 // Crear instancia de axios con configuración base
+// Configuración del entorno
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+
 export const axiosInstance = axios.create({
-    baseURL: 'http://127.0.0.1:8000/api',
+    baseURL: `${API_BASE_URL}/api`,
     headers: {
         'Content-Type': 'application/json',
-    }
+        'Accept': 'application/json'
+    },
+    timeout: 10000 // 10 segundos
 });
 
 let navigate: NavigateFunction | null = null;
