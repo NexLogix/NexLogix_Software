@@ -4,7 +4,8 @@ import {
     IRuta,
     IVehiculo,
     ICiudad,
-    ICreateRutaRequest
+    ICreateRutaRequest,
+    IAxiosError
 } from "../../../models/Interfaces/IRutas";
 
 const Rutas = () => {
@@ -102,15 +103,29 @@ const Rutas = () => {
   const handleCreateRuta = async (data: ICreateRutaRequest) => {
     try {
       setError(null);
+      console.log('Datos a enviar:', data);
       const response = await RutasController.createRuta(data);
       if (response.success) {
         loadRutas();
         setShowCreateModal(false);
       } else {
+        console.error('Error en la respuesta:', response);
         setError(response.message);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error al crear la ruta');
+      console.error('Error completo:', err);
+      const error = err as IAxiosError;
+      
+      if (error.response?.data?.errors) {
+        // Si hay errores de validación específicos
+        const validationErrors = Object.values(error.response.data.errors)
+          .flat()
+          .join(', ');
+        setError(validationErrors);
+      } else {
+        // Si es un error general
+        setError(error.response?.data?.message || error.message || 'Error al crear la ruta');
+      }
     }
   };
 
@@ -365,24 +380,30 @@ const Rutas = () => {
 
       {/* Modal de Eliminar */}
       {showDeleteModal && selectedRuta && (
-        <div className="modal-backdrop">
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Confirmar Eliminación</h5>
-                <button type="button" className="btn-close" onClick={() => setShowDeleteModal(false)} />
-              </div>
-              <div className="modal-body">
-                ¿Está seguro de eliminar la ruta {selectedRuta.nombreRuta}?
-              </div>
-              <div className="modal-footer">
-                <button className="btn btn-secondary" onClick={() => setShowDeleteModal(false)}>
-                  Cancelar
-                </button>
-                <button className="btn btn-danger" onClick={() => handleDeleteRuta(selectedRuta.idRuta)}>
-                  Eliminar
-                </button>
-              </div>
+        <div className="crear-conductor-modal-bg">
+          <div className="crear-conductor-modal" style={{ maxWidth: 380 }}>
+            <h5 className="modal-title mb-3 text-danger">
+              <i className="bi bi-exclamation-triangle-fill me-2"></i>
+              Confirmar Eliminación
+            </h5>
+            <div className="mb-3">
+              ¿Está seguro de eliminar la ruta {selectedRuta.nombreRuta}? Esta acción no se puede deshacer.
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => setShowDeleteModal(false)}
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={() => handleDeleteRuta(selectedRuta.idRuta)}
+              >
+                Eliminar
+              </button>
             </div>
           </div>
         </div>
@@ -588,13 +609,18 @@ const Rutas = () => {
                 e.preventDefault();
                 const form = e.currentTarget;
                 const formData = new FormData(form);
+                // Formatear las horas para que incluyan la fecha actual
+                const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+                const horaInicio = formData.get('horaInicioRuta') as string;
+                const horaFin = formData.get('horaFinalizacionRuta') as string;
+
                 const data: ICreateRutaRequest = {
                   nombreRuta: formData.get('nombreRuta') as string,
-                  horaInicioRuta: formData.get('horaInicioRuta') as string,
-                  horaFinalizacionRuta: formData.get('horaFinalizacionRuta') as string,
+                  horaInicioRuta: `${today} ${horaInicio}:00`,
+                  horaFinalizacionRuta: `${today} ${horaFin}:00`,
                   descripcion: formData.get('descripcion') as string,
                   estadoRuta: formData.get('estadoRuta') as IRuta['estadoRuta'],
-                  novedades: formData.get('novedades') as string
+                  novedades: formData.get('novedades') as string || 'No han habido novedades'
                 };
 
                 if (editRuta) {

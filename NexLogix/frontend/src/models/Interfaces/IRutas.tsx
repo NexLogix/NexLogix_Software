@@ -111,3 +111,14 @@ export interface ApiError {
     };
     message?: string;
 }
+
+export interface IAxiosError {
+  response?: {
+    data?: {
+      message?: string;
+      errors?: Record<string, string[]>;
+    };
+    status?: number;
+  };
+  message: string;
+}
