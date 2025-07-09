@@ -60,7 +60,7 @@ const ManagerProfile = () => {
                       <Link className="nav-link" to="/manager/vehiculos">Lista de vehículos</Link>
                       <Link className="nav-link" to="/manager/conductores">Conductores</Link>
                       <Link className="nav-link" to="/manager/rutas">Rutas</Link>
-                      <Link className="nav-link" to="/manager/envios">Gestion Envíos</Link>
+                      {/*<Link className="nav-link" to="/manager/envios">Gestion Envíos</Link>*/}
                       <Link className="nav-link" to="/manager/ciudades">Lista de ciudades</Link>
 
                     </ul>

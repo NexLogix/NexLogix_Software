@@ -260,116 +260,142 @@ const Envios = () => {
       {/* Modal para crear envío */}
       {showCreateModal && (
         <div className="crear-conductor-modal-bg">
-          <div className="crear-conductor-modal">
+          <div className="crear-conductor-modal" style={{ maxWidth: '80%', maxHeight: '90vh' }}>
             <h5 className="modal-title">Crear Envío</h5>
-            <div className="crear-conductor-modal-scroll">
+            <div className="crear-conductor-modal-scroll" style={{ 
+              maxHeight: 'calc(90vh - 120px)',
+              overflowY: 'auto',
+              overflowX: 'hidden',
+              padding: '20px'
+            }}>
               <form>
-                {/* Sección 1: Datos básicos del envío */}
-                <div className="mb-2 border-bottom pb-1">
-                  <h6 className="text-primary mb-1">Datos del Envío</h6>
-                  <div className="row g-1">
-                    <div className="col-md-6 mb-1">
-                      <label className="form-label">Código</label>
-                      <input className="form-control" placeholder="Código de envío" />
+                <div className="row">
+                  {/* Columna Izquierda */}
+                  <div className="col-md-6 pe-md-2">
+                    {/* Sección 1: Datos básicos del envío */}
+                    <div className="mb-3 border-bottom pb-2">
+                      <h6 className="text-primary mb-2">Información del Envío</h6>
+                      <div className="row g-2">
+                        <div className="col-12">
+                          <label className="form-label">Nombre Remitente</label>
+                          <input className="form-control" name="nombreRemitente" placeholder="Nombre del remitente" required />
+                        </div>
+                        <div className="col-12">
+                          <label className="form-label">Contacto Remitente</label>
+                          <input className="form-control" name="num_ContactoRemitente" placeholder="Número de contacto" required pattern="[0-9+]{10,14}" />
+                        </div>
+                        <div className="col-12">
+                          <label className="form-label">Nombre Destinatario</label>
+                          <input className="form-control" name="nombreDestinatario" placeholder="Nombre del destinatario" required />
+                        </div>
+                        <div className="col-12">
+                          <label className="form-label">Contacto Destinatario</label>
+                          <input className="form-control" name="num_ContactoDestinatario" placeholder="Número de contacto" required pattern="[0-9+]{10,14}" />
+                        </div>
+                        <div className="col-12">
+                          <label className="form-label">Método de Pago</label>
+                          <select className="form-select" name="metodoPago" required>
+                            <option value="">Seleccionar método de pago</option>
+                            <option value="Efectivo">Efectivo</option>
+                            <option value="Tarjeta Debito">Tarjeta Débito</option>
+                            <option value="Tarjeta Credito">Tarjeta Crédito</option>
+                            <option value="Plataformas Virtuales">Plataformas Virtuales</option>
+                            <option value="Cupones">Cupones</option>
+                          </select>
+                        </div>
+                      </div>
                     </div>
-                    <div className="col-md-6 mb-1">
-                      <label className="form-label">Destinatario</label>
-                      <input className="form-control" placeholder="Nombre del destinatario" />
-                    </div>
-                    <div className="col-md-6 mb-1">
-                      <label className="form-label">Dirección</label>
-                      <input className="form-control" placeholder="Dirección de entrega" />
-                    </div>
-                    <div className="col-md-6 mb-1">
-                      <label className="form-label">Ciudad</label>
-                      <input className="form-control" placeholder="Ciudad" />
-                    </div>
-                    <div className="col-md-6 mb-1">
-                      <label className="form-label">Estado</label>
-                      <select className="form-select">
-                        <option>Pendiente</option>
-                        <option>En tránsito</option>
-                        <option>Entregado</option>
-                        <option>Cancelado</option>
-                      </select>
-                    </div>
-                    <div className="col-md-6 mb-1">
-                      <label className="form-label">Fecha de Envío</label>
-                      <input className="form-control" type="date" />
-                    </div>
-                    <div className="col-md-6 mb-1">
-                      <label className="form-label">Fecha de Entrega</label>
-                      <input className="form-control" type="date" />
-                    </div>
-                    <div className="col-md-6 mb-1">
-                      <label className="form-label">Vehículo Asignado</label>
-                      <input className="form-control" placeholder="Placa del vehículo" />
-                    </div>
-                    <div className="col-md-6 mb-1">
-                      <label className="form-label">Conductor Asignado</label>
-                      <input className="form-control" placeholder="Nombre del conductor" />
-                    </div>
-                  </div>
-                </div>
-                {/* Sección 2: Categoría */}
-                <div className="mb-2 border-bottom pb-1">
-                  <h6 className="text-success mb-1">Categoría del Envío</h6>
-                  <select className="form-select">
-                    <option value="">Selecciona una categoría</option>
-                    <option value="documentos">Documentos</option>
-                    <option value="paqueteria">Paquetería</option>
-                    <option value="fragil">Frágil</option>
-                    <option value="perecedero">Perecedero</option>
-                    <option value="otros">Otros</option>
-                  </select>
-                </div>
-                {/* Sección 3: Recogida */}
-                <div className="mb-2 border-bottom pb-1">
-                  <h6 className="text-info mb-1">Recogida del Envío</h6>
-                  <div className="row g-1">
-                    <div className="col-md-6 mb-1">
-                      <label className="form-label">Dirección de recogida</label>
-                      <input className="form-control" placeholder="Dirección de recogida" />
-                    </div>
-                    <div className="col-md-6 mb-1">
-                      <label className="form-label">Ciudad de recogida</label>
-                      <select className="form-select">
-                        <option value="">Selecciona ciudad</option>
-                        <option value="Bogotá">Bogotá</option>
-                        <option value="Medellín">Medellín</option>
-                        <option value="Cali">Cali</option>
-                        <option value="Barranquilla">Barranquilla</option>
-                        <option value="Otra">Otra</option>
-                      </select>
-                    </div>
-                    <div className="col-md-6 mb-1">
-                      <label className="form-label">Fecha de recogida</label>
-                      <input className="form-control" type="date" />
+
+                    {/* Sección 2: Categoría del Envío */}
+                    <div className="mb-3 border-bottom pb-2">
+                      <h6 className="text-success mb-2">Categoría del Envío</h6>
+                      <div className="row g-2">
+                        <div className="col-12">
+                          <select className="form-select mb-2" name="idCategoria" required>
+                            <option value="">Selecciona una categoría</option>
+                            <option value="1">Documentos - $15.000</option>
+                            <option value="2">Abarrotes - $20.000</option>
+                            <option value="3">Electrodomésticos - $1.500.000</option>
+                            <option value="4">Mercancía - $50.000</option>
+                            <option value="5">Papelería - $18.000</option>
+                          </select>
+                        </div>
+                        <div className="col-12">
+                          <div className="card bg-light">
+                            <div className="card-body">
+                              <h6 className="card-subtitle mb-2 text-muted">Detalles de la Categoría</h6>
+                              <p className="card-text">
+                                <small>
+                                  <strong>Nombre:</strong> <span id="categoriaNombre">-</span><br />
+                                  <strong>Precio Base:</strong> <span id="categoriaPrecio">-</span><br />
+                                  <strong>Descripción:</strong> <span id="categoriaDescripcion">-</span>
+                                </small>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-                {/* Sección 4: Entrega */}
-                <div className="mb-2">
-                  <h6 className="text-warning mb-1">Entrega del Envío</h6>
-                  <div className="row g-1">
-                    <div className="col-md-6 mb-1">
-                      <label className="form-label">Dirección de entrega</label>
-                      <input className="form-control" placeholder="Dirección de entrega" />
+
+                  {/* Columna Derecha */}
+                  <div className="col-md-6 ps-md-2">
+                    {/* Sección 3: Recogida */}
+                    <div className="mb-3 border-bottom pb-2">
+                      <h6 className="text-info mb-2">Información de Recogida</h6>
+                      <div className="row g-2">
+                        <div className="col-12">
+                          <label className="form-label">Ciudad de Recogida</label>
+                          <select className="form-select" name="idRecogida" required>
+                            <option value="">Selecciona una ciudad</option>
+                            <option value="1">Bogotá - $30.000</option>
+                            <option value="2">Bucaramanga - $13.800</option>
+                            <option value="3">Medellín - $14.000</option>
+                            <option value="4">Cali - $14.200</option>
+                          </select>
+                        </div>
+                        <div className="col-12">
+                          <label className="form-label">Dirección de Recogida</label>
+                          <input className="form-control" name="direccionRecogida" placeholder="Dirección completa" required />
+                        </div>
+                        <div className="col-md-6">
+                          <label className="form-label">Fecha Seleccionada</label>
+                          <input type="datetime-local" className="form-control" name="fechaRecogidaSeleccionada" required />
+                        </div>
+                        <div className="col-md-6">
+                          <label className="form-label">Fecha Final</label>
+                          <input type="datetime-local" className="form-control" name="fechaRecogidaFinal" />
+                        </div>
+                      </div>
                     </div>
-                    <div className="col-md-6 mb-1">
-                      <label className="form-label">Ciudad de entrega</label>
-                      <select className="form-select">
-                        <option value="">Selecciona ciudad</option>
-                        <option value="Bogotá">Bogotá</option>
-                        <option value="Medellín">Medellín</option>
-                        <option value="Cali">Cali</option>
-                        <option value="Barranquilla">Barranquilla</option>
-                        <option value="Otra">Otra</option>
-                      </select>
-                    </div>
-                    <div className="col-md-6 mb-1">
-                      <label className="form-label">Fecha de entrega</label>
-                      <input className="form-control" type="date" />
+
+                    {/* Sección 4: Entrega */}
+                    <div className="mb-3">
+                      <h6 className="text-warning mb-2">Información de Entrega</h6>
+                      <div className="row g-2">
+                        <div className="col-12">
+                          <label className="form-label">Ciudad de Entrega</label>
+                          <select className="form-select" name="idEntrega" required>
+                            <option value="">Selecciona una ciudad</option>
+                            <option value="1">Bogotá - $30.000</option>
+                            <option value="2">Bucaramanga - $13.800</option>
+                            <option value="3">Medellín - $14.000</option>
+                            <option value="4">Cali - $14.200</option>
+                          </select>
+                        </div>
+                        <div className="col-12">
+                          <label className="form-label">Dirección de Entrega</label>
+                          <input className="form-control" name="direccionEntrega" placeholder="Dirección completa" required />
+                        </div>
+                        <div className="col-md-6">
+                          <label className="form-label">Fecha Seleccionada</label>
+                          <input type="datetime-local" className="form-control" name="fechaEntregaSeleccionada" required />
+                        </div>
+                        <div className="col-md-6">
+                          <label className="form-label">Fecha Final</label>
+                          <input type="datetime-local" className="form-control" name="fechaEntregaFinal" />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -398,69 +424,76 @@ const Envios = () => {
       {/* Modal para editar envío */}
       {showEditModal && editEnvio && (
         <div className="crear-conductor-modal-bg">
-          <div className="crear-conductor-modal">
+          <div className="crear-conductor-modal" style={{ maxWidth: '80%', maxHeight: '90vh' }}>
             <h5 className="modal-title">Editar Envío</h5>
-            <form>
-              <div className="crear-conductor-form">
-                <div className="mb-2">
-                  <label className="form-label">Código</label>
-                  <input className="form-control" defaultValue={editEnvio.codigo} />
+            <div style={{ 
+              maxHeight: 'calc(90vh - 120px)',
+              overflowY: 'auto',
+              overflowX: 'hidden',
+              padding: '20px'
+            }}>
+              <form>
+                <div className="crear-conductor-form">
+                  <div className="mb-2">
+                    <label className="form-label">Código</label>
+                    <input className="form-control" defaultValue={editEnvio.codigo} />
+                  </div>
+                  <div className="mb-2">
+                    <label className="form-label">Destinatario</label>
+                    <input className="form-control" defaultValue={editEnvio.destinatario} />
+                  </div>
+                  <div className="mb-2">
+                    <label className="form-label">Dirección</label>
+                    <input className="form-control" defaultValue={editEnvio.direccion} />
+                  </div>
+                  <div className="mb-2">
+                    <label className="form-label">Ciudad</label>
+                    <input className="form-control" defaultValue={editEnvio.ciudad} />
+                  </div>
+                  <div className="mb-2">
+                    <label className="form-label">Estado</label>
+                    <select className="form-select" defaultValue={editEnvio.estado}>
+                      <option>Pendiente</option>
+                      <option>En tránsito</option>
+                      <option>Entregado</option>
+                      <option>Cancelado</option>
+                    </select>
+                  </div>
+                  <div className="mb-2">
+                    <label className="form-label">Fecha de Envío</label>
+                    <input className="form-control" type="date" defaultValue={editEnvio.fechaEnvio} />
+                  </div>
+                  <div className="mb-2">
+                    <label className="form-label">Fecha de Entrega</label>
+                    <input className="form-control" type="date" defaultValue={editEnvio.fechaEntrega} />
+                  </div>
+                  <div className="mb-2">
+                    <label className="form-label">Vehículo Asignado</label>
+                    <input className="form-control" defaultValue={editEnvio.vehiculoAsignado} />
+                  </div>
+                  <div className="mb-2">
+                    <label className="form-label">Conductor Asignado</label>
+                    <input className="form-control" defaultValue={editEnvio.conductorAsignado} />
+                  </div>
                 </div>
-                <div className="mb-2">
-                  <label className="form-label">Destinatario</label>
-                  <input className="form-control" defaultValue={editEnvio.destinatario} />
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={() => setShowEditModal(false)}
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-success"
+                    onClick={() => setShowEditModal(false)}
+                  >
+                    Guardar
+                  </button>
                 </div>
-                <div className="mb-2">
-                  <label className="form-label">Dirección</label>
-                  <input className="form-control" defaultValue={editEnvio.direccion} />
-                </div>
-                <div className="mb-2">
-                  <label className="form-label">Ciudad</label>
-                  <input className="form-control" defaultValue={editEnvio.ciudad} />
-                </div>
-                <div className="mb-2">
-                  <label className="form-label">Estado</label>
-                  <select className="form-select" defaultValue={editEnvio.estado}>
-                    <option>Pendiente</option>
-                    <option>En tránsito</option>
-                    <option>Entregado</option>
-                    <option>Cancelado</option>
-                  </select>
-                </div>
-                <div className="mb-2">
-                  <label className="form-label">Fecha de Envío</label>
-                  <input className="form-control" type="date" defaultValue={editEnvio.fechaEnvio} />
-                </div>
-                <div className="mb-2">
-                  <label className="form-label">Fecha de Entrega</label>
-                  <input className="form-control" type="date" defaultValue={editEnvio.fechaEntrega} />
-                </div>
-                <div className="mb-2">
-                  <label className="form-label">Vehículo Asignado</label>
-                  <input className="form-control" defaultValue={editEnvio.vehiculoAsignado} />
-                </div>
-                <div className="mb-2">
-                  <label className="form-label">Conductor Asignado</label>
-                  <input className="form-control" defaultValue={editEnvio.conductorAsignado} />
-                </div>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={() => setShowEditModal(false)}
-                >
-                  Cancelar
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-success"
-                  onClick={() => setShowEditModal(false)}
-                >
-                  Guardar
-                </button>
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
         </div>
       )}
