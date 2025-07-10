@@ -1,3 +1,5 @@
+import { IConductor } from './IConductor';
+
 export interface IRuta {
     idRuta: number;
     nombreRuta: string;
@@ -18,6 +20,7 @@ export interface IAsignacionVehiculoRuta {
     idVehiculo: number;
     idRuta: number;
     vehiculo_asignado: IVehiculo;
+    conductor?: IConductor;
 }
 
 export interface IAsignacionRutaCiudad {

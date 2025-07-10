@@ -22,7 +22,9 @@ const getRoleName = (idRole: number): string => {
     case 2:
       return "Manager";
     case 3:
-      return "Empleado"
+      return "Empleado";
+    case 13:
+      return "Conductor";
     default:
       console.warn("[AuthLoginService] idRole desconocido:", idRole);
       return "Unknown";

@@ -1,9 +1,9 @@
 import { Routes, Route } from "react-router-dom";
 import EmpleadoProfile from "../Views/profiles/EmpleadoProfile/EmpleadoProfile";
 import HomeEmpleado from "../Views/profiles/EmpleadoProfile/HomeEmpleado";
-import Envios from "../Views/pages/GestionLogistica/Envios";
-import Rutas from "../Views/pages/GestionLogistica/Rutas";
-import Reportes from "../Views/pages/Administracion/Reportes";
+import ReportesConductor from "../Views/pages/EmpleadoPages/ReportesConductor";
+import RutasConductor from "../Views/pages/EmpleadoPages/RutasConductor";
+import VehiculosConductor from "../Views/pages/EmpleadoPages/VehiculosConductor";
 import EstamosUbicadosEn from "../Views/componets/Footers/EstamosUbicadoEn";
 import AcercaDe from "../Views/componets/Footers/AcercaDe";
 // importa más páginas si tienes...
@@ -15,13 +15,15 @@ const ProtectedRouteEmpleados = () => {
         <Route index element={<HomeEmpleado />} />
 
         {/*ROUTERS GESTIONS ENVIOS*/}
-        <Route path="envios" element={<Envios />} />
 
         {/*ROUTERS RUTAS*/}
-        <Route path="rutas" element={<Rutas />} />
+        <Route path="rutas" element={<RutasConductor />} />
+
+        {/* ROUTERS VEHICULOS */}
+        <Route path="vehiculos" element={<VehiculosConductor />} />
 
         {/* ROUTERS REPORTES */}
-        {<Route path="reportes" element={<Reportes />} />}
+        {<Route path="reportes" element={<ReportesConductor />} />}
 
         <Route path="ubicacion" element={<EstamosUbicadosEn />} />
         <Route path="/acerca_de" element={<AcercaDe />} />

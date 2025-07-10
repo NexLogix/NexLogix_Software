@@ -45,14 +45,14 @@ const RouterContent = () => {
                     }
                 />
 
-                {/* RUTAS PROTEGIDAS - EMPLEADO */}
+                {/* RUTAS PROTEGIDAS - EMPLEADO Y CONDUCTOR */}
                 <Route
-                    path="/Empleado/*" // Ruta base para todas las subrutas de Empleado, el asterisco permite subrutas anidadas
+                    path="/Empleado/*" // Ruta base para todas las subrutas de Empleado y Conductor, el asterisco permite subrutas anidadas
                     element={ /* Define el componente a renderizar para esta ruta */
 
-                      // Protege la ruta, solo permite acceso al rol Empleado
-                      <PrivateRoute allowedRoles={["Empleado"]}> 
-                          {/* Renderiza el componente con las subrutas de Empleado */}
+                      // Protege la ruta, permite acceso a roles Empleado y Conductor
+                      <PrivateRoute allowedRoles={["Empleado", "Conductor"]}> 
+                          {/* Renderiza el componente con las subrutas de Empleado/Conductor */}
                           <ProtectedRouteEmpleados /> 
                       </PrivateRoute>
                     }

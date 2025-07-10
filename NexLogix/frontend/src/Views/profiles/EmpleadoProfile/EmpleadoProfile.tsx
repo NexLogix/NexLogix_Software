@@ -21,14 +21,14 @@ const EmpleadoProfile = () => {
                    <Link className="nav-link active" to="/empleado">Inicio EMPLEADO</Link>
                   
                    {/* Opción Envíos con submenú */}
-                   <li className="nav-item position-relative ">
+                   {/*<li className="nav-item position-relative ">
                        <Link className="nav-link" data-bs-toggle="collapse" to="#enviosSubmenu" role="button" aria-expanded="false" aria-controls="enviosSubmenu">Envíos</Link>
                        <div className="collapse" id="enviosSubmenu">
                              <ul className="nav flex-column ms-3">
                                  <Link className="nav-link" to="/empleado/envios">Ver Envíos</Link>
                              </ul>
                        </div>
-                   </li>
+                   </li>*/}
 
                    {/* Opción Rutas con submenú */}
                    <li className="nav-item">
@@ -36,6 +36,16 @@ const EmpleadoProfile = () => {
                          <div className="collapse" id="RutasSubmenu">
                                <ul className="nav flex-column ms-3">
                                  <Link className="nav-link" to="/empleado/rutas">Ver lista de rutas</Link>
+                               </ul>
+                         </div>
+                   </li>
+
+                   {/* Opción Vehículos */}
+                   <li className="nav-item">
+                         <Link className="nav-link" data-bs-toggle="collapse" to="#VehiculosSubmenu"  role="button" aria-expanded="false"  aria-controls="VehiculosSubmenu" >Vehículos</Link>
+                         <div className="collapse" id="VehiculosSubmenu">
+                               <ul className="nav flex-column ms-3">
+                                 <Link className="nav-link" to="/empleado/vehiculos">Ver mis vehículos</Link>
                                </ul>
                          </div>
                    </li>
