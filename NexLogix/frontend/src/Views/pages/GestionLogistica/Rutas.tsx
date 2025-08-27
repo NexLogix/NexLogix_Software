@@ -1,3 +1,5 @@
+import '../../Styles/NavBar/plantilla.css';
+// import '../../Styles/Home/TablesStyle.css'
 import { useState, useEffect } from "react";
 import { RutasController } from "../../../Controllers/Rutas/RutasController";
 import { 

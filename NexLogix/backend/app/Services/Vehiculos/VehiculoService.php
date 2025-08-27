@@ -141,7 +141,7 @@ class VehiculoService implements IVehiculoService
                 ->firstOrFail();
 
             $vehiculo->delete();
-
+    
             return [
                 'success' => true,
                 'message' => 'Vehículo eliminado correctamente',
