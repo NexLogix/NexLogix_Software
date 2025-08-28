@@ -1,0 +1,73 @@
+.crear-reporte-container {
+  width: 100%; /* Cambiado de 120% a 100% */
+  max-width: 100%; /* Asegura que no exceda el contenedor padre */
+  box-sizing: border-box;
+  background: #161625;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden; /* Evita desbordamiento horizontal */
+  padding: 2vw; /* Añadido para mejor espaciado */
+}
+
+.crear-reporte-card {
+  background-color: #232c42;
+  border-radius: 16px;
+  border: 1px solid #3a4a6a;
+  color: #e5e5e5;
+  width: 100%;
+  max-width: 100%; /* Reforzado para no exceder */
+  min-width: 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+  box-sizing: border-box; /* Asegura que padding/border no afecten el ancho */
+}
+
+.crear-reporte-card .card-body {
+  background-color: #232c42;
+}
+
+.crear-reporte-card .form-label {
+  color: #fff;
+}
+
+.crear-reporte-card .form-control,
+.crear-reporte-card select,
+.crear-reporte-card textarea {
+  background-color: #161625;
+  color: #e5e5e5;
+  border: 1px solid #3a4a6a;
+  box-sizing: border-box; /* Asegura consistencia */
+}
+
+.crear-reporte-card .form-control::placeholder {
+  color: #cccccc;
+}
+
+.crear-reporte-card .btn-success {
+  min-width: 140px;
+}
+
+.crear-reporte-card .text-danger {
+  font-size: 0.95rem;
+}
+
+/* Botón atrás arriba a la derecha */
+.crear-reporte-back-btn {
+  position: absolute;
+  top: 2vw;
+  right: 4vw;
+  z-index: 10;
+}
+
+/* Responsivo para pantallas pequeñas */
+@media (max-width: 768px) {
+  .crear-reporte-container {
+    padding: 2vw;
+  }
+  .crear-reporte-back-btn {
+    top: 2vw;
+    right: 2vw;
+  }
+  .crear-reporte-card {
+    padding: 0;
+  }
+}

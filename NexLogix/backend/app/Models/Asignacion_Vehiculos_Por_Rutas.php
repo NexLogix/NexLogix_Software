@@ -1,0 +1,33 @@
+<?php
+
+namespace App\Models;
+
+//RELACION N:1 con vehiculos y rutas
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Asignacion_Vehiculos_Por_Rutas extends Model
+{
+    use HasFactory;
+
+    public $timestamps = false;
+
+    protected $table = 'Asignacion_Vehiculos_Por_Rutas';
+    protected $primaryKey = 'idAsignacionVehiculoRuta';
+
+    protected $fillable = [
+        'fechaAsignacionInicio', 'fechaAsignacionFinalizacion', 'idVehiculo', 'idRuta',
+    ];
+
+    // Cada asignación pertenece a un vehículo
+    public function vehiculoAsignado()
+    {
+        return $this->belongsTo(Vehiculos::class, 'idVehiculo', 'idVehiculo');
+    }
+
+    // Cada asignación pertenece a una ruta
+    public function rutaAsignada()
+    {
+        return $this->belongsTo(Rutas::class, 'idRuta', 'idRuta');
+    }
+}

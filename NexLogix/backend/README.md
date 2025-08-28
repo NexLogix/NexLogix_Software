@@ -151,64 +151,41 @@ $this->app->bind(IUserService::class, UserService::class);
 
 ---
 
-## 📚 Estado actual del desarrollo
+## Listado de Gestiones Backend
+- Se marca con X las gestiones que ya fueron revisadas y sus metodos http funcionan correctamente.
+- Las que no tienen X estan siendo actualizadas o se estan probando su funcionalidad acorde al sistema.
 
-* [x] Gestion de autenticacion, Login, usuarios, roles, auditoría base implementados.
-* [x] Gestion de envios, rutas, ciudades, recogidas, entregas con sus respectivas auditorias completadas.
-* [ ] Capa de Excepciones en proceso, es espera que todos los services y useCases los tengas para que se documenten todos los metodos HTTP
-* [ ] Gestion de reportes (en desarrollo).
-* [x] Vehículos y Asignación de Rutas (en desarrollo).
-* [ ] Migración completa de dependencias a interfaces (en curso).
-* [ ] Validaciones están siendo migradas 100% a los UseCases.
-
----
-
-## 📚 Pendientes de Implementación
-
-- ✅ Migración progresiva hacia **inyección de dependencias**, como ya se ha realizado en módulos de **Reportes** y **Roles**.
-- ⚠️ Centralizar la **validación de datos** en los **UseCases**. Los Services no deben validar solicitudes.
-- 🔒 Evitar el **acceso directo a Eloquent** fuera de los Services.
-- 📁 Las rutas deben mantenerse **limpias de lógica**, delegando toda operación a su UseCase correspondiente.
-- 📛 Usar nombres consistentes para clases clave: `EntidadService`, `EntidadUseCase`, `EntidadRepository`.
-- 🛠 Aplicar validaciones robustas en módulos como **Gestión**, **Settings** y **Configuración general del sistema**.
-- 🧠 Implementar los **principios SOLID** de forma completa en todas las capas del sistema.
-- 🧩 Aplicar **patrones de diseño** clásicos como:
-  - Factory
-  - Strategy
-  - Repository
-  - Observer
-- ♻️ Incorporar **patrones de resiliencia**:
-  - Circuit Breaker
-  - Retry Policy
-  - Fallback Handlers
-- 🧯 Consolidar el manejo **centralizado y específico de excepciones**, categorizadas por tipo de error (HTTP, DB, lógica, etc.).
+- [x] Gestión Asignacion Rutas Por Ciudades - IN PROGRESS
+- [x] Gestión Asignacion Rutas Por Vehiculos
+- [x] Gestión Asignacion Conductores por Vehiculos
+- [x] Gestión Areas
+- [x] Gestión Audit Logs
+- [x] Gestión Categoría Envios
+- [x] Gestión Ciudades
+- [x] Gestión Entregas
+- [x] Gestión Envios
+- [x] Gestión Estado
+- [x] Gestión Puestos
+- [x] Gestión Recogidas
+- [x] Gestión Reportes
+- [x] Gestión Roles
+- [x] Gestión Conductores
+- [x] Gestión Rutas
+- [x] Gestión Usuarios
+- [x] Gestión Vehículos
 
 ---
 
-## 🎯 Objetivos a Corto y Mediano Plazo
+# NOTA:
+Para la logica de negocio se plantea esta idea:
 
-### 🔐 Gestión de Usuario Autenticado
-- Permitir que cada **usuario autenticado** pueda:
-  - 🔁 Cambiar su **contraseña**.
-  - ✏️ Editar su **información personal**.
-- Estas funciones estarán protegidas por autenticación activa (JWT o sesión verificada).
+- Cuando se registra un envío, se deja pendiente la fecha de recogida. Esta fecha será asignada por el sistema en el momento en que el conductor marque que ha llegado al punto de recogida. En ese instante:
 
-### 📡 Events & Listeners para Estados HTTP
-- Implementar **eventos** y **escuchas (listeners)** para manejar reacciones ante códigos HTTP:
-  - `1xx` – Informativos
-  - `3xx` – Redirecciones
-  - `4xx` – Errores del cliente
-  - `5xx` – Errores del servidor
-- Esto soportará **tolerancia a fallos y resiliencia del sistema** en tiempo real.
+El sistema actualizará el estado de la ruta a "En recogida".
 
-### 🦴 Principios de Skeleton (estructura base)
-- Aplicar los **10 principios de Skeleton** para mejorar la organización y legibilidad del código.
+El sistema actualizará el estado del envío a "En recogida".
 
-### 🛡️ Ciberseguridad Aplicada
-- Iniciar implementación de **medidas de seguridad**:
-  - Protección contra CSRF, XSS, SQL Injection (aunque esta ya esta hecha, debe de reforzarse).
-  - Control de sesiones activas y múltiples dispositivos.
-  - Autenticación reforzada.
-  - Cifrado avanzado de contraseñas y tokens.
+Posteriormente, transcurridos aproximadamente 10 a 20 minutos, el sistema cambiará automáticamente el estado del envío y de la ruta a "En ruta".
 
----
+Este mismo flujo se aplicará durante el proceso de entrega, así como cuando el conductor notifique que se dirige a realizar una devolución.
+

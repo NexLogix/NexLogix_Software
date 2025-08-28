@@ -18,8 +18,10 @@ class RecogidaUseCase implements IRecogidaUseCase
     public function handleCreateRecogida(array $data): array
     {
         $validator = Validator::make($data, [
-            "fechaRecogidaSeleccionada"  => "required|date",
-            "fechaRecogidaFinal"         => "sometimes|date",
+            //se pone este formato date_format:Y-m-d H:i:s ya que en la DB esta como datetime,
+            // ejemplo = "fechaRecogidaSeleccionada": "2024-06-17 14:30:00"
+            "fechaRecogidaSeleccionada"  => "required|date_format:Y-m-d H:i:s",
+            "fechaRecogidaFinal"         => "sometimes|date_format:Y-m-d H:i:s",
             "direccionRecogida"          => "required|string|max:255",
             'idCiudad'                   => 'required|numeric|min:1|exists:ciudades,idCiudad',
         ]);
@@ -40,8 +42,8 @@ class RecogidaUseCase implements IRecogidaUseCase
     public function handleUpdateSpecificSection_R(int $id, array $data): array
     {
         $validator = Validator::make($data, [
-            "fechaRecogidaSeleccionada"  => "sometimes|date",
-            "fechaRecogidaFinal"         => "sometimes|date",
+            "fechaRecogidaSeleccionada"  => "sometimes|date_format:Y-m-d H:i:s",
+            "fechaRecogidaFinal"         => "sometimes|date_format:Y-m-d H:i:s",
             "direccionRecogida"          => "sometimes|string|max:255",
             'idCiudad'                   => 'sometimes|numeric|min:1|exists:ciudades,idCiudad',
         ]);

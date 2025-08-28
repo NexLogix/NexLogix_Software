@@ -44,8 +44,8 @@ export const createArea = async (data: { nombreArea: string; descripcionArea?: s
     throw new Error('No autenticado');
   }
   try {
-    console.log('createArea: Enviando solicitud a', `${BASE_URL}/gestion_areas/crear_area`, 'con datos:', data);
-    const response: AxiosResponse<IArea_ApiResponse<IArea>> = await axios.post(`${BASE_URL}/gestion_areas/crear_area`, data, {
+    console.log('createArea: Enviando solicitud a', `${BASE_URL}/gestion_areas`, 'con datos:', data);
+    const response: AxiosResponse<IArea_ApiResponse<IArea>> = await axios.post(`${BASE_URL}/gestion_areas`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
@@ -77,8 +77,8 @@ export const updateArea = async (id: number, data: { nombreArea: string; descrip
     throw new Error('No autenticado');
   }
   try {
-    console.log('updateArea: Enviando solicitud a', `${BASE_URL}/gestion_areas/editar_area/${id}`, 'con datos:', data);
-    const response: AxiosResponse<IArea_ApiResponse<IArea>> = await axios.put(`${BASE_URL}/gestion_areas/editar_area/${id}`, data, {
+    console.log('updateArea: Enviando solicitud a', `${BASE_URL}/gestion_areas/${id}`, 'con datos:', data);
+    const response: AxiosResponse<IArea_ApiResponse<IArea>> = await axios.put(`${BASE_URL}/gestion_areas/${id}`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
@@ -110,8 +110,8 @@ export const updatePartialArea = async (id: number, data: Partial<{ nombreArea: 
     throw new Error('No autenticado');
   }
   try {
-    console.log('updatePartialArea: Enviando solicitud a', `${BASE_URL}/gestion_areas/actualizar_campos_especificos_area/${id}`, 'con datos:', data);
-    const response: AxiosResponse<IArea_ApiResponse<IArea>> = await axios.patch(`${BASE_URL}/gestion_areas/actualizar_campos_especificos_area/${id}`, data, {
+    console.log('updatePartialArea: Enviando solicitud a', `${BASE_URL}/gestion_areas/${id}`, 'con datos:', data);
+    const response: AxiosResponse<IArea_ApiResponse<IArea>> = await axios.patch(`${BASE_URL}/gestion_areas/${id}`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
@@ -143,8 +143,8 @@ export const deleteArea = async (id: number): Promise<IArea_ApiResponse<null>> =
     throw new Error('No autenticado');
   }
   try {
-    console.log('deleteArea: Enviando solicitud a', `${BASE_URL}/gestion_areas/eliminar_area/${id}`);
-    const response: AxiosResponse<IArea_ApiResponse<null>> = await axios.delete(`${BASE_URL}/gestion_areas/eliminar_area/${id}`, {
+    console.log('deleteArea: Enviando solicitud a', `${BASE_URL}/gestion_areas/${id}`);
+    const response: AxiosResponse<IArea_ApiResponse<null>> = await axios.delete(`${BASE_URL}/gestion_areas/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     console.log('deleteArea: Respuesta recibida:', JSON.stringify(response.data, null, 2));
@@ -162,5 +162,26 @@ export const deleteArea = async (id: number): Promise<IArea_ApiResponse<null>> =
     }
     console.error('deleteArea: Error desconocido:', error);
     throw new Error('Error desconocido al eliminar el área');
+  }
+};
+
+// GET: Obtener un área por ID
+export const fetchAreaById = async (id: number): Promise<IArea_ApiResponse<IArea>> => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    throw new Error('No autenticado');
+  }
+  try {
+    const response: AxiosResponse<IArea_ApiResponse<IArea>> = await axios.get(`${BASE_URL}/gestion_areas/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const status = error.response?.status ?? 500;
+      const message = error.response?.data?.message ?? 'Error al buscar el área';
+      throw new Error(`Error ${status}: ${message}`);
+    }
+    throw new Error('Error desconocido al buscar el área');
   }
 };

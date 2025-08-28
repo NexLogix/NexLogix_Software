@@ -27,7 +27,7 @@ export const fetchCiudades = async (): Promise<ICiudad_ApiResponse<ICiudad[]>> =
         : message;
       console.error(`fetchCiudades: Error ${status}: ${errorMessage}`, error.response?.data);
       if (status === 401) {
-        window.location.href = '/login';
+        window.location.href = '/';
       }
       throw new Error(`Error ${status}: ${errorMessage}`);
     }
@@ -37,15 +37,15 @@ export const fetchCiudades = async (): Promise<ICiudad_ApiResponse<ICiudad[]>> =
 };
 
 // GET: Obtener una ciudad por ID
-export const fetchCiudadById = async (id: number): Promise<ICiudad_ApiResponse<ICiudad>> => {
+export const fetchCiudadById = async (id: string | number): Promise<ICiudad_ApiResponse<ICiudad>> => {
   const token = localStorage.getItem('token');
   if (!token) {
     console.error('fetchCiudadById: No se encontró token en localStorage');
     throw new Error('No autenticado');
   }
   try {
-    console.log('fetchCiudadById: Enviando solicitud a', `${BASE_URL}/gestion_ciudades/buscar_ciudad/${id}`);
-    const response: AxiosResponse<ICiudad_ApiResponse<ICiudad>> = await axios.get(`${BASE_URL}/gestion_ciudades/buscar_ciudad/${id}`, {
+    console.log('fetchCiudadById: Enviando solicitud a', `${BASE_URL}/gestion_ciudades/${id}`);
+    const response: AxiosResponse<ICiudad_ApiResponse<ICiudad>> = await axios.get(`${BASE_URL}/gestion_ciudades/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     console.log('fetchCiudadById: Respuesta recibida:', JSON.stringify(response.data, null, 2));
@@ -77,8 +77,8 @@ export const createCiudad = async (data: { nombreCiudad: string; costoPor_Ciudad
     throw new Error('No autenticado');
   }
   try {
-    console.log('createCiudad: Enviando solicitud a', `${BASE_URL}/gestion_ciudades/crear_ciudad`, 'con datos:', data);
-    const response: AxiosResponse<ICiudad_ApiResponse<ICiudad>> = await axios.post(`${BASE_URL}/gestion_ciudades/crear_ciudad`, data, {
+    console.log('createCiudad: Enviando solicitud a', `${BASE_URL}/gestion_ciudades`, 'con datos:', data);
+    const response: AxiosResponse<ICiudad_ApiResponse<ICiudad>> = await axios.post(`${BASE_URL}/gestion_ciudades`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
@@ -110,8 +110,8 @@ export const updateCiudad = async (id: number, data: { nombreCiudad: string; cos
     throw new Error('No autenticado');
   }
   try {
-    console.log('updateCiudad: Enviando solicitud a', `${BASE_URL}/gestion_ciudades/editar_ciudad/${id}`, 'con datos:', data);
-    const response: AxiosResponse<ICiudad_ApiResponse<ICiudad>> = await axios.put(`${BASE_URL}/gestion_ciudades/editar_ciudad/${id}`, data, {
+    console.log('updateCiudad: Enviando solicitud a', `${BASE_URL}/gestion_ciudades/${id}`, 'con datos:', data);
+    const response: AxiosResponse<ICiudad_ApiResponse<ICiudad>> = await axios.put(`${BASE_URL}/gestion_ciudades/${id}`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
@@ -143,8 +143,8 @@ export const updatePartialCiudad = async (id: number, data: Partial<{ nombreCiud
     throw new Error('No autenticado');
   }
   try {
-    console.log('updatePartialCiudad: Enviando solicitud a', `${BASE_URL}/gestion_ciudades/editar_parcial_ciudad/${id}`, 'con datos:', data);
-    const response: AxiosResponse<ICiudad_ApiResponse<ICiudad>> = await axios.patch(`${BASE_URL}/gestion_ciudades/editar_parcial_ciudad/${id}`, data, {
+    console.log('updatePartialCiudad: Enviando solicitud a', `${BASE_URL}/gestion_ciudades/${id}`, 'con datos:', data);
+    const response: AxiosResponse<ICiudad_ApiResponse<ICiudad>> = await axios.patch(`${BASE_URL}/gestion_ciudades/${id}`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
@@ -176,8 +176,8 @@ export const deleteCiudad = async (id: number): Promise<ICiudad_ApiResponse<null
     throw new Error('No autenticado');
   }
   try {
-    console.log('deleteCiudad: Enviando solicitud a', `${BASE_URL}/gestion_ciudades/eliminar_ciudad/${id}`);
-    const response: AxiosResponse<ICiudad_ApiResponse<null>> = await axios.delete(`${BASE_URL}/gestion_ciudades/eliminar_ciudad/${id}`, {
+    console.log('deleteCiudad: Enviando solicitud a', `${BASE_URL}/gestion_ciudades/${id}`);
+    const response: AxiosResponse<ICiudad_ApiResponse<null>> = await axios.delete(`${BASE_URL}/gestion_ciudades/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     console.log('deleteCiudad: Respuesta recibida:', JSON.stringify(response.data, null, 2));

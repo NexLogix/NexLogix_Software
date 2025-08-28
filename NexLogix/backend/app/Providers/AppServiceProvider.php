@@ -5,6 +5,8 @@ namespace App\Providers;
 // Importacion de Interfaces
 use App\Models\Interfaces\Areas\IAreaService;
 use App\Models\Interfaces\Areas\IAreaUseCase;
+use App\Models\Interfaces\AsignacionRutas\IAsignacionRutasService;
+use App\Models\Interfaces\AsignacionRutas\IAsignacionRutasUseCase;
 use App\Models\Interfaces\CategoriaEnvios\ICategoriaEnviosService;
 use App\Models\Interfaces\CategoriaEnvios\ICategoriaEnviosUseCase;
 use App\Models\Interfaces\Ciudades\ICiudadesService;
@@ -47,9 +49,20 @@ use App\Models\Interfaces\Rutas\IRutasService;
 use App\Models\Interfaces\Rutas\IRutasUseCase;
 use App\Models\Interfaces\Vehiculos\IVehiculoService;
 use App\Models\Interfaces\Vehiculos\IVehiculoUseCase;
+use App\Services\AsignacionRutas\AsignacionRutasService;
 use App\Services\Rutas\RutasService;
 use App\Services\Vehiculos\VehiculoService;
+use App\UseCases\AsignacionRutas\AsignacionRutasUseCase;
 use App\UseCases\Rutas\RutasUseCase;
+
+// GESTION REPORTES
+use App\UseCases\Reportes\ReportesUseCase;
+use App\Models\Interfaces\Reportes\IReportesService;
+use App\Services\Reportes\ReportesService;
+use App\Models\Interfaces\Reportes\IReportes_UseCases;
+
+
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -121,6 +134,13 @@ class AppServiceProvider extends ServiceProvider
             return new VehiculosUseCase($app->make(IVehiculoService::class));
         });
 
+        // ASIGNACION RUTAS
+
+        // REPORTES
+        $this->app->bind(IReportesService::class, ReportesService::class);
+        $this->app->bind(IReportes_UseCases::class, function ($app) {
+            return new ReportesUseCase($app->make(IReportesService::class));
+        });
     }
 
 

@@ -22,8 +22,8 @@ export const useLoginUseCase = () => {
           console.log("[useLoginUseCase] Redirigiendo a /Manager");
           localStorage.setItem("authRedirect", "true");
           navigate('/Manager', { replace: true });
-        } else if (role === 'Empleado') {
-          console.log("[useLoginUseCase] Redirigiendo a /Empleado");
+        } else if (role === 'Empleado' || role === 'Conductor') {
+          console.log(`[useLoginUseCase] Redirigiendo a /Empleado para rol: ${role}`);
           localStorage.setItem("authRedirect", "true");
           navigate('/Empleado', { replace: true });
         } else {

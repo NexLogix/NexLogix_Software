@@ -53,7 +53,7 @@ class UserUseCase implements IUserUseCase
     POR SER USER no usaremos patch*/
 
     // PATCH USE CASE
-    public function handlePartialUser(int $id, array $data): array
+    public function handlePartialUser(string $id, array $data): array
     {
         // Validar los datos enviados (los campos no son obligatorios)
         $validator = Validator::make($data, [

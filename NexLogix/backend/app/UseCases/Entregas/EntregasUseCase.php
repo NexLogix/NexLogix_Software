@@ -17,8 +17,10 @@ class EntregasUseCase implements IEntregaUseCase
     public function handleCreateEntrega(array $data): array
     {
         $validator = Validator::make($data, [
-            "fechaEntregaSeleccionada"  => "required|date",
-            "fechaEntregaFinal"         => "sometimes|date",
+            //se pone este formato date_format:Y-m-d H:i:s ya que en la DB esta como datetime,
+            // ejemplo = "fechaEntregaSeleccionada": "2024-06-17 14:30:00"
+            "fechaEntregaSeleccionada"  => "required|date_format:Y-m-d H:i:s",
+            "fechaEntregaFinal"         => "sometimes|date_format:Y-m-d H:i:s",
             "direccionEntrega"          => "required|string|max:255",
             'idCiudad'                  => 'required|numeric|min:1|exists:ciudades,idCiudad',
         ]);
@@ -37,10 +39,10 @@ class EntregasUseCase implements IEntregaUseCase
     public function handleUpdateSpecificSection_R(int $id, array $data): array
     {
         $validator = Validator::make($data, [
-            "fechaRecogidaSeleccionada"  => "sometimes|date",
-            "fechaRecogidaFinal"         => "sometimes|date",
-            "direccionRecogida"          => "sometimes|string|max:255",
-            "idCiudad"                   => "sometimes|numeric|min:0",
+            "fechaEntregaSeleccionada"  => "sometimes|date_format:Y-m-d H:i:s",
+            "fechaEntregaFinal"         => "sometimes|date_format:Y-m-d H:i:s",
+            "direccionEntrega"          => "sometimes|string|max:255",
+            'idCiudad'                  => 'sometimes|numeric|min:1|exists:ciudades,idCiudad',
         ]);
 
         if ($validator->fails()) {

@@ -22,14 +22,21 @@ class Rutas extends Model
     // Se especifican los campos que pueden ser asignados de forma masiva
     protected $fillable = [
         'nombreRuta',
-        'horaEntrada',
-        'horaSalida',
-        'idCiudad',
+        'horaInicioRuta',
+        'horaFinalizacionRuta',
+        'descripcion',
+        'estadoRuta',
+        'novedades',
+        'fechaCreacionRuta',
     ];
 
-    // Relación: muchas rutas pertenecen a una ciudad
-    // Se define la relación inversa con el modelo Ciudades usando la clave foránea 'idCiudad'
-    public function ciudades() {
-        return $this->belongsTo(Ciudades::class, 'idCiudad');
+    public function Asignacion_Vehiculos_Por_Rutas()
+    {
+        return $this->hasMany(Asignacion_Vehiculos_Por_Rutas::class, 'idRuta', 'idRuta');
+    }
+
+    public function Asignacion_Rutas_Por_Ciudades()
+    {
+        return $this->hasMany(Asignacion_Rutas_Por_Ciudades::class, 'idRuta', 'idRuta');
     }
 }

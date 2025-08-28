@@ -3,5 +3,5 @@ namespace App\Models\Interfaces\Auditoria;
 
 interface IAudit_log_UseCase
 {
-    public function handleUpdateAuditory(int $id, array $data): array;
+    public function handleUpdateAuditory(int|string $idOrValue, array $data): array;
 }

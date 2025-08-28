@@ -28,14 +28,4 @@ class Roles extends Model
             'idRoles', // PK de la tabla Roles, cuando dice localKey es a la PK de la tabla Roles
         );
     }
-
-    // Relación muchos a muchos con la tabla intermedia permisosgeneralespor_role
-    public function permisosGenerales() {
-        return $this->belongsToMany(
-            PermisosGenerales::class,
-            'permisosgeneralespor_role',
-            'idRole',
-            'idPermisosGenerales'
-        );
-    }
 }

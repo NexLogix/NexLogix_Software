@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\vehiculos;
+namespace App\Http\Controllers\Vehiculos;
 
 use App\Events\ResourceAction;
 use App\Http\Controllers\Controller;
@@ -29,9 +29,9 @@ class VehiculosController extends Controller
     }
 
     // GET BY ID
-    public function showVehiculoById(int $id)
+    public function showVehiculoById($value)
     {
-        $response = $this->vehiculo_service->getVehiculoById($id);
+        $response = $this->vehiculo_service->getVehiculoById($value);
         // Retorna la respu~esta en formato JSON con el código de estado
         return response()->json($response, $response['status']);
     }
@@ -57,9 +57,9 @@ class VehiculosController extends Controller
     }
 
     // PATCH CONTROLLER
-    public function updateVehiculo(Request $request, int $id)
+    public function updateVehiculo(Request $request, string $idOrPlaca)
     {
-        $response = $this->vehiculo_use_case->handleUpdateVehiculo($id, $request->all());
+        $response = $this->vehiculo_use_case->handleUpdateVehiculo($idOrPlaca, $request->all());
         if ($response['success']) {
             $userId = Auth::id(); // Obtiene el ID del usuario autenticado
             if ($userId) {
@@ -68,7 +68,7 @@ class VehiculosController extends Controller
                     $userId,
                     'Solicitud PATCH',
                     'Gestion Vehiculos',
-                    $id,
+                    $idOrPlaca,
                     ['data' => $request->all()]
                 ));
             }
@@ -77,9 +77,9 @@ class VehiculosController extends Controller
     }
 
     // DELETE CONTROLLER
-    public function deleteVehiculo(int $id)
+    public function deleteVehiculo(string $idOrPlaca)
     {
-        $response = $this->vehiculo_service->deleteVehiculo($id);
+        $response = $this->vehiculo_service->deleteVehiculo($idOrPlaca);
         if ($response['success']) {
             $userId = Auth::id(); // Obtiene el ID del usuario autenticado
             if ($userId) {
@@ -88,7 +88,7 @@ class VehiculosController extends Controller
                     $userId,
                     'Solicitud DELETE',
                     'Gestion Vehiculos',
-                    $id,
+                    $idOrPlaca,
                     []
                 ));
             }

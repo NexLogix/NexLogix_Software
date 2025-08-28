@@ -20,6 +20,76 @@ Route::group([
         ->middleware('auth:api');
 });
 
+
+
+//
+/// GESTION ASIGNACION DE CONDUCTORES POR VEHICULOS
+//
+
+use App\Http\Controllers\ACPVController\ACPVController;
+Route::group([
+    'middleware' => ['api', 'auth:api'],
+    'prefix' => 'gestion_asignacion_conductores_por_vehiculos'
+], function () {
+    Route::get('/', [ACPVController::class, 'showAll'])
+        ->middleware('role:2');
+    Route::get('/{id}', [ACPVController::class, 'showBySearching'])
+        ->middleware('role:2');
+    Route::post('/', [ACPVController::class, 'create'])
+        ->middleware('role:2');
+    /*Route::put('/{id}', [ACPVController::class, ''])
+        ->middleware('role:2');*/
+    Route::patch('/{id}', [ACPVController::class, 'update'])
+        ->middleware('role:2');
+    Route::delete('/{id}', [ACPVController::class, 'delete'])
+        ->middleware('role:2');
+});
+
+//
+/// GESTION ASIGNACION DE RUTAS POR CIUDADES
+//
+
+use App\Http\Controllers\Asignacion_Rutas_Por_Ciudades\ARPCController;
+
+Route::group([
+    'middleware' => ['api', 'auth:api'],
+    'prefix' => 'gestion_asignacion_rutas_por_ciudades'
+], function () {
+    Route::get('/', [ARPCController::class, 'showAll'])
+        ->middleware('role:2,3');
+    Route::get('/{id}', [ARPCController::class, 'showByID'])
+        ->middleware('role:2,3');
+    Route::post('/', [ARPCController::class, 'createARPC'])
+        ->middleware('role:2');
+    Route::patch('/{id}', [ARPCController::class, 'updatePartialARPC'])
+        ->middleware('role:2');
+    Route::delete('/{id}', [ARPCController::class, 'deleteARPC'])
+        ->middleware('role:2');
+});
+//
+/// GESTION ASIGNACION DE VEHICULOS POR RUTAS
+//
+
+use App\Http\Controllers\AVPRcontroller\AsignacionVehiculosPorRutasController;
+
+Route::group([
+    'middleware' => ['api', 'auth:api'],
+    'prefix' => 'gestion_asignacion_vehiculos_por_rutas' // Cambiar el prefix
+], function () {
+    Route::get('/', [AsignacionVehiculosPorRutasController::class, 'showAll_AVPR'])
+        ->middleware('role:2');
+    Route::get('/{id}', [AsignacionVehiculosPorRutasController::class, 'show_AR_ById'])
+        ->middleware('role:2');
+    Route::post('/', [AsignacionVehiculosPorRutasController::class, 'create_AVPR'])
+        ->middleware('role:2');
+    Route::patch('/{id}', [AsignacionVehiculosPorRutasController::class, 'update_AVPR'])
+        ->middleware('role:2');
+    Route::delete('/{id}', [AsignacionVehiculosPorRutasController::class, 'delete_AVPR'])
+        ->middleware('role:2');
+});
+
+
+
 //
 /*
     La razon por la cual en todas las rutas se pone auth:api, es para que esta ruta solo este funcionando si esta autenticada,
@@ -27,10 +97,11 @@ Route::group([
     funciones y permisos por el role.
 */
 //
+
 //----------------------------------------------------------------------------------------------------------------------------------------
 
 //
-/// USERS, con rutas
+/// GESTION USUARIOS
 //
 
 use App\Http\Controllers\Users\UsersController;
@@ -45,14 +116,14 @@ Route::group([
     'prefix' => 'gestion_usuarios'
 ], function () {
     Route::get('/', [UsersController::class, 'showAll'])
-        ->middleware('role:2'); // Accede Manager y Empleado
-    Route::get('buscar_usuario/{id}', [UsersController::class, 'showByID'])
+        ->middleware('role:2'); // Accede Manager
+    Route::get('/{id}', [UsersController::class, 'showByID'])
         ->middleware('role:2'); // Solo accedeManager
-    Route::post('/crear_usuario', [UsersController::class, 'createUser'])
+    Route::post('/', [UsersController::class, 'createUser'])
         ->middleware('role:2'); // Solo Manager
-    Route::patch('/actualizar_campos_especificos_usuario/{id}', [UsersController::class, 'updatePartialUser'])
+    Route::patch('/{id}', [UsersController::class, 'updatePartialUser'])
         ->middleware('role:2'); // Solo Manager
-    Route::delete('/eliminar_usuario/{id}', [UsersController::class, 'deleteUser'])
+    Route::delete('/{id}', [UsersController::class, 'deleteUser'])
         ->middleware('role:2'); // Solo Manage
 });
 
@@ -88,13 +159,11 @@ Route::group([
         ->middleware('role:2,3'); //  Manager y Empleado
     Route::get('/{id}', [RoleControllers::class, 'showByID'])
         ->middleware('role:2'); // Solo Manager
-    Route::post('/crear_role', [RoleControllers::class, 'createRole'])
+    Route::post('/', [RoleControllers::class, 'createRole'])
         ->middleware('role:2'); // Solo Manager
-    Route::put('editar_role/{id}', [RoleControllers::class, 'updateRole'])
+    Route::patch('/{id}', [RoleControllers::class, 'updateRole'])
         ->middleware('role:2'); // Solo Manager
-    Route::patch('editar_campos_especificos_role/{id}', [RoleControllers::class, 'updatePartialRole'])
-        ->middleware('role:2'); // Solo Manager
-    Route::delete('eliminar_role/{id}', [RoleControllers::class, 'deleteRole'])
+    Route::delete('/{id}', [RoleControllers::class, 'deleteRole'])
         ->middleware('role:2'); // Solo Manager
 });
 
@@ -112,13 +181,13 @@ Route::group([
         ->middleware('role:2'); // Manager y Empleado
     Route::get('/{id}', [AreasController::class, 'showByID'])
         ->middleware('role:2'); // Manager y Empleado
-    Route::post('/crear_area', [AreasController::class, 'createArea'])
+    Route::post('/', [AreasController::class, 'createArea'])
         ->middleware('role:2'); // Solo Manager
-    Route::put('/editar_area/{id}', [AreasController::class, 'updateArea'])
+    Route::put('/{id}', [AreasController::class, 'updateArea'])
         ->middleware('role:2'); // Solo Manager
-    Route::patch('/actualizar_campos_especificos_area/{id}', [AreasController::class, 'updatePartialArea'])
+    Route::patch('/{id}', [AreasController::class, 'updatePartialArea'])
         ->middleware('role:2'); // Solo Manager
-    Route::delete('/eliminar_area/{id}', [AreasController::class, 'deleteArea'])
+    Route::delete('/{id}', [AreasController::class, 'deleteArea'])
         ->middleware('role:2'); // Solo Manager
 });
 
@@ -133,39 +202,38 @@ Route::group([
 ], function () {
     Route::get('/', [PuestosController::class, 'showAll'])
         ->middleware('role:2,3'); // Manager y Empleado
-    Route::get('/buscar_puesto/{id}', [PuestosController::class, 'showByID'])
+    Route::get('/{id}', [PuestosController::class, 'showByID'])
         ->middleware('role:2,3'); // Manager y Empleado
-    Route::post('/crear_puesto', [PuestosController::class, 'createPuesto'])
+    Route::post('/', [PuestosController::class, 'createPuesto'])
         ->middleware('role:2'); // Solo Manager
-    Route::put('/editar_puesto/{id}', [PuestosController::class, 'updatePuesto'])
+    Route::put('/{id}', [PuestosController::class, 'updatePuesto'])
         ->middleware('role:2'); // Solo Manager
-    Route::patch('/actualizar_campos_especificos_puesto/{id}', [PuestosController::class, 'updatePartialPuesto'])
+    Route::patch('/{id}', [PuestosController::class, 'updatePartialPuesto'])
         ->middleware('role:2'); // Solo Manager
-    Route::delete('/eliminar_puesto/{id}', [PuestosController::class, 'deletePuesto'])
+    Route::delete('/{id}', [PuestosController::class, 'deletePuesto'])
         ->middleware('role:2'); // Solo Manager
 });
 
 
 //
-/// REPORTES // SIN RUTAS PROTEGIDAS Y SIN AUDITORIA, pendiente migrar a services, usecase y controller con sis interfaces
+/// REPORTES
 //
-use App\Http\Controllers\Reportes\GetReportesController;
-use App\Http\Controllers\Reportes\GetByIDReportesController;
-use App\Http\Controllers\Reportes\PostReportesController;
-use App\Http\Controllers\Reportes\UpdateReporteController;
-use App\Http\Controllers\Reportes\DeleteReporteController;
-use App\Http\Controllers\Reportes\PatchReportesController;
+use App\Http\Controllers\Reportes\ReportesController;
 
 Route::group([
-    'middleware' => 'api',
+    'middleware' => ['api', 'auth:api'],
     'prefix'=> 'gestion_reportes'
 ], function(){
-    Route::get('/', [GetReportesController::class, 'verReportes']);
-    Route::get('{id}', [GetByIDReportesController::class, 'showReporte']);
-    Route::post('/crear_reporte', [PostReportesController::class, 'handle']);
-    Route::put('/editar_reporte/{id}', [UpdateReporteController::class, 'updateReporte']);
-    Route::patch('/actualizar_campos_especificos_reportes/{id}', [PatchReportesController::class, 'updateReporte']);
-    Route::delete('/eliminar_reporte/{id}', action: [DeleteReporteController::class,'deleteReporte']);
+    Route::get('/', [ReportesController::class, 'getAllReportes'])
+        ->middleware('role:2,3'); // Manager y Empleado;
+    Route::get('/{id}', [ReportesController::class, 'getAllReportes_ById'])
+        ->middleware('role:2,3'); // Manager y Empleado;
+    Route::post('/', [ReportesController::class, 'create_Reportes'])
+        ->middleware('role:2,3'); // Manager y Empleado;
+    Route::patch('/{id}', [ReportesController::class, 'update_Reportes'])
+        ->middleware('role:2'); // Manager y Empleado;
+    Route::delete('/{id}',[ReportesController::class,'delete_Reportes'])
+        ->middleware('role:2'); // Manager y Empleado;
 });
 
 //
@@ -182,9 +250,9 @@ Route::group([
         ->middleware('role:2,3'); // Manager y Empleado
     Route::get('/{id}', [EstadoControllers::class, 'showOne'])
         ->middleware('role:2,3'); // Manager y Empleado
-    Route::post('/crear_estado', [EstadoControllers::class, 'createEstado'])
+    Route::post('/', [EstadoControllers::class, 'createEstado'])
         ->middleware('role:2'); // Solo Manager
-    Route::delete('/eliminar_estado/{id}', [EstadoControllers::class, 'deleteEstado'])
+    Route::delete('/{id}', [EstadoControllers::class, 'deleteEstado'])
         ->middleware('role:2'); // Solo Manager
 });
 
@@ -211,15 +279,15 @@ Route::group([
 ], function () {
     Route::get('/', [EnvioControllers::class, 'showAllEnvios'])
         ->middleware('role:2,3');
-    Route::get('/buscar_envio/{id}', [EnvioControllers::class, 'showEnvioById'])
+    Route::get('/{id}', [EnvioControllers::class, 'showEnvioById'])
         ->middleware('role:2,3');
-    Route::post('/crear_envio', [EnvioControllers::class, 'createEnvio'])
+    Route::post('/', [EnvioControllers::class, 'createEnvio'])
     ->middleware('role:2');
-    Route::put('/editar_envio/{id}', [EnvioControllers::class, 'updateEnvio'])
+    Route::put('/{id}', [EnvioControllers::class, 'updateEnvio'])
         ->middleware('role:2');
-    Route::patch('/actualizar_campos_especificos_envio/{id}', [EnvioControllers::class, 'updateSpecificSection'])
+    Route::patch('/{id}', [EnvioControllers::class, 'updateSpecificSection'])
         ->middleware('role:2');
-    Route::delete('/eliminar_envio/{id}', [EnvioControllers::class, 'deleteEnvio'])
+    Route::delete('/{id}', [EnvioControllers::class, 'deleteEnvio'])
         ->middleware('role:2');
 });
 
@@ -235,15 +303,15 @@ Route::group([
 ], function () {
     Route::get('/', action: [CE_Controller::class, 'showAllCE'])
         ->middleware('role:2,3');
-    Route::get('/buscar_ce/{id}', [CE_Controller::class, 'showCEById'])
+    Route::get('/{id}', [CE_Controller::class, 'showCEById'])
         ->middleware('role:2,3');
-    Route::post('/crear_ce', [CE_Controller::class, 'createCE'])
+    Route::post('/', [CE_Controller::class, 'createCE'])
     ->middleware('role:2,3');
-    Route::put('/editar_ce/{id}', [CE_Controller::class, 'updateCA'])
+    Route::put('/{id}', [CE_Controller::class, 'updateCA'])
         ->middleware('role:2');
-    Route::patch('/actualizar_campos_especificos_ce/{id}', [CE_Controller::class, 'updateSpecificSectionCE'])
+    Route::patch('/{id}', [CE_Controller::class, 'updateSpecificSectionCE'])
         ->middleware('role:2');
-    Route::delete('/eliminar_ce/{id}', [CE_Controller::class, 'deleteCE'])
+    Route::delete('/{id}', [CE_Controller::class, 'deleteCE'])
         ->middleware('role:2');
 });
 
@@ -258,15 +326,15 @@ Route::group([
 ], function () {
     Route::get('/', action: [ControllerCiudades::class, 'showAllCiudades'])
         ->middleware('role:2');
-    Route::get('/buscar_ciudad/{id}', [ControllerCiudades::class, 'showCiudadById'])
+    Route::get('/{id}', [ControllerCiudades::class, 'showCiudadById'])
         ->middleware('role:2');
-    Route::post('/crear_ciudad', [ControllerCiudades::class, 'createCiudad'])
+    Route::post('/', [ControllerCiudades::class, 'createCiudad'])
     ->middleware('role:2,3');
-    Route::put('/editar_ciudad/{id}', [ControllerCiudades::class, 'updateCiudad'])
+    Route::put('/{id}', [ControllerCiudades::class, 'updateCiudad'])
         ->middleware('role:2');
-    Route::patch('/editar_parcial_ciudad/{id}', [ControllerCiudades::class, 'updateSpecificSection'])
+    Route::patch('/{id}', [ControllerCiudades::class, 'updateSpecificSection'])
         ->middleware('role:2');
-    Route::delete('/eliminar_ciudad/{id}', [ControllerCiudades::class, 'deleteCiudades'])
+    Route::delete('/{id}', [ControllerCiudades::class, 'deleteCiudades'])
         ->middleware('role:2');
 });
 
@@ -281,13 +349,13 @@ Route::group([
 ], function () {
     Route::get('/', action: [RecogidasControllers::class, 'showAllRecogidas'])
         ->middleware('role:2,3');
-    Route::get('/buscar_recogida/{id}', [RecogidasControllers::class, 'showByIDRecogida'])
+    Route::get('/{id}', [RecogidasControllers::class, 'showByIDRecogida'])
         ->middleware('role:2,3');
-    Route::post('/crear_recogida', [RecogidasControllers::class, 'createRecogida'])
+    Route::post('/', [RecogidasControllers::class, 'createRecogida'])
     ->middleware('role:2,3');
-    Route::patch('/editar_recogida/{id}', [RecogidasControllers::class, 'updateSpecificSection_R'])
+    Route::patch('/{id}', [RecogidasControllers::class, 'updateSpecificSection_R'])
         ->middleware('role:2');
-    Route::delete('/eliminar_recogida/{id}', [RecogidasControllers::class, 'deleteRecogida'])
+    Route::delete('/{id}', [RecogidasControllers::class, 'deleteRecogida'])
         ->middleware('role:2');
 });
 
@@ -302,13 +370,13 @@ Route::group([
 ], function () {
     Route::get('/', action: [EntregasController::class, 'showAllEntregas'])
         ->middleware('role:2,3');
-    Route::get('/buscar_entrega/{id}', [EntregasController::class, 'showByIDEntrega'])
+    Route::get('/{id}', [EntregasController::class, 'showByIDEntrega'])
         ->middleware('role:2,3');
-    Route::post('/crear_entrega', [EntregasController::class, 'createEntrega'])
+    Route::post('/', [EntregasController::class, 'createEntrega'])
     ->middleware('role:2,3');
-    Route::patch('/editar_entrega/{id}', [EntregasController::class, 'updateSpecificSection_E'])
+    Route::patch('/{id}', [EntregasController::class, 'updateSpecificSection_E'])
         ->middleware('role:2');
-    Route::delete('/eliminar_entrega/{id}', [EntregasController::class, 'deleteEntrega'])
+    Route::delete('/{id}', [EntregasController::class, 'deleteEntrega'])
         ->middleware('role:2');
 });
 
@@ -324,15 +392,16 @@ Route::group([
 ], function () {
     Route::get('/', action: [RutasController::class, 'getAllRutas'])
         ->middleware('role:2');
-    Route::get('/buscar_ruta/{id}', [RutasController::class, 'getRutaByID'])
+    Route::get('/{id}', [RutasController::class, 'getRutaByID'])
         ->middleware('role:2,3');
-    Route::post('/crear_ruta', [RutasController::class, 'createRuta'])
+    Route::post('/', [RutasController::class, 'createRuta'])
     ->middleware('role:2');
-    Route::patch('/editar_ruta/{id}', [RutasController::class, 'updateRuta'])
+    Route::patch('/{id}', [RutasController::class, 'updateRuta'])
         ->middleware('role:2');
-    Route::delete('/eliminar_ruta/{id}', [RutasController::class, 'deleteRuta'])
+    Route::delete('/{id}', [RutasController::class, 'deleteRuta'])
         ->middleware('role:2');
 });
+
 
 //
 /// VEHICULOS
@@ -346,13 +415,37 @@ Route::group([
 ], function () {
     Route::get('/', [VehiculosController::class, 'showAllVehiculos'])
         ->middleware('role:2,3');
-    Route::get('/buscar_vehiculo/{id}', [VehiculosController::class, 'showVehiculoById'])
+    Route::get('/{value}', [VehiculosController::class, 'showVehiculoById'])
         ->middleware('role:2,3');
-    Route::post('/crear_vehiculo', [VehiculosController::class, 'createVehiculo'])
+    Route::post('/', [VehiculosController::class, 'createVehiculo'])
         ->middleware('role:2');
-    Route::patch('/editar_vehiculo/{id}', [VehiculosController::class, 'updateVehiculo'])
+    Route::patch('/{value}', [VehiculosController::class, 'updateVehiculo'])
         ->middleware('role:2');
-    Route::delete('/eliminar_vehiculo/{id}', [VehiculosController::class, 'deleteVehiculo'])
+    Route::delete('/{value}', [VehiculosController::class, 'deleteVehiculo'])
         ->middleware('role:2');
 });
 
+//
+/// CONDUCTORES
+//
+
+use App\Http\Controllers\Conductores\ConductoresController;
+Route::group([
+    'middleware' => ['api', 'auth:api'],
+    'prefix' => 'gestion_conductores'
+], function () {
+    Route::get('/', [ConductoresController::class, 'showAll'])
+        ->middleware('role:2');
+    Route::get('/filtro_conductores_activos', [ConductoresController::class, 'getActiveConductores'])
+        ->middleware('role:2');
+    Route::get('/{id}', [ConductoresController::class, 'showByID'])
+        ->middleware('role:2,3');
+    Route::post('/', [ConductoresController::class, 'createConductor'])
+        ->middleware('role:2');
+    Route::put('/{id}', [ConductoresController::class, 'updateConductor'])
+        ->middleware('role:2');
+    Route::patch('/{id}', [ConductoresController::class, 'updatePartialConductor'])
+        ->middleware('role:2');
+    Route::delete('/{id}', [ConductoresController::class, 'deleteConductor'])
+        ->middleware('role:2');
+});

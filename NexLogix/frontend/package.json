@@ -10,12 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "aprendiendo": "file:",
     "axios": "^1.8.4",
-    "bootstrap": "^5.3.3",
+    "bootstrap": "^5.3.6",
+    "bootstrap-icons": "^1.13.1",
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.9",
     "react-bootstrap-icons": "^1.11.5",
     "react-dom": "^19.0.0",
+    "react-icons": "^5.5.0",
     "react-router-dom": "^6.30.0"
   },
   "devDependencies": {

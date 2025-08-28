@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 
 class RutasController extends Controller
 {
-
     protected IRutasService $rutas_service;
     protected IRutasUseCase $rutas_use_case;
 
@@ -24,27 +23,32 @@ class RutasController extends Controller
         $response = $this->rutas_service->getAllRutas();
         return response()->json($response, $response['status']);
     }
-    public function getRutaByID(int $id)
+
+    // Ahora acepta string (id o nombreRuta)
+    public function getRutaByID(string $value)
     {
-        $response = $this->rutas_service->getRutaByID($id);
+        $response = $this->rutas_service->getRutaByID($value);
         return response()->json($response, $response['status']);
     }
+
     public function createRuta(Request $request)
     {
         $response = $this->rutas_use_case->handleCreateRuta($request->all());
         return response()->json($response, $response['status']);
     }
- 
-    public function updateRuta(Request $request, int $id)
+
+    // Ahora acepta string (id o nombreRuta)
+    public function updateRuta(Request $request, string $value)
     {
-        $response = $this->rutas_use_case->handleUpdateRuta( $request->all(), $id);
+        $response = $this->rutas_use_case->handleUpdateRuta($value, $request->all());
         return response()->json($response, $response['status']);
     }
 
-    public function deleteRuta(int $id)
+    // Ahora acepta string (id o nombreRuta)
+    public function deleteRuta(string $value)
     {
-        $response = $this->rutas_service->deleteRuta($id);
+        $response = $this->rutas_service->deleteRuta($value);
         return response()->json($response, $response['status']);
     }
-
 }
+// PENDIENTE IMPLEMENTAR AUDITORIAS 

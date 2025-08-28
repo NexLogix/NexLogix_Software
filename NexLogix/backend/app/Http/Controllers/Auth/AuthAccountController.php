@@ -20,6 +20,29 @@ class AuthAccountController extends Controller
     }
 
     // POST method LOGIN controller from usecase of Auth
+    /**
+     * @OA\Post(
+     *     path="/api/auth/login",
+     *     summary="Iniciar sesión",
+     *     tags={"Auth"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"email", "contrasena"},
+     *             @OA\Property(property="email", type="string", example="usuario@ejemplo.com"),
+     *             @OA\Property(property="contrasena", type="string", example="123456")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Login exitoso, devuelve el token"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Credenciales inválidas"
+     *     )
+     * )
+     */
     public function login(Request $request)
     {
         $response = $this->authAccount_UseCase->handleLogin($request->all());
@@ -27,6 +50,18 @@ class AuthAccountController extends Controller
     }
 
     // POST method LOGOUT controller from usecase of auth
+    /**
+     * @OA\Post(
+     *     path="/api/auth/logout",
+     *     summary="Cerrar sesión",
+     *     tags={"Auth"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Logout exitoso"
+     *     )
+     * )
+     */
     public function logout()
     {
         $response = $this->authAccount_Service->logout();
@@ -34,6 +69,18 @@ class AuthAccountController extends Controller
     }
 
     // GET http controller from service of AUTH
+    /**
+     * @OA\Get(
+     *     path="/api/auth/mostrar_perfil_auth",
+     *     summary="Obtener perfil autenticado",
+     *     tags={"Auth"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Perfil del usuario autenticado"
+     *     )
+     * )
+     */
     public function getProfile():JsonResponse
     {
        try {
@@ -47,6 +94,18 @@ class AuthAccountController extends Controller
     }
 
     // REFRESH TOKEN mettod POST
+    /**
+     * @OA\Post(
+     *     path="/api/auth/refresh_token",
+     *     summary="Refrescar token JWT",
+     *     tags={"Auth"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Token refrescado exitosamente"
+     *     )
+     * )
+     */
     public function refreshToken():JsonResponse
     {
         try {

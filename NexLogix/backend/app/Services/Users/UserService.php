@@ -9,17 +9,18 @@
 namespace App\Services\Users;
 
 use App\Models\Interfaces\Users\IUserService; // Se importa la interfaz que obliga a implementar los métodos definidos
+use App\Models\Roles;
 use App\Models\User; // Se importa el modelo User, que representa la tabla 'users' en la base de datos
 use Tymon\JWTAuth\Facades\JWTAuth; // Librería JWT para generar el token de autenticación tras crear un usuario
 
 // Aqui Implementamos la interfaz IUserService definida para estandarizar el servicio, siguiendo los principios de las inyecciones de dependecias y la arquitectura de Inyerfaces como contratos
-class UserService implements IUserService 
+class UserService implements IUserService
 {
     // GET SERVICE
     public function getAllUsers():array
     {
         // Se obtiene la lista de todos los usuarios, incluyendo las relaciones con estado, roles y puestos
-        $user = User::with(['estado', 'roles', 'puestos'])->get();
+        $user = User::with(['estado', 'roles', 'puestos.areas'])->get();
 
         // Si no hay usuarios en la base de datos, se retorna error 404
         if(!$user) {
@@ -40,21 +41,28 @@ class UserService implements IUserService
     }
 
     // GET BY ID SERVICE
-    public function getUserById(int $id):array
+    public function getUserById(string $value): array
     {
-        // Busca un usuario específico por su ID y carga sus relaciones con estado, roles y puestos
-        $user = User::with(['estado', 'roles', 'puestos'])->findOrFail($id);
+        // Busca un usuario específico por su ID, N. de documento o email y carga sus relaciones con estado, roles y puestos
+        $user = User::with(['estado', 'roles', 'puestos.areas'])
+                    ->where('idusuarios', $value)
+                    ->orWhere('documentoIdentidad', $value)
+                    ->orWhere('email', $value)
+                    ->firstOrFail();
 
         // Si no se encuentra el usuario, devuelve 404
-        if(!$user){
+        if (!$user) {
             return [
                 'success' => false,
-                'message' => 'Puesto no encontrado',
+                'message' => 'Usuario no encontrado',
                 'status' => 404
             ];
         }
 
-        // Si existe, devuelve los datos del usuario
+        // Filtra la información relevante del usuario
+
+
+        // Devuelve los datos filtrados
         return [
             'success' => true,
             'data' => $user,
@@ -105,7 +113,7 @@ class UserService implements IUserService
             return [
                 'success' => false,
                 'message' => 'Usuario no encontrado',
-                'status' => 404
+                'status'  => 404
             ];
         }
 
@@ -116,23 +124,27 @@ class UserService implements IUserService
         return [
             'success' => true,
             'message' => 'Se ha actualizado toda la informacion general el Usuario correctamente!',
-            'data' => $user,
-            'status' => 200
+            'data'    => $user,
+            'status'  => 200
         ];
     }
 
     // PATCH SERVICE
-    public function updateSpecificFields(int $id, array $data): array
+    public function updateSpecificFields(string $id, array $data): array
     {
-        // Busca el usuario por ID para aplicar cambios parciales
-        $user = User::findOrFail($id);
 
+        // Busca un usuario específico por su ID, N. de documento o email y carga sus relaciones con estado, roles y puestos
+        $user = User::with(['estado', 'roles', 'puestos.areas'])
+                    ->where('idusuarios', $id)
+                    ->orWhere('documentoIdentidad', $id)
+                    ->orWhere('email', $id)
+                    ->firstOrFail();
         // Si no se encuentra, se retorna error 404
         if (!$user) {
             return [
                 'success' => false,
                 'message' => 'Usuario no encontrado',
-                'status' => 404
+                'status'  => 404
             ];
         }
 
@@ -143,23 +155,27 @@ class UserService implements IUserService
         return [
             'success' => true,
             'message' => 'Han sido actualizados los campos especificos del usuario',
-            'data' => $user,
-            'status' => 200
+            'data'    => $user,
+            'status'  => 200
         ];
     }
 
     // DELETE SERVICE
-    public function deleteUser(int $id): array
+    public function deleteUser(string $id): array
     {
-        // Busca al usuario por su ID
-        $user = User::find($id);
 
+        // Busca un usuario específico por su ID, N. de documento o email y carga sus relaciones con estado, roles y puestos
+        $user = User::with(['estado', 'roles', 'puestos.areas'])
+                    ->where('idusuarios', $id)
+                    ->orWhere('documentoIdentidad', $id)
+                    ->orWhere('email', $id)
+                    ->firstOrFail();
         // Si no lo encuentra, retorna error 404
         if (!$user) {
             return [
                 'success' => false,
                 'message' => 'Usuario no encontrado',
-                'status' => 404
+                'status'  => 404
             ];
         }
 
@@ -170,7 +186,7 @@ class UserService implements IUserService
         return [
             'success' => true,
             'message' => 'Usuario eliminado correctamente',
-            'status' => 200
+            'status'  => 200
         ];
     }
 }

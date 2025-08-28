@@ -87,4 +87,10 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Envios::class, 'idusuarios', 'idusuarios');
     }
+
+    // Relación 1:1 - Un usuario puede ser un conductor
+    public function conductor()
+    {
+        return $this->hasOne(Conductores::class, 'idUsuario', 'idusuarios');
+    }
 }
