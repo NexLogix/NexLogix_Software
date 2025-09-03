@@ -21,3 +21,5 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+/NexLogix/backend/composer.lock
+/NexLogix/frontend/package-lock.json
