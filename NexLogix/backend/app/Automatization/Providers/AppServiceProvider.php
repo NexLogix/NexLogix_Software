@@ -146,8 +146,8 @@ class AppServiceProvider extends ServiceProvider
 
     // Este arreglo registra que el Listener AuditResourceAction debe ejecutarse cada vez que ocurra el evento ResourceAction
     protected $listen = [
-        \App\Events\ResourceAction::class => [
-            \App\Listeners\AuditResourceAction::class,
+        \App\Automatization\Events\ResourceAction::class => [
+            \App\Automatization\Listeners\AuditResourceAction::class,
         ],
     ];
 

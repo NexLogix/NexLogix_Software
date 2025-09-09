@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Users;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Events\ResourceAction;
+use App\Automatization\Events\ResourceAction;
 use App\Http\Controllers\Controller;
 use App\Models\Interfaces\Users\IUserService;
 use App\Models\Interfaces\Users\IUserUseCase;

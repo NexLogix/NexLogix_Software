@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Listeners;
+namespace App\Automatization\Listeners;
 
-use App\Events\ResourceAction;
+use App\Automatization\Events\ResourceAction;
 use App\Models\AuditLog; // llama al modelo AuditLog que es una tabla en la DB
 
 /*
