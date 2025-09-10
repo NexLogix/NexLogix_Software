@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auditorias;
 
-use App\Events\ResourceAction;
+use App\Automatization\Events\ResourceAction;
 use App\Http\Controllers\Controller;
 use App\Models\Interfaces\Auditoria\IAudit_log_UseCase;
 use App\Models\Interfaces\Auditoria\IAuditLogService;

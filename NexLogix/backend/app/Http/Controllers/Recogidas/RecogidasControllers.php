@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Recogidas;
 
-use App\Events\ResourceAction;
+use App\Automatization\Events\ResourceAction;
 use App\Http\Controllers\Controller;
 use App\Models\Interfaces\Recogidas\IRecogidaService;
 use App\Models\Interfaces\Recogidas\IRecogidaUseCase;
@@ -87,7 +87,7 @@ class RecogidasControllers extends Controller
                     'Gestion Recogidas',
                     $id,
                     []
-                ));  
+                ));
             }
         }
         return response()->json($response, $response['status']);

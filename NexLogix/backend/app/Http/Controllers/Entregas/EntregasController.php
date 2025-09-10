@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Entregas;
 
-use App\Events\ResourceAction;
+use App\Automatization\Events\ResourceAction;
 use App\Http\Controllers\Controller;
 use App\Models\Interfaces\Entregas\IEntregaService;
 use App\Models\Interfaces\Entregas\IEntregaUseCase;

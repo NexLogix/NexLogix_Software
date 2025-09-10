@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\CategoriaEnvios;
 
-use App\Events\ResourceAction;
+use App\Automatization\Events\ResourceAction;
 use App\Http\Controllers\Controller;
 use App\Models\Interfaces\CategoriaEnvios\ICategoriaEnviosService;
 use App\Models\Interfaces\CategoriaEnvios\ICategoriaEnviosUseCase;
@@ -92,7 +92,7 @@ class CE_Controller extends Controller
                     $id,
                     ['data' => $request->all()]
                 ));
-            }   
+            }
         }
         return response()->json($response, $response['status']);
     }

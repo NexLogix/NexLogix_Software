@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Ciudades;
 
-use App\Events\ResourceAction;
+use App\Automatization\Events\ResourceAction;
 use App\Http\Controllers\Controller;
 use App\Models\Interfaces\Ciudades\ICiudadesService;
 use App\Models\Interfaces\Ciudades\ICiudadesUseCase;

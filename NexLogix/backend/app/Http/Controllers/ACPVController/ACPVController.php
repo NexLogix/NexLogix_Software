@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\ACPVController;
 
-use App\Events\ResourceAction;
+use App\Automatization\Events\ResourceAction;
 use App\Http\Controllers\Controller;
 use App\Services\Asignacion_Conductor_Por_Vehiculos\ACPV_Service;
 use App\UseCases\asignacion_conductor_por_vehiculos\ACPV_UseCase;

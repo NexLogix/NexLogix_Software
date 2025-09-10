@@ -7,7 +7,7 @@ use App\Models\Interfaces\Envios\IEnviosService; // Interfaz para la capa de ser
 use App\Models\Interfaces\Envios\IEnviosUseCase; // Interfaz para la capa de casos de uso de envíos
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Events\ResourceAction; // Evento personalizado para auditar acciones
+use App\Automatization\Events\ResourceAction;
 
 class EnvioControllers extends Controller
 {

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Areas;
 
-use App\Events\ResourceAction;
+use App\Automatization\Events\ResourceAction;
 use App\Models\Interfaces\Areas\IAreaService;
 use App\Models\Interfaces\Areas\IAreaUseCase;
 use Illuminate\Support\Facades\Auth;

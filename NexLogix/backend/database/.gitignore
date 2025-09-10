@@ -1,1 +1,31 @@
-*.sqlite*
+*.sqlite
+# Laravel
+/vendor
+/public/storage
+
+# CHACHE gestion
+/bootstrap/cache/*.php
+!bootstrap/cache/.gitignore
+
+# Entornos y claves
+.env
+.env.*.local
+.env.local
+.phpunit.result.cache
+
+# SQLite
+*.sqlite
+
+# IDEs y editores
+/.idea
+/.vscode
+*.sublime-workspace
+*.sublime-project
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Dependencias que se regeneran
+package-lock.json
+

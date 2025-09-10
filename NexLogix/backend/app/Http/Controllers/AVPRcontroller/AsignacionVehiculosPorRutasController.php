@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers\AVPRcontroller;
 
-use App\Events\ResourceAction;
+use App\Automatization\Events\ResourceAction;
 use App\Http\Controllers\Controller;
 use App\Services\Asignacion_Vehiculos_Por_Rutas\AVPR_Service;
 use App\UseCases\Asignacion_Vehiculos_Por_Rutas\AVPR_UseCase;

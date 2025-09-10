@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Conductores;
 
 use App\Http\Controllers\Controller;
-use App\Events\ResourceAction;
+use App\Automatization\Events\ResourceAction;
 use App\Services\Conductores\Conductores_service;
 use App\UseCases\Conductores\Conductores_req_usecase;
 use Illuminate\Support\Facades\Auth;
